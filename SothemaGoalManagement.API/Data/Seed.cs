@@ -25,10 +25,9 @@ namespace SothemaGoalManagement.API.Data
 
                 var roles = new List<Role>
                 {
-                    new Role{Name = "Member"},
+                    new Role{Name = "Collaborator"},
                     new Role{Name = "Admin"},
-                    new Role{Name = "Moderator"},
-                    new Role{Name = "VIP"},
+                    new Role{Name = "HR"}
                 };
 
                 foreach (var role in roles)
@@ -40,7 +39,7 @@ namespace SothemaGoalManagement.API.Data
                 {
                     user.Photos.SingleOrDefault().IsApproved = true;
                     _userManager.CreateAsync(user, "password").Wait();
-                    _userManager.AddToRoleAsync(user, "Member").Wait();
+                    _userManager.AddToRoleAsync(user, "Collaborator").Wait();
                 }
 
                 var adminUser = new User
@@ -53,7 +52,7 @@ namespace SothemaGoalManagement.API.Data
                 if (result.Succeeded)
                 {
                     var admin = _userManager.FindByNameAsync("Admin").Result;
-                    _userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" }).Wait();
+                    _userManager.AddToRolesAsync(admin, new[] { "Admin", "HR" }).Wait();
                 }
             }
         }
