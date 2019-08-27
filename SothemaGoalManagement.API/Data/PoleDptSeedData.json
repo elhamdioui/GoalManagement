@@ -1,0 +1,17 @@
+[{
+        "Name": "Pôle support",
+        "Departments": [{
+            "name": "DSI"
+        }, {
+            "name": "DAF"
+        }]
+    },
+    {
+        "Name": "Pôle marketing",
+        "Departments": [{
+            "name": "Direction commerciale"
+        }, {
+            "name": "Direction des ventes"
+        }]
+    }
+]

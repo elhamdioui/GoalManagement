@@ -39,7 +39,12 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<User> GetUser(int id, bool isCurrentUser)
         {
-            var query = _context.Users.Include(p => p.Photos).AsQueryable();
+            var query = _context.Users
+                                .Include(d => d.Department)
+                                .ThenInclude(p => p.Pole)
+                                .Include(p => p.Photos)
+                                .AsQueryable();
+
             if (isCurrentUser) query = query.IgnoreQueryFilters();
 
             var user = await query.FirstOrDefaultAsync(u => u.Id == id);
@@ -48,17 +53,17 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users = _context.Users.Include(p => p.Photos).OrderByDescending(u => u.LastActive).AsQueryable();
+            var users = _context.Users
+                                .Include(d => d.Department)
+                                .ThenInclude(p => p.Pole)
+                                .Include(p => p.Photos)
+                                .OrderByDescending(u => u.LastActive)
+                                .AsQueryable();
 
             users = users.Where(u => u.Id != userParams.UserId);
-            users = users.Where(u => u.Gender == userParams.Gender);
-
-            if (userParams.MinAge != 18 || userParams.MaxAge != 99)
+            if (userParams.DepartmentId > 0)
             {
-                var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
-                var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
-
-                users = users.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
+                users = users.Where(u => u.DepartmentId == userParams.DepartmentId);
             }
 
             if (!string.IsNullOrEmpty(userParams.OrderBy))
@@ -115,6 +120,11 @@ namespace SothemaGoalManagement.API.Data
                                             .OrderByDescending(m => m.MessageSent)
                                             .ToListAsync();
             return messages;
+        }
+
+        public async Task<IEnumerable<Pole>> GetPoles()
+        {
+            return await _context.Poles.Include(p => p.Departments).ToListAsync();
         }
     }
 }

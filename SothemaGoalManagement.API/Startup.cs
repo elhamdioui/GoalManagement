@@ -71,8 +71,8 @@ namespace SothemaGoalManagement.API
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
-                options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
+                options.AddPolicy("RequireAdminHRRoles", policy => policy.RequireRole("Admin", "HR"));
+                options.AddPolicy("RequireHRDRole", policy => policy.RequireRole("HRD"));
             });
 
             services.AddMvc(options =>
@@ -120,7 +120,7 @@ namespace SothemaGoalManagement.API
             }
 
             // app.UseHttpsRedirection();
-            seeder.SeedUsers();
+            seeder.SeedData();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseDefaultFiles();

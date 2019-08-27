@@ -34,21 +34,6 @@ namespace SothemaGoalManagement.API.Controllers
             _config = config;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
-        {
-            var userToCreate = _mapper.Map<User>(userForRegisterDto);
-            var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
-
-            var userToReturn = _mapper.Map<UserForDetailDto>(userToCreate);
-
-            if (result.Succeeded)
-            {
-                return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
-            }
-            return BadRequest(result.Errors);
-        }
-
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {

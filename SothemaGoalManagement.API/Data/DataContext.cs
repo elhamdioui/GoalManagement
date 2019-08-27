@@ -15,6 +15,9 @@ namespace SothemaGoalManagement.API.Data
 
         public DbSet<Message> Messages { get; set; }
 
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Pole> Poles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -44,6 +47,10 @@ namespace SothemaGoalManagement.API.Data
             .HasOne(u => u.Recipient)
             .WithMany(m => m.MessagesReceived)
             .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Pole>().Property(p => p.Name).IsRequired();
+
+            builder.Entity<Department>().Property(d => d.Name).IsRequired();
 
             builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
         }

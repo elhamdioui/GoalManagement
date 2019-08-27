@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SothemaGoalManagement.API.Migrations
 {
-    public partial class InitialSetup : Migration
+    public partial class PoledptAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,60 @@ namespace SothemaGoalManagement.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Poles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Poles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RoleId = table.Column<int>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: false),
+                    PoleId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Departments_Poles_PoleId",
+                        column: x => x.PoleId,
+                        principalTable: "Poles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,39 +96,21 @@ namespace SothemaGoalManagement.API.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Gender = table.Column<string>(nullable: true),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
-                    KnownAs = table.Column<string>(nullable: true),
+                    EmployeeNumber = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
-                    LastActive = table.Column<DateTime>(nullable: false),
-                    Introduction = table.Column<string>(nullable: true),
-                    LookingFor = table.Column<string>(nullable: true),
-                    Interests = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true)
+                    DepartmentId = table.Column<int>(nullable: false),
+                    LastActive = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    RoleId = table.Column<int>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
+                        name: "FK_AspNetUsers_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -248,6 +284,11 @@ namespace SothemaGoalManagement.API.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_DepartmentId",
+                table: "AspNetUsers",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -257,6 +298,11 @@ namespace SothemaGoalManagement.API.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Departments_PoleId",
+                table: "Departments",
+                column: "PoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_RecipientId",
@@ -302,6 +348,12 @@ namespace SothemaGoalManagement.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
+
+            migrationBuilder.DropTable(
+                name: "Poles");
         }
     }
 }

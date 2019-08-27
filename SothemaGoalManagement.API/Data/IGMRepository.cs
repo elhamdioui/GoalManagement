@@ -23,5 +23,7 @@ namespace SothemaGoalManagement.API.Data
 
         Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId);
 
+        Task<IEnumerable<Pole>> GetPoles();
+
     }
 }

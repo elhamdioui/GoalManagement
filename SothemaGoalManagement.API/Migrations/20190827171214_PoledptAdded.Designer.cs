@@ -9,8 +9,8 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190826175821_InitialSetup")]
-    partial class InitialSetup
+    [Migration("20190827171214_PoledptAdded")]
+    partial class PoledptAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,6 +86,23 @@ namespace SothemaGoalManagement.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.Department", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<int>("PoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PoleId");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("SothemaGoalManagement.API.Models.Message", b =>
                 {
                     b.Property<int>("Id")
@@ -142,6 +159,19 @@ namespace SothemaGoalManagement.API.Migrations
                     b.ToTable("Photos");
                 });
 
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.Pole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Poles");
+                });
+
             modelBuilder.Entity("SothemaGoalManagement.API.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -172,37 +202,29 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("City");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("Country");
-
                     b.Property<DateTime>("Created");
 
-                    b.Property<DateTime>("DateOfBirth");
+                    b.Property<int>("DepartmentId");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("Gender");
+                    b.Property<string>("EmployeeNumber");
 
-                    b.Property<string>("Interests");
-
-                    b.Property<string>("Introduction");
-
-                    b.Property<string>("KnownAs");
+                    b.Property<string>("FirstName");
 
                     b.Property<DateTime>("LastActive");
+
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("LookingFor");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -218,12 +240,16 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<string>("SecurityStamp");
 
+                    b.Property<string>("Title");
+
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -280,6 +306,14 @@ namespace SothemaGoalManagement.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.Department", b =>
+                {
+                    b.HasOne("SothemaGoalManagement.API.Models.Pole", "Pole")
+                        .WithMany("Departments")
+                        .HasForeignKey("PoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("SothemaGoalManagement.API.Models.Message", b =>
                 {
                     b.HasOne("SothemaGoalManagement.API.Models.User", "Recipient")
@@ -298,6 +332,14 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.User", "User")
                         .WithMany("Photos")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.User", b =>
+                {
+                    b.HasOne("SothemaGoalManagement.API.Models.Department", "Department")
+                        .WithMany("Users")
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

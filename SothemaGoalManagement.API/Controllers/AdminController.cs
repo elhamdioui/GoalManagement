@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace SothemaGoalManagement.API.Controllers
 {
@@ -22,8 +23,10 @@ namespace SothemaGoalManagement.API.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
         private Cloudinary _cloudinary;
-        public AdminController(DataContext context, UserManager<User> userManager, IOptions<CloudinarySettings> cloudinaryConfig)
+        private readonly IMapper _mapper;
+        public AdminController(DataContext context, IMapper mapper, UserManager<User> userManager, IOptions<CloudinarySettings> cloudinaryConfig)
         {
+            _mapper = mapper;
             _cloudinaryConfig = cloudinaryConfig;
             _userManager = userManager;
             _context = context;
@@ -33,7 +36,23 @@ namespace SothemaGoalManagement.API.Controllers
 
         }
 
-        [Authorize(Policy = "RequireAdminRole")]
+        [Authorize(Policy = "RequireAdminHRRoles")]
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
+        {
+            var userToCreate = _mapper.Map<User>(userForRegisterDto);
+            var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
+
+            var userToReturn = _mapper.Map<UserForDetailDto>(userToCreate);
+
+            if (result.Succeeded)
+            {
+                return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
+            }
+            return BadRequest(result.Errors);
+        }
+
+        [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpGet("usersWithRoles")]
         public async Task<IActionResult> GetUsersWithRoles()
         {
@@ -51,7 +70,7 @@ namespace SothemaGoalManagement.API.Controllers
             return Ok(userList);
         }
 
-        [Authorize(Policy = "RequireAdminRole")]
+        [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpPost("editRoles/{userName}")]
         public async Task<IActionResult> EditRoles(string userName, RoleEditDto roleEditDto)
         {
@@ -71,7 +90,7 @@ namespace SothemaGoalManagement.API.Controllers
             return Ok(await _userManager.GetRolesAsync(user));
         }
 
-        [Authorize(Policy = "ModeratePhotoRole")]
+        [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpGet("photosForModeration")]
         public async Task<IActionResult> GetPhotosForModeration()
         {
@@ -86,7 +105,7 @@ namespace SothemaGoalManagement.API.Controllers
             return Ok(photos);
         }
 
-        [Authorize(Policy = "ModeratePhotoRole")]
+        [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpPost("approvePhoto/{photoId}")]
         public async Task<IActionResult> ApprovePhoto(int photoId)
         {
@@ -97,7 +116,7 @@ namespace SothemaGoalManagement.API.Controllers
             return Ok();
         }
 
-        [Authorize(Policy = "ModeratePhotoRole")]
+        [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpPost("rejectPhoto/{photoId}")]
         public async Task<IActionResult> RejectPhoto(int photoId)
         {
@@ -115,8 +134,6 @@ namespace SothemaGoalManagement.API.Controllers
             if (photo.PublicId == null) _context.Photos.Remove(photo);
 
             await _context.SaveChangesAsync();
-            return Ok();
-
             return Ok();
         }
     }
