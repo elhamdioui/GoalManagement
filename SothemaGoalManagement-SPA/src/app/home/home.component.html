@@ -1,24 +1,22 @@
 <div class="container mt-5">
-  <div style="text-align: center">
+  <div *ngIf="!registerMode" style="text-align: center">
     <h1>Sothema Goal Management</h1>
-
     <p class="lead">
       Bienvenue à Sothema Goal Management Application!
     </p>
-    <div *ngIf="!loggedIn()" class="text-center">
-      <form #loginForm="ngForm" class="form-signin" (ngSubmit)="login()">
-        <h1 class="h6 mb-3 font-weight-normal">Veuillez vous authentifier pour accéder à l'application</h1>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Username" [(ngModel)]="model.username" required name="username" />
-        </div>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Password" [(ngModel)]="model.password" required name="password" />
-        </div>
+    <div class="text-center">
+      <button class="btn btn-primary btn-lg mr-2" (click)="registerToggle()">
+        S'inscrire
+      </button>
+      <button class="btn btn-info btn-lg">Apprendre encore plus</button>
+    </div>
+  </div>
 
-        <button [disabled]="!loginForm.valid" class="btn btn-lg btn-primary btn-block" type="submit">Se Connecter</button>
-
-      </form>
-
+  <div *ngIf="registerMode" class="container">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+      </div>
     </div>
   </div>
 </div>

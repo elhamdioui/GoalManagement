@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { User } from '../../_models/user';
 
 @Component({
   selector: 'app-collaborator-card',
@@ -6,10 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./collaborator-card.component.css']
 })
 export class CollaboratorCardComponent implements OnInit {
+  @Input() user: User;
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() { }
 }

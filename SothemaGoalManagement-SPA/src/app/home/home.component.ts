@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AlertifyService } from '../_services/alertify.service';
-import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -9,30 +6,16 @@ import { AuthService } from '../_services/auth.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  model: any = {};
+  registerMode = false;
+  constructor() { }
 
-  constructor(private authService: AuthService,
-    private alertify: AlertifyService,
-    private router: Router) { }
+  ngOnInit() { }
 
-  ngOnInit() {
+  registerToggle() {
+    this.registerMode = true;
   }
 
-  loggedIn() {
-    return this.authService.loggedIn();
-  }
-
-  login() {
-    this.authService.login(this.model).subscribe(
-      next => {
-        this.alertify.success('Logged in successfuly');
-      },
-      error => {
-        this.alertify.error(error);
-      },
-      () => {
-        this.router.navigate(['/strategies']);
-      }
-    );
+  cancelRegisterMode(registerMode: boolean) {
+    this.registerMode = registerMode;
   }
 }

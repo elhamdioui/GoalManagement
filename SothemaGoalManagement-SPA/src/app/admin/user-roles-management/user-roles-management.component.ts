@@ -7,11 +7,11 @@ import { AlertifyService } from './../../_services/alertify.service';
 import { RolesModalComponent } from '../roles-modal/roles-modal.component';
 
 @Component({
-  selector: 'app-user-management',
-  templateUrl: './user-management.component.html',
-  styleUrls: ['./user-management.component.css']
+  selector: 'app-user-roles-management',
+  templateUrl: './user-roles-management.component.html',
+  styleUrls: ['./user-roles-management.component.css']
 })
-export class UserManagementComponent implements OnInit {
+export class UserRolesManagementComponent implements OnInit {
   users: User[];
   bsModalRef: BsModalRef;
 

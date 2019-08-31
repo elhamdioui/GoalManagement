@@ -37,7 +37,7 @@ import { MessagesResolver } from './_resolvers/messages.resolver';
 import { CollaboratorMessagesComponent } from './collaborators/collaborator-messages/collaborator-messages.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { HasRoleDirective } from './_directives/hasRole.directive';
-import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { UserRolesManagementComponent } from './admin/user-roles-management/user-roles-management.component';
 import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
 import { AdminService } from './_services/admin.service';
 import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
@@ -46,6 +46,7 @@ import { RhPanelComponent } from './RhPanel/RhPanel.component';
 import { StrategiesComponent } from './strategies/strategies.component';
 import { GoalsResolver } from './_resolvers/goals.resolver';
 import { StrategiesResolver } from './_resolvers/strategies.resolver';
+import { RegisterComponent } from './admin/register/register.component';
 
 
 export function tokenGetter() {
@@ -67,7 +68,7 @@ export function tokenGetter() {
     TimeAgoPipe,
     AdminPanelComponent,
     HasRoleDirective,
-    UserManagementComponent,
+    UserRolesManagementComponent,
     PhotoManagementComponent,
     RolesModalComponent,
     MessagesComponent,
@@ -75,7 +76,8 @@ export function tokenGetter() {
     HomeComponent,
     GoalsComponent,
     RhPanelComponent,
-    StrategiesComponent
+    StrategiesComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

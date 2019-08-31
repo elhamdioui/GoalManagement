@@ -2,9 +2,15 @@
   <h2>Panneau d'administration</h2>
   <div class="tab-panel">
     <tabset class="member-tabset">
-      <tab heading="Gestion des utilisateurs" *appHasRole="['Admin']">
+      <tab heading="Gestion des utilisateurs" *appHasRole="['Admin', 'HR']">
         <div class="container">
-          <app-user-management></app-user-management>
+          <app-collaborator-list></app-collaborator-list>
+        </div>
+      </tab>
+
+      <tab heading="Gestion des roles" *appHasRole="['Admin', 'HR']">
+        <div class="container">
+          <app-user-roles-management></app-user-roles-management>
         </div>
       </tab>
 
