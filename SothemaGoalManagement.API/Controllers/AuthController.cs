@@ -42,8 +42,10 @@ namespace SothemaGoalManagement.API.Controllers
 
             if (result.Succeeded)
             {
-                var appUser = await _userManager.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.Username.ToUpper());
-                var userToReturn = _mapper.Map<UserForListDto>(appUser);
+                var appUser = await _userManager.Users.Include(p => p.Photos)
+                                                      .Include(d => d.Department)
+                                                      .FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.Username.ToUpper());
+                var userToReturn = _mapper.Map<UserForDetailDto>(appUser);
                 return Ok(new
                 {
                     token = GenerateJwtToken(appUser).Result,
