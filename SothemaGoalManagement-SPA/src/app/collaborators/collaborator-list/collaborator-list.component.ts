@@ -1,9 +1,12 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+
 import { User } from '../../_models/user';
-import { UserService } from '../../_services/user.service';
+import { AdminService } from '../../_services/admin.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { Pagination, PaginatedResult } from './../../_models/pagination';
+import { NewUserModalComponent } from './../new-user-modal/new-user-modal.component';
 
 @Component({
   selector: 'app-collaborator-list',
@@ -13,21 +16,19 @@ import { Pagination, PaginatedResult } from './../../_models/pagination';
 export class CollaboratorListComponent implements OnInit {
   users: User[];
   user: User = JSON.parse(localStorage.getItem('user'));
-  departmentList = [
-    { id: 1, name: 'Males' },
-    { id: 2, display: 'Females' }
-  ];
+  departmentList = [];
   userParams: any = {};
   pagination: Pagination;
+  bsModalRef: BsModalRef;
 
   constructor(
-    private userService: UserService,
+    private adminService: AdminService,
     private alertify: AlertifyService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit() {
-    //this.loadUsers();
     this.route.data.subscribe(data => {
       this.users = data['users'].result;
       this.pagination = data['users'].pagination;
@@ -44,10 +45,11 @@ export class CollaboratorListComponent implements OnInit {
 
   resetFilters() {
     this.userParams.departmentId = 0;
-    this, this.loadUsers();
+    this.loadUsers();
+
   }
   loadUsers() {
-    this.userService
+    this.adminService
       .getUsers(
         this.pagination.currentPage,
         this.pagination.itemsPerPage,
@@ -62,5 +64,18 @@ export class CollaboratorListComponent implements OnInit {
           this.alertify.error(error);
         }
       );
+  }
+
+  createUserModal() {
+    this.bsModalRef = this.modalService.show(NewUserModalComponent, {});
+    this.bsModalRef.content.createNewUser.subscribe((newUser) => {
+      console.log("New user: ", newUser);
+      this.adminService.createUser(newUser).subscribe(() => {
+        this.loadUsers();
+      }, error => {
+        this.alertify.error(error);
+      })
+
+    });
   }
 }

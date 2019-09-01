@@ -1,5 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+
+import { PaginatedResult } from './../_models/pagination';
 import { environment } from '../../environments/environment';
 import { User } from '../_models/user';
 
@@ -9,6 +13,52 @@ import { User } from '../_models/user';
 export class AdminService {
   baseUrl = environment.apiUrl;
   constructor(private http: HttpClient) { }
+
+  getUsers(
+    page?,
+    itemsPerPage?,
+    userParams?
+  ): Observable<PaginatedResult<User[]>> {
+    const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<
+      User[]
+      >();
+    let params = new HttpParams();
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+
+    if (userParams != null) {
+      params = params.append('departmentId', userParams.departmentId);
+      params = params.append('orderBy', userParams.orderBy);
+    }
+
+    return this.http
+      .get<User[]>(this.baseUrl + 'users', { observe: 'response', params })
+      .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination')
+            );
+          }
+          return paginatedResult;
+        })
+      );
+  }
+
+  getUser(id): Observable<User> {
+    return this.http.get<User>(this.baseUrl + 'users/' + id);
+  }
+
+  updateUser(id: number, user: User) {
+    return this.http.put(this.baseUrl + 'users/' + id, user);
+  }
+
+  createUser(user: User) {
+    return this.http.post(this.baseUrl + 'admin/register', user);
+  }
 
   getUsersWithRoles() {
     return this.http.get(this.baseUrl + 'admin/usersWithRoles');

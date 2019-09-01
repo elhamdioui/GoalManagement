@@ -44,7 +44,7 @@ export class CollaboratorEditComponent implements OnInit {
       .updateUser(this.authService.decodedToken.nameid, this.user)
       .subscribe(
         next => {
-          this.alertify.success('Profile updated successfully');
+          this.alertify.success('Mise à jour du profil réussie');
           this.editForm.reset(this.user);
         },
         error => {

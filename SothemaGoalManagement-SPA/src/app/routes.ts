@@ -14,6 +14,8 @@ import { GoalsResolver } from './_resolvers/goals.resolver';
 import { RhPanelComponent } from './RhPanel/RhPanel.component';
 import { StrategiesComponent } from './strategies/strategies.component';
 import { StrategiesResolver } from './_resolvers/strategies.resolver';
+import { CollaboratorListResolver } from './_resolvers/collaborator-list.resolver';
+
 
 export const appRoutes: Routes = [
   {
@@ -54,6 +56,7 @@ export const appRoutes: Routes = [
       {
         path: 'admin',
         component: AdminPanelComponent,
+        resolve: { users: CollaboratorListResolver },
         data: { roles: ['Admin', 'HR'] }
       }
     ]

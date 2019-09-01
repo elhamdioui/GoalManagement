@@ -2,7 +2,7 @@
   <form #form="ngForm" (ngSubmit)="loadUsers()" class="form-inline" novalidate>
     <div class="form-group">
       <label for="department">Direction:</label>
-      <select [(ngModel)]="userParams.departmentId" class="form-control" style="width: 130px" id="department" name="department">
+      <select [(ngModel)]="userParams.departmentId" class="form-control" style="width: 200px" id="department" name="department">
         <option value="0">Toutes les dirctions</option>
         <option *ngFor="let dpt of departmentList" [value]="dpt.id">
           {{ dpt.name }}
@@ -19,11 +19,8 @@
 
     <div class="col">
       <div class="btn-group float-right">
-        <button type="button" name="orderBy" class="btn btn-primary" btnRadio="lastActive" [(ngModel)]="userParams.orderBy" (click)="loadUsers()">
-          Dernier Actif
-        </button>
-        <button type="button" name="orderBy" class="btn btn-primary" btnRadio="created" [(ngModel)]="userParams.orderBy" (click)="loadUsers()">
-          Nouveaux Membres
+        <button type="button" class="btn btn-primary" (click)="createUserModal()">
+          Créer Nouveau Utilisateur
         </button>
       </div>
     </div>
