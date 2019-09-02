@@ -10,6 +10,16 @@
       </select>
     </div>
 
+    <div class="form-group">
+      <label for="userStatus">Statut:</label>
+      <select [(ngModel)]="userParams.userStatusId" class="form-control" style="width: 200px" id="userStatus" name="userStatus">
+        <option value="0">Toutes les Statuts</option>
+        <option *ngFor="let status of userStatusList" [value]="status.id">
+          {{ status.name }}
+        </option>
+      </select>
+    </div>
+
     <button type="submit" class="btn btn-primary" style="margin-left:10px">
       Appliquer Filtre
     </button>

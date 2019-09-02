@@ -27,5 +27,7 @@ namespace SothemaGoalManagement.API.Data
 
         Task<IEnumerable<Department>> GetDepartments();
 
+        Task<IEnumerable<UserStatus>> GetUserStatus();
+
     }
 }

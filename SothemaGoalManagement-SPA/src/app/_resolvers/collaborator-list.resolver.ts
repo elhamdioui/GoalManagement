@@ -7,6 +7,7 @@ import { User } from '../_models/user';
 import { Department } from './../_models/department';
 import { AdminService } from './../_services/admin.service';
 import { AlertifyService } from './../_services/alertify.service';
+import { UserStatus } from '../_models/userStatus';
 
 @Injectable()
 export class CollaboratorListResolver implements Resolve<any> {
@@ -14,6 +15,7 @@ export class CollaboratorListResolver implements Resolve<any> {
   pageSize = 10;
   users: User[];
   departments: Department[]
+  userStatus: UserStatus[]
 
   constructor(
     private adminService: AdminService,
@@ -25,6 +27,7 @@ export class CollaboratorListResolver implements Resolve<any> {
     return forkJoin(
       [
         this.adminService.getDepartments(),
+        this.adminService.getUserStatus(),
         this.adminService.getUsers(this.pageNumber, this.pageSize)
           .pipe(catchError(error => {
             this.alertify.error('Problème lors de la récupération des données des utilisateurs');
@@ -34,7 +37,8 @@ export class CollaboratorListResolver implements Resolve<any> {
       ]).pipe(map(result => {
         return {
           departments: result[0],
-          users: result[1]
+          userStatus: result[1],
+          users: result[2]
         };
       }));
   }

@@ -30,6 +30,7 @@ export class AdminService {
 
     if (userParams != null) {
       params = params.append('departmentId', userParams.departmentId);
+      params = params.append('userStatusId', userParams.userStatusId);
       params = params.append('orderBy', userParams.orderBy);
     }
 
@@ -66,6 +67,10 @@ export class AdminService {
 
   getDepartments() {
     return this.http.get(this.baseUrl + 'admin/departments');
+  }
+
+  getUserStatus() {
+    return this.http.get(this.baseUrl + 'admin/userStatus');
   }
 
   updateUserRoles(user: User, roles: {}) {

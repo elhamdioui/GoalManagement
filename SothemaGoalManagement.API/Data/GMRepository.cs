@@ -58,6 +58,7 @@ namespace SothemaGoalManagement.API.Data
                                 .Include(d => d.Department)
                                 .ThenInclude(p => p.Pole)
                                 .Include(p => p.Photos)
+                                .Include(s => s.UserStatus)
                                 .OrderByDescending(u => u.LastActive)
                                 .AsQueryable();
 
@@ -65,6 +66,11 @@ namespace SothemaGoalManagement.API.Data
             if (userParams.DepartmentId > 0)
             {
                 users = users.Where(u => u.DepartmentId == userParams.DepartmentId);
+            }
+
+            if (userParams.UserStatusId > 0)
+            {
+                users = users.Where(u => u.UserStatusId == userParams.UserStatusId);
             }
 
             if (!string.IsNullOrEmpty(userParams.OrderBy))
@@ -131,6 +137,11 @@ namespace SothemaGoalManagement.API.Data
         public async Task<IEnumerable<Department>> GetDepartments()
         {
             return await _context.Departments.Include(u => u.Users).Include(p => p.Pole).ToListAsync();
+        }
+
+        public async Task<IEnumerable<UserStatus>> GetUserStatus()
+        {
+            return await _context.UserStatus.Include(u => u.Users).ToListAsync();
         }
     }
 }

@@ -43,6 +43,7 @@ namespace SothemaGoalManagement.API.Helpers
 
             CreateMap<Department, DepartmentToReturnDto>();
 
+            CreateMap<UserStatus, UserStatusToReturnDto>();
         }
     }
 }

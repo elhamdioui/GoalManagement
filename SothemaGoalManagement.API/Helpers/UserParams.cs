@@ -16,6 +16,8 @@ namespace SothemaGoalManagement.API.Helpers
 
         public int DepartmentId { get; set; } = 0;
 
+        public int UserStatusId { get; set; } = 0;
+
         // public int MinAge { get; set; } = 18;
         // public int MaxAge { get; set; } = 99;
 

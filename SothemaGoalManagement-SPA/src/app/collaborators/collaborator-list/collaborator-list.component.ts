@@ -7,6 +7,8 @@ import { AdminService } from '../../_services/admin.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { Pagination, PaginatedResult } from './../../_models/pagination';
 import { NewUserModalComponent } from './../new-user-modal/new-user-modal.component';
+import { UserStatus } from '../../_models/userStatus';
+import { Department } from './../../_models/department';
 
 @Component({
   selector: 'app-collaborator-list',
@@ -14,7 +16,8 @@ import { NewUserModalComponent } from './../new-user-modal/new-user-modal.compon
   styleUrls: ['./collaborator-list.component.css']
 })
 export class CollaboratorListComponent implements OnInit {
-  departmentList = [];
+  departmentList: Department[];
+  userStatusList: UserStatus[];
   users: User[];
   userParams: any = {};
   pagination: Pagination;
@@ -32,10 +35,12 @@ export class CollaboratorListComponent implements OnInit {
       const resolvedData = data['resolvedData'];
       this.users = resolvedData['users'].result;
       this.departmentList = resolvedData['departments'];
+      this.userStatusList = resolvedData['userStatus'];
       this.pagination = resolvedData['users'].pagination;
     });
 
     this.userParams.departmentId = 0;
+    this.userParams.userStatusId = 0;
     this.userParams.orderBy = 'lastActive';
   }
 
@@ -46,6 +51,7 @@ export class CollaboratorListComponent implements OnInit {
 
   resetFilters() {
     this.userParams.departmentId = 0;
+    this.userParams.userStatusId = 0;
     this.loadUsers();
   }
 

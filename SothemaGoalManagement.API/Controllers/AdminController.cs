@@ -84,6 +84,16 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
+        [HttpGet("userStatus")]
+        public async Task<IActionResult> GetUserStatus()
+        {
+            var userStatusList = await _repo.GetUserStatus();
+            var userStatusToReturn = _mapper.Map<IEnumerable<UserStatusToReturnDto>>(userStatusList);
+
+            return Ok(userStatusToReturn);
+        }
+
+        [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpPost("editRoles/{userName}")]
         public async Task<IActionResult> EditRoles(string userName, RoleEditDto roleEditDto)
         {
