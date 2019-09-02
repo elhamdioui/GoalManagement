@@ -46,9 +46,9 @@ namespace SothemaGoalManagement.API
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
                 opt.Password.RequireDigit = false;
-                opt.Password.RequiredLength = 4;
+                opt.Password.RequiredLength = 8;
                 opt.Password.RequireNonAlphanumeric = false;
-                opt.Password.RequireUppercase = false;
+                opt.Password.RequireUppercase = true;
             });
 
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);

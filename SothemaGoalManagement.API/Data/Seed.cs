@@ -3,6 +3,7 @@ using System.Linq;
 using SothemaGoalManagement.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
+using System;
 
 namespace SothemaGoalManagement.API.Data
 {
@@ -20,6 +21,19 @@ namespace SothemaGoalManagement.API.Data
 
         public void SeedData()
         {
+            if (!_context.UserStatus.Any())
+            {
+                var userStatusData = System.IO.File.ReadAllText("Data/UserStatusSeedData.json");
+                var userStatusList = JsonConvert.DeserializeObject<List<UserStatus>>(userStatusData);
+
+                foreach (var us in userStatusList)
+                {
+                    _context.UserStatus.Add(us);
+                }
+                _context.SaveChangesAsync().Wait();
+
+            }
+
             if (!_context.Departments.Any())
             {
                 var poleDptData = System.IO.File.ReadAllText("Data/PoleDptSeedData.json");
@@ -55,23 +69,23 @@ namespace SothemaGoalManagement.API.Data
                 {
                     user.Photos.SingleOrDefault().IsApproved = true;
                     user.DepartmentId = _context.Departments.Single(d => d.Name == "DSI").Id;
-                    _userManager.CreateAsync(user, "password").Wait();
-                    _userManager.AddToRoleAsync(user, "Collaborator").Wait();
+                    user.UserStatusId = _context.UserStatus.Single(s => s.Name == "Cadre").Id;
+                    user.SecurityStamp = Guid.NewGuid().ToString("D");
+                    IdentityResult result = _userManager.CreateAsync(user, "Password123").Result;
+                    if (result.Succeeded)
+                    {
+                        if (user.UserName == "admin")
+                        {
+                            _userManager.AddToRolesAsync(user, new[] { "Admin", "HR", "HRD" }).Wait();
+                        }
+                        else
+                        {
+                            _userManager.AddToRoleAsync(user, "Collaborator").Wait();
+                        }
+
+                    }
                 }
 
-                var adminUser = new User
-                {
-                    UserName = "Admin",
-                    DepartmentId = _context.Departments.Single(d => d.Name == "DSI").Id
-                };
-
-                IdentityResult result = _userManager.CreateAsync(adminUser, "password").Result;
-
-                if (result.Succeeded)
-                {
-                    var admin = _userManager.FindByNameAsync("Admin").Result;
-                    _userManager.AddToRolesAsync(admin, new[] { "Admin", "HR", "HRD" }).Wait();
-                }
             }
         }
     }

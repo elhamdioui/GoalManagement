@@ -14,6 +14,10 @@ namespace SothemaGoalManagement.API.Models
 
         public DateTime Created { get; set; }
 
+        public UserStatus UserStatus { get; set; }
+
+        public int UserStatusId { get; set; }
+
         public Department Department { get; set; }
 
         public int DepartmentId { get; set; }

@@ -13,6 +13,10 @@ namespace SothemaGoalManagement.API.Dtos
 
         public string LastName { get; set; }
 
+        public string Email { get; set; }
+
+        public string UserStatus { get; set; }
+
         public string Title { get; set; }
 
         public string Department { get; set; }

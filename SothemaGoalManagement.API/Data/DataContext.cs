@@ -18,6 +18,8 @@ namespace SothemaGoalManagement.API.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<Pole> Poles { get; set; }
 
+        public DbSet<UserStatus> UserStatus { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -53,6 +55,8 @@ namespace SothemaGoalManagement.API.Data
             builder.Entity<Department>().Property(d => d.Name).IsRequired();
 
             builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
+
+            builder.Entity<UserStatus>().Property(d => d.Name).IsRequired();
         }
     }
 }

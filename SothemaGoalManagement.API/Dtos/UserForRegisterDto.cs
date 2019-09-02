@@ -9,7 +9,7 @@ namespace SothemaGoalManagement.API.Dtos
         public string Username { get; set; }
 
         [Required]
-        [StringLength(8, MinimumLength = 4, ErrorMessage = "Vous devez spécifier un mot de passe entre 4 et 8 caractères")]
+        [StringLength(16, MinimumLength = 8, ErrorMessage = "Vous devez spécifier un mot de passe entre 8 et 16 caractères")]
         public string Password { get; set; }
 
         [Required]

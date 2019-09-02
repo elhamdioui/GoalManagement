@@ -9,8 +9,8 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190827171214_PoledptAdded")]
-    partial class PoledptAdded
+    [Migration("20190902172916_InitialModel")]
+    partial class InitialModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -247,6 +247,8 @@ namespace SothemaGoalManagement.API.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
+                    b.Property<int>("UserStatusId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
@@ -257,6 +259,8 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
+
+                    b.HasIndex("UserStatusId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -272,6 +276,19 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.UserStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserStatus");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -340,6 +357,11 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.Department", "Department")
                         .WithMany("Users")
                         .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SothemaGoalManagement.API.Models.UserStatus", "UserStatus")
+                        .WithMany("Users")
+                        .HasForeignKey("UserStatusId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

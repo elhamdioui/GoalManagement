@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SothemaGoalManagement.API.Migrations
 {
-    public partial class PoledptAdded : Migration
+    public partial class InitialModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,6 +33,19 @@ namespace SothemaGoalManagement.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Poles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserStatus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserStatus", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,6 +114,7 @@ namespace SothemaGoalManagement.API.Migrations
                     LastName = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
+                    UserStatusId = table.Column<int>(nullable: false),
                     DepartmentId = table.Column<int>(nullable: false),
                     LastActive = table.Column<DateTime>(nullable: false)
                 },
@@ -111,6 +125,12 @@ namespace SothemaGoalManagement.API.Migrations
                         name: "FK_AspNetUsers_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_UserStatus_UserStatusId",
+                        column: x => x.UserStatusId,
+                        principalTable: "UserStatus",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -300,6 +320,11 @@ namespace SothemaGoalManagement.API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_UserStatusId",
+                table: "AspNetUsers",
+                column: "UserStatusId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Departments_PoleId",
                 table: "Departments",
                 column: "PoleId");
@@ -351,6 +376,9 @@ namespace SothemaGoalManagement.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Departments");
+
+            migrationBuilder.DropTable(
+                name: "UserStatus");
 
             migrationBuilder.DropTable(
                 name: "Poles");

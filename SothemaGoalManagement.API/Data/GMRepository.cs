@@ -43,6 +43,7 @@ namespace SothemaGoalManagement.API.Data
                                 .Include(d => d.Department)
                                 .ThenInclude(p => p.Pole)
                                 .Include(p => p.Photos)
+                                .Include(s => s.UserStatus)
                                 .AsQueryable();
 
             if (isCurrentUser) query = query.IgnoreQueryFilters();
