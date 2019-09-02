@@ -1,4 +1,4 @@
 export interface Pole {
   name: string;
-  epartment: string[];
+  departments: string[];
 }

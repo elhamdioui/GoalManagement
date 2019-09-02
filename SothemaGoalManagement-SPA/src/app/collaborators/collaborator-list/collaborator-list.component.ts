@@ -14,9 +14,8 @@ import { NewUserModalComponent } from './../new-user-modal/new-user-modal.compon
   styleUrls: ['./collaborator-list.component.css']
 })
 export class CollaboratorListComponent implements OnInit {
-  users: User[];
-  user: User = JSON.parse(localStorage.getItem('user'));
   departmentList = [];
+  users: User[];
   userParams: any = {};
   pagination: Pagination;
   bsModalRef: BsModalRef;
@@ -30,8 +29,10 @@ export class CollaboratorListComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      this.users = data['users'].result;
-      this.pagination = data['users'].pagination;
+      const resolvedData = data['resolvedData'];
+      this.users = resolvedData['users'].result;
+      this.departmentList = resolvedData['departments'];
+      this.pagination = resolvedData['users'].pagination;
     });
 
     this.userParams.departmentId = 0;
@@ -46,8 +47,8 @@ export class CollaboratorListComponent implements OnInit {
   resetFilters() {
     this.userParams.departmentId = 0;
     this.loadUsers();
-
   }
+
   loadUsers() {
     this.adminService
       .getUsers(
@@ -75,7 +76,6 @@ export class CollaboratorListComponent implements OnInit {
       }, error => {
         this.alertify.error(error);
       })
-
     });
   }
 }

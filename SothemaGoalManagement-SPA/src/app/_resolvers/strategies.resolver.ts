@@ -11,7 +11,7 @@ import { Strategy } from '../_models/strategy';
 @Injectable()
 export class StrategiesResolver implements Resolve<Strategy[]> {
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 10;
 
   constructor(
     private userService: UserService,

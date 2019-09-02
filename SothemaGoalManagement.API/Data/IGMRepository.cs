@@ -25,5 +25,7 @@ namespace SothemaGoalManagement.API.Data
 
         Task<IEnumerable<Pole>> GetPoles();
 
+        Task<IEnumerable<Department>> GetDepartments();
+
     }
 }

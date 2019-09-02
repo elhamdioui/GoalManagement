@@ -56,7 +56,7 @@ export const appRoutes: Routes = [
       {
         path: 'admin',
         component: AdminPanelComponent,
-        resolve: { users: CollaboratorListResolver },
+        resolve: { resolvedData: CollaboratorListResolver },
         data: { roles: ['Admin', 'HR'] }
       }
     ]

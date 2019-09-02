@@ -11,7 +11,7 @@ import { Goal } from '../_models/goal';
 @Injectable()
 export class GoalsResolver implements Resolve<Goal[]> {
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 10;
 
   constructor(
     private userService: UserService,

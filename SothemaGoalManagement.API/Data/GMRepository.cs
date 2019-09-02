@@ -126,5 +126,10 @@ namespace SothemaGoalManagement.API.Data
         {
             return await _context.Poles.Include(p => p.Departments).ToListAsync();
         }
+
+        public async Task<IEnumerable<Department>> GetDepartments()
+        {
+            return await _context.Departments.Include(u => u.Users).Include(p => p.Pole).ToListAsync();
+        }
     }
 }

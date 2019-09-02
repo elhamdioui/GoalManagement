@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using System.Collections.Generic;
 
 namespace SothemaGoalManagement.API.Controllers
 {
@@ -24,8 +25,10 @@ namespace SothemaGoalManagement.API.Controllers
         private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
         private Cloudinary _cloudinary;
         private readonly IMapper _mapper;
-        public AdminController(DataContext context, IMapper mapper, UserManager<User> userManager, IOptions<CloudinarySettings> cloudinaryConfig)
+        private readonly IGMRepository _repo;
+        public AdminController(DataContext context, IGMRepository repo, IMapper mapper, UserManager<User> userManager, IOptions<CloudinarySettings> cloudinaryConfig)
         {
+            _repo = repo;
             _mapper = mapper;
             _cloudinaryConfig = cloudinaryConfig;
             _userManager = userManager;
@@ -68,6 +71,16 @@ namespace SothemaGoalManagement.API.Controllers
                                   }).ToListAsync();
 
             return Ok(userList);
+        }
+
+        [Authorize(Policy = "RequireAdminHRRoles")]
+        [HttpGet("departments")]
+        public async Task<IActionResult> GetDepartments()
+        {
+            var departmentList = await _repo.GetDepartments();
+            var departmentsToReturn = _mapper.Map<IEnumerable<DepartmentToReturnDto>>(departmentList);
+
+            return Ok(departmentsToReturn);
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]

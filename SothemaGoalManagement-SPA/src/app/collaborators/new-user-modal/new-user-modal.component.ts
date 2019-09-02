@@ -36,7 +36,7 @@ export class NewUserModalComponent implements OnInit {
       });
   }
 
-  createUser() {
+  requestCreateUser() {
     this.createNewUser.emit(this.newUser);
     this.bsModalRef.hide();
   }
