@@ -32,6 +32,7 @@ import { CollaboratorDetailComponent } from './collaborators/collaborator-detail
 import { CollaboratorEditComponent } from './collaborators/collaborator-edit/collaborator-edit.component';
 import { CollaboratorEditResolver } from './_resolvers/collaborator-edit.resolver';
 import { CollaboratorListResolver } from './_resolvers/collaborator-list.resolver';
+import { CollaboratorDetailResolver } from './_resolvers/collaborator-detail.resolver.';
 import { PreventUnsavedChanges } from './_guards/prevent-unsave-changes-guards';
 import { PhotoEditorComponent } from './collaborators/photo-editor/photo-editor.component';
 import { MessagesResolver } from './_resolvers/messages.resolver';
@@ -112,6 +113,7 @@ export function tokenGetter() {
     UserService,
     CollaboratorEditResolver,
     CollaboratorListResolver,
+    CollaboratorDetailResolver,
     MessagesResolver,
     GoalsResolver,
     StrategiesResolver,

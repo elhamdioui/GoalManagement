@@ -15,6 +15,8 @@ import { RhPanelComponent } from './RhPanel/RhPanel.component';
 import { StrategiesComponent } from './strategies/strategies.component';
 import { StrategiesResolver } from './_resolvers/strategies.resolver';
 import { CollaboratorListResolver } from './_resolvers/collaborator-list.resolver';
+import { CollaboratorDetailResolver } from './_resolvers/collaborator-detail.resolver.';
+import { CollaboratorDetailComponent } from './collaborators/collaborator-detail/collaborator-detail.component';
 
 
 export const appRoutes: Routes = [
@@ -58,6 +60,18 @@ export const appRoutes: Routes = [
         component: AdminPanelComponent,
         resolve: { resolvedData: CollaboratorListResolver },
         data: { roles: ['Admin', 'HR'] }
+      },
+      {
+        path: 'admin/collaborators/:id',
+        component: CollaboratorDetailComponent,
+        resolve: { user: CollaboratorDetailResolver },
+        data: { roles: ['Admin', 'HR'] }
+      },
+      {
+        path: 'admin/collaborator/edit',
+        component: CollaboratorEditComponent,
+        resolve: { user: CollaboratorEditResolver },
+        canDeactivate: [PreventUnsavedChanges]
       }
     ]
   },
