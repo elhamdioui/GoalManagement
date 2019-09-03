@@ -88,4 +88,8 @@ export class AdminService {
   rejectPhoto(photoId) {
     return this.http.post(this.baseUrl + 'admin/rejectPhoto/' + photoId, {});
   }
+
+  emailAlreadyExists(email: string) {
+    return this.http.get(`${this.baseUrl}admin/emailAlreadyExists?email=${email}`);
+  }
 }

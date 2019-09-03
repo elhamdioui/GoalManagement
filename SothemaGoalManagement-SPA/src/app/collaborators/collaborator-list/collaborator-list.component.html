@@ -1,51 +1,62 @@
 <div class="container mt-3">
-  <form #form="ngForm" (ngSubmit)="loadUsers()" class="form-inline" novalidate>
-    <div class="form-group">
-      <label for="department">Direction:</label>
-      <select [(ngModel)]="userParams.departmentId" class="form-control" style="width: 200px" id="department" name="department">
-        <option value="0">Toutes les dirctions</option>
-        <option *ngFor="let dpt of departmentList" [value]="dpt.id">
-          {{ dpt.name }}
-        </option>
-      </select>
-    </div>
+  <div *ngIf="!registerMode">
+    <form #form="ngForm" (ngSubmit)="loadUsers()" class="form-inline" novalidate>
+      <div class="form-group">
+        <label for="department">Direction:</label>
+        <select [(ngModel)]="userParams.departmentId" class="form-control" style="width: 200px" id="department" name="department">
+          <option value="0">Toutes les dirctions</option>
+          <option *ngFor="let dpt of departmentList" [value]="dpt.id">
+            {{ dpt.name }}
+          </option>
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label for="userStatus">Statut:</label>
-      <select [(ngModel)]="userParams.userStatusId" class="form-control" style="width: 200px" id="userStatus" name="userStatus">
-        <option value="0">Toutes les Statuts</option>
-        <option *ngFor="let status of userStatusList" [value]="status.id">
-          {{ status.name }}
-        </option>
-      </select>
-    </div>
+      <div class="form-group">
+        <label for="userStatus">Statut:</label>
+        <select [(ngModel)]="userParams.userStatusId" class="form-control" style="width: 200px" id="userStatus" name="userStatus">
+          <option value="0">Toutes les Statuts</option>
+          <option *ngFor="let status of userStatusList" [value]="status.id">
+            {{ status.name }}
+          </option>
+        </select>
+      </div>
 
-    <button type="submit" class="btn btn-primary" style="margin-left:10px">
-      Appliquer Filtre
-    </button>
-    <button type="button" class="btn btn-info" style="margin-left:10px" (click)="resetFilters()">
-      Réinitialiser Filtre
-    </button>
+      <button type="submit" class="btn btn-primary" style="margin-left:10px">
+        Appliquer Filtre
+      </button>
+      <button type="button" class="btn btn-info" style="margin-left:10px" (click)="resetFilters()">
+        Réinitialiser Filtre
+      </button>
 
-    <div class="col">
-      <div class="btn-group float-right">
-        <button type="button" class="btn btn-primary" (click)="createUserModal()">
-          Créer Nouveau Utilisateur
-        </button>
+      <div class="col">
+        <div class="btn-group float-right">
+          <button type="button" class="btn btn-primary" (click)="registerToggle()">
+            Créer Nouveau Utilisateur
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <br />
+
+    <div class="row">
+      <div *ngFor="let user of users" class="col-lg-2 col-md-3 col-sm-6">
+        <app-collaborator-card [user]="user"></app-collaborator-card>
       </div>
     </div>
-  </form>
 
-  <br />
-
-  <div class="row">
-    <div *ngFor="let user of users" class="col-lg-2 col-md-3 col-sm-6">
-      <app-collaborator-card [user]="user"></app-collaborator-card>
+    <div class="d-flex justify-content-center">
+      <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
+        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
+      </pagination>
     </div>
   </div>
-</div>
-<div class="d-flex justify-content-center">
-  <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
-    previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
-  </pagination>
+
+  <div *ngIf="registerMode" class="container">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <app-collaborator-new [departmentList]="departmentList" [userStatusList]="userStatusList" (cancelRegister)="cancelRegisterMode($event)"></app-collaborator-new>
+      </div>
+    </div>
+  </div>
 </div>

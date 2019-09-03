@@ -6,11 +6,10 @@ namespace SothemaGoalManagement.API.Dtos
     public class UserForRegisterDto
     {
         [Required]
-        public string Username { get; set; }
+        public string EmployeeNumber { get; set; }
 
         [Required]
-        [StringLength(16, MinimumLength = 8, ErrorMessage = "Vous devez spécifier un mot de passe entre 8 et 16 caractères")]
-        public string Password { get; set; }
+        public string Email { get; set; }
 
         [Required]
         public string FirstName { get; set; }
@@ -22,8 +21,13 @@ namespace SothemaGoalManagement.API.Dtos
         public string Title { get; set; }
 
         [Required]
+        public int UserStatusId { get; set; }
+
+        [Required]
         public int DepartmentId { get; set; }
 
+        [Required]
+        public DateTime RecruitementDate { get; set; }
         public DateTime Created { get; set; }
 
         public DateTime LastActive { get; set; }

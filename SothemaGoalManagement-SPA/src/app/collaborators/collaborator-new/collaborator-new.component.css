@@ -1,0 +1,5 @@
+.form-group>label {
+  display: inline-block;
+  vertical-align: middle;
+  width: 12em;
+}

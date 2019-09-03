@@ -33,6 +33,7 @@ import { CollaboratorEditComponent } from './collaborators/collaborator-edit/col
 import { CollaboratorEditResolver } from './_resolvers/collaborator-edit.resolver';
 import { CollaboratorListResolver } from './_resolvers/collaborator-list.resolver';
 import { CollaboratorDetailResolver } from './_resolvers/collaborator-detail.resolver.';
+import { CollaboratorNewComponent } from './collaborators/collaborator-new/collaborator-new.component';
 import { PreventUnsavedChanges } from './_guards/prevent-unsave-changes-guards';
 import { PhotoEditorComponent } from './collaborators/photo-editor/photo-editor.component';
 import { MessagesResolver } from './_resolvers/messages.resolver';
@@ -48,8 +49,6 @@ import { RhPanelComponent } from './RhPanel/RhPanel.component';
 import { StrategiesComponent } from './strategies/strategies.component';
 import { GoalsResolver } from './_resolvers/goals.resolver';
 import { StrategiesResolver } from './_resolvers/strategies.resolver';
-import { RegisterComponent } from './admin/register/register.component';
-import { NewUserModalComponent } from './collaborators/new-user-modal/new-user-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -65,6 +64,7 @@ export function tokenGetter() {
     CollaboratorCardComponent,
     CollaboratorDetailComponent,
     CollaboratorEditComponent,
+    CollaboratorNewComponent,
     CollaboratorMessagesComponent,
     PhotoEditorComponent,
     TimeAgoPipe,
@@ -78,9 +78,7 @@ export function tokenGetter() {
     HomeComponent,
     GoalsComponent,
     RhPanelComponent,
-    StrategiesComponent,
-    RegisterComponent,
-    NewUserModalComponent
+    StrategiesComponent
   ],
   imports: [
     BrowserModule,
@@ -120,8 +118,7 @@ export function tokenGetter() {
     AdminService
   ],
   entryComponents: [
-    RolesModalComponent,
-    NewUserModalComponent
+    RolesModalComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,128 @@
+<form [formGroup]="newUserForm" class="form-inline" (ngSubmit)="createUser()">
+  <h2 class="text-center text-primary">Création d'utilisateur</h2>
+  <hr />
+  <div class="form-group">
+    <label for="employeeNumber">Matricule: </label>
+    <input [ngClass]="{
+            'is-invalid':
+              newUserForm.get('employeeNumber').errors &&
+              newUserForm.get('employeeNumber').touched
+          }" class="form-control mb-1" placeholder="Matricule" formControlName="employeeNumber" />
+    <div class="invalid-feedback" *ngIf="
+            newUserForm.get('employeeNumber').touched &&
+            newUserForm.get('employeeNumber').hasError('required')
+          ">
+      Le matricule est requis
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email: </label>
+    <input [ngClass]="{
+            'is-invalid':
+            (newUserForm.get('email').errors &&
+            newUserForm.get('email').touched) ||
+            (newUserForm.get('email').touched &&
+            newUserForm.hasError('email')) ||
+            (newUserForm.get('email').touched &&
+            newUserForm.hasError('emailIsTaken'))
+          }" type="text" class="form-control mb-1" placeholder="Email" formControlName="email" />
+    <div class="invalid-feedback" *ngIf="newUserForm.get('email').hasError('required') && newUserForm.get('email').touched">Email est requis</div>
+    <div class="invalid-feedback" *ngIf="newUserForm.hasError('email') && newUserForm.get('email').touched">Email est invalide</div>
+    <div class="invalid-feedback" *ngIf="newUserForm.hasError('emailIsTaken') && newUserForm.get('email').touched">Cet email est déjà pris</div>
+    <div *ngIf="newUserForm.get('email').pending">
+      <img src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif" width="50px" alt="">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="firstName">Prénom: </label>
+    <input [ngClass]="{
+          'is-invalid':
+            newUserForm.get('firstName').errors &&
+            newUserForm.get('firstName').touched
+        }" class="form-control mb-1" placeholder="Prénom" formControlName="firstName" />
+    <div class="invalid-feedback" *ngIf="
+          newUserForm.get('firstName').touched &&
+          newUserForm.get('firstName').hasError('required')
+        ">
+      Le prénom est requis
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="lastName">Nom: </label>
+    <input [ngClass]="{
+            'is-invalid':
+              newUserForm.get('lastName').errors &&
+              newUserForm.get('lastName').touched
+          }" class="form-control mb-1" placeholder="Nom" formControlName="lastName" />
+    <div class="invalid-feedback" *ngIf="
+            newUserForm.get('lastName').touched &&
+            newUserForm.get('lastName').hasError('required')
+          ">
+      Nom est requis
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="title">Fonction: </label>
+    <input [ngClass]="{
+              'is-invalid':
+                newUserForm.get('title').errors &&
+                newUserForm.get('title').touched
+            }" class="form-control mb-1" placeholder="Fonction" formControlName="title" />
+    <div class="invalid-feedback" *ngIf="
+              newUserForm.get('title').touched &&
+              newUserForm.get('title').hasError('required')
+            ">
+      Fonction est requise
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="userStatusId">Statut: </label>
+    <select class="form-control mb-1" style="width: 200px" id="userStatusId" formControlName="userStatusId">
+      <option [ngValue]="null" disabled>Choisissez un statut</option>
+      <option *ngFor="let us of userStatusList" [ngValue]="us.id">
+        {{ us.name }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="departmentId">Direction: </label>
+    <select class="form-control mb-1" style="width: 200px" id="departmentId" formControlName="departmentId">
+      <option [ngValue]="null" disabled>Choisissez une direction</option>
+      <option *ngFor="let dpt of departmentList" [ngValue]="dpt.id">
+        {{ dpt.name }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="RecruitmentDate">Date de recrutement: </label>
+    <input [ngClass]="{
+            'is-invalid':
+              newUserForm.get('RecruitmentDate').errors &&
+              newUserForm.get('RecruitmentDate').touched
+          }" class="form-control mb-1" placeholder="Date de recrutement" formControlName="RecruitmentDate" type="text" bsDatepicker
+      [bsConfig]="bsConfig" />
+    <div class="invalid-feedback" *ngIf="
+            newUserForm.get('RecruitmentDate').touched &&
+            newUserForm.get('RecruitmentDate').hasError('required')
+          ">
+      Date of Birth is required
+    </div>
+  </div>
+
+  <div class="form-group text-center">
+    <button class="btn btn-success" type="submit" [disabled]="!newUserForm.valid">
+      Soumettre
+    </button>
+    <button class="btn btn-default" type="button" (click)="cancel()">
+      Cancel
+    </button>
+  </div>
+
+</form>

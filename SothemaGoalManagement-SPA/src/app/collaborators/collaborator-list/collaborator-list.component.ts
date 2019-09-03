@@ -1,12 +1,10 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { User } from '../../_models/user';
 import { AdminService } from '../../_services/admin.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { Pagination, PaginatedResult } from './../../_models/pagination';
-import { NewUserModalComponent } from './../new-user-modal/new-user-modal.component';
 import { UserStatus } from '../../_models/userStatus';
 import { Department } from './../../_models/department';
 
@@ -21,13 +19,12 @@ export class CollaboratorListComponent implements OnInit {
   users: User[];
   userParams: any = {};
   pagination: Pagination;
-  bsModalRef: BsModalRef;
+  registerMode = false;
 
   constructor(
     private adminService: AdminService,
     private alertify: AlertifyService,
     private route: ActivatedRoute,
-    private modalService: BsModalService
   ) { }
 
   ngOnInit() {
@@ -73,15 +70,29 @@ export class CollaboratorListComponent implements OnInit {
       );
   }
 
-  createUserModal() {
-    this.bsModalRef = this.modalService.show(NewUserModalComponent, {});
-    this.bsModalRef.content.createNewUser.subscribe((newUser) => {
-      console.log("New user: ", newUser);
-      this.adminService.createUser(newUser).subscribe(() => {
-        this.loadUsers();
-      }, error => {
-        this.alertify.error(error);
-      })
-    });
+  registerToggle() {
+    this.registerMode = true;
   }
+
+  cancelRegisterMode(registerMode: boolean) {
+    this.registerMode = registerMode;
+  }
+
+  // createUserModal() {
+  //   const initialState = {
+  //     departmentList: this.departmentList,
+  //     userStatusList: this.userStatusList
+  //   };
+
+  //   this.bsModalRef = this.modalService.show(NewUserModalComponent, { initialState });
+  //   this.bsModalRef.content.createNewUser.subscribe((newUser) => {
+  //     console.log("New user: ", newUser);
+  //     this.adminService.createUser(newUser).subscribe(() => {
+  //       this.loadUsers();
+  //     }, error => {
+  //       this.alertify.error(error);
+  //     })
+  //   });
+  // }
+
 }

@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { NewUserModalComponent } from './new-user-modal.component';
+import { CollaboratorNewComponent } from './collaborator-new.component';
 
-describe('NewUserModalComponent', () => {
-  let component: NewUserModalComponent;
-  let fixture: ComponentFixture<NewUserModalComponent>;
+describe('CollaboratorNewComponent', () => {
+  let component: CollaboratorNewComponent;
+  let fixture: ComponentFixture<CollaboratorNewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewUserModalComponent ]
+      declarations: [ CollaboratorNewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewUserModalComponent);
+    fixture = TestBed.createComponent(CollaboratorNewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

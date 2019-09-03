@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SothemaGoalManagement.API.Migrations
 {
-    public partial class InitialModel : Migration
+    public partial class NewDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -114,6 +114,7 @@ namespace SothemaGoalManagement.API.Migrations
                     LastName = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
+                    RecruitmentDate = table.Column<DateTime>(nullable: false),
                     UserStatusId = table.Column<int>(nullable: false),
                     DepartmentId = table.Column<int>(nullable: false),
                     LastActive = table.Column<DateTime>(nullable: false)

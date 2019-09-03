@@ -236,6 +236,8 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<DateTime>("RecruitmentDate");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<string>("Title");

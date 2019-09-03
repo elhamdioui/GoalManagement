@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using System.Collections.Generic;
+using System;
 
 namespace SothemaGoalManagement.API.Controllers
 {
@@ -40,19 +41,43 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
+        [HttpGet("emailAlreadyExists")]
+        public async Task<IActionResult> EmailAlreadyExists(string email)
+        {
+            var result = await _userManager.FindByNameAsync(email) ?? await _userManager.FindByEmailAsync(email);
+
+            return Ok(result != null);
+        }
+
+        [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
+        public async Task<IActionResult> Register([FromBody]UserForRegisterDto userForRegisterDto)
         {
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
-            var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
-
-            var userToReturn = _mapper.Map<UserForDetailDto>(userToCreate);
-
-            if (result.Succeeded)
+            userToCreate.UserName = userForRegisterDto.Email;
+            IdentityResult result = null;
+            try
             {
-                return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
+                result = _userManager.CreateAsync(userToCreate, "Password123").Result;
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(userToCreate, "Collaborator");
+                    var userToReturn = _mapper.Map<UserForDetailDto>(userToCreate);
+
+                    if (result.Succeeded)
+                    {
+                        return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
             return BadRequest(result.Errors);
+
+
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
