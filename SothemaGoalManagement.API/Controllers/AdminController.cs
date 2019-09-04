@@ -56,28 +56,20 @@ namespace SothemaGoalManagement.API.Controllers
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
             userToCreate.UserName = userForRegisterDto.Email;
             IdentityResult result = null;
-            try
+            result = _userManager.CreateAsync(userToCreate, "Password123").Result;
+            if (result.Succeeded)
             {
-                result = _userManager.CreateAsync(userToCreate, "Password123").Result;
+                await _userManager.AddToRoleAsync(userToCreate, "Collaborator");
+                var userToReturn = _mapper.Map<UserForDetailDto>(userToCreate);
+
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(userToCreate, "Collaborator");
-                    var userToReturn = _mapper.Map<UserForDetailDto>(userToCreate);
-
-                    if (result.Succeeded)
-                    {
-                        return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
-                    }
-
+                    return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
                 }
-            }
-            catch (Exception ex)
-            {
 
             }
+
             return BadRequest(result.Errors);
-
-
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]

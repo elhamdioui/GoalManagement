@@ -14,8 +14,8 @@ export class CollaboratorListResolver implements Resolve<any> {
   pageNumber = 1;
   pageSize = 10;
   users: User[];
-  departments: Department[]
-  userStatus: UserStatus[]
+  departmentList: Department[];
+  userStatusList: UserStatus[];
 
   constructor(
     private adminService: AdminService,
@@ -36,8 +36,8 @@ export class CollaboratorListResolver implements Resolve<any> {
           }))
       ]).pipe(map(result => {
         return {
-          departments: result[0],
-          userStatus: result[1],
+          departmentList: result[0],
+          userStatusList: result[1],
           users: result[2]
         };
       }));

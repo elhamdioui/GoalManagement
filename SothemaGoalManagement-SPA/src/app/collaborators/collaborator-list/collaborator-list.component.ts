@@ -31,8 +31,8 @@ export class CollaboratorListComponent implements OnInit {
     this.route.data.subscribe(data => {
       const resolvedData = data['resolvedData'];
       this.users = resolvedData['users'].result;
-      this.departmentList = resolvedData['departments'];
-      this.userStatusList = resolvedData['userStatus'];
+      this.departmentList = resolvedData['departmentList'];
+      this.userStatusList = resolvedData['userStatusList'];
       this.pagination = resolvedData['users'].pagination;
     });
 

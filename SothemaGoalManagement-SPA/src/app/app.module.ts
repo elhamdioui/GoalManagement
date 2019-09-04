@@ -45,10 +45,14 @@ import { PhotoManagementComponent } from './admin/photo-management/photo-managem
 import { AdminService } from './_services/admin.service';
 import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 import { GoalsComponent } from './goals/goals.component';
-import { RhPanelComponent } from './RhPanel/RhPanel.component';
+import { HrPanelComponent } from './hr/hr-panel/hr-panel.component';
 import { StrategiesComponent } from './strategies/strategies.component';
 import { GoalsResolver } from './_resolvers/goals.resolver';
 import { StrategiesResolver } from './_resolvers/strategies.resolver';
+import { StrategyListComponent } from './hr/strategy-list/strategy-list.component';
+import { BehavioralSkillsComponent } from './hr/behavioral-skills/behavioral-skills.component';
+import { StrategyListResolver } from './_resolvers/strategy-list.resolver';
+import { HrService } from './_services/hr.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -77,8 +81,10 @@ export function tokenGetter() {
     NavComponent,
     HomeComponent,
     GoalsComponent,
-    RhPanelComponent,
-    StrategiesComponent
+    HrPanelComponent,
+    StrategiesComponent,
+    StrategyListComponent,
+    BehavioralSkillsComponent
   ],
   imports: [
     BrowserModule,
@@ -115,7 +121,9 @@ export function tokenGetter() {
     MessagesResolver,
     GoalsResolver,
     StrategiesResolver,
-    AdminService
+    StrategyListResolver,
+    AdminService,
+    HrService
   ],
   entryComponents: [
     RolesModalComponent

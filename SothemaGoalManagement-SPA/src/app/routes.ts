@@ -11,12 +11,13 @@ import { MessagesResolver } from './_resolvers/messages.resolver';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { GoalsComponent } from './goals/goals.component';
 import { GoalsResolver } from './_resolvers/goals.resolver';
-import { RhPanelComponent } from './RhPanel/RhPanel.component';
+import { HrPanelComponent } from './hr/hr-panel/hr-panel.component';
 import { StrategiesComponent } from './strategies/strategies.component';
 import { StrategiesResolver } from './_resolvers/strategies.resolver';
 import { CollaboratorListResolver } from './_resolvers/collaborator-list.resolver';
 import { CollaboratorDetailResolver } from './_resolvers/collaborator-detail.resolver.';
 import { CollaboratorDetailComponent } from './collaborators/collaborator-detail/collaborator-detail.component';
+import { StrategyListResolver } from './_resolvers/strategy-list.resolver';
 
 
 export const appRoutes: Routes = [
@@ -52,7 +53,8 @@ export const appRoutes: Routes = [
       },
       {
         path: 'hr',
-        component: RhPanelComponent,
+        component: HrPanelComponent,
+        resolve: { strategies: StrategyListResolver },
         data: { roles: ['HR'] }
       },
       {

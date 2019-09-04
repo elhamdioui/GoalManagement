@@ -143,5 +143,29 @@ namespace SothemaGoalManagement.API.Data
         {
             return await _context.UserStatus.Include(u => u.Users).ToListAsync();
         }
+
+        public async Task<PagedList<Strategy>> GetStrategies(StrategyParams strategyParams)
+        {
+            var strategies = _context.Strategies
+                                .Include(u => u.Owner)
+                                .OrderByDescending(s => s.Created)
+                                .AsQueryable();
+
+            switch (strategyParams.Status)
+            {
+                case Constants.PUBLISHED:
+                    strategies = strategies.Where(s => s.Status == Constants.PUBLISHED || s.OwnerId == strategyParams.OwnerId);
+                    break;
+                case Constants.DRAFT:
+                    strategies = strategies.Where(s => s.Status == Constants.DRAFT && s.OwnerId == strategyParams.OwnerId);
+                    break;
+                case Constants.REVIEW:
+                    strategies = strategies.Where(s => s.Status == Constants.REVIEW && s.OwnerId == strategyParams.OwnerId);
+                    break;
+            }
+
+            strategies = strategies.OrderByDescending(u => u.Created);
+            return await PagedList<Strategy>.CreateAsync(strategies, strategyParams.PageNumber, strategyParams.PageSize);
+        }
     }
 }

@@ -30,5 +30,12 @@ namespace SothemaGoalManagement.API.Helpers
 
             return age;
         }
+
+        public static string FullName(this string firstName, string lastName)
+        {
+            var fullName = $"{firstName} {lastName}";
+
+            return fullName;
+        }
     }
 }

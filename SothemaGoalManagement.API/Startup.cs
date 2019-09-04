@@ -72,6 +72,7 @@ namespace SothemaGoalManagement.API
             {
                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
                 options.AddPolicy("RequireAdminHRRoles", policy => policy.RequireRole("Admin", "HR"));
+                options.AddPolicy("RequireHRHRDRoles", policy => policy.RequireRole("HR", "HRD"));
                 options.AddPolicy("RequireHRDRole", policy => policy.RequireRole("HRD"));
             });
 

@@ -44,6 +44,11 @@ namespace SothemaGoalManagement.API.Helpers
             CreateMap<Department, DepartmentToReturnDto>();
 
             CreateMap<UserStatus, UserStatusToReturnDto>();
+
+            CreateMap<Strategy, StrategyForListDto>().ForMember(dest => dest.OwnerName, opt =>
+            {
+                opt.ResolveUsing(u => u.Owner.FirstName.FullName(u.Owner.LastName));
+            });
         }
     }
 }

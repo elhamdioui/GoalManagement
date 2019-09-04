@@ -20,6 +20,8 @@ namespace SothemaGoalManagement.API.Data
 
         public DbSet<UserStatus> UserStatus { get; set; }
 
+        public DbSet<Strategy> Strategies { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

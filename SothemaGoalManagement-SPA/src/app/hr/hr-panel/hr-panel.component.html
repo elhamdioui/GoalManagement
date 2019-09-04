@@ -1,0 +1,26 @@
+<div class="container mt-5">
+  <h2>Panneau de Ressource Humaine</h2>
+  <div class="tab-panel">
+    <tabset class="member-tabset">
+      <tab heading="Axes Stratégique" *appHasRole="['HRD', 'HR']">
+        <div class="container">
+          <app-strategy-list></app-strategy-list>
+        </div>
+      </tab>
+
+      <tab heading="Compétences Comportementales" *appHasRole="['HRD', 'HR']">
+        <div class="container">
+          <app-behavioral-skills></app-behavioral-skills>
+        </div>
+      </tab>
+
+      <tab heading="Etat de statut d'évaluation" *appHasRole="['HRD', 'HR']">
+        <h2>Comming soon...</h2>
+      </tab>
+
+      <tab heading="Etat de résulat final" *appHasRole="['HRD', 'HR']">
+        <h2>Comming soon...</h2>
+      </tab>
+    </tabset>
+  </div>
+</div>

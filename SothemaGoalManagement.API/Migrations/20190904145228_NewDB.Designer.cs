@@ -9,7 +9,7 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190903222729_NewDB")]
+    [Migration("20190904145228_NewDB")]
     partial class NewDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -195,6 +195,28 @@ namespace SothemaGoalManagement.API.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.Strategy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<int>("OwnerId");
+
+                    b.Property<string>("Status");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int>("Year");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Strategies");
+                });
+
             modelBuilder.Entity("SothemaGoalManagement.API.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -351,6 +373,14 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.User", "User")
                         .WithMany("Photos")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.Strategy", b =>
+                {
+                    b.HasOne("SothemaGoalManagement.API.Models.User", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
