@@ -54,6 +54,8 @@ import { BehavioralSkillsComponent } from './hr/behavioral-skills/behavioral-ski
 import { StrategyListResolver } from './_resolvers/strategy-list.resolver';
 import { HrService } from './_services/hr.service';
 import { StrategyNewComponent } from './hr/strategies/strategy-new/strategy-new.component';
+import { StrategyDetailComponent } from './hr/strategies/strategy-detail/strategy-detail.component';
+import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver.';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -86,6 +88,7 @@ export function tokenGetter() {
     StrategiesComponent,
     StrategyListComponent,
     StrategyNewComponent,
+    StrategyDetailComponent,
     BehavioralSkillsComponent
   ],
   imports: [
@@ -124,6 +127,7 @@ export function tokenGetter() {
     GoalsResolver,
     StrategiesResolver,
     StrategyListResolver,
+    StrategyDetailResolver,
     AdminService,
     HrService
   ],

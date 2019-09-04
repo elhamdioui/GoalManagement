@@ -74,4 +74,8 @@ export class StrategyListComponent implements OnInit {
   cancelCreationMode(creationMode: boolean) {
     this.creationMode = creationMode;
   }
+
+  editStrategy(strategy: Strategy) {
+
+  }
 }

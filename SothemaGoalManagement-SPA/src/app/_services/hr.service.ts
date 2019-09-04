@@ -14,6 +14,12 @@ export class HrService {
   baseUrl = environment.apiUrl;
   constructor(private http: HttpClient) { }
 
+  getStrategy(id: number, ownerId) {
+    let params = new HttpParams();
+    params = params.append('ownerId', ownerId);
+    return this.http.get<Strategy>(`${this.baseUrl}hr/${id}`, { params });
+  }
+
   getStrategies(
     id,
     page?,

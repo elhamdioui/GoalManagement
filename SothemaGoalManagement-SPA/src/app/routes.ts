@@ -18,6 +18,8 @@ import { CollaboratorListResolver } from './_resolvers/collaborator-list.resolve
 import { CollaboratorDetailResolver } from './_resolvers/collaborator-detail.resolver.';
 import { CollaboratorDetailComponent } from './collaborators/collaborator-detail/collaborator-detail.component';
 import { StrategyListResolver } from './_resolvers/strategy-list.resolver';
+import { StrategyDetailComponent } from './hr/strategies/strategy-detail/strategy-detail.component';
+import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver.';
 
 
 export const appRoutes: Routes = [
@@ -40,6 +42,10 @@ export const appRoutes: Routes = [
         path: 'strategies',
         component: StrategiesComponent,
         resolve: { strategies: StrategiesResolver }
+      }, {
+        path: 'strategies/:id',
+        component: StrategyDetailComponent,
+        resolve: { strategy: StrategyDetailResolver }
       },
       {
         path: 'goals',

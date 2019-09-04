@@ -154,7 +154,7 @@ namespace SothemaGoalManagement.API.Data
             switch (strategyParams.Status)
             {
                 case Constants.PUBLISHED:
-                    strategies = strategies.Where(s => s.Status == Constants.PUBLISHED || s.OwnerId == strategyParams.OwnerId);
+                    strategies = strategies.Where(s => s.Status == Constants.PUBLISHED);
                     break;
                 case Constants.DRAFT:
                     strategies = strategies.Where(s => s.Status == Constants.DRAFT && s.OwnerId == strategyParams.OwnerId);

@@ -11,6 +11,7 @@ namespace SothemaGoalManagement.API.Dtos
         public string Status { get; set; }
 
         public string OwnerName { get; set; }
+        public int OwnerId { get; set; }
 
         public DateTime Created { get; set; }
     }

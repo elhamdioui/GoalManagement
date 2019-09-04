@@ -3,6 +3,7 @@ export interface Strategy {
   title: string;
   description: string;
   ownerName: string;
+  ownerId: number;
   status: string;
   created: Date;
 }

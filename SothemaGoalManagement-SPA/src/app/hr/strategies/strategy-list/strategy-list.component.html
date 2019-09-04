@@ -38,13 +38,15 @@
           <th style="width: 20%"></th>
         </tr>
 
-        <tr *ngFor="let strategy of strategies">
+        <tr *ngFor="let strategy of strategies" [routerLink]="[
+        '/strategies/'+strategy.id
+      ]" [queryParams]="{ownerId:strategy.ownerId}">
           <td>{{strategy.title}}</td>
           <td>{{strategy.status}}</td>
           <td>{{strategy.ownerName}}</td>
           <td>{{strategy.created | date: 'mediumDate'}}</td>
           <td>
-            <button class="btn btn-info" (click)="editRolesModal(user)">Editer</button>
+            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editStrategy(strategy)">Editer</button>
           </td>
         </tr>
 

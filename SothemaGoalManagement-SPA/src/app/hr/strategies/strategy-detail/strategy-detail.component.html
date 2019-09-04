@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <div class="row">
+    <h1>Stratégie détail</h1>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <div>
+            <strong>Titre:</strong>
+            <p>{{ strategy.title }}</p>
+          </div>
+          <div>
+            <strong>Description:</strong>
+            <p>{{ strategy.description }}</p>
+          </div>
+          <div>
+            <strong>Statut:</strong>
+            <p>{{ strategy.status }}</p>
+          </div>
+          <div>
+            <strong>Auteur:</strong>
+            <p>{{ strategy.ownerName }}</p>
+          </div>
+          <div>
+            <strong>Créé:</strong>
+            <p>{{ strategy.created | date: 'mediumDate' }}</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="btn-group d-fles">
+            <button class="btn btn-success w-100" (click)="selectTab(3)">
+              TBD
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        Axes
+      </div>
+    </div>
+  </div>
+</div>

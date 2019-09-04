@@ -6,13 +6,11 @@ import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { User } from '../_models/user';
 import { AdminService } from './../_services/admin.service';
 import { AlertifyService } from './../_services/alertify.service';
-import { AuthService } from '../_services/auth.service';
 
 @Injectable()
 export class CollaboratorDetailResolver implements Resolve<User> {
   constructor(
     private adminService: AdminService,
-    private authService: AuthService,
     private router: Router,
     private alertify: AlertifyService
   ) { }
