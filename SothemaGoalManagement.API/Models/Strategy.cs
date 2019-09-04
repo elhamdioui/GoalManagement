@@ -8,7 +8,7 @@ namespace SothemaGoalManagement.API.Models
 
         public string Title { get; set; }
 
-        public int Year { get; set; }
+        public string Description { get; set; }
 
         public string Status { get; set; }
 

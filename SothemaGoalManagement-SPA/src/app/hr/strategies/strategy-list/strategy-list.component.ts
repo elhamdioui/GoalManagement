@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Strategy } from '../../_models/strategy';
 import { ActivatedRoute } from '@angular/router';
 
-import { Pagination, PaginatedResult } from '../../_models/pagination';
-import { HrService } from '../../_services/hr.service';
-import { AuthService } from '../../_services/auth.service';
-import { AlertifyService } from '../../_services/alertify.service';
+import { Strategy } from '../../../_models/strategy';
+import { Pagination, PaginatedResult } from '../../../_models/pagination';
+import { HrService } from '../../../_services/hr.service';
+import { AuthService } from '../../../_services/auth.service';
+import { AlertifyService } from '../../../_services/alertify.service';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class StrategyListComponent implements OnInit {
   strategies: Strategy[];
   strategyParams: any = {};
   pagination: Pagination;
-  registerMode = false;
+  creationMode = false;
 
   constructor(
     private hrService: HrService,
@@ -67,11 +67,11 @@ export class StrategyListComponent implements OnInit {
       );
   }
 
-  registerToggle() {
-    this.registerMode = true;
+  creationToggle() {
+    this.creationMode = true;
   }
 
-  cancelRegisterMode(registerMode: boolean) {
-    this.registerMode = registerMode;
+  cancelCreationMode(creationMode: boolean) {
+    this.creationMode = creationMode;
   }
 }

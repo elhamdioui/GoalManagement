@@ -167,5 +167,10 @@ namespace SothemaGoalManagement.API.Data
             strategies = strategies.OrderByDescending(u => u.Created);
             return await PagedList<Strategy>.CreateAsync(strategies, strategyParams.PageNumber, strategyParams.PageSize);
         }
+
+        public async Task<Strategy> GetStrategy(int id)
+        {
+            return await _context.Strategies.FirstOrDefaultAsync(s => s.Id == id);
+        }
     }
 }

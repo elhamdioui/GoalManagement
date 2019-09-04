@@ -31,5 +31,7 @@ namespace SothemaGoalManagement.API.Data
 
         Task<PagedList<Strategy>> GetStrategies(StrategyParams strategyParams);
 
+        Task<Strategy> GetStrategy(int id);
+
     }
 }

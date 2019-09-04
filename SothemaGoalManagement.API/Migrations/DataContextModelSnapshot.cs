@@ -200,13 +200,13 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<DateTime>("Created");
 
+                    b.Property<string>("Description");
+
                     b.Property<int>("OwnerId");
 
                     b.Property<string>("Status");
 
                     b.Property<string>("Title");
-
-                    b.Property<int>("Year");
 
                     b.HasKey("Id");
 

@@ -285,7 +285,7 @@ namespace SothemaGoalManagement.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(nullable: true),
-                    Year = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     Status = table.Column<string>(nullable: true),
                     OwnerId = table.Column<int>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false)

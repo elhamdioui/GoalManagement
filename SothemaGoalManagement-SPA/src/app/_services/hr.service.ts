@@ -24,13 +24,13 @@ export class HrService {
       Strategy[]
       >();
     let params = new HttpParams();
+    params = params.append('ownerId', id);
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
     }
 
     if (strategyParams != null) {
-      params = params.append('ownerId', id);
       params = params.append('status', strategyParams.status);
       params = params.append('orderBy', strategyParams.orderBy);
     }
@@ -48,5 +48,9 @@ export class HrService {
           return paginatedResult;
         })
       );
+  }
+
+  createStrategy(ownerId: number, strategy: Strategy) {
+    return this.http.post(`${this.baseUrl}hr/strategies/new/${ownerId}`, strategy);
   }
 }

@@ -1,0 +1,69 @@
+<div class="container">
+  <div *ngIf="!creationMode">
+    <form #form="ngForm" (ngSubmit)="loadStrategies()" class="form-inline" novalidate>
+      <div class="form-group">
+        <label for="status">Statut:</label>
+        <select [(ngModel)]="strategyParams.status" class="form-control" style="width: 150px" id="status" name="status">
+          <option *ngFor="let status of statusList" [value]="status">
+            {{ status }}
+          </option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="margin-left:10px">
+        Appliquer Filtre
+      </button>
+      <button type="button" class="btn btn-info" style="margin-left:10px" (click)="resetFilters()">
+        Réinitialiser Filtre
+      </button>
+
+      <div class="col">
+        <div class="btn-group float-right">
+          <button type="button" class="btn btn-primary" (click)="creationToggle()">
+            Créer Nouvelle Stratégie
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <br />
+
+    <div class="row">
+      <table class="table">
+        <tr>
+          <th style="width: 30%">Titre</th>
+          <th style="width: 15%">Statut</th>
+          <th style="width: 20%">Auteur</th>
+          <th style="width: 15%">Date de création</th>
+          <th style="width: 20%"></th>
+        </tr>
+
+        <tr *ngFor="let strategy of strategies">
+          <td>{{strategy.title}}</td>
+          <td>{{strategy.status}}</td>
+          <td>{{strategy.ownerName}}</td>
+          <td>{{strategy.created | date: 'mediumDate'}}</td>
+          <td>
+            <button class="btn btn-info" (click)="editRolesModal(user)">Editer</button>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
+        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
+      </pagination>
+    </div>
+  </div>
+
+  <div *ngIf="creationMode">
+    <div class="row justify-content-center">
+      <div class="col-5">
+        <app-strategy-new (cancelCreation)="cancelCreationMode($event)"></app-strategy-new>
+      </div>
+    </div>
+  </div>
+
+</div>

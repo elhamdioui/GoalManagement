@@ -49,6 +49,14 @@ namespace SothemaGoalManagement.API.Helpers
             {
                 opt.ResolveUsing(u => u.Owner.FirstName.FullName(u.Owner.LastName));
             });
+
+            CreateMap<StrategyForCreationDto, Strategy>();
+
+            CreateMap<Strategy, StrategyToReturnDto>().ForMember(dest => dest.OwnerName, opt =>
+            {
+                opt.ResolveUsing(u => u.Owner.FirstName.FullName(u.Owner.LastName));
+            });
+
         }
     }
 }
