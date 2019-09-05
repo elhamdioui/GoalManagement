@@ -21,6 +21,7 @@ import { StrategyListResolver } from './_resolvers/strategy-list.resolver';
 import { StrategyDetailComponent } from './hr/strategies/strategy-detail/strategy-detail.component';
 import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver.';
 import { ResetPasswordComponent } from './collaborators/reset-password/reset-password.component';
+import { ForgetPasswordComponent } from './collaborators/forget-password/forget-password.component';
 
 
 export const appRoutes: Routes = [
@@ -31,6 +32,10 @@ export const appRoutes: Routes = [
   {
     path: 'resetPassword',
     component: ResetPasswordComponent
+  },
+  {
+    path: 'forgetPassword',
+    component: ForgetPasswordComponent
   },
   {
     path: '',

@@ -57,7 +57,10 @@ export class AuthService {
   }
 
   resetPassword(model: any) {
-    console.log('model:', model);
     return this.http.post(`${this.baseUrl}resetPassword`, model);
+  }
+
+  requestResetPassword(model: any) {
+    return this.http.post(`${this.baseUrl}generatePasswordResetToken`, model);
   }
 }

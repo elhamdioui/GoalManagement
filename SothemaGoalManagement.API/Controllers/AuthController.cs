@@ -92,6 +92,8 @@ namespace SothemaGoalManagement.API.Controllers
                 }
 
                 var generatedToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+                generatedToken = System.Web.HttpUtility.UrlEncode(generatedToken);
+
                 await SendEmail(generatedToken, user.Email, user.FirstName);
                 return Ok(new { message = "Le lien de réinitialisation du mot de passe a été envoyé à votre adresse e-mail!" });
             }
