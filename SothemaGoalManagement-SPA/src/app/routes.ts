@@ -34,7 +34,7 @@ export const appRoutes: Routes = [
     component: ResetPasswordComponent
   },
   {
-    path: 'forgetPassword',
+    path: 'requestResetPassword',
     component: ForgetPasswordComponent
   },
   {

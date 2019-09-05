@@ -25,12 +25,15 @@
         <img src="{{ photoUrl || '../../assets/user.png' }}" alt="" />
       </span>
       <a class="dropdown-toggle text-light" dropdownToggle>
-        Bienvenue {{ authService.decodedToken?.unique_name | titlecase }}
+        Bienvenue {{ authService.currentUser?.firstName }}
       </a>
 
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item" [routerLink]="['/collaborator/edit']">
           <i class="fa fa-user"></i>Editer le profil</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" [routerLink]="['/requestResetPassword']">
+          <i class="fa fa-key fa-fw"></i>Changer password</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="logout()">
           <i class="fa fa-sign-out"></i>Déconnecter</a>
