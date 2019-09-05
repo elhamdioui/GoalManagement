@@ -78,21 +78,10 @@ export class CollaboratorListComponent implements OnInit {
     this.registerMode = registerMode;
   }
 
-  // createUserModal() {
-  //   const initialState = {
-  //     departmentList: this.departmentList,
-  //     userStatusList: this.userStatusList
-  //   };
-
-  //   this.bsModalRef = this.modalService.show(NewUserModalComponent, { initialState });
-  //   this.bsModalRef.content.createNewUser.subscribe((newUser) => {
-  //     console.log("New user: ", newUser);
-  //     this.adminService.createUser(newUser).subscribe(() => {
-  //       this.loadUsers();
-  //     }, error => {
-  //       this.alertify.error(error);
-  //     })
-  //   });
-  // }
-
+  switchOffRegisterMode(reload: boolean) {
+    this.registerMode = false;
+    if (reload) {
+      this.loadUsers();
+    }
+  }
 }

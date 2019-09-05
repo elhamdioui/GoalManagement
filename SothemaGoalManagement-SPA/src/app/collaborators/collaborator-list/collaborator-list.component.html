@@ -55,7 +55,8 @@
   <div *ngIf="registerMode" class="container">
     <div class="row justify-content-center">
       <div class="col-4">
-        <app-collaborator-new [departmentList]="departmentList" [userStatusList]="userStatusList" (cancelRegister)="cancelRegisterMode($event)"></app-collaborator-new>
+        <app-collaborator-new [departmentList]="departmentList" [userStatusList]="userStatusList" (cancelRegister)="cancelRegisterMode($event)"
+          (switchOffRegister)="switchOffRegisterMode($event)"></app-collaborator-new>
       </div>
     </div>
   </div>

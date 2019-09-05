@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   FormGroup,
@@ -24,11 +23,12 @@ export class CollaboratorNewComponent implements OnInit {
   @Input() departmentList: Department[] = [];
   @Input() userStatusList: UserStatus[] = [];
   @Output() cancelRegister = new EventEmitter();
+  @Output() switchOffRegister = new EventEmitter();
   newUser: User;
   newUserForm: FormGroup;
 
 
-  constructor(private fb: FormBuilder, private adminService: AdminService, private alertify: AlertifyService, private router: Router) { }
+  constructor(private fb: FormBuilder, private adminService: AdminService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.createUserForm();
@@ -64,14 +64,15 @@ export class CollaboratorNewComponent implements OnInit {
   createUser() {
     if (this.newUserForm.valid) {
       this.newUser = Object.assign({}, this.newUserForm.value);
-      console.log(this.newUser);
       this.adminService.createUser(this.newUser).subscribe(
-        () => {
+        next => {
           this.alertify.success('Utilisateur créé avec succès');
-          this.router.navigate(['/admin']);
         },
         error => {
           this.alertify.error(error);
+        },
+        () => {
+          this.switchOffRegister.emit(true);
         }
       );
     }

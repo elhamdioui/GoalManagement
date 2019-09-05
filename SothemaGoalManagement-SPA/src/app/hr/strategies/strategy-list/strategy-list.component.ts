@@ -75,6 +75,13 @@ export class StrategyListComponent implements OnInit {
     this.creationMode = creationMode;
   }
 
+  switchOffCreationMode(reload: boolean) {
+    this.creationMode = false;
+    if (reload) {
+      this.loadStrategies();
+    }
+  }
+
   editStrategy(strategy: Strategy) {
 
   }

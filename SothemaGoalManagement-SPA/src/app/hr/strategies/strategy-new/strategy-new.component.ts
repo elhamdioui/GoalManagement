@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   FormGroup,
@@ -21,11 +20,12 @@ import { Strategy } from '../../../_models/strategy';
 })
 export class StrategyNewComponent implements OnInit {
   @Output() cancelCreation = new EventEmitter();
+  @Output() switchOffCreation = new EventEmitter();
   newStrategy: Strategy;
   newStrategyForm: FormGroup;
 
 
-  constructor(private fb: FormBuilder, private hrService: HrService, private authService: AuthService, private alertify: AlertifyService, private router: Router) { }
+  constructor(private fb: FormBuilder, private hrService: HrService, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.createStrategyForm();
@@ -46,11 +46,11 @@ export class StrategyNewComponent implements OnInit {
       this.hrService.createStrategy(this.authService.decodedToken.nameid, this.newStrategy).subscribe(
         () => {
           this.alertify.success('Stratégie créé avec succèes');
-          this.router.navigate(['/hr']);
         },
         error => {
           this.alertify.error(error);
-        }
+        },
+        () => { this.switchOffCreation.emit(true); }
       );
     }
   }
