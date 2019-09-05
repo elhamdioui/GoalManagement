@@ -77,15 +77,16 @@ namespace SothemaGoalManagement.API.Controllers
         public async Task<IActionResult> GetUsersWithRoles()
         {
             var userList = await (from user in _context.Users
-                                  orderby user.UserName
                                   select new
                                   {
                                       Id = user.Id,
-                                      UserName = user.UserName,
+                                      FullName = user.FirstName.FullName(user.LastName),
+                                      Email = user.Email,
                                       Roles = (from userRole in user.UserRoles
                                                join role in _context.Roles on userRole.RoleId equals role.Id
-                                               select role.Name).ToList()
-                                  }).ToListAsync();
+                                               select role.Name).ToList(),
+                                      Created = user.Created
+                                  }).OrderByDescending(u => u.Created).ToListAsync();
 
             return Ok(userList);
         }
