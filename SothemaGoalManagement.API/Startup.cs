@@ -49,7 +49,7 @@ namespace SothemaGoalManagement.API
                 opt.Password.RequiredLength = 8;
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequireUppercase = true;
-            });
+            }).AddDefaultTokenProviders();
 
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             builder.AddEntityFrameworkStores<DataContext>();

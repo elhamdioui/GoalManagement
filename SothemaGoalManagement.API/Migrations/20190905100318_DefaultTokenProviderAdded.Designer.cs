@@ -9,8 +9,8 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190904182240_NewDB")]
-    partial class NewDB
+    [Migration("20190905100318_DefaultTokenProviderAdded")]
+    partial class DefaultTokenProviderAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

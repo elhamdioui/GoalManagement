@@ -55,6 +55,50 @@ namespace SothemaGoalManagement.API.Controllers
             return Unauthorized();
         }
 
+        [HttpPost("resetPassword")]
+        public async Task<IActionResult> ResetPassword(UserForResetPasswordDto userForResetPasswordDto)
+        {
+            var user = await _userManager.FindByNameAsync(userForResetPasswordDto.Email);
+            if (user == null)
+            {
+                return BadRequest("Email n'existe plus dans l'application!");
+            }
+            try
+            {
+                var result = await _userManager.ResetPasswordAsync(user, userForResetPasswordDto.Token, userForResetPasswordDto.NewPassword);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+                return BadRequest(result.Errors);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("generatePasswordResetToken")]
+        public async Task<IActionResult> GeneratePasswordResetToken(UserForResetPasswordDto userForResetPasswordDto)
+        {
+            try
+            {
+                var user = await _userManager.FindByNameAsync(userForResetPasswordDto.Email);
+                if (user == null)
+                {
+                    return BadRequest("Erreur lors de la réinitialisation de votre mot de passe!");
+                }
+
+                var generatedToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                return Ok(new { token = generatedToken });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         private async Task<string> GenerateJwtToken(User user)
         {
             var claims = new List<Claim>

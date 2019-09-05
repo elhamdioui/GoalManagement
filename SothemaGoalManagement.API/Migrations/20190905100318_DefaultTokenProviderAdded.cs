@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SothemaGoalManagement.API.Migrations
 {
-    public partial class NewDB : Migration
+    public partial class DefaultTokenProviderAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
