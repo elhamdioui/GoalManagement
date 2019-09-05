@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace SothemaGoalManagement.API.Controllers
 {
@@ -90,8 +92,8 @@ namespace SothemaGoalManagement.API.Controllers
                 }
 
                 var generatedToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-
-                return Ok(new { token = generatedToken });
+                await SendEmail(generatedToken, user.Email, user.FirstName);
+                return Ok(new { message = "Le lien de réinitialisation du mot de passe a été envoyé à votre adresse e-mail!" });
             }
             catch (Exception ex)
             {
@@ -126,6 +128,19 @@ namespace SothemaGoalManagement.API.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        private async Task SendEmail(string generatedToken, string emailTo, string firstName)
+        {
+            var sendGridApiKey = _config.GetSection("AppSettings:SendGridApiKey").Value;
+            var sendGridClient = new SendGridClient(sendGridApiKey);
+            var from = new EmailAddress("goal_management@sothema.ma");
+            var to = new EmailAddress("eaitbrahim@gmail.com");
+            var subject = "Réinitialisation de votre mot de passe Goal Management";
+            var plainTextContent = "";
+            var htmlContent = $"{firstName},<br><p>Quelqu'un a demandé de réinitialiser le mot de passe de votre compte.</p><p>Si vous n'avez pas demandé de réinitialisation de mot de passe, vous pouvez ignorer cet email.</p><p>Aucune modification n'a été apportée à votre compte.</p><p>Pour réinitialiser votre mot de passe, suivez ce lien(ou collez - le dans votre navigateur) dans les 90 prochaines minutes:<br>http://localhost:4200/resetPassword?token={generatedToken}&email={emailTo}</p>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await sendGridClient.SendEmailAsync(msg);
         }
     }
 }

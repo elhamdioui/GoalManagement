@@ -55,4 +55,9 @@ export class AuthService {
     });
     return isMatch;
   }
+
+  resetPassword(model: any) {
+    console.log('model:', model);
+    return this.http.post(`${this.baseUrl}resetPassword`, model);
+  }
 }

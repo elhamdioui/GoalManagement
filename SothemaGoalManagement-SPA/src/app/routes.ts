@@ -20,12 +20,17 @@ import { CollaboratorDetailComponent } from './collaborators/collaborator-detail
 import { StrategyListResolver } from './_resolvers/strategy-list.resolver';
 import { StrategyDetailComponent } from './hr/strategies/strategy-detail/strategy-detail.component';
 import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver.';
+import { ResetPasswordComponent } from './collaborators/reset-password/reset-password.component';
 
 
 export const appRoutes: Routes = [
   {
     path: '',
     component: HomeComponent
+  },
+  {
+    path: 'resetPassword',
+    component: ResetPasswordComponent
   },
   {
     path: '',

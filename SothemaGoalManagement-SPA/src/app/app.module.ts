@@ -56,6 +56,8 @@ import { HrService } from './_services/hr.service';
 import { StrategyNewComponent } from './hr/strategies/strategy-new/strategy-new.component';
 import { StrategyDetailComponent } from './hr/strategies/strategy-detail/strategy-detail.component';
 import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver.';
+import { ResetPasswordComponent } from './collaborators/reset-password/reset-password.component';
+import { ForgetPasswordComponent } from './collaborators/forget-password/forget-password.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -89,7 +91,9 @@ export function tokenGetter() {
     StrategyListComponent,
     StrategyNewComponent,
     StrategyDetailComponent,
-    BehavioralSkillsComponent
+    BehavioralSkillsComponent,
+    ResetPasswordComponent,
+    ForgetPasswordComponent
   ],
   imports: [
     BrowserModule,
