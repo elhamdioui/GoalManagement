@@ -1,43 +1,46 @@
-<form [formGroup]="newStrategyForm" class="form-inline" (ngSubmit)="createStrategy()">
-  <h2 class="text-center text-primary">Création d'une stratégie</h2>
-  <hr />
-  <div class="form-group">
-    <label for="title">Titre: </label>
-    <input [ngClass]="{
-            'is-invalid':
-              newStrategyForm.get('title').errors &&
-              newStrategyForm.get('title').touched
-          }" class="form-control mb-1" placeholder="Titre" formControlName="title" />
-    <div class="invalid-feedback" *ngIf="
-            newStrategyForm.get('title').touched &&
-            newStrategyForm.get('title').hasError('required')
-          ">
-      Le titre est requis
-    </div>
-  </div>
+<div class="row" d-flex justify-content-center>
+  <div class="col-sm-6 offset-sm-3 text-center">
+    <h2 class="ext-primary">Création d'une stratégie</h2>
+    <hr />
+    <form [formGroup]="newStrategyForm" class="form-inline" (ngSubmit)="createStrategy()">
+      <div class="form-group">
+        <label for="title">Titre: </label>
+        <input [ngClass]="{
+                        'is-invalid':
+                          newStrategyForm.get('title').errors &&
+                          newStrategyForm.get('title').touched
+                      }" class="form-control mb-1" placeholder="Titre" formControlName="title" />
+        <div class="invalid-feedback" *ngIf="
+                        newStrategyForm.get('title').touched &&
+                        newStrategyForm.get('title').hasError('required')
+                      ">
+          Le titre est requis
+        </div>
+      </div>
 
-  <div class="form-group">
-    <label for="description">Description: </label>
-    <textarea formControlName="description" rows="6" [ngClass]="{
-                  'is-invalid':
-                    newStrategyForm.get('description').errors &&
-                    newStrategyForm.get('description').touched
-                }" class="form-control mb-1" placeholder="Description"></textarea>
-    <div class="invalid-feedback" *ngIf="
-          newStrategyForm.get('description').touched &&
-          newStrategyForm.get('description').hasError('required')
-        ">
-      La description est requise
-    </div>
-  </div>
+      <div class="form-group">
+        <label for="description">Description: </label>
+        <textarea formControlName="description" rows="4" cols="50" [ngClass]="{
+                              'is-invalid':
+                                newStrategyForm.get('description').errors &&
+                                newStrategyForm.get('description').touched
+                            }" class="form-control mb-1" placeholder="Description"></textarea>
+        <div class="invalid-feedback" *ngIf="
+                      newStrategyForm.get('description').touched &&
+                      newStrategyForm.get('description').hasError('required')
+                    ">
+          La description est requise
+        </div>
+      </div>
 
-  <div class="form-group text-center">
-    <button class="btn btn-success" type="submit" [disabled]="!newStrategyForm.valid">
-      Soumettre
-    </button>
-    <button class="btn btn-default" type="button" (click)="cancel()">
-      Annuler
-    </button>
+      <div class="form-group mt-2">
+        <button class="btn btn-success mr-2" type="submit" [disabled]="!newStrategyForm.valid">
+          Soumettre
+        </button>
+        <button class="btn btn-primary" type="button" (click)="cancel()">
+          Annuler
+        </button>
+      </div>
+    </form>
   </div>
-
-</form>
+</div>

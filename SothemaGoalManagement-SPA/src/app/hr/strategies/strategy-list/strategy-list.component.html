@@ -61,11 +61,7 @@
   </div>
 
   <div *ngIf="creationMode">
-    <div class="row justify-content-center">
-      <div class="col-5">
-        <app-strategy-new (cancelCreation)="cancelCreationMode($event)" (switchOffCreation)="switchOffCreationMode($event)"></app-strategy-new>
-      </div>
-    </div>
+    <app-strategy-new (cancelCreation)="cancelCreationMode($event)" (switchOffCreation)="switchOffCreationMode($event)"></app-strategy-new>
   </div>
 
 </div>
