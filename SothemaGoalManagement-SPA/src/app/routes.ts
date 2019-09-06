@@ -82,8 +82,7 @@ export const appRoutes: Routes = [
       {
         path: 'admin/collaborators/:id',
         component: CollaboratorDetailComponent,
-        resolve: { user: CollaboratorDetailResolver },
-        data: { roles: ['Admin', 'HR'] }
+        resolve: { user: CollaboratorDetailResolver }
       },
       {
         path: 'admin/collaborator/edit',
