@@ -13,21 +13,18 @@
             <p>{{ user.firstName }} {{ user.lastName }}</p>
           </div>
           <div>
-            <strong>Fonction:</strong>
-            <p>{{ user.title }}</p>
-          </div>
-          <div>
             <strong>Derniere visite:</strong>
             <p>{{ user.lastActive | timeAgo }}</p>
           </div>
           <div>
-            <strong>Membre depuis:</strong>
+            <strong>Date de Recrutement:</strong>
             <p>{{ user.created | date: 'mediumDate' }}</p>
           </div>
         </div>
         <div class="card-footer">
           <div class="btn-group d-fles">
-            <button class="btn btn-success w-100" (click)="selectTab(3)">
+            <button class="btn btn-primary w-150" [routerLink]="['/admin']">Retour au List</button>
+            <button class="btn btn-success w-80" (click)="selectTab(3)">
               Message
             </button>
           </div>

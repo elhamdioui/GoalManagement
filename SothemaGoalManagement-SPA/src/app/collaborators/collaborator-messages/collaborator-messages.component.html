@@ -47,7 +47,7 @@
   <div class="card-footer">
     <form #messageForm="ngForm" (ngSubmit)="messageForm.valid && sendMessage()">
       <div class="input-group">
-        <input [(ngModel)]="newMessage.content" name="content" required type="text" class="form-control input-sm" placeholder="sender a private message"
+        <input [(ngModel)]="newMessage.content" name="content" required type="text" class="form-control input-sm" placeholder="envoyer un message privé"
         />
         <div class="input-group-append">
           <button class="btn btn-primary" [disabled]="!messageForm.valid">
