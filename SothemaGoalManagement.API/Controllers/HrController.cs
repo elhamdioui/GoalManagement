@@ -36,13 +36,23 @@ namespace SothemaGoalManagement.API.Controllers
         [HttpGet("{id}", Name = "GetStrategy")]
         public async Task<IActionResult> GetStrategy(int ownerId, int id)
         {
-            if (ownerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+            try
+            {
+                if (ownerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
 
-            var strategyFromRepo = await _repo.GetStrategy(id);
+                var strategyFromRepo = await _repo.GetStrategy(id);
 
-            if (strategyFromRepo == null) return NotFound();
+                if (strategyFromRepo == null) return NotFound();
 
-            return Ok(strategyFromRepo);
+                var strategyToReturn = _mapper.Map<StrategyToReturnDto>(strategyFromRepo);
+                return Ok(strategyToReturn);
+
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized();
+            }
+
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]

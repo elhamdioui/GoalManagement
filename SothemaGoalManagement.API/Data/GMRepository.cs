@@ -170,7 +170,7 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<Strategy> GetStrategy(int id)
         {
-            return await _context.Strategies.FirstOrDefaultAsync(s => s.Id == id);
+            return await _context.Strategies.Include(s => s.Owner).FirstOrDefaultAsync(s => s.Id == id);
         }
     }
 }
