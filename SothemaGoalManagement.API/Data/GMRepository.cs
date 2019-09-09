@@ -172,5 +172,12 @@ namespace SothemaGoalManagement.API.Data
         {
             return await _context.Strategies.Include(s => s.Owner).FirstOrDefaultAsync(s => s.Id == id);
         }
+
+        public async Task<IEnumerable<User>> SerachForUsers(string searchTerm)
+        {
+            return await _context.Users.Include(u => u.Department)
+                                .Where(u => u.FirstName.ToLower().Contains(searchTerm.ToLower()) || u.LastName.ToLower().Contains(searchTerm.ToLower()))
+                                .ToListAsync();
+        }
     }
 }

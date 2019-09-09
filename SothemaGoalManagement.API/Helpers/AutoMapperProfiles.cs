@@ -14,6 +14,14 @@ namespace SothemaGoalManagement.API.Helpers
                 opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url);
             });
 
+            CreateMap<User, UserForSearchResultDto>().ForMember(dest => dest.DepartmentName, opt =>
+                        {
+                            opt.MapFrom(src => src.Department.Name);
+                        }).ForMember(dest => dest.FullName, opt =>
+                        {
+                            opt.ResolveUsing(u => u.FirstName.FullName(u.LastName));
+                        });
+
             CreateMap<User, UserForDetailDto>().ForMember(dest => dest.PhotoUrl, opt =>
             {
                 opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url);

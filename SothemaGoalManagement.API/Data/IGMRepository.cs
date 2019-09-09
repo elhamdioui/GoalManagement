@@ -12,6 +12,8 @@ namespace SothemaGoalManagement.API.Data
         Task<bool> SaveAll();
         Task<PagedList<User>> GetUsers(UserParams userParams);
 
+        Task<IEnumerable<User>> SerachForUsers(string searchTerm);
+
         Task<User> GetUser(int id, bool isCurrentUser);
 
         Task<Photo> GetPhoto(int id);

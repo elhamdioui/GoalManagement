@@ -50,6 +50,15 @@ namespace SothemaGoalManagement.API.Controllers
             return Ok(userToReturn);
         }
 
+        [HttpGet("searchForUsers")]
+        public async Task<IActionResult> SearchForUsers(string searchTerm)
+        {
+            var userFromRepo = await _repo.SerachForUsers(searchTerm);
+
+            var userToReturn = _mapper.Map<IEnumerable<UserForSearchResultDto>>(userFromRepo);
+            return Ok(userToReturn);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
         {
