@@ -9,6 +9,7 @@ import { PaginatedResult } from './../_models/pagination';
 import { Message } from '../_models/message';
 import { Goal } from '../_models/goal';
 import { Strategy } from '../_models/strategy';
+import { Approver } from '../_models/approver';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class UserService {
 
   getUser(id): Observable<User> {
     return this.http.get<User>(this.baseUrl + 'users/' + id);
+  }
+
+  searchForUsers(searchTerm: string): Observable<Approver[]> {
+    return this.http.get<Approver[]>(this.baseUrl + 'users/searchApprovers?searchTerm=' + searchTerm);
   }
 
   updateUser(id: number, user: User) {

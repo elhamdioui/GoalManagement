@@ -15,6 +15,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
 import { TimeAgoPipe } from 'time-ago-pipe';
+import { MatFormFieldModule, MatSelectModule } from '@angular/material';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -109,6 +111,9 @@ export function tokenGetter() {
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
     FileUploadModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    NgxMatSelectSearchModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
