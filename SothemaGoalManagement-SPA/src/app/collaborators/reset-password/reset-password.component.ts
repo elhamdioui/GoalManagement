@@ -1,5 +1,11 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder
+} from '@angular/forms';
 
 import { AlertifyService } from '../../_services/alertify.service';
 import { AuthService } from '../../_services/auth.service';
@@ -11,7 +17,9 @@ import { AuthService } from '../../_services/auth.service';
 })
 export class ResetPasswordComponent implements OnInit {
   model: any = {};
-  constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService,
+  resetPasswordForm: FormGroup;
+
+  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private authService: AuthService,
     private alertify: AlertifyService, ) { }
 
   ngOnInit() {
@@ -19,6 +27,31 @@ export class ResetPasswordComponent implements OnInit {
       this.model.token = params['token'];
       this.model.email = params['email']
     });
+
+    this.createResetPasswordForm();
+  }
+
+  createResetPasswordForm() {
+    this.resetPasswordForm = this.fb.group(
+      {
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(8)
+          ]
+        ],
+        confirmPassword: ['', Validators.required]
+      },
+      { validator: this.passwordMatchValidator }
+    );
+  }
+
+  passwordMatchValidator(g: FormGroup) {
+    return g.get('password').value === g.get('confirmPassword').value
+      ? null
+      : { mismatch: true };
   }
 
   resetPassword() {
@@ -34,5 +67,6 @@ export class ResetPasswordComponent implements OnInit {
       }
     );
   }
+
 
 }
