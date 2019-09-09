@@ -35,5 +35,7 @@ namespace SothemaGoalManagement.API.Data
 
         Task<Strategy> GetStrategy(int id);
 
+        Task<bool> EmployeeNumberAlreadyExists(string employeNumber);
+
     }
 }

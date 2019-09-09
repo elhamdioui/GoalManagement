@@ -93,4 +93,8 @@ export class AdminService {
   emailAlreadyExists(email: string) {
     return this.http.get(`${this.baseUrl}admin/emailAlreadyExists?email=${email}`);
   }
+
+  employeeNumberAlreadyExists(employeeNumber: string) {
+    return this.http.get(`${this.baseUrl}admin/employeeNumberAlreadyExists?employeeNumber=${employeeNumber}`);
+  }
 }

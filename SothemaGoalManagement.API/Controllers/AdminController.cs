@@ -50,11 +50,21 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
+        [HttpGet("employeeNumberAlreadyExists")]
+        public async Task<IActionResult> EmployeeNumberAlreadyExists(string employeeNumber)
+        {
+            var result = await _repo.EmployeeNumberAlreadyExists(employeeNumber);
+
+            return Ok(result);
+        }
+
+        [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]UserForRegisterDto userForRegisterDto)
         {
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
             userToCreate.UserName = userForRegisterDto.Email;
+            userToCreate.EmployeeNumber = userForRegisterDto.EmployeeNumber.ToLower();
             IdentityResult result = null;
             result = _userManager.CreateAsync(userToCreate, "Password123").Result;
             if (result.Succeeded)

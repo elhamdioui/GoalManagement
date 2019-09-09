@@ -5,14 +5,20 @@
     <label for="employeeNumber">Matricule: </label>
     <input [ngClass]="{
             'is-invalid':
-              newUserForm.get('employeeNumber').errors &&
-              newUserForm.get('employeeNumber').touched
+              (newUserForm.get('employeeNumber').errors &&
+              newUserForm.get('employeeNumber').touched) ||
+              (newUserForm.get('employeeNumber').touched &&
+              newUserForm.get('employeeNumber').hasError('employeeNumberIsTaken'))
           }" class="form-control mb-1" placeholder="Matricule" formControlName="employeeNumber" />
     <div class="invalid-feedback" *ngIf="
             newUserForm.get('employeeNumber').touched &&
             newUserForm.get('employeeNumber').hasError('required')
           ">
       Le matricule est requis
+    </div>
+    <div class="invalid-feedback" *ngIf="newUserForm.get('employeeNumber').hasError('employeeNumberIsTaken') && newUserForm.get('employeeNumber').touched">Ce matricule est déjà pris</div>
+    <div *ngIf="newUserForm.get('employeeNumber').pending">
+      <img src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif" width="50px" alt="">
     </div>
   </div>
 

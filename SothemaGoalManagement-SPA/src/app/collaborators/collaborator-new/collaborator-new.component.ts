@@ -37,7 +37,7 @@ export class CollaboratorNewComponent implements OnInit {
   createUserForm() {
     this.newUserForm = this.fb.group(
       {
-        employeeNumber: ['', Validators.required],
+        employeeNumber: ['', Validators.required, this.checkValidEmployeeNumber.bind(this)],
         email: ['', [Validators.required, Validators.email], this.checkValidEmail.bind(this)],
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
@@ -46,6 +46,23 @@ export class CollaboratorNewComponent implements OnInit {
         departmentId: [null, [Validators.required]],
         RecruitmentDate: [null, Validators.required]
       });
+  }
+
+  checkValidEmployeeNumber(control: AbstractControl) {
+    return new Promise((resolve, reject) => {
+
+      this.adminService.employeeNumberAlreadyExists(control.value).subscribe(result => {
+        if (result) {
+          resolve({ employeeNumberIsTaken: true })
+        } else {
+          resolve(null)
+        }
+      },
+        error => {
+          this.alertify.error(error);
+          resolve(null)
+        })
+    });
   }
 
   checkValidEmail(control: AbstractControl) {

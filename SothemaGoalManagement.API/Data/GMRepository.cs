@@ -179,5 +179,13 @@ namespace SothemaGoalManagement.API.Data
                                 .Where(u => u.FirstName.ToLower().Contains(searchTerm.ToLower()) || u.LastName.ToLower().Contains(searchTerm.ToLower()))
                                 .ToListAsync();
         }
+
+        public async Task<bool> EmployeeNumberAlreadyExists(string employeNumber)
+        {
+            var results = await _context.Users.Where(u => u.EmployeeNumber == employeNumber.ToLower()).ToListAsync();
+            if (results == null) return false;
+
+            return true;
+        }
     }
 }
