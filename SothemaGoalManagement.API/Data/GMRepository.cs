@@ -183,7 +183,7 @@ namespace SothemaGoalManagement.API.Data
         public async Task<bool> EmployeeNumberAlreadyExists(string employeNumber)
         {
             var results = await _context.Users.Where(u => u.EmployeeNumber == employeNumber.ToLower()).ToListAsync();
-            if (results == null) return false;
+            if (results == null || results.Count == 0) return false;
 
             return true;
         }

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using System.Collections.Generic;
 using System;
+using Microsoft.Extensions.Configuration;
 
 namespace SothemaGoalManagement.API.Controllers
 {
@@ -27,8 +28,11 @@ namespace SothemaGoalManagement.API.Controllers
         private Cloudinary _cloudinary;
         private readonly IMapper _mapper;
         private readonly IGMRepository _repo;
-        public AdminController(DataContext context, IGMRepository repo, IMapper mapper, UserManager<User> userManager, IOptions<CloudinarySettings> cloudinaryConfig)
+        private readonly IConfiguration _config;
+
+        public AdminController(IConfiguration config, DataContext context, IGMRepository repo, IMapper mapper, UserManager<User> userManager, IOptions<CloudinarySettings> cloudinaryConfig)
         {
+            _config = config;
             _repo = repo;
             _mapper = mapper;
             _cloudinaryConfig = cloudinaryConfig;
@@ -74,6 +78,11 @@ namespace SothemaGoalManagement.API.Controllers
 
                 if (result.Succeeded)
                 {
+                    // Notify user by email to change his default password
+                    var generatedToken = await _userManager.GeneratePasswordResetTokenAsync(userToCreate);
+                    generatedToken = System.Web.HttpUtility.UrlEncode(generatedToken);
+                    var content = $"{userToCreate.FirstName},<br><p>Votre nouveau compte pour l'application Goal management a été créé.</p><p></p><p>Veuillez réinitialiser votre mot de passe, en suivant ce lien(ou bien collez - le dans votre navigateur) dans les 90 prochaines minutes:<br>http://localhost:4200/resetPassword?token={generatedToken}&email={userToCreate.Email}</p>";
+                    await new Mailer(_config).SendEmail(generatedToken, "Bienvenue à l'application Goal Management", content);
                     return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
                 }
 
