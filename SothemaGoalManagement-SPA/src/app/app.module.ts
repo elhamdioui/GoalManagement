@@ -1,3 +1,4 @@
+import { ProfileEditComponent } from './collaborators/profile-edit/profile-edit.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -60,6 +61,7 @@ import { StrategyDetailComponent } from './hr/strategies/strategy-detail/strateg
 import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver.';
 import { ResetPasswordComponent } from './collaborators/reset-password/reset-password.component';
 import { ForgetPasswordComponent } from './collaborators/forget-password/forget-password.component';
+import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -77,6 +79,7 @@ export function tokenGetter() {
     CollaboratorEditComponent,
     CollaboratorNewComponent,
     CollaboratorMessagesComponent,
+    ProfileEditComponent,
     PhotoEditorComponent,
     TimeAgoPipe,
     AdminPanelComponent,
@@ -132,6 +135,7 @@ export function tokenGetter() {
     CollaboratorEditResolver,
     CollaboratorListResolver,
     CollaboratorDetailResolver,
+    ProfileEditResolver,
     MessagesResolver,
     GoalsResolver,
     StrategiesResolver,

@@ -22,6 +22,8 @@ import { StrategyDetailComponent } from './hr/strategies/strategy-detail/strateg
 import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver.';
 import { ResetPasswordComponent } from './collaborators/reset-password/reset-password.component';
 import { ForgetPasswordComponent } from './collaborators/forget-password/forget-password.component';
+import { ProfileEditComponent } from './collaborators/profile-edit/profile-edit.component';
+import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
 
 
 export const appRoutes: Routes = [
@@ -43,9 +45,9 @@ export const appRoutes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'collaborator/edit',
-        component: CollaboratorEditComponent,
-        resolve: { user: CollaboratorEditResolver },
+        path: 'profile/edit',
+        component: ProfileEditComponent,
+        resolve: { user: ProfileEditResolver },
         canDeactivate: [PreventUnsavedChanges]
       },
       {
@@ -85,7 +87,7 @@ export const appRoutes: Routes = [
         resolve: { user: CollaboratorDetailResolver }
       },
       {
-        path: 'admin/collaborator/edit',
+        path: 'admin/collaborator/edit/:id',
         component: CollaboratorEditComponent,
         resolve: { user: CollaboratorEditResolver },
         canDeactivate: [PreventUnsavedChanges]

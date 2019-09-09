@@ -9,7 +9,7 @@ import { AlertifyService } from './../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
 
 @Injectable()
-export class CollaboratorEditResolver implements Resolve<User> {
+export class ProfileEditResolver implements Resolve<User> {
   constructor(
     private userService: UserService,
     private authService: AuthService,

@@ -1,0 +1,60 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-4">
+      <h1>Votre profil</h1>
+    </div>
+    <div class="col-sm-8">
+      <div *ngIf="editForm.dirty" class="alert alert-info">
+        <p>
+          <strong>Information:</strong>
+          Vous avez apporté des modifications. Toute modification non enregistrée sera perdue!
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img class="card-img-top img-thumbnail" src="{{ photoUrl || '../../../assets/user.png' }}" alt="{{ user.lastName }}" />
+        <div class="card-body">
+          <div>
+            <strong>Nom complet:</strong>
+            <p>{{ user.firstName }} {{user.lastName}}</p>
+          </div>
+          <div>
+            <strong>Dernière visite:</strong>
+            <p>{{ user.lastActive | timeAgo }}</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-success  w-80 mr-5" [disabled]="!editForm.dirty" form="editForm">
+            Sauvegarder
+          </button>
+          <button class="btn btn-primary w-60" type="button" (click)="cancel()">
+            Annuler
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        <tabset class="member-tabset">
+          <tab heading="Editer Profile">
+            <form #editForm="ngForm" id="editForm" (ngSubmit)="updateUser()">
+              <h4>Prénom:</h4>
+              <input type="text" name="firstName" rows="6" class="form-control" [(ngModel)]="user.firstName" />
+              <h4>Nom:</h4>
+              <input type="text" name="lastName" rows="6" class="form-control" [(ngModel)]="user.lastName" />
+              <h4>Fonction:</h4>
+              <input type="text" name="title" rows="6" class="form-control" [(ngModel)]="user.title" />
+
+            </form>
+          </tab>
+          <tab heading="Editer Photos">
+            <app-photo-editor [photos]="user.photos" (getMemberPhotoChange)="updateMainPhoto($event)"></app-photo-editor>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>

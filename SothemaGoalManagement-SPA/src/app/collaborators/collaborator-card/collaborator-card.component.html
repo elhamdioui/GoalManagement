@@ -9,6 +9,12 @@
       </li>
 
       <li class="list-inline-item">
+        <button class="btn btn-primary" [routerLink]="['/admin/collaborator/edit/', user.id]">
+          <i class="fa fa-edit"></i>
+        </button>
+      </li>
+
+      <li class="list-inline-item">
         <button class="btn btn-primary" [routerLink]="['/admin/collaborators/', user.id]" [queryParams]="{ tab: 3 }">
           <i class="fa fa-envelope"></i>
         </button>
