@@ -38,7 +38,7 @@ export class CollaboratorNewComponent implements OnInit {
     this.newUserForm = this.fb.group(
       {
         employeeNumber: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
+        email: ['', [Validators.required, Validators.email], this.checkValidEmail.bind(this)],
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         title: ['', Validators.required],
@@ -50,13 +50,17 @@ export class CollaboratorNewComponent implements OnInit {
 
   checkValidEmail(control: AbstractControl) {
     return new Promise((resolve, reject) => {
+
       this.adminService.emailAlreadyExists(control.value).subscribe(result => {
         if (result) {
           resolve({ emailIsTaken: true })
-        } else { resolve(null) }
+        } else {
+          resolve(null)
+        }
       },
         error => {
           this.alertify.error(error);
+          resolve(null)
         })
     });
   }

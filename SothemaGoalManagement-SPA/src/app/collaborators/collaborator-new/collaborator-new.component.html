@@ -23,13 +23,13 @@
             (newUserForm.get('email').errors &&
             newUserForm.get('email').touched) ||
             (newUserForm.get('email').touched &&
-            newUserForm.hasError('email')) ||
+            newUserForm.get('email').hasError('email')) ||
             (newUserForm.get('email').touched &&
-            newUserForm.hasError('emailIsTaken'))
+            newUserForm.get('email').hasError('emailIsTaken'))
           }" type="text" class="form-control mb-1" placeholder="Email" formControlName="email" />
     <div class="invalid-feedback" *ngIf="newUserForm.get('email').hasError('required') && newUserForm.get('email').touched">Email est requis</div>
-    <div class="invalid-feedback" *ngIf="newUserForm.hasError('email') && newUserForm.get('email').touched">Email est invalide</div>
-    <div class="invalid-feedback" *ngIf="newUserForm.hasError('emailIsTaken') && newUserForm.get('email').touched">Cet email est déjà pris</div>
+    <div class="invalid-feedback" *ngIf="newUserForm.get('email').hasError('email') && newUserForm.get('email').touched">Email est invalide</div>
+    <div class="invalid-feedback" *ngIf="newUserForm.get('email').hasError('emailIsTaken') && newUserForm.get('email').touched">Cet email est déjà pris</div>
     <div *ngIf="newUserForm.get('email').pending">
       <img src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif" width="50px" alt="">
     </div>
