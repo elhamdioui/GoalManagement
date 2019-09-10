@@ -12,9 +12,9 @@ namespace SothemaGoalManagement.API.Dtos
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string UserStatus { get; set; }
+        public UserStatus UserStatus { get; set; }
         public string Title { get; set; }
-        public string Department { get; set; }
+        public Department Department { get; set; }
         public DateTime RecruitmentDate { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }

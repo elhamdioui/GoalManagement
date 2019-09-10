@@ -10,8 +10,8 @@ export interface User {
   firstName: string;
   lastName: string;
   title: string;
-  userStatusId: number;
-  departmentId: number;
+  department: Department;
+  userStatus: UserStatus;
   recruitmentDate: Date;
   lastActive: Date;
   created: Date;

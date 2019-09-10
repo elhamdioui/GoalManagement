@@ -44,15 +44,19 @@
                   <h4>Nom</h4>
                   <input type="text" name="lastName" class="form-control" [(ngModel)]="user.lastName" />
                   <h4>Statut</h4>
-                  <input type="text" name="status" class="form-control" [(ngModel)]="user.userStatus" />
+                  <select class="form-control mb-1" style="width: 200px" id="userStatusId" name="userStatusId" [(ngModel)]="user.userStatus.id">
+                    <option *ngFor="let us of userStatusList" [ngValue]="us.id">
+                      {{ us.name }}
+                    </option>
+                  </select>
                   <h4>Fonction</h4>
                   <input type="text" name="title" class="form-control" [(ngModel)]="user.title" />
                   <h4>Direction</h4>
-                  <!-- <select class="form-control mb-1" style="width: 200px" id="departmentId" name="departmentId" [(ngModel)]="user.department">
+                  <select class="form-control mb-1" style="width: 200px" id="departmentId" name="departmentId" [(ngModel)]="user.department.id">
                     <option *ngFor="let dpt of departmentList" [ngValue]="dpt.id">
                       {{ dpt.name }}
                     </option>
-                  </select> -->
+                  </select>
                 </div>
                 <div class="col-lg-6 offset-lg1">
                   <h4>Matricule</h4>

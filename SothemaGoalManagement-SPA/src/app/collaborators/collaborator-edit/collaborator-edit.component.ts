@@ -38,6 +38,8 @@ export class CollaboratorEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.departmentList = JSON.parse(localStorage.getItem('departmentList'));
+    this.userStatusList = JSON.parse(localStorage.getItem('userStatusList'));
     this.bsConfig = {
       containerClass: 'theme-red',
       dateInputFormat: 'YYYY-MM-DD'
