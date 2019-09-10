@@ -66,6 +66,13 @@ namespace SothemaGoalManagement.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]UserForRegisterDto userForRegisterDto)
         {
+            // Make sure employee number and emails are unique
+            var checkEmployeeNumber = await _repo.EmployeeNumberAlreadyExists(userForRegisterDto.EmployeeNumber);
+            if (checkEmployeeNumber) return BadRequest("Matricule existe déjà.");
+
+            var checkEmail = await _userManager.FindByNameAsync(userForRegisterDto.Email) ?? await _userManager.FindByEmailAsync(userForRegisterDto.Email);
+            if (checkEmail != null) return BadRequest("Email existe déjà");
+
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
             userToCreate.UserName = userForRegisterDto.Email;
             userToCreate.EmployeeNumber = userForRegisterDto.EmployeeNumber.ToLower();
