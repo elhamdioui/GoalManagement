@@ -27,7 +27,7 @@ export class UserService {
     return this.http.get<Approver[]>(this.baseUrl + 'users/searchApprovers?searchTerm=' + searchTerm);
   }
 
-  updateUser(id: number, user: User) {
+  updateProfile(id: number, user: User) {
     return this.http.put(this.baseUrl + 'users/' + id, user);
   }
 

@@ -5,7 +5,6 @@ import { HomeComponent } from './home/home.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { CollaboratorEditComponent } from './collaborators/collaborator-edit/collaborator-edit.component';
-import { CollaboratorEditResolver } from './_resolvers/collaborator-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsave-changes-guards';
 import { MessagesResolver } from './_resolvers/messages.resolver';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
@@ -89,7 +88,7 @@ export const appRoutes: Routes = [
       {
         path: 'admin/collaborators/edit/:id',
         component: CollaboratorEditComponent,
-        resolve: { user: CollaboratorEditResolver },
+        resolve: { user: CollaboratorDetailResolver },
         canDeactivate: [PreventUnsavedChanges]
       }
     ]

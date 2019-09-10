@@ -42,7 +42,7 @@ export class ProfileEditComponent implements OnInit {
 
   updateUser() {
     this.userService
-      .updateUser(this.authService.decodedToken.nameid, this.user)
+      .updateProfile(this.authService.decodedToken.nameid, this.user)
       .subscribe(
         next => {
           this.alertify.success('Mise à jour du profil réussie');

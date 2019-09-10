@@ -203,5 +203,19 @@ namespace SothemaGoalManagement.API.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+
+        [HttpPut()]
+        public async Task<IActionResult> UpdateUser(UserForUpdateDto userForUpdateDto)
+        {
+            var checkEmployeeNumber = await _repo.EmployeeNumberAlreadyExists(userForUpdateDto.EmployeeNumber, userForUpdateDto.Id);
+            if (checkEmployeeNumber) return BadRequest("Matricule existe déjà.");
+
+            var userFromRepo = await _repo.GetUser(userForUpdateDto.Id, true);
+            _mapper.Map(userForUpdateDto, userFromRepo);
+
+            if (await _repo.SaveAll()) return NoContent();
+
+            throw new Exception($"Updating user failed on save");
+        }
     }
 }

@@ -180,9 +180,14 @@ namespace SothemaGoalManagement.API.Data
                                 .ToListAsync();
         }
 
-        public async Task<bool> EmployeeNumberAlreadyExists(string employeNumber)
+        public async Task<bool> EmployeeNumberAlreadyExists(string employeNumber, int? employeeId = null)
         {
-            var results = await _context.Users.Where(u => u.EmployeeNumber == employeNumber.ToLower()).ToListAsync();
+            var query = _context.Users.Where(u => u.EmployeeNumber == employeNumber.ToLower());
+            if (employeeId != null)
+            {
+                query = query.Where(u => u.Id != employeeId);
+            }
+            var results = await query.ToListAsync();
             if (results == null || results.Count == 0) return false;
 
             return true;

@@ -4,9 +4,11 @@ import { NgForm } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
 
 import { AlertifyService } from './../../_services/alertify.service';
-import { UserService } from '../../_services/user.service';
+import { AdminService } from '../../_services/admin.service';
 import { AuthService } from '../../_services/auth.service';
 import { User } from '../../_models/user';
+import { Department } from '../../_models/department';
+import { UserStatus } from '../../_models/userStatus';
 
 @Component({
   selector: 'app-collaborator-edit',
@@ -23,26 +25,33 @@ export class CollaboratorEditComponent implements OnInit {
       $event.returnValue = true;
     }
   }
+  bsConfig: Partial<BsDatepickerConfig>;
+  bsValue = new Date();
+  departmentList: Department[];
+  userStatusList: UserStatus[];
 
   constructor(
     private route: ActivatedRoute,
     private alertify: AlertifyService,
-    private userService: UserService,
+    private adminService: AdminService,
     private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.bsConfig = {
+      containerClass: 'theme-red',
+      dateInputFormat: 'YYYY-MM-DD'
+    };
+
     this.route.data.subscribe(data => {
       this.user = data['user'];
     });
-    this.authService.currentPhotoUrl.subscribe(
-      photoUrl => (this.photoUrl = photoUrl)
-    );
+    this.bsValue = this.user.recruitmentDate;
   }
 
   updateUser() {
-    this.userService
-      .updateUser(this.authService.decodedToken.nameid, this.user)
+    this.adminService
+      .updateUser(this.user)
       .subscribe(
         next => {
           this.alertify.success('Mise à jour du profil réussie');

@@ -5,7 +5,7 @@
     <label for="employeeNumber">Matricule: </label>
     <input [ngClass]="{
             'is-invalid':
-              (newUserForm.get('employeeNumber').errors &&
+              (newUserForm.get('employeeNumber')?.errors &&
               newUserForm.get('employeeNumber').touched) ||
               (newUserForm.get('employeeNumber').touched &&
               newUserForm.get('employeeNumber').hasError('employeeNumberIsTaken'))
@@ -26,7 +26,7 @@
     <label for="email">Email: </label>
     <input [ngClass]="{
             'is-invalid':
-            (newUserForm.get('email').errors &&
+            (newUserForm.get('email')?.errors &&
             newUserForm.get('email').touched) ||
             (newUserForm.get('email').touched &&
             newUserForm.get('email').hasError('email')) ||
@@ -45,7 +45,7 @@
     <label for="firstName">Prénom: </label>
     <input [ngClass]="{
           'is-invalid':
-            newUserForm.get('firstName').errors &&
+            newUserForm.get('firstName')?.errors &&
             newUserForm.get('firstName').touched
         }" class="form-control mb-1" placeholder="Prénom" formControlName="firstName" />
     <div class="invalid-feedback" *ngIf="
@@ -60,7 +60,7 @@
     <label for="lastName">Nom: </label>
     <input [ngClass]="{
             'is-invalid':
-              newUserForm.get('lastName').errors &&
+              newUserForm.get('lastName')?.errors &&
               newUserForm.get('lastName').touched
           }" class="form-control mb-1" placeholder="Nom" formControlName="lastName" />
     <div class="invalid-feedback" *ngIf="
@@ -75,7 +75,7 @@
     <label for="title">Fonction: </label>
     <input [ngClass]="{
               'is-invalid':
-                newUserForm.get('title').errors &&
+                newUserForm.get('title')?.errors &&
                 newUserForm.get('title').touched
             }" class="form-control mb-1" placeholder="Fonction" formControlName="title" />
     <div class="invalid-feedback" *ngIf="
@@ -107,16 +107,16 @@
   </div>
 
   <div class="form-group">
-    <label for="RecruitmentDate">Date de recrutement: </label>
+    <label for="recruitmentDate">Date de recrutement: </label>
     <input [ngClass]="{
             'is-invalid':
-              newUserForm.get('RecruitmentDate').errors &&
-              newUserForm.get('RecruitmentDate').touched
-          }" class="form-control mb-1" placeholder="Date de recrutement" formControlName="RecruitmentDate" type="text" bsDatepicker
-      [bsConfig]="bsConfig" />
+              newUserForm.get('recruitmentDate')?.errors &&
+              newUserForm.get('recruitmentDate').touched
+          }" class="form-control mb-1" placeholder="Date de recrutement" id="recruitmentDate" formControlName="recruitmentDate"
+      type="text" bsDatepicker [bsConfig]="bsConfig" />
     <div class="invalid-feedback" *ngIf="
-            newUserForm.get('RecruitmentDate').touched &&
-            newUserForm.get('RecruitmentDate').hasError('required')
+            newUserForm.get('recruitmentDate').touched &&
+            newUserForm.get('recruitmentDate').hasError('required')
           ">
       Date of Birth is required
     </div>
@@ -127,7 +127,7 @@
       <button class="btn btn-success mr-2" type="submit" [disabled]="!newUserForm.valid">
         Soumettre
       </button>
-      <button class="btn btn-default" type="button" (click)="cancel()">
+      <button class="btn btn-primary" type="button" (click)="cancel()">
         Annuler
       </button>
     </div>

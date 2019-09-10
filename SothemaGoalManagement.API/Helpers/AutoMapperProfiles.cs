@@ -35,6 +35,8 @@ namespace SothemaGoalManagement.API.Helpers
 
             CreateMap<Photo, PhotosForDetailDto>();
 
+            CreateMap<ProfileForUpdateDto, User>();
+
             CreateMap<UserForUpdateDto, User>();
 
             CreateMap<Photo, PhotoForReturnDto>();

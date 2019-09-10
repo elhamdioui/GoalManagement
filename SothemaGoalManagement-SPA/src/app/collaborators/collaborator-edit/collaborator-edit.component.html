@@ -12,7 +12,8 @@
   <div class="row">
     <div class="col-sm-4">
       <div class="card">
-        <img class="card-img-top img-thumbnail" src="{{ photoUrl || '../../../assets/user.png' }}" alt="{{ user.lastName }}" />
+        <img class="card-img-top img-thumbnail" src="{{ user.photoUrl || '../../../assets/user.png' }}" alt="{{ user.lastName }}"
+        />
         <div class="card-body">
           <div>
             <strong>Dernière visite:</strong>
@@ -47,7 +48,11 @@
                   <h4>Fonction</h4>
                   <input type="text" name="title" class="form-control" [(ngModel)]="user.title" />
                   <h4>Direction</h4>
-                  <input type="text" name="department" class="form-control" [(ngModel)]="user.department" />
+                  <!-- <select class="form-control mb-1" style="width: 200px" id="departmentId" name="departmentId" [(ngModel)]="user.department">
+                    <option *ngFor="let dpt of departmentList" [ngValue]="dpt.id">
+                      {{ dpt.name }}
+                    </option>
+                  </select> -->
                 </div>
                 <div class="col-lg-6 offset-lg1">
                   <h4>Matricule</h4>
@@ -55,8 +60,8 @@
                   <h4>Email</h4>
                   <input type="text" name="email" class="form-control" [(ngModel)]="user.email" />
                   <h4>Date de recrutement</h4>
-                  <input class="form-control mb-1" placeholder="Date de recrutement" formControlName="recruitmentDate" type="text" bsDatepicker
-                    [bsConfig]="bsConfig" [(ngModel)]="user.recruitmentDate" />
+                  <input type="text" name="recruitmentDate" class="form-control mb-1" [(ngModel)]="bsValue" bsDatepicker [bsConfig]="bsConfig"
+                  />
                 </div>
               </div>
             </form>

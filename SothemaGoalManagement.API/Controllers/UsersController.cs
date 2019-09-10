@@ -60,12 +60,12 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
+        public async Task<IActionResult> UpdateProfile(int id, ProfileForUpdateDto profileForUpdateDto)
         {
             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
 
             var userFromRepo = await _repo.GetUser(id, true);
-            _mapper.Map(userForUpdateDto, userFromRepo);
+            _mapper.Map(profileForUpdateDto, userFromRepo);
 
             if (await _repo.SaveAll()) return NoContent();
 

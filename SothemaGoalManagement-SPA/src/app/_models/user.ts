@@ -12,7 +12,7 @@ export interface User {
   title: string;
   userStatusId: number;
   departmentId: number;
-  RecruitmentDate: Date;
+  recruitmentDate: Date;
   lastActive: Date;
   created: Date;
   photoUrl: string;

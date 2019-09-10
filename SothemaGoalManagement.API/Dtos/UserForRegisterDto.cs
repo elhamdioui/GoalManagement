@@ -27,7 +27,7 @@ namespace SothemaGoalManagement.API.Dtos
         public int DepartmentId { get; set; }
 
         [Required]
-        public DateTime RecruitementDate { get; set; }
+        public DateTime RecruitmentDate { get; set; }
         public DateTime Created { get; set; }
 
         public DateTime LastActive { get; set; }

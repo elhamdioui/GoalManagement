@@ -33,7 +33,6 @@ import { UserService } from './_services/user.service';
 import { CollaboratorCardComponent } from './collaborators/collaborator-card/collaborator-card.component';
 import { CollaboratorDetailComponent } from './collaborators/collaborator-detail/collaborator-detail.component';
 import { CollaboratorEditComponent } from './collaborators/collaborator-edit/collaborator-edit.component';
-import { CollaboratorEditResolver } from './_resolvers/collaborator-edit.resolver';
 import { CollaboratorListResolver } from './_resolvers/collaborator-list.resolver';
 import { CollaboratorDetailResolver } from './_resolvers/collaborator-detail.resolver.';
 import { CollaboratorNewComponent } from './collaborators/collaborator-new/collaborator-new.component';
@@ -132,7 +131,6 @@ export function tokenGetter() {
     AuthGuard,
     PreventUnsavedChanges,
     UserService,
-    CollaboratorEditResolver,
     CollaboratorListResolver,
     CollaboratorDetailResolver,
     ProfileEditResolver,

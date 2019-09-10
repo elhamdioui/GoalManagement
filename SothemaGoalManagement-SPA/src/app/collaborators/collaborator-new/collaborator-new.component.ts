@@ -26,11 +26,16 @@ export class CollaboratorNewComponent implements OnInit {
   @Output() switchOffRegister = new EventEmitter();
   newUser: User;
   newUserForm: FormGroup;
+  bsConfig: Partial<BsDatepickerConfig>;
 
 
   constructor(private fb: FormBuilder, private adminService: AdminService, private alertify: AlertifyService) { }
 
   ngOnInit() {
+    this.bsConfig = {
+      containerClass: 'theme-red',
+      dateInputFormat: 'YYYY-MM-DD'
+    };
     this.createUserForm();
   }
 
@@ -44,7 +49,7 @@ export class CollaboratorNewComponent implements OnInit {
         title: ['', Validators.required],
         userStatusId: [null, [Validators.required]],
         departmentId: [null, [Validators.required]],
-        RecruitmentDate: [null, Validators.required]
+        recruitmentDate: [null, Validators.required]
       });
   }
 
