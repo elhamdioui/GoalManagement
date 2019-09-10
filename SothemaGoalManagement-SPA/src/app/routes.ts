@@ -87,7 +87,7 @@ export const appRoutes: Routes = [
         resolve: { user: CollaboratorDetailResolver }
       },
       {
-        path: 'admin/collaborator/edit/:id',
+        path: 'admin/collaborators/edit/:id',
         component: CollaboratorEditComponent,
         resolve: { user: CollaboratorEditResolver },
         canDeactivate: [PreventUnsavedChanges]

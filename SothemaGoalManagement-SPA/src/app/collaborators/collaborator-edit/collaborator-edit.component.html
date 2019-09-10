@@ -1,9 +1,6 @@
 <div class="container mt-4">
   <div class="row">
-    <div class="col-sm-4">
-      <h1>Votre profil</h1>
-    </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 offset-sm-4">
       <div *ngIf="editForm.dirty" class="alert alert-info">
         <p>
           <strong>Information:</strong>
@@ -18,26 +15,19 @@
         <img class="card-img-top img-thumbnail" src="{{ photoUrl || '../../../assets/user.png' }}" alt="{{ user.lastName }}" />
         <div class="card-body">
           <div>
-            <strong>Nom d'utilisateur:</strong>
-            <p>{{ user.username | titlecase}}</p>
-          </div>
-          <div>
-            <strong>Direction:</strong>
-            <p>{{ user.department }}</p>
-          </div>
-          <div>
             <strong>Dernière visite:</strong>
             <p>{{ user.lastActive | timeAgo }}</p>
           </div>
           <div>
-            <strong>Collaborateur depuis:</strong>
+            <strong>Date de Création:</strong>
             <p>{{ user.created | date: 'mediumDate' }}</p>
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-success btn-block" [disabled]="!editForm.dirty" form="editForm">
-            Sauvegarder les modifications
+          <button class="btn btn-success w-140" [disabled]="!editForm.dirty" form="editForm">
+            Sauvegarder
           </button>
+          <button class="btn btn-primary w-60 ml-2" [routerLink]="['/admin']">Anuuler</button>
         </div>
       </div>
     </div>
