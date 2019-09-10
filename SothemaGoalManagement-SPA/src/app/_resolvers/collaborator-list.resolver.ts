@@ -14,8 +14,6 @@ export class CollaboratorListResolver implements Resolve<any> {
   pageNumber = 1;
   pageSize = 10;
   users: User[];
-  departmentList: Department[];
-  userStatusList: UserStatus[];
 
   constructor(
     private adminService: AdminService,
@@ -24,6 +22,25 @@ export class CollaboratorListResolver implements Resolve<any> {
   ) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
+    let departmentList = localStorage.getItem('departmentList');
+    let userStatusList = localStorage.getItem('userStatusList');
+
+    if (departmentList && userStatusList) {
+      this.adminService.getUsers(this.pageNumber, this.pageSize)
+        .pipe(map(result => {
+          return {
+            departmentList: JSON.parse(departmentList),
+            userStatusList: JSON.parse(userStatusList),
+            users: result
+          };
+        }),
+          catchError(error => {
+            this.alertify.error('Problème lors de la récupération des données des utilisateurs');
+            this.router.navigate(['/home']);
+            return of(null);
+          }));
+    }
+
     return forkJoin(
       [
         this.adminService.getDepartments(),
@@ -35,6 +52,8 @@ export class CollaboratorListResolver implements Resolve<any> {
             return of(null);
           }))
       ]).pipe(map(result => {
+        localStorage.setItem('departmentList', JSON.stringify(result[0]));
+        localStorage.setItem('userStatusList', JSON.stringify(result[1]));
         return {
           departmentList: result[0],
           userStatusList: result[1],
