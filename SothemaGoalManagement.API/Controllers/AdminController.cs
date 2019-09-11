@@ -207,15 +207,25 @@ namespace SothemaGoalManagement.API.Controllers
         [HttpPut()]
         public async Task<IActionResult> UpdateUser(UserForUpdateDto userForUpdateDto)
         {
+            // Double check duplicate employee numbers
             var checkEmployeeNumber = await _repo.EmployeeNumberAlreadyExists(userForUpdateDto.EmployeeNumber, userForUpdateDto.Id);
             if (checkEmployeeNumber) return BadRequest("Matricule existe déjà.");
 
+            // double check dupkicate emails
+            var userFoundWithEmail = await _userManager.FindByNameAsync(userForUpdateDto.Email) ?? await _userManager.FindByEmailAsync(userForUpdateDto.Email);
+            if (userFoundWithEmail != null && userFoundWithEmail.Id != userForUpdateDto.Id)
+            {
+                return BadRequest("Email existe déjà.");
+            }
+
+            // proceed with update
             var userFromRepo = await _repo.GetUser(userForUpdateDto.Id, true);
+            userFromRepo.UserName = userForUpdateDto.Email;
             _mapper.Map(userForUpdateDto, userFromRepo);
 
             if (await _repo.SaveAll()) return NoContent();
 
-            throw new Exception($"Updating user failed on save");
+            throw new Exception("La mise à jour de l'utilisateur a échoué lors de l'enregistrement.");
         }
     }
 }

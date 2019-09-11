@@ -52,12 +52,23 @@ export class CollaboratorEditComponent implements OnInit {
   }
 
   updateUser() {
+    var updatedUser = {
+      departmentId: this.user.department.id,
+      userStatusId: this.user.userStatus.id,
+      email: this.user.email,
+      employeeNumber: this.user.employeeNumber,
+      firstName: this.user.firstName,
+      id: this.user.id,
+      lastName: this.user.lastName,
+      recruitmentDate: this.user.recruitmentDate,
+      title: this.user.title
+    };
     this.adminService
-      .updateUser(this.user)
+      .updateUser(updatedUser)
       .subscribe(
         next => {
           this.alertify.success('Mise à jour du profil réussie');
-          this.editForm.reset(this.user);
+          this.editForm.reset(updatedUser);
         },
         error => {
           this.alertify.error(error);
@@ -65,7 +76,4 @@ export class CollaboratorEditComponent implements OnInit {
       );
   }
 
-  updateMainPhoto(photoUrl) {
-    this.user.photoUrl = photoUrl;
-  }
 }

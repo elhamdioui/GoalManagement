@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-success w-80" [disabled]="!editForm.dirty" form="editForm">
+          <button class="btn btn-success w-80" [disabled]="!editForm.dirty || editForm.invalid" form="editForm">
             Sauvegarder
           </button>
           <button class="btn btn-primary w-60 ml-2" [routerLink]="['/admin']">Anuuler</button>
@@ -40,11 +40,12 @@
               <div class="row">
                 <div class="col-lg-4">
                   <h4>Prénom</h4>
-                  <input type="text" name="firstName" class="form-control" [(ngModel)]="user.firstName" />
+                  <input type="text" name="firstName" class="form-control" [(ngModel)]="user.firstName" required/>
                   <h4>Nom</h4>
-                  <input type="text" name="lastName" class="form-control" [(ngModel)]="user.lastName" />
+                  <input type="text" name="lastName" class="form-control" [(ngModel)]="user.lastName" required/>
                   <h4>Statut</h4>
-                  <select class="form-control mb-1" style="width: 200px" id="userStatusId" name="userStatusId" [(ngModel)]="user.userStatus.id">
+                  <select class="form-control mb-1" style="width: 200px" id="userStatusId" name="userStatusId" [(ngModel)]="user.userStatus.id"
+                    required>
                     <option *ngFor="let us of userStatusList" [ngValue]="us.id">
                       {{ us.name }}
                     </option>
@@ -52,7 +53,8 @@
                   <h4>Fonction</h4>
                   <input type="text" name="title" class="form-control" [(ngModel)]="user.title" />
                   <h4>Direction</h4>
-                  <select class="form-control mb-1" style="width: 200px" id="departmentId" name="departmentId" [(ngModel)]="user.department.id">
+                  <select class="form-control mb-1" style="width: 200px" id="departmentId" name="departmentId" [(ngModel)]="user.department.id"
+                    required>
                     <option *ngFor="let dpt of departmentList" [ngValue]="dpt.id">
                       {{ dpt.name }}
                     </option>
@@ -60,18 +62,18 @@
                 </div>
                 <div class="col-lg-6 offset-lg1">
                   <h4>Matricule</h4>
-                  <input type="text" name="employeeNumber" class="form-control" [(ngModel)]="user.employeeNumber" />
+                  <input type="text" name="employeeNumber" class="form-control" [(ngModel)]="user.employeeNumber" required/>
                   <h4>Email</h4>
-                  <input type="text" name="email" class="form-control" [(ngModel)]="user.email" />
+                  <input type="text" name="email" class="form-control" [(ngModel)]="user.email" required/>
                   <h4>Date de recrutement</h4>
                   <input type="text" name="recruitmentDate" class="form-control mb-1" [(ngModel)]="bsValue" bsDatepicker [bsConfig]="bsConfig"
-                  />
+                    required />
                 </div>
               </div>
             </form>
           </tab>
-          <tab heading="Editer Photos">
-            <app-photo-editor [photos]="user.photos" (getMemberPhotoChange)="updateMainPhoto($event)"></app-photo-editor>
+          <tab heading="Editer Hiérarchie">
+            hiérarchie...
           </tab>
         </tabset>
       </div>

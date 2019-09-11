@@ -54,7 +54,7 @@ export class AdminService {
     return this.http.get<User>(this.baseUrl + 'users/' + id);
   }
 
-  updateUser(user: User) {
+  updateUser(user) {
     return this.http.put(this.baseUrl + 'admin/', user);
   }
 
