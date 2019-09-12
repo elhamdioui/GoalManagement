@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { PaginatedResult } from './../_models/pagination';
 import { environment } from '../../environments/environment';
 import { Strategy } from '../_models/strategy';
+import { Axis } from '../_models/axis';
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +59,23 @@ export class HrService {
 
   createStrategy(ownerId: number, strategy: Strategy) {
     return this.http.post(`${this.baseUrl}hr/strategies/new/${ownerId}`, strategy);
+  }
+
+  getAxisList(strategyId: number) {
+    return this.http.get<Axis[]>(
+      this.baseUrl + 'hr/axisList/' + strategyId);
+  }
+
+  addAxis(axis: Axis) {
+    return this.http.post(this.baseUrl + 'hr/addAxis', axis);
+  }
+
+  updateAxis(id: number, axis: Axis) {
+    return this.http.put(this.baseUrl + 'hr/updateAxis/' + id, axis);
+  }
+
+  deleteAxis(id: number) {
+    return this.http.delete(
+      this.baseUrl + 'hr/deleteAxis/' + id);
   }
 }

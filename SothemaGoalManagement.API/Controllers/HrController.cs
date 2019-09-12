@@ -87,7 +87,73 @@ namespace SothemaGoalManagement.API.Controllers
             }
 
 
-            throw new Exception("Creating the message failed on save.");
+            throw new Exception("La création du stratégie a échouée lors de la sauvegarde..");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPost("addAxis")]
+        public async Task<IActionResult> AddAxis(AxisForCreationDto axisForCreationDto)
+        {
+            var axis = _mapper.Map<Axis>(axisForCreationDto);
+
+            _repo.Add(axis);
+
+            if (await _repo.SaveAll())
+            {
+                var axisToReturn = _mapper.Map<AxisToReturnDto>(axis);
+                return CreatedAtRoute("GetAxis", new { id = axis.Id }, axisToReturn);
+            }
+
+
+            throw new Exception("La création de l'axe stratigique a échoué lors de la sauvegarde.");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpGet("axis/{id}", Name = "GetAxis")]
+        public async Task<IActionResult> GetAxis(int id)
+        {
+            var axisFromRepo = await _repo.GetAxis(id);
+
+            if (axisFromRepo == null) return NotFound();
+
+            var axisToReturn = _mapper.Map<AxisToReturnDto>(axisFromRepo);
+            return Ok(axisToReturn);
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpGet("axisList/{strategyId}", Name = "GetAxisList")]
+        public async Task<IActionResult> GetAxisList(int strategyId)
+        {
+            var axisListFromRepo = await _repo.GetAxisList(strategyId);
+
+            var axisListToReturn = _mapper.Map<IEnumerable<AxisToReturnDto>>(axisListFromRepo);
+            return Ok(axisListToReturn);
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPut("updateAxis/{id}")]
+        public async Task<IActionResult> UpdateAxis(int id, AxisForUpdateDto axisForUpdateDto)
+        {
+            var axisFromRepo = await _repo.GetAxis(id);
+            _mapper.Map(axisForUpdateDto, axisFromRepo);
+
+            if (await _repo.SaveAll()) return NoContent();
+
+            throw new Exception("La mise à jour de l'axe a échoué lors de la sauvegarde");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpDelete("deleteAxis/{id}")]
+        public async Task<IActionResult> DeleteAxis(int id)
+        {
+            var axisFromRepo = await _repo.GetAxis(id);
+
+            if (axisFromRepo == null) return NotFound();
+
+            _repo.Delete(axisFromRepo);
+
+            if (await _repo.SaveAll()) return Ok();
+            return BadRequest("Échoué de supprimer l'axe");
         }
     }
 }

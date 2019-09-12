@@ -192,6 +192,19 @@ namespace SothemaGoalManagement.API.Data
             return await _context.Strategies.Include(s => s.Owner).FirstOrDefaultAsync(s => s.Id == id);
         }
 
+        public async Task<Axis> GetAxis(int id)
+        {
+            return await _context.Axis.Include(a => a.Strategy).FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public async Task<IEnumerable<Axis>> GetAxisList(int strategyId)
+        {
+            var axisList = await _context.Axis.Where(a => a.StrategyId == strategyId)
+                                            .OrderByDescending(a => a.Created)
+                                            .ToListAsync();
+            return axisList;
+        }
+
         public async Task<IEnumerable<User>> SerachForUsers(string searchTerm)
         {
             return await _context.Users.Include(u => u.Department)

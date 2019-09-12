@@ -69,7 +69,7 @@ namespace SothemaGoalManagement.API.Controllers
 
             if (await _repo.SaveAll()) return NoContent();
 
-            throw new Exception($"Updating user {id} failed on save");
+            throw new Exception("La mise à jour de l'utilisateur a échoué lors de la sauvegarde");
         }
     }
 }

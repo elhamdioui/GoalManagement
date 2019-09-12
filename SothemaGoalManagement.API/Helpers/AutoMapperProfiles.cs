@@ -60,6 +60,13 @@ namespace SothemaGoalManagement.API.Helpers
             {
                 opt.ResolveUsing(u => u.Owner.FirstName.FullName(u.Owner.LastName));
             });
+
+            CreateMap<AxisForCreationDto, Axis>();
+
+            CreateMap<Axis, AxisToReturnDto>();
+
+            CreateMap<AxisForUpdateDto, Axis>();
+
         }
     }
 }

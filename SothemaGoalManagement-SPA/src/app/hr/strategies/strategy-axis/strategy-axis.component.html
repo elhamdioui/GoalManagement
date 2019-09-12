@@ -1,0 +1,36 @@
+<div class="card">
+  <div class="card-body">
+    <div *ngIf="axisList?.length === 0">
+      <p>Pas encore d'axe...</p>
+    </div>
+    <ul class="axis">
+      <li *ngFor="let axis of axisList">
+        <div>
+          <div class="axis-body">
+            <div class="header">
+              <small class="text-muted">
+                <span class="fa fa-clock-o">{{ axis.created | timeAgo }}
+                </span>
+              </small>
+            </div>
+            <p>{{ axis.description }}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card-footer">
+    <form #axisForm="ngForm" (ngSubmit)="axisForm.valid && addAxis()">
+      <div class="input-group">
+        <input [(ngModel)]="newAxis.description" name="description" required type="text" class="form-control input-sm" placeholder="Ajouter un axe stratigique"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-primary" [disabled]="!axisForm.valid">
+            Ajouter
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

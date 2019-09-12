@@ -130,7 +130,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
 
             if (await _repo.SaveAll()) return Ok();
-            return BadRequest("Failed to delete the photo");
+            return BadRequest("Échoué de supprimer la photo");
         }
     }
 }

@@ -38,7 +38,14 @@
     </div>
     <div class="col-sm-8">
       <div class="tab-panel">
-        Axes
+        <tabset class="strategy-tabset" #strategyTabs>
+          <tab heading="Axes stratigique">
+            <app-strategy-axis [strategyId]="strategy.id"></app-strategy-axis>
+          </tab>
+          <tab heading="Pôles et Pondération">
+            Pôles et Pondération is comming soon...
+          </tab>
+        </tabset>
       </div>
     </div>
   </div>
