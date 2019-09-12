@@ -12,12 +12,12 @@ namespace SothemaGoalManagement.API.Helpers
         {
             _config = config;
         }
-        public async Task SendEmail(string generatedToken, string subject, string content)
+        public async Task SendEmail(string emailTo, string generatedToken, string subject, string content)
         {
             var sendGridApiKey = _config.GetSection("AppSettings:SendGridApiKey").Value;
             var sendGridClient = new SendGridClient(sendGridApiKey);
             var from = new EmailAddress("goal_management@sothema.ma");
-            var to = new EmailAddress("eaitbrahim@gmail.com");
+            var to = new EmailAddress(emailTo);
             var plainTextContent = "";
             var htmlContent = content;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
