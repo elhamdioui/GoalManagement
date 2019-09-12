@@ -138,10 +138,10 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
-        [HttpPost("editRoles/{userName}")]
-        public async Task<IActionResult> EditRoles(string userName, RoleEditDto roleEditDto)
+        [HttpPost("editRoles/{userId}")]
+        public async Task<IActionResult> EditRoles(string userId, RoleEditDto roleEditDto)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user = await _userManager.FindByIdAsync(userId);
             var userRoles = await _userManager.GetRolesAsync(user);
 
             var selectedRoles = roleEditDto.RoleNames;

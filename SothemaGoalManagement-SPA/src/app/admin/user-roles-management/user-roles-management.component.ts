@@ -42,6 +42,7 @@ export class UserRolesManagementComponent implements OnInit {
       if (rolesToUpdate) {
         this.adminService.updateUserRoles(user, rolesToUpdate).subscribe(() => {
           user.roles = [...rolesToUpdate.roleNames];
+          this.alertify.success('Les rôles ont été mis à jour.');
         }, error => {
           this.alertify.error(error);
         })
