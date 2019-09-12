@@ -100,21 +100,12 @@ namespace SothemaGoalManagement.API.Controllers
 
         [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpGet("usersWithRoles")]
-        public async Task<IActionResult> GetUsersWithRoles()
+        public async Task<IActionResult> GetUsersWithRoles([FromQuery]UserParams userParams)
         {
-            var userList = await (from user in _context.Users
-                                  select new
-                                  {
-                                      Id = user.Id,
-                                      FullName = user.FirstName.FullName(user.LastName),
-                                      Email = user.Email,
-                                      Roles = (from userRole in user.UserRoles
-                                               join role in _context.Roles on userRole.RoleId equals role.Id
-                                               select role.Name).ToList(),
-                                      Created = user.Created
-                                  }).OrderByDescending(u => u.Created).ToListAsync();
+            var users = await _repo.GetUsersWithRoles(userParams);
+            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
-            return Ok(userList);
+            return Ok(users);
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]

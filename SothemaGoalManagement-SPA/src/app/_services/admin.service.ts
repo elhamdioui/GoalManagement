@@ -62,8 +62,28 @@ export class AdminService {
     return this.http.post(this.baseUrl + 'admin/register', user);
   }
 
-  getUsersWithRoles() {
-    return this.http.get(this.baseUrl + 'admin/usersWithRoles');
+  getUsersWithRoles(page?,
+    itemsPerPage?): Observable<PaginatedResult<User[]>> {
+    const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
+    let params = new HttpParams();
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+
+    return this.http
+      .get<User[]>(this.baseUrl + 'admin/usersWithRoles', { observe: 'response', params })
+      .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination')
+            );
+          }
+          return paginatedResult;
+        })
+      );
   }
 
   getDepartments() {

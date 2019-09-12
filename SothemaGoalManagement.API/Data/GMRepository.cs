@@ -89,6 +89,25 @@ namespace SothemaGoalManagement.API.Data
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
+        public async Task<PagedList<object>> GetUsersWithRoles(UserParams userParams)
+        {
+            var usersWithRoles = (from user in _context.Users
+                                  select new
+                                  {
+                                      Id = user.Id,
+                                      FirstName = user.FirstName,
+                                      LastName = user.LastName,
+                                      Email = user.Email,
+                                      Roles = (from userRole in user.UserRoles
+                                               join role in _context.Roles on userRole.RoleId equals role.Id
+                                               select role.Name).ToList(),
+                                      Created = user.Created
+                                  }).OrderByDescending(u => u.Created)
+                                  .AsQueryable();
+
+            return await PagedList<object>.CreateAsync(usersWithRoles, userParams.PageNumber, userParams.PageSize);
+        }
+
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
