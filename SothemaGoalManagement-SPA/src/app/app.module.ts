@@ -62,6 +62,7 @@ import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver.';
 import { ResetPasswordComponent } from './collaborators/reset-password/reset-password.component';
 import { ForgetPasswordComponent } from './collaborators/forget-password/forget-password.component';
 import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
+import { AxisModalComponent } from './hr/strategies/axis-modal/axis-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -97,6 +98,7 @@ export function tokenGetter() {
     StrategyNewComponent,
     StrategyDetailComponent,
     StrategyAxisComponent,
+    AxisModalComponent,
     BehavioralSkillsComponent,
     ResetPasswordComponent,
     ForgetPasswordComponent
@@ -145,7 +147,8 @@ export function tokenGetter() {
     HrService
   ],
   entryComponents: [
-    RolesModalComponent
+    RolesModalComponent,
+    AxisModalComponent
   ],
   bootstrap: [AppComponent]
 })

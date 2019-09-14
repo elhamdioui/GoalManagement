@@ -27,7 +27,7 @@
       <tr *ngFor="let axis of axisList">
         <td>{{ axis.description }}</td>
         <td>
-          <button class="btn btn-primary" (click)="$event.stopPropagation()">
+          <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editAxisModal(axis)">
             <i class="fa fa-edit"></i>
           </button>
         </td>
