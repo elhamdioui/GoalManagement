@@ -74,8 +74,7 @@ export class HrService {
     return this.http.put(this.baseUrl + 'hr/updateAxis/' + id, axis);
   }
 
-  deleteAxis(id: number) {
-    return this.http.delete(
-      this.baseUrl + 'hr/deleteAxis/' + id);
+  deleteAxis(id: number, userId: number) {
+    return this.http.delete(`${this.baseUrl}hr/axis/${id}/delete/${userId}`);
   }
 }

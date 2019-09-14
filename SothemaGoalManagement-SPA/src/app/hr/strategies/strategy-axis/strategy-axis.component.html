@@ -32,7 +32,7 @@
           </button>
         </td>
         <td>
-          <button class="btn btn-danger" (click)="$event.stopPropagation()">
+          <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteAxis(axis.id)">
             <i class="fa fa-trash"></i>
           </button>
         </td>

@@ -143,9 +143,11 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpDelete("deleteAxis/{id}")]
-        public async Task<IActionResult> DeleteAxis(int id)
+        [HttpDelete("axis/{id}/delete/{userId}")]
+        public async Task<IActionResult> DeleteAxis(int id, int userId)
         {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+
             var axisFromRepo = await _repo.GetAxis(id);
 
             if (axisFromRepo == null) return NotFound();
