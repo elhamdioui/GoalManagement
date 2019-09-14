@@ -1,27 +1,5 @@
 <div class="card">
-  <div class="card-body">
-    <div *ngIf="axisList?.length === 0">
-      <p>Pas encore d'axe...</p>
-    </div>
-    <ul class="axis">
-      <li *ngFor="let axis of axisList">
-        <div>
-          <div class="axis-body">
-            <div class="header">
-              <small class="text-muted">
-                <span class="fa fa-clock-o">{{ axis.created | timeAgo }}
-                </span>
-              </small>
-            </div>
-            <p>{{ axis.description }}</p>
-            
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-
-  <div class="card-footer">
+  <div class="card-header">
     <form #axisForm="ngForm" (ngSubmit)="axisForm.valid && addAxis()">
       <div class="input-group">
         <input [(ngModel)]="newAxis.description" name="description" required type="text" class="form-control input-sm" placeholder="Ajouter un axe stratigique"
@@ -34,4 +12,30 @@
       </div>
     </form>
   </div>
-</div>
+
+  <div class="card-body">
+    <div *ngIf="axisList?.length === 0">
+      <p>Pas encore d'axe...</p>
+    </div>
+
+    <table class="table table-hover" style="cursor: pointer">
+      <tr>
+        <th style="width: 80%">Description</th>
+        <th style="width: 10%"></th>
+        <th style="width: 10%"></th>
+      </tr>
+      <tr *ngFor="let axis of axisList">
+        <td>{{ axis.description }}</td>
+        <td>
+          <button class="btn btn-primary" (click)="$event.stopPropagation()">
+            <i class="fa fa-edit"></i>
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)="$event.stopPropagation()">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
