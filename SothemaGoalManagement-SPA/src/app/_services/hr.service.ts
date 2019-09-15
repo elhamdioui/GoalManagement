@@ -7,6 +7,7 @@ import { PaginatedResult } from './../_models/pagination';
 import { environment } from '../../environments/environment';
 import { Strategy } from '../_models/strategy';
 import { Axis } from '../_models/axis';
+import { AxisPole } from '../_models/axisPole';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,11 @@ export class HrService {
   getAxisList(strategyId: number) {
     return this.http.get<Axis[]>(
       this.baseUrl + 'hr/axisList/' + strategyId);
+  }
+
+  getAxisPoleList(axisId: number) {
+    return this.http.get<AxisPole[]>(
+      this.baseUrl + 'hr/axisPoleList/' + axisId);
   }
 
   addAxis(axis: Axis) {

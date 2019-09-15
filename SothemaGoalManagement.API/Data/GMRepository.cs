@@ -205,6 +205,16 @@ namespace SothemaGoalManagement.API.Data
             return axisList;
         }
 
+        public async Task<IEnumerable<AxisPole>> GetAxisPoleList(int axisId)
+        {
+            var axisPoleList = await _context.AxisPoles
+                                            .Include(ap => ap.Axis)
+                                            .Include(ap => ap.Pole)
+                                            .Where(ap => ap.AxisId == axisId)
+                                            .ToListAsync();
+            return axisPoleList;
+        }
+
         public async Task<IEnumerable<User>> SerachForUsers(string searchTerm)
         {
             return await _context.Users.Include(u => u.Department)

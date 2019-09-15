@@ -97,15 +97,40 @@ namespace SothemaGoalManagement.API.Controllers
             var axis = _mapper.Map<Axis>(axisForCreationDto);
 
             _repo.Add(axis);
-
-            if (await _repo.SaveAll())
+            try
             {
-                var axisToReturn = _mapper.Map<AxisToReturnDto>(axis);
-                return CreatedAtRoute("GetAxis", new { id = axis.Id }, axisToReturn);
+                if (await _repo.SaveAll())
+                {
+                    var axisToReturn = _mapper.Map<AxisToReturnDto>(axis);
+                    // map added axis to poles
+                    await mapNewAxisToPoles(axisToReturn.Id);
+                    return CreatedAtRoute("GetAxis", new { id = axis.Id }, axisToReturn);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("La création de l'axe stratigique a échoué lors de la sauvegarde.");
             }
 
 
+
             throw new Exception("La création de l'axe stratigique a échoué lors de la sauvegarde.");
+        }
+        private async Task mapNewAxisToPoles(int axisId)
+        {
+            var poles = await _repo.GetPoles();
+            foreach (var pole in poles)
+            {
+                var axisPole = new AxisPole()
+                {
+                    AxisId = axisId,
+                    PoleId = pole.Id,
+                    Weight = 0
+                };
+                _repo.Add(axisPole);
+            }
+
+            await _repo.SaveAll();
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
@@ -156,6 +181,16 @@ namespace SothemaGoalManagement.API.Controllers
 
             if (await _repo.SaveAll()) return Ok();
             return BadRequest("Échoué de supprimer l'axe");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpGet("axisPoleList/{axisId}", Name = "GetAxisPoleList")]
+        public async Task<IActionResult> GetAxisPoleList(int axisId)
+        {
+            var axisListPoleFromRepo = await _repo.GetAxisPoleList(axisId);
+
+            var axisPoleListToReturn = _mapper.Map<IEnumerable<AxisPoleToReturnDto>>(axisListPoleFromRepo);
+            return Ok(axisPoleListToReturn);
         }
     }
 }

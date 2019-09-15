@@ -41,6 +41,8 @@ namespace SothemaGoalManagement.API.Data
 
         Task<IEnumerable<Axis>> GetAxisList(int strategyId);
 
+        Task<IEnumerable<AxisPole>> GetAxisPoleList(int axisId);
+
         Task<bool> EmployeeNumberAlreadyExists(string employeNumber, int? employeeId = null);
 
     }

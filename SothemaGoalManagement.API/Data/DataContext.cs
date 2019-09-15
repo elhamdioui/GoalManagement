@@ -24,6 +24,8 @@ namespace SothemaGoalManagement.API.Data
 
         public DbSet<Axis> Axis { get; set; }
 
+        public DbSet<AxisPole> AxisPoles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -40,6 +42,21 @@ namespace SothemaGoalManagement.API.Data
                 userRole.HasOne(ur => ur.User)
                         .WithMany(r => r.UserRoles)
                         .HasForeignKey(ur => ur.UserId)
+                        .IsRequired();
+            });
+
+            builder.Entity<AxisPole>(axisPole =>
+            {
+                axisPole.HasKey(ap => new { ap.AxisId, ap.PoleId });
+
+                axisPole.HasOne(ap => ap.Pole)
+                        .WithMany(p => p.AxisPoles)
+                        .HasForeignKey(ap => ap.PoleId)
+                        .IsRequired();
+
+                axisPole.HasOne(ap => ap.Axis)
+                        .WithMany(a => a.AxisPoles)
+                        .HasForeignKey(ap => ap.AxisId)
                         .IsRequired();
             });
 

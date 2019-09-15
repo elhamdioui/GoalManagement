@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SothemaGoalManagement.API.Models
 {
@@ -12,5 +13,7 @@ namespace SothemaGoalManagement.API.Models
         public Strategy Strategy { get; set; }
 
         public DateTime Created { get; set; }
+
+        public ICollection<AxisPole> AxisPoles { get; set; }
     }
 }

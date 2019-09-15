@@ -40,10 +40,12 @@
       <div class="tab-panel">
         <tabset class="strategy-tabset" #strategyTabs>
           <tab heading="Axes stratigique">
-            <app-strategy-axis [strategyId]="strategy.id"></app-strategy-axis>
+            <app-strategy-axis [axisList]="axisList"></app-strategy-axis>
           </tab>
           <tab heading="Pôles et Pondération">
-            <app-axis-weighting></app-axis-weighting>
+            <div class="container">
+              <app-axis-poles-weights-list [axisList]="axisList"></app-axis-poles-weights-list>
+            </div>
           </tab>
         </tabset>
       </div>

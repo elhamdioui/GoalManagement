@@ -13,41 +13,28 @@ import { AxisModalComponent } from '../axis-modal/axis-modal.component';
   styleUrls: ['./strategy-axis.component.css']
 })
 export class StrategyAxisComponent implements OnInit {
-  @Input() strategyId: number;
-  axisList: Axis[];
+  @Input() axisList: Axis[];
   newAxis: any = {};
   bsModalRef: BsModalRef;
 
   constructor(private hrService: HrService, private authService: AuthService, private alertify: AlertifyService, private modalService: BsModalService) { }
 
   ngOnInit() {
-    this.loadAxisList();
-  }
-
-  loadAxisList() {
-    this.hrService.getAxisList(this.strategyId).subscribe(
-      axises => {
-        this.axisList = axises;
-      },
-      error => {
-        this.alertify.error(error);
-      }
-    );
   }
 
   addAxis() {
-    this.newAxis.strategyId = this.strategyId;
-    this.hrService
-      .addAxis(this.newAxis)
-      .subscribe(
-        (axis: Axis) => {
-          this.axisList.unshift(axis);
-          this.newAxis.description = '';
-        },
-        error => {
-          this.alertify.error(error);
-        }
-      );
+    // this.newAxis.strategyId = this.strategyId;
+    // this.hrService
+    //   .addAxis(this.newAxis)
+    //   .subscribe(
+    //     (axis: Axis) => {
+    //       this.axisList.unshift(axis);
+    //       this.newAxis.description = '';
+    //     },
+    //     error => {
+    //       this.alertify.error(error);
+    //     }
+    //   );
   }
 
   deleteAxis(id: number) {

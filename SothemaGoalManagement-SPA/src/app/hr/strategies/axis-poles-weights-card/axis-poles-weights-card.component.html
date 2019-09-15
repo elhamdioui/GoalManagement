@@ -1,21 +1,21 @@
 <div class="card mt-2 mb-2">
   <div class="card-header">
-    <h6 class="card-title">{{axisPolesWeights.axis.description}}</h6>
+    {{axis.description}}
   </div>
 
   <div class="card-body">
     <ul class="list-inline member-icons animate text-center">
-      <li class="list-inline-item" *ngFor="let pw of axisPolesWeights.polesWeights">
+      <li class="list-inline-item" *ngFor="let ap of axisPoleList">
         <div class="card text-center" style="width: 10rem;">
           <div class="card-body">
             <h6 class="card-title text-center mb-1">
-              {{pw.pole.name}}
+              {{ap.poleName}}
             </h6>
             <p *ngIf="!editing" class="card-text text-muted text-center">
-              {{pw.weight}}%
+              {{ap.weight}}%
             </p>
             <div *ngIf="editing" class="mb-2">
-              <input type="number" min="0" max="100" [value]="axisPoleWeight.weight" (input)="onWeightChange(weight.value)" #weight> %
+              <input type="number" min="0" max="100" [value]="ap.weight" (input)="onWeightChange(weight.value)" #weight> %
             </div>
             <button class="btn" [ngClass]="editing ? 'btn-success' : 'btn-info'" (click)="toggleEdit()">
               <i *ngIf="editing" class="fa fa-save"></i>

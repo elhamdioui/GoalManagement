@@ -9,5 +9,7 @@ namespace SothemaGoalManagement.API.Models
         public string Name { get; set; }
 
         public ICollection<Department> Departments { get; set; }
+
+        public ICollection<AxisPole> AxisPoles { get; set; }
     }
 }
