@@ -1,4 +1,3 @@
-import { ProfileEditComponent } from './collaborators/profile-edit/profile-edit.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -63,6 +62,9 @@ import { ResetPasswordComponent } from './collaborators/reset-password/reset-pas
 import { ForgetPasswordComponent } from './collaborators/forget-password/forget-password.component';
 import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
 import { AxisModalComponent } from './hr/strategies/axis-modal/axis-modal.component';
+import { AxisPolesWeightsCardComponent } from './hr/strategies/axis-poles-weights-card/axis-poles-weights-card.component';
+import { AxisPolesWeightsListComponent } from './hr/strategies/axis-poles-weights-list/axis-poles-weights-list.component';
+import { ProfileEditComponent } from './collaborators/profile-edit/profile-edit.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -99,6 +101,8 @@ export function tokenGetter() {
     StrategyDetailComponent,
     StrategyAxisComponent,
     AxisModalComponent,
+    AxisPolesWeightsCardComponent,
+    AxisPolesWeightsListComponent,
     BehavioralSkillsComponent,
     ResetPasswordComponent,
     ForgetPasswordComponent
