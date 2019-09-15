@@ -1,3 +1,9 @@
-<div class="row" *ngFor="let axis of axisList">
-  <app-axis-poles-weights-card [axis]="axis"></app-axis-poles-weights-card>
+<div *ngIf="axisList?.length === 0">
+  <p>Pas encore d'axe...</p>
+</div>
+
+<div *ngIf="axisList?.length > 0" class="row">
+  <div *ngFor="let axis of axisList">
+    <app-axis-poles-weights-card [axis]="axis"></app-axis-poles-weights-card>
+  </div>
 </div>

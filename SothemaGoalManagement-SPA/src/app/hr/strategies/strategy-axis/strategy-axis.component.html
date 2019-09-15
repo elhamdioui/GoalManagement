@@ -18,7 +18,7 @@
       <p>Pas encore d'axe...</p>
     </div>
 
-    <table class="table table-hover" style="cursor: pointer">
+    <table *ngIf="axisList?.length > 0" class="table table-hover" style="cursor: pointer">
       <tr>
         <th style="width: 80%">Description</th>
         <th style="width: 10%"></th>
