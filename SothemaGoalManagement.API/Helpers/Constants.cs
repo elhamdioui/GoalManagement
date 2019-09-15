@@ -4,7 +4,7 @@ namespace SothemaGoalManagement.API.Helpers
     {
         public const string DRAFT = "Rédaction";
         public const string REVIEW = "En Revue";
-
         public const string PUBLISHED = "Publiée";
+        public const string ARCHIVED = "Archivée";
     }
 }

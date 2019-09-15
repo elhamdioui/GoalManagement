@@ -1,0 +1,33 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Modifier Stratégie</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form #strategyForm="ngForm" id="strategyForm">
+    
+      <h4>Titre:</h4>
+      <input [(ngModel)]="strategy.title" name="title" required type="text" class="form-control input-sm" placeholder="Ajouter un titre d'axe stratigique"
+      />
+    
+    
+      <h4>Description:</h4>
+      <input [(ngModel)]="strategy.description" name="description" required type="text" class="form-control input-sm" placeholder="Ajouter un axe stratigique"
+      />
+    
+    
+      <h4>Statut:</h4>
+      <select class="form-control mb-1" style="width: 200px" id="status" name="status" [(ngModel)]="strategy.status" required>
+        <option *ngFor="let status of statusList" [ngValue]="status">
+          {{ status.value }}
+        </option>
+      </select>
+    
+
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="bsModalRef.hide()">Cancel</button>
+  <button type="button" class="btn btn-success" (click)="updateStrategy()" form="strategyForm">Submit</button>
+</div>

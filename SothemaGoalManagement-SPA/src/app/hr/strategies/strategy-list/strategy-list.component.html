@@ -4,8 +4,9 @@
       <div class="form-group">
         <label for="status">Statut:</label>
         <select [(ngModel)]="strategyParams.status" class="form-control" style="width: 150px" id="status" name="status">
-          <option *ngFor="let status of statusList" [value]="status">
-            {{ status }}
+          <option value="">Tous les statut</option>
+          <option *ngFor="let status of statusList" [value]="status.key">
+            {{ status.value }}
           </option>
         </select>
       </div>
@@ -42,11 +43,11 @@
         '/strategies', strategy.id
       ]" [queryParams]="{ownerId:strategy.ownerId}">
           <td>{{strategy.title}}</td>
-          <td>{{strategy.status}}</td>
+          <td>{{strategy.status.value}}</td>
           <td>{{strategy.ownerName}}</td>
           <td>{{strategy.created | date: 'mediumDate'}}</td>
           <td>
-            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editStrategy(strategy)">Editer</button>
+            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editStrategyModal(strategy)">Editer</button>
           </td>
         </tr>
 

@@ -37,7 +37,7 @@ namespace SothemaGoalManagement.API.Data
             return photo;
         }
 
-        public async Task<User> GetUser(int id, bool isCurrentUser)
+        public async Task<User> GetUser(int id, bool ignoreCurrentUser)
         {
             var query = _context.Users
                                 .Include(d => d.Department)
@@ -46,7 +46,7 @@ namespace SothemaGoalManagement.API.Data
                                 .Include(s => s.UserStatus)
                                 .AsQueryable();
 
-            if (isCurrentUser) query = query.IgnoreQueryFilters();
+            if (ignoreCurrentUser) query = query.IgnoreQueryFilters();
 
             var user = await query.FirstOrDefaultAsync(u => u.Id == id);
             return user;
@@ -180,6 +180,12 @@ namespace SothemaGoalManagement.API.Data
                     break;
                 case Constants.REVIEW:
                     strategies = strategies.Where(s => s.Status == Constants.REVIEW && s.OwnerId == strategyParams.OwnerId);
+                    break;
+                case Constants.ARCHIVED:
+                    strategies = strategies.Where(s => s.Status == Constants.ARCHIVED && s.OwnerId == strategyParams.OwnerId);
+                    break;
+                default:
+                    strategies = strategies.Where(s => s.OwnerId == strategyParams.OwnerId);
                     break;
             }
 

@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { Strategy } from '../../../_models/strategy';
+import { StatusTemplate } from '../../../_models/statusTemplate';
 import { Pagination, PaginatedResult } from '../../../_models/pagination';
 import { HrService } from '../../../_services/hr.service';
 import { AuthService } from '../../../_services/auth.service';
 import { AlertifyService } from '../../../_services/alertify.service';
+import { StrategyEditModalComponent } from '../strategy-edit-modal/strategy-edit-modal.component';
 
 
 @Component({
@@ -14,27 +17,29 @@ import { AlertifyService } from '../../../_services/alertify.service';
   styleUrls: ['./strategy-list.component.css']
 })
 export class StrategyListComponent implements OnInit {
-  statusList: string[];
+  statusList: StatusTemplate[];
   strategies: Strategy[];
   strategyParams: any = {};
   pagination: Pagination;
   creationMode = false;
+  bsModalRef: BsModalRef;
 
   constructor(
     private hrService: HrService,
     private authService: AuthService,
     private alertify: AlertifyService,
     private route: ActivatedRoute,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.strategies = data['strategies'].result;
-      this.statusList = ['Rédaction', 'En Revue', 'Publiée'];
+      this.statusList = this.getStatusList();
       this.pagination = data['strategies'].pagination;
     });
 
-    this.strategyParams.status = 'Rédaction';
+    this.strategyParams.status = '';
     this.strategyParams.orderBy = 'created';
   }
 
@@ -44,7 +49,7 @@ export class StrategyListComponent implements OnInit {
   }
 
   resetFilters() {
-    this.strategyParams.status = 'Rédaction';
+    this.strategyParams.status = '';
     this.loadStrategies();
   }
 
@@ -82,7 +87,27 @@ export class StrategyListComponent implements OnInit {
     }
   }
 
-  editStrategy(strategy: Strategy) {
+  editStrategyModal(strategy: Strategy) {
+    const initialState = {
+      strategy,
+      statusList: this.getStatusList()
+    };
 
+    this.bsModalRef = this.modalService.show(StrategyEditModalComponent, { initialState });
+    this.bsModalRef.content.updateSelectedStrategy.subscribe((updatedStrategy) => {
+      this.hrService.updateStrategy(strategy.id, updatedStrategy).subscribe(() => {
+        this.alertify.success('Stratégie été mise à jour.');
+      }, error => {
+        this.alertify.error(error);
+      })
+
+    });
+  }
+
+  private getStatusList(): StatusTemplate[]{
+    return [{'key': 'DRAFT', 'value': 'Rédaction'}, 
+            {'key': 'REVIEW', 'value': 'En Revue'}, 
+            {'key': 'PUBLISHED', 'value': 'Publiée'}, 
+            {'key': 'ACHIVED', 'value': 'Archivée'}]
   }
 }

@@ -56,6 +56,7 @@ import { StrategyListResolver } from './_resolvers/strategy-list.resolver';
 import { HrService } from './_services/hr.service';
 import { StrategyNewComponent } from './hr/strategies/strategy-new/strategy-new.component';
 import { StrategyDetailComponent } from './hr/strategies/strategy-detail/strategy-detail.component';
+import { StrategyEditModalComponent } from './hr/strategies/strategy-edit-modal/strategy-edit-modal.component';
 import { StrategyAxisComponent } from './hr/strategies/strategy-axis/strategy-axis.component';
 import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver.';
 import { ResetPasswordComponent } from './collaborators/reset-password/reset-password.component';
@@ -98,6 +99,7 @@ export function tokenGetter() {
     StrategiesComponent,
     StrategyListComponent,
     StrategyNewComponent,
+    StrategyEditModalComponent,
     StrategyDetailComponent,
     StrategyAxisComponent,
     AxisModalComponent,
@@ -152,7 +154,8 @@ export function tokenGetter() {
   ],
   entryComponents: [
     RolesModalComponent,
-    AxisModalComponent
+    AxisModalComponent,
+    StrategyEditModalComponent
   ],
   bootstrap: [AppComponent]
 })

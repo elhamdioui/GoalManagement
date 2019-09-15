@@ -36,6 +36,7 @@ export class HrService {
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
+      params = params.append('status', '');
     }
 
     if (strategyParams != null) {
@@ -60,6 +61,10 @@ export class HrService {
 
   createStrategy(ownerId: number, strategy: Strategy) {
     return this.http.post(`${this.baseUrl}hr/strategies/new/${ownerId}`, strategy);
+  }
+
+  updateStrategy(ownerId: number, strategy: Strategy) {
+    return this.http.put(`${this.baseUrl}hr/strategies/edit/${ownerId}`, strategy);
   }
 
   getAxisList(strategyId: number) {

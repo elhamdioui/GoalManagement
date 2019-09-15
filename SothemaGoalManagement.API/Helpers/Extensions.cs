@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SothemaGoalManagement.API.Models;
 
 namespace SothemaGoalManagement.API.Helpers
 {
@@ -36,6 +37,27 @@ namespace SothemaGoalManagement.API.Helpers
             var fullName = $"{firstName} {lastName}";
 
             return fullName;
+        }
+
+        public static StatusTemplate StatusTemplate(this string value)
+        {
+            string key = "";
+            switch (value)
+            {
+                case Constants.PUBLISHED:
+                    key = "PUBLISHED";
+                    break;
+                case Constants.DRAFT:
+                    key = "DRAFT";
+                    break;
+                case Constants.REVIEW:
+                    key = "REVIEW";
+                    break;
+                case Constants.ARCHIVED:
+                    key = "ARCHIVED";
+                    break;
+            }
+            return new StatusTemplate(){Key = key, Value= value};
         }
     }
 }

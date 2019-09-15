@@ -91,6 +91,23 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPut("strategies/edit/{ownerId}")]
+        public async Task<IActionResult> UpdateStrategy(int ownerId, StrategyForUpdateDto strategyForUpdateDto)
+        {
+            var owner = await _repo.GetUser(ownerId, false);
+            if (owner.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+
+            strategyForUpdateDto.OwnerId = ownerId;
+            var strategyFromRepo = await _repo.GetStrategy(strategyForUpdateDto.Id);
+
+            _mapper.Map(strategyForUpdateDto, strategyFromRepo);
+
+            if (await _repo.SaveAll()) return NoContent();
+
+            throw new Exception("La mise à jour de l'utilisateur a échoué lors de l'enregistrement.");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpPost("addAxis")]
         public async Task<IActionResult> AddAxis(AxisForCreationDto axisForCreationDto)
         {
