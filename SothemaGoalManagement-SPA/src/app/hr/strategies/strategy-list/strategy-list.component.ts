@@ -94,9 +94,10 @@ export class StrategyListComponent implements OnInit {
 
     this.bsModalRef = this.modalService.show(StrategyEditModalComponent, { initialState });
     this.bsModalRef.content.updateSelectedStrategy.subscribe((updatedStrategy) => {
-      this.hrService.updateStrategy(strategy.id, updatedStrategy).subscribe(() => {
+      this.hrService.updateStrategy(this.authService.decodedToken.nameid, updatedStrategy).subscribe(() => {
         this.alertify.success('Stratégie été mise à jour.');
       }, error => {
+        this.loadStrategies();
         this.alertify.error(error);
       })
 
