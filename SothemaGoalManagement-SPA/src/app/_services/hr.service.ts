@@ -87,4 +87,9 @@ export class HrService {
   deleteAxis(id: number, userId: number) {
     return this.http.delete(`${this.baseUrl}hr/axis/${id}/delete/${userId}`);
   }
+
+  updateAxisPoleWeigth(axisId: number, poleId: number, weight: number) {
+    return this.http.put(`${this.baseUrl}hr/updateAxisPole/${axisId}/${poleId}/${weight}`, {});
+  }
+
 }

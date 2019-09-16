@@ -64,6 +64,7 @@ import { ForgetPasswordComponent } from './collaborators/forget-password/forget-
 import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
 import { AxisModalComponent } from './hr/strategies/axis-modal/axis-modal.component';
 import { AxisPolesWeightsCardComponent } from './hr/strategies/axis-poles-weights-card/axis-poles-weights-card.component';
+import { AxisPoleWeightItemComponent } from './hr/strategies/axis-pole-weight-item/axis-pole-weight-item.component';
 import { AxisPolesWeightsListComponent } from './hr/strategies/axis-poles-weights-list/axis-poles-weights-list.component';
 import { ProfileEditComponent } from './collaborators/profile-edit/profile-edit.component';
 
@@ -104,6 +105,7 @@ export function tokenGetter() {
     StrategyAxisComponent,
     AxisModalComponent,
     AxisPolesWeightsCardComponent,
+    AxisPoleWeightItemComponent,
     AxisPolesWeightsListComponent,
     BehavioralSkillsComponent,
     ResetPasswordComponent,

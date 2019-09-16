@@ -6,23 +6,7 @@
   <div class="card-body">
     <ul class="list-inline member-icons animate text-center">
       <li class="list-inline-item" *ngFor="let ap of axisPoleList">
-        <div class="card text-center" style="width: 10rem;">
-          <div class="card-body">
-            <h6 class="card-title text-center mb-1">
-              {{ap.poleName}}
-            </h6>
-            <p *ngIf="!editing" class="card-text text-muted text-center">
-              {{ap.weight}}%
-            </p>
-            <div *ngIf="editing" class="mb-2">
-              <input type="number" min="0" max="100" [value]="ap.weight" (input)="onWeightChange(weight.value)" #weight> %
-            </div>
-            <button class="btn" [ngClass]="editing ? 'btn-success' : 'btn-info'" (click)="toggleEdit()">
-              <i *ngIf="editing" class="fa fa-save"></i>
-              <i *ngIf="!editing" class="fa fa-edit"></i>
-            </button>
-          </div>
-        </div>
+        <app-axis-pole-weight-item [axisPole]="ap" (updateWeightEvent)="handleUpdateAxisPole($event)"></app-axis-pole-weight-item>
       </li>
     </ul>
   </div>

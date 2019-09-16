@@ -13,7 +13,6 @@ import { Axis } from '../../../_models/axis';
 })
 export class AxisPolesWeightsCardComponent implements OnInit {
   @Input() axis: Axis;
-  editing: boolean = false;
   axisPoleList: AxisPole[];
 
   constructor(private hrService: HrService, private alertify: AlertifyService) { }
@@ -33,11 +32,16 @@ export class AxisPolesWeightsCardComponent implements OnInit {
     );
   }
 
-  onWeightChange(value: number) {
-    // this.axisPoleWeight.weight = value;
-  }
-
-  toggleEdit() {
-    this.editing = !this.editing;
+  handleUpdateAxisPole(axisPole: AxisPole) {
+    this.hrService
+      .updateAxisPoleWeigth(axisPole.axisId, axisPole.poleId, axisPole.weight)
+      .subscribe(
+        next => {
+          this.alertify.success('Mise à jour du pondération réussie');
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
   }
 }

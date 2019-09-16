@@ -209,5 +209,20 @@ namespace SothemaGoalManagement.API.Controllers
             var axisPoleListToReturn = _mapper.Map<IEnumerable<AxisPoleToReturnDto>>(axisListPoleFromRepo);
             return Ok(axisPoleListToReturn);
         }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPut("updateAxisPole/{axisId}/{poleId}/{weight}")]
+        public async Task<IActionResult> updateAxisPole(int axisId, int poleId, int weight)
+        {
+            var axisPoleFromRepo = await _repo.GetAxisPole(axisId, poleId);
+            if (axisPoleFromRepo != null)
+            {
+                axisPoleFromRepo.Weight = weight;
+
+                if (await _repo.SaveAll()) return NoContent();
+            }
+
+            throw new Exception("La mise à jour de l'axe a échoué lors de la sauvegarde");
+        }
     }
 }
