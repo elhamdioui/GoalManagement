@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { Strategy } from '../../../_models/strategy';
-import { StatusTemplate } from '../../../_models/statusTemplate';
 import { Pagination, PaginatedResult } from '../../../_models/pagination';
 import { HrService } from '../../../_services/hr.service';
 import { AuthService } from '../../../_services/auth.service';
@@ -17,7 +16,7 @@ import { StrategyEditModalComponent } from '../strategy-edit-modal/strategy-edit
   styleUrls: ['./strategy-list.component.css']
 })
 export class StrategyListComponent implements OnInit {
-  statusList: StatusTemplate[];
+  statusList: string[];
   strategies: Strategy[];
   strategyParams: any = {};
   pagination: Pagination;
@@ -104,10 +103,7 @@ export class StrategyListComponent implements OnInit {
     });
   }
 
-  private getStatusList(): StatusTemplate[]{
-    return [{'key': 'DRAFT', 'value': 'Rédaction'}, 
-            {'key': 'REVIEW', 'value': 'En Revue'}, 
-            {'key': 'PUBLISHED', 'value': 'Publiée'}, 
-            {'key': 'ACHIVED', 'value': 'Archivée'}]
+  private getStatusList(): string[] {
+    return ['Rédaction', 'En Revue', 'Publiée', 'Archivée']
   }
 }

@@ -1,4 +1,5 @@
 using System;
+using SothemaGoalManagement.API.Models;
 
 namespace SothemaGoalManagement.API.Dtos
 {
@@ -12,7 +13,7 @@ namespace SothemaGoalManagement.API.Dtos
 
         public string OwnerName { get; set; }
 
-        public StatusTemplate Status { get; set; }
+        public string Status { get; set; }
 
         public DateTime Created { get; set; }
 

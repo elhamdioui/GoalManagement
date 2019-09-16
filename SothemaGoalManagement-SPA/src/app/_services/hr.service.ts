@@ -36,7 +36,6 @@ export class HrService {
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
-      params = params.append('status', '');
     }
 
     if (strategyParams != null) {

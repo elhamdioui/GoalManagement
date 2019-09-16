@@ -13,7 +13,7 @@ namespace SothemaGoalManagement.API.Helpers
 
         public int OwnerId { get; set; }
 
-        public string Status { get; set; } = Constants.DRAFT;
+        public string Status { get; set; }
 
         public string OrderBy { get; set; }
 

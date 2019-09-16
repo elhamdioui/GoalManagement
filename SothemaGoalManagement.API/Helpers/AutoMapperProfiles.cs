@@ -52,9 +52,6 @@ namespace SothemaGoalManagement.API.Helpers
             CreateMap<Strategy, StrategyForListDto>().ForMember(dest => dest.OwnerName, opt =>
             {
                 opt.ResolveUsing(u => u.Owner.FirstName.FullName(u.Owner.LastName));
-            }).ForMember(dest => dest.Status, opt => 
-            {
-                opt.ResolveUsing( s => s.Status.StatusTemplate());
             });
 
             CreateMap<StrategyForCreationDto, Strategy>();
@@ -64,9 +61,6 @@ namespace SothemaGoalManagement.API.Helpers
             CreateMap<Strategy, StrategyToReturnDto>().ForMember(dest => dest.OwnerName, opt =>
             {
                 opt.ResolveUsing(u => u.Owner.FirstName.FullName(u.Owner.LastName));
-            }).ForMember(dest => dest.Status, opt => 
-            {
-                opt.ResolveUsing( s => s.Status.StatusTemplate());
             });
 
             CreateMap<AxisForCreationDto, Axis>();

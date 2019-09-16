@@ -38,26 +38,5 @@ namespace SothemaGoalManagement.API.Helpers
 
             return fullName;
         }
-
-        public static StatusTemplate StatusTemplate(this string value)
-        {
-            string key = "";
-            switch (value)
-            {
-                case Constants.PUBLISHED:
-                    key = "PUBLISHED";
-                    break;
-                case Constants.DRAFT:
-                    key = "DRAFT";
-                    break;
-                case Constants.REVIEW:
-                    key = "REVIEW";
-                    break;
-                case Constants.ARCHIVED:
-                    key = "ARCHIVED";
-                    break;
-            }
-            return new StatusTemplate(){Key = key, Value= value};
-        }
     }
 }
