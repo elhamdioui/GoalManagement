@@ -71,5 +71,20 @@ namespace SothemaGoalManagement.API.Controllers
 
             throw new Exception("La mise à jour de l'utilisateur a échoué lors de la sauvegarde");
         }
+
+        [HttpGet("publishedStrategies")]
+        public async Task<IActionResult> GetPublishedStrategies()
+        {
+            StrategyParams strategyParams = new StrategyParams()
+            {
+                Status = Constants.PUBLISHED
+            };
+
+            var strategies = await _repo.GetStrategies(strategyParams);
+            var publishedStrategiesToReturn = _mapper.Map<IEnumerable<PublishedStrategiesDto>>(strategies);
+            Response.AddPagination(strategies.CurrentPage, strategies.PageSize, strategies.TotalCount, strategies.TotalPages);
+
+            return Ok(publishedStrategiesToReturn);
+        }
     }
 }

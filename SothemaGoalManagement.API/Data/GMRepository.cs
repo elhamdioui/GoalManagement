@@ -167,6 +167,7 @@ namespace SothemaGoalManagement.API.Data
         {
             var strategies = _context.Strategies
                                 .Include(u => u.Owner)
+                                .Include(s => s.AxisList)
                                 .OrderByDescending(s => s.Created)
                                 .AsQueryable();
 

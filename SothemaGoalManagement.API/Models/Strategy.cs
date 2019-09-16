@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SothemaGoalManagement.API.Models
 {
@@ -17,5 +18,7 @@ namespace SothemaGoalManagement.API.Models
         public User Owner { get; set; }
 
         public DateTime Created { get; set; }
+
+        public ICollection<Axis> AxisList { get; set; }
     }
 }
