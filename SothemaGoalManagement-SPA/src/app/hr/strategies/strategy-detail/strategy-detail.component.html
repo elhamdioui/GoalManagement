@@ -40,7 +40,7 @@
       <div class="tab-panel">
         <tabset class="strategy-tabset" #strategyTabs>
           <tab heading="Axes stratigique">
-            <app-strategy-axis [axisList]="axisList"></app-strategy-axis>
+            <app-strategy-axis [axisList]="axisList" (addAxisEvent)="handleAddAxis(strategy.id, $event)"></app-strategy-axis>
           </tab>
           <tab heading="Pôles et Pondération">
             <div class="container">

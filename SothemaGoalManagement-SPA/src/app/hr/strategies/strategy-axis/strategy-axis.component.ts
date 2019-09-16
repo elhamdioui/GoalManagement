@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { Axis } from './../../../_models/axis';
@@ -14,6 +14,7 @@ import { AxisModalComponent } from '../axis-modal/axis-modal.component';
 })
 export class StrategyAxisComponent implements OnInit {
   @Input() axisList: Axis[];
+  @Output() addAxisEvent = new EventEmitter<Axis>();
   newAxis: any = {};
   bsModalRef: BsModalRef;
 
@@ -23,18 +24,8 @@ export class StrategyAxisComponent implements OnInit {
   }
 
   addAxis() {
-    // this.newAxis.strategyId = this.strategyId;
-    // this.hrService
-    //   .addAxis(this.newAxis)
-    //   .subscribe(
-    //     (axis: Axis) => {
-    //       this.axisList.unshift(axis);
-    //       this.newAxis.description = '';
-    //     },
-    //     error => {
-    //       this.alertify.error(error);
-    //     }
-    //   );
+    this.addAxisEvent.emit(this.newAxis);
+    this.newAxis.description = '';
   }
 
   deleteAxis(id: number) {

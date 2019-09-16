@@ -43,4 +43,18 @@ export class StrategyDetailComponent implements OnInit {
       }
     );
   }
+
+  handleAddAxis(strategyId: number, newAxis: Axis) {
+    newAxis.strategyId = strategyId;
+    this.hrService
+      .addAxis(newAxis)
+      .subscribe(
+        (axis: Axis) => {
+          this.axisList.unshift(axis);
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
+  }
 }
