@@ -8,7 +8,8 @@ import {
   BsDatepickerModule,
   PaginationModule,
   ButtonsModule,
-  ModalModule
+  ModalModule,
+  CarouselModule
 } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -120,6 +121,7 @@ export function tokenGetter() {
     BsDatepickerModule.forRoot(),
     TabsModule.forRoot(),
     ButtonsModule.forRoot(),
+    CarouselModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     NgxGalleryModule,
     ModalModule.forRoot(),

@@ -160,6 +160,6 @@ export class UserService {
   }
 
   getPublishedStrategies() {
-    return this.http.get(`${this.baseUrl}users/publishedStrategies`);
+    return this.http.get<Strategy[]>(`${this.baseUrl}users/publishedStrategies`);
   }
 }

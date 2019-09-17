@@ -1,3 +1,5 @@
+import { AxisPole } from "./axisPole";
+
 export interface Strategy {
   id: number;
   title: string;
@@ -6,4 +8,5 @@ export interface Strategy {
   ownerId: number;
   status: string;
   created: Date;
+  axisPoles: AxisPole[]
 }

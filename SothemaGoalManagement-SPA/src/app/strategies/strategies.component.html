@@ -1,3 +1,23 @@
-<p>
-  strategies works!
-</p>
+<div class="container">
+  <div class="card mt-2 mb-2" *ngFor="let ps of strategies">
+    <div class="card-header">
+      <h6 class="card-subtitle mb-2 text-muted">{{ps.title}}</h6>
+      <p class="card-text">{{ps.description}}</p>
+    </div>
+
+    <div class="card-body">
+      <carousel>
+        <slide *ngFor="let ap of ps.axisPoles">
+          <div class="text-center py-5 bg-danger text-white">
+            <h2>{{ap.poleName}}
+              <span class="badge badge-info">{{ap.weight}} %</span>
+            </h2>
+            <div class="lead">
+              <p>{{ap.axisDescription}}</p>
+            </div>
+          </div>
+        </slide>
+      </carousel>
+    </div>
+  </div>
+</div>
