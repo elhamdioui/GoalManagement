@@ -168,6 +168,8 @@ namespace SothemaGoalManagement.API.Data
             var strategies = _context.Strategies
                                 .Include(u => u.Owner)
                                 .Include(s => s.AxisList)
+                                .ThenInclude(a => a.AxisPoles)
+                                .ThenInclude(p => p.Pole)
                                 .OrderByDescending(s => s.Created)
                                 .AsQueryable();
 

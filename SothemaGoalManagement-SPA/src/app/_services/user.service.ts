@@ -158,4 +158,8 @@ export class UserService {
         })
       );
   }
+
+  getPublishedStrategies() {
+    return this.http.get(`${this.baseUrl}users/publishedStrategies`);
+  }
 }
