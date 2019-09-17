@@ -1,9 +1,61 @@
 <div class="container mt-5">
   <div *ngIf="loggedIn()" style="text-align: center">
-    <h1>Sothema Goal Management</h1>
-    <p class="lead">
-      Bienvenue à Sothema Goal Management Application!
-    </p>
+    <div class="card">
+      <div class="card-header">
+        <h1>Sothema Goal Management</h1>
+        <p class="lead">
+          Bienvenue à Sothema Goal Management Application!
+        </p>
+      </div>
+
+      <div class="card-body">
+        <ul class="list-inline member-icons animate text-center">
+          <li class="list-inline-item">
+            <div class="card text-center" style="width: 20rem;">
+              <div class="card-body">
+                <h6 class="card-title text-center mb-1">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                </h6>
+                <p class="card-text text-muted text-center">
+                  Donec adipiscing tristique risus nec feugiat. Eget nunc scelerisque viverra mauris in. Tellus molestie nunc non blandit massa
+                  enim nec dui nunc. Elit eget gravida cum sociis. Congue eu consequat ac felis donec et.
+                </p>
+              </div>
+            </div>
+          </li>
+
+          <li class="list-inline-item">
+            <div class="card text-center" style="width: 20rem;">
+              <div class="card-body">
+                <h6 class="card-title text-center mb-1">
+                  Euismod lacinia at quis risus sed vulputate odio ut
+                </h6>
+                <p class="card-text text-muted text-center">
+                  Porttitor lacus luctus accumsan tortor posuere ac ut consequat. Sit amet dictum sit amet justo donec. Leo in vitae turpis
+                  massa sed elementum.Quis viverra nibh cras pulvinar mattis nunc sed.
+                </p>
+              </div>
+            </div>
+          </li>
+
+          <li class="list-inline-item">
+            <div class="card text-center" style="width: 20rem;">
+              <div class="card-body">
+                <h6 class="card-title text-center mb-1">
+                  Magnis dis parturient montes nascetur ridiculus
+                </h6>
+                <p class="card-text text-muted text-center">
+                  Urna duis convallis convallis tellus. At volutpat diam ut venenatis tellus in metus vulputate. Augue lacus viverra vitae
+                  congue eu. Lorem mollis aliquam ut porttitor leo a diam. Porta non pulvinar neque laoreet suspendisse.
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
   </div>
 
   <div *ngIf="!loggedIn()" class="container h-100">
