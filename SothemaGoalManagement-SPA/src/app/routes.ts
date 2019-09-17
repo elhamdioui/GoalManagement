@@ -8,8 +8,7 @@ import { CollaboratorEditComponent } from './collaborators/collaborator-edit/col
 import { PreventUnsavedChanges } from './_guards/prevent-unsave-changes-guards';
 import { MessagesResolver } from './_resolvers/messages.resolver';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
-import { GoalsComponent } from './goals/goals.component';
-import { GoalsResolver } from './_resolvers/goals.resolver';
+import { GoalsCardsResolver } from './_resolvers/goals-cards.resolver';
 import { HrPanelComponent } from './hr/hr-panel/hr-panel.component';
 import { StrategiesComponent } from './strategies/strategies.component';
 import { StrategiesResolver } from './_resolvers/strategies.resolver';
@@ -23,6 +22,9 @@ import { ResetPasswordComponent } from './collaborators/reset-password/reset-pas
 import { ForgetPasswordComponent } from './collaborators/forget-password/forget-password.component';
 import { ProfileEditComponent } from './collaborators/profile-edit/profile-edit.component';
 import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
+import { CardsPanelComponent } from './userCards/cards-panel/cards-panel.component';
+import { GoalCardDetailComponent } from './userCards/goal-card-detail/goal-card-detail.component';
+import { GoalsCardDetailResolver } from './_resolvers/goals-card-detail.resolver';
 
 
 export const appRoutes: Routes = [
@@ -59,9 +61,14 @@ export const appRoutes: Routes = [
         resolve: { strategy: StrategyDetailResolver }
       },
       {
-        path: 'goals',
-        component: GoalsComponent,
-        resolve: { goals: GoalsResolver }
+        path: 'user/cards',
+        component: CardsPanelComponent,
+        resolve: { goalsCards: GoalsCardsResolver }
+      },
+      {
+        path: 'user/cards/:id',
+        component: GoalCardDetailComponent,
+        resolve: { goalsCard: GoalsCardDetailResolver }
       },
       {
         path: 'messages',

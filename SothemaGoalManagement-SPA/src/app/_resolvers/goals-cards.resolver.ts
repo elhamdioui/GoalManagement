@@ -6,10 +6,10 @@ import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { UserService } from './../_services/user.service';
 import { AlertifyService } from './../_services/alertify.service';
 import { AuthService } from './../_services/auth.service';
-import { Goal } from '../_models/goal';
+import { GoalCard } from '../_models/goalCard';
 
 @Injectable()
-export class GoalsResolver implements Resolve<Goal[]> {
+export class GoalsCardsResolver implements Resolve<GoalCard[]> {
   pageNumber = 1;
   pageSize = 10;
 
@@ -20,16 +20,16 @@ export class GoalsResolver implements Resolve<Goal[]> {
     private alertify: AlertifyService
   ) { }
 
-  resolve(route: ActivatedRouteSnapshot): Observable<Goal[]> {
+  resolve(route: ActivatedRouteSnapshot): Observable<GoalCard[]> {
     return this.userService
-      .getGoals(
+      .getGoalsCards(
         this.authService.decodedToken.nameid,
         this.pageNumber,
         this.pageSize
       )
       .pipe(
         catchError(error => {
-          this.alertify.error('Problem retrieving goals');
+          this.alertify.error('Problem retrieving goal cards');
           this.router.navigate(['/home']);
           return of(null);
         })

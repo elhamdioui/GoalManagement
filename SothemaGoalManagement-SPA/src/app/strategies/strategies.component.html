@@ -8,9 +8,9 @@
     <div class="card-body">
       <carousel>
         <slide *ngFor="let ap of ps.axisPoles">
-          <div class="text-center py-5 bg-danger text-white">
+          <div class="text-center py-5 bg-info text-white">
             <h2>{{ap.poleName}}
-              <span class="badge badge-info">{{ap.weight}} %</span>
+              <span class="badge badge-danger">{{ap.weight}} %</span>
             </h2>
             <div class="lead">
               <p>{{ap.axisDescription}}</p>
