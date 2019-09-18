@@ -6,7 +6,8 @@ import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { UserService } from './../_services/user.service';
 import { AlertifyService } from './../_services/alertify.service';
 import { AuthService } from './../_services/auth.service';
-import { GoalCard } from '../_models/goalCard';
+import { GoalCard } from './../_models/GoalCard';
+
 
 @Injectable()
 export class GoalsCardsResolver implements Resolve<GoalCard[]> {
