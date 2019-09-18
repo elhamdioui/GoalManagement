@@ -7,13 +7,13 @@
 
     <div class="card-body">
       <carousel>
-        <slide *ngFor="let ap of ps.axisPoles">
+        <slide *ngFor="let key of keys">
           <div class="text-center py-5 bg-info text-white">
-            <h2>{{ap.poleName}}
-              <span class="badge badge-danger">{{ap.weight}} %</span>
+            <h2>{{key}}
             </h2>
-            <div class="lead">
-              <p>{{ap.axisDescription}}</p>
+            <div class="lead" *ngFor="let ap of axisPolesGroupedByAxis[key]">
+              <p>{{ap.poleName}}</p>
+              <span class="badge badge-danger">{{ap.weight}} %</span>
             </div>
           </div>
         </slide>
