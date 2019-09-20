@@ -74,6 +74,10 @@ export class PhotoEditorComponent implements OnInit {
         }
       }
     };
+
+    this.uploader.onErrorItem = (item, response, status, headers) => {
+      this.alertifyService.error(response);
+    }
   }
 
   setMainPhoto(photo: Photo) {

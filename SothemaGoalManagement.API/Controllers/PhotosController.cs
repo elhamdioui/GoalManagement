@@ -53,6 +53,12 @@ namespace SothemaGoalManagement.API.Controllers
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
             var userFromRepo = await _repo.GetUser(userId, true);
 
+            // Users can have only 2 photos
+            if (userFromRepo.Photos.Count >= 2)
+            {
+                return BadRequest("Vous ne pouvez télécharger que 2 photos.");
+            }
+
             var file = photoForCreationDto.File;
             var uploadResult = new ImageUploadResult();
             if (file.Length > 0)
@@ -82,7 +88,7 @@ namespace SothemaGoalManagement.API.Controllers
                 return CreatedAtRoute("GetPhoto", new { id = photo.Id }, photoToReturn);
             }
 
-            return BadRequest("Could not add the photo");
+            return BadRequest("Impossible d'ajouter la photo.");
         }
 
         [HttpPost("{id}/setMain")]

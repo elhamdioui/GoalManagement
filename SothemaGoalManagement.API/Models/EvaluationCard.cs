@@ -6,9 +6,9 @@ namespace SothemaGoalManagement.API.Models
 {
     public class EvaluationCard
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; }// Year + Pole + Department
 
         public int Year { get; set; }
 
@@ -28,7 +28,7 @@ namespace SothemaGoalManagement.API.Models
 
         public bool Deleted { get; set; }
 
-        public string DeletionReson { get; set; }
+        public string DeletionReason { get; set; }
 
 
     }
