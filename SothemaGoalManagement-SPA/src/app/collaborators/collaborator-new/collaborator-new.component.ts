@@ -27,7 +27,7 @@ export class CollaboratorNewComponent implements OnInit {
   newUser: User;
   newUserForm: FormGroup;
   bsConfig: Partial<BsDatepickerConfig>;
-
+  notifyUser: boolean = false;
 
   constructor(private fb: FormBuilder, private adminService: AdminService, private alertify: AlertifyService) { }
 
@@ -90,7 +90,8 @@ export class CollaboratorNewComponent implements OnInit {
   createUser() {
     if (this.newUserForm.valid) {
       this.newUser = Object.assign({}, this.newUserForm.value);
-      this.adminService.createUser(this.newUser).subscribe(
+      console.log('this.notifyUser', this.notifyUser);
+      this.adminService.createUser(this.notifyUser, this.newUser).subscribe(
         next => {
           this.alertify.success('Utilisateur créé avec succès');
         },

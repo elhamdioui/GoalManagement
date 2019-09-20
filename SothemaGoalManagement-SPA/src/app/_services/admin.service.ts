@@ -58,8 +58,8 @@ export class AdminService {
     return this.http.put(this.baseUrl + 'admin/', user);
   }
 
-  createUser(user: User) {
-    return this.http.post(this.baseUrl + 'admin/register', user);
+  createUser(notifyUser: boolean, user: User) {
+    return this.http.post(this.baseUrl + 'admin/register/' + notifyUser, user);
   }
 
   getUsersWithRoles(page?,

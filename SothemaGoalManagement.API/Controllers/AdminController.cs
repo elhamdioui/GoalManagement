@@ -63,8 +63,8 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody]UserForRegisterDto userForRegisterDto)
+        [HttpPost("register/{notifyUser}")]
+        public async Task<IActionResult> Register(bool notifyUser, [FromBody]UserForRegisterDto userForRegisterDto)
         {
             // Make sure employee number and emails are unique
             var checkEmployeeNumber = await _repo.EmployeeNumberAlreadyExists(userForRegisterDto.EmployeeNumber);
@@ -85,11 +85,14 @@ namespace SothemaGoalManagement.API.Controllers
 
                 if (result.Succeeded)
                 {
-                    // Notify user by email to change his default password
-                    var generatedToken = await _userManager.GeneratePasswordResetTokenAsync(userToCreate);
-                    generatedToken = System.Web.HttpUtility.UrlEncode(generatedToken);
-                    var content = $"{userToCreate.FirstName},<br><p>Votre nouveau compte pour l'application Goal management a été créé.</p><p></p><p>Veuillez réinitialiser votre mot de passe, en suivant ce lien(ou bien collez - le dans votre navigateur) dans les 90 prochaines minutes:<br>http://localhost:4200/resetPassword?token={generatedToken}&email={userToCreate.Email}</p>";
-                    await new Mailer(_config).SendEmail(userToCreate.Email, generatedToken, "Bienvenue à l'application Goal Management", content);
+                    if (notifyUser)
+                    {
+                        // Notify user by email to change his default password
+                        var generatedToken = await _userManager.GeneratePasswordResetTokenAsync(userToCreate);
+                        generatedToken = System.Web.HttpUtility.UrlEncode(generatedToken);
+                        var content = $"{userToCreate.FirstName},<br><p>Votre nouveau compte pour l'application Goal management a été créé.</p><p></p><p>Veuillez réinitialiser votre mot de passe, en suivant ce lien(ou bien collez - le dans votre navigateur) dans les 90 prochaines minutes:<br>http://localhost:4200/resetPassword?token={generatedToken}&email={userToCreate.Email}</p>";
+                        await new Mailer(_config).SendEmail(userToCreate.Email, generatedToken, "Bienvenue à l'application Goal Management", content);
+                    }
                     return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
                 }
 
