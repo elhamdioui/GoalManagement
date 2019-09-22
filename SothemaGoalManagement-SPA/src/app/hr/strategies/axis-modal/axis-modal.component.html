@@ -7,7 +7,8 @@
 <div class="modal-body">
   <form #axisForm="ngForm" id="axisForm">
     <div class="form-group">
-      <input [(ngModel)]="axis.title" name="title" required type="text" class="form-control input-sm" placeholder="Titre de l'axe stratigique"/>
+      <input [(ngModel)]="axis.title" name="title" required type="text" class="form-control input-sm" placeholder="Titre de l'axe stratigique"
+      />
     </div>
     <div class="form-group">
       <textarea [(ngModel)]="axis.description" name="description" required rows="3" class="form-control input-sm" placeholder="Description de l'axe stratigique"></textarea>
@@ -15,6 +16,6 @@
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="bsModalRef.hide()">Cancel</button>
-  <button type="button" class="btn btn-success" (click)="updateAxis()" form="axisForm">Submit</button>
+  <button type="button" class="btn btn-primary" (click)="bsModalRef.hide()">Annuler</button>
+  <button type="button" class="btn btn-success" (click)="updateAxis()" form="axisForm" [disabled]="!axisForm.valid || !axisForm.dirty">Mettre à jour</button>
 </div>

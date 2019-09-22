@@ -28,6 +28,6 @@
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="bsModalRef.hide()">Cancel</button>
-  <button type="button" class="btn btn-success" (click)="updateStrategy()" form="strategyForm">Submit</button>
+  <button type="button" class="btn btn-primary" (click)="bsModalRef.hide()">Annuler</button>
+  <button type="button" class="btn btn-success" (click)="updateStrategy()" form="strategyForm" [disabled]="!strategyForm.valid || !strategyForm.dirty">Mettre à jour</button>
 </div>

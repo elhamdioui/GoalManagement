@@ -104,7 +104,7 @@ namespace SothemaGoalManagement.API.Controllers
 
             if (await _repo.SaveAll()) return NoContent();
 
-            throw new Exception("La mise à jour de l'utilisateur a échoué lors de l'enregistrement.");
+            throw new Exception("La mise à jour de la stratégie a échouée.");
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]

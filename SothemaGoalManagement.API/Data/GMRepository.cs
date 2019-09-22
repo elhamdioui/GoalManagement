@@ -198,7 +198,9 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<Strategy> GetStrategy(int id)
         {
-            return await _context.Strategies.Include(s => s.Owner).FirstOrDefaultAsync(s => s.Id == id);
+            return await _context.Strategies.Include(s => s.Owner)
+                                            .Include(s => s.AxisList)
+                                            .FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task<Axis> GetAxis(int id)
