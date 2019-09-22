@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.Identity;
 
 namespace SothemaGoalManagement.API.Models
@@ -33,5 +34,13 @@ namespace SothemaGoalManagement.API.Models
         public ICollection<Message> MessagesReceived { get; set; }
 
         public ICollection<UserRole> UserRoles { get; set; }
+
+        public User()
+        {
+            Photos = new Collection<Photo>();
+            MessagesSent = new Collection<Message>();
+            MessagesReceived = new Collection<Message>();
+            UserRoles = new Collection<UserRole>();
+        }
     }
 }

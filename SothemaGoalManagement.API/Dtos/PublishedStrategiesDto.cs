@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using SothemaGoalManagement.API.Models;
 
 namespace SothemaGoalManagement.API.Dtos
@@ -12,5 +13,10 @@ namespace SothemaGoalManagement.API.Dtos
         public string Description { get; set; }
 
         public ICollection<AxisPoleToReturnDto> AxisPoles { get; set; }
+
+        public PublishedStrategiesDto()
+        {
+            AxisPoles = new Collection<AxisPoleToReturnDto>();
+        }
     }
 }

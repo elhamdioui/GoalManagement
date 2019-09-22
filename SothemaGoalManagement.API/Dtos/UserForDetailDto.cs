@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using SothemaGoalManagement.API.Models;
 
 namespace SothemaGoalManagement.API.Dtos
@@ -20,6 +21,11 @@ namespace SothemaGoalManagement.API.Dtos
         public DateTime LastActive { get; set; }
         public string PhotoUrl { get; set; }
         public ICollection<PhotosForDetailDto> Photos { get; set; }
+
+        public UserForDetailDto()
+        {
+            Photos = new Collection<PhotosForDetailDto>();
+        }
 
     }
 }

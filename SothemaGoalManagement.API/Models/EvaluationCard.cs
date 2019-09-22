@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SothemaGoalManagement.API.Models
 {
@@ -30,6 +31,11 @@ namespace SothemaGoalManagement.API.Models
 
         public string DeletionReason { get; set; }
 
-
+        public EvaluationCard()
+        {
+            Goals = new Collection<Goal>();
+            BehavioralSkills = new Collection<BehavioralSkill>();
+            Evaluators = new Collection<User>();
+        }
     }
 }

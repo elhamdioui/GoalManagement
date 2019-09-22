@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SothemaGoalManagement.API.Models
 {
@@ -8,5 +9,10 @@ namespace SothemaGoalManagement.API.Models
         public string Name { get; set; }
 
         public ICollection<User> Users { get; set; }
+
+        public UserStatus()
+        {
+            Users = new Collection<User>();
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SothemaGoalManagement.API.Models
 {
@@ -11,5 +12,11 @@ namespace SothemaGoalManagement.API.Models
         public ICollection<Department> Departments { get; set; }
 
         public ICollection<AxisPole> AxisPoles { get; set; }
+
+        public Pole()
+        {
+            Departments = new Collection<Department>();
+            AxisPoles = new Collection<AxisPole>();
+        }
     }
 }

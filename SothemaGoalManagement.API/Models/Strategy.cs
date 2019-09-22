@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SothemaGoalManagement.API.Models
 {
@@ -20,5 +21,10 @@ namespace SothemaGoalManagement.API.Models
         public DateTime Created { get; set; }
 
         public ICollection<Axis> AxisList { get; set; }
+
+        public Strategy()
+        {
+            AxisList = new Collection<Axis>();
+        }
     }
 }
