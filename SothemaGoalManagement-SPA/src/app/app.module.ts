@@ -73,6 +73,7 @@ import { BehavioralSkillsCardComponent } from './userCards/behavioral-skills-car
 import { CardsPanelComponent } from './userCards/cards-panel/cards-panel.component';
 import { GoalCardNewComponent } from './userCards/goal-card-new/goal-card-new.component';
 import { GoalsCardDetailResolver } from './_resolvers/goals-card-detail.resolver';
+import { StrategyDocumentationComponent } from './hr/strategies/strategy-documentation/strategy-documentation.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -113,6 +114,7 @@ export function tokenGetter() {
     StrategyEditModalComponent,
     StrategyDetailComponent,
     StrategyAxisComponent,
+    StrategyDocumentationComponent,
     AxisModalComponent,
     AxisPolesWeightsCardComponent,
     AxisPoleWeightItemComponent,

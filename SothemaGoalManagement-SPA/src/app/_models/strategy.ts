@@ -8,5 +8,6 @@ export interface Strategy {
   ownerId: number;
   status: string;
   created: Date;
+  documentationUrl: string;
   axisList: Axis[]
 }

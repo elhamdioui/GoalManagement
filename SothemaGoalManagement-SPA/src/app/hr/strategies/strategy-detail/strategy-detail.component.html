@@ -47,6 +47,9 @@
               <app-axis-poles-weights-list [axisList]="axisList"></app-axis-poles-weights-list>
             </div>
           </tab>
+          <tab heading="Documentation">
+            <app-strategy-documentation [strategy]="strategy" (deleteDocumentationEvent)="handleDeleteDocumentation($event)"></app-strategy-documentation>
+          </tab>
         </tabset>
       </div>
     </div>
