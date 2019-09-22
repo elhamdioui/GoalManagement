@@ -1,14 +1,16 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Modifier Axe</h4>
+  <h4 class="modal-title pull-left">Modifier Axe {{axis.title}}</h4>
   <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
   <form #axisForm="ngForm" id="axisForm">
-    <div class="input-group">
-      <input [(ngModel)]="axis.description" name="description" required type="text" class="form-control input-sm" placeholder="Ajouter un axe stratigique"
-      />
+    <div class="form-group">
+      <input [(ngModel)]="axis.title" name="title" required type="text" class="form-control input-sm" placeholder="Titre de l'axe stratigique"/>
+    </div>
+    <div class="form-group">
+      <textarea [(ngModel)]="axis.description" name="description" required rows="3" class="form-control input-sm" placeholder="Description de l'axe stratigique"></textarea>
     </div>
   </form>
 </div>

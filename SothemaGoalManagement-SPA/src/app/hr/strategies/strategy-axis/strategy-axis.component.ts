@@ -25,6 +25,7 @@ export class StrategyAxisComponent implements OnInit {
 
   addAxis() {
     this.addAxisEvent.emit(this.newAxis);
+    this.newAxis.title = '';
     this.newAxis.description = '';
   }
 
