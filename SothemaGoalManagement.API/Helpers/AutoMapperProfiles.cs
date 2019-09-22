@@ -75,7 +75,6 @@ namespace SothemaGoalManagement.API.Helpers
             CreateMap<AxisForUpdateDto, Axis>();
 
             CreateMap<AxisPole, AxisPoleToReturnDto>();
-            CreateMap<Strategy, PublishedStrategiesDto>();
 
         }
     }

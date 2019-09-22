@@ -82,19 +82,8 @@ namespace SothemaGoalManagement.API.Controllers
 
             var strategies = await _repo.GetStrategies(strategyParams);
 
-            var publishedStrategiesToReturnList = _mapper.Map<IEnumerable<Strategy>, IEnumerable<PublishedStrategiesDto>>(strategies);
-            foreach (var publishedStrategiesToReturn in publishedStrategiesToReturnList)
-            {
-                publishedStrategiesToReturn.AxisPoles = new List<AxisPoleToReturnDto>();
-                var axisPoles = new List<AxisPoleToReturnDto>();
-                var axisList = strategies.Find(s => s.Id == publishedStrategiesToReturn.Id).AxisList;
-                foreach (var axis in axisList)
-                {
-                    _mapper.Map<IEnumerable<AxisPole>, IEnumerable<AxisPoleToReturnDto>>(axis.AxisPoles, publishedStrategiesToReturn.AxisPoles);
-                    axisPoles.AddRange(publishedStrategiesToReturn.AxisPoles);
-                }
-                publishedStrategiesToReturn.AxisPoles = axisPoles;
-            }
+            var publishedStrategiesToReturnList = _mapper.Map<IEnumerable<Strategy>, IEnumerable<StrategyToReturnDto>>(strategies);
+
 
             return Ok(publishedStrategiesToReturnList);
         }
