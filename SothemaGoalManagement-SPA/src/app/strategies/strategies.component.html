@@ -7,6 +7,11 @@
   <div *ngIf="strategies.length > 0">
     <div class="card mt-2 mb-2" *ngFor="let strategy of strategies">
       <div class="card-header">
+        <div class="float-left mr-2" *ngIf="strategy.documentationUrl">
+          <a href="{{strategy.documentationUrl}}" target="_blanc" class="mt-2">
+            <img src="../../../../assets/document.png" alt="documentation" width="40px" height="50px">
+          </a>
+        </div>
         <h6 class="card-subtitle mb-2 text-muted">{{strategy.title}}</h6>
         <button type="button" class="btn btn-primary float-right" (click)="viewToggle()">
           Changer de vue

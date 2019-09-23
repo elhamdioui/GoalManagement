@@ -1,13 +1,15 @@
 <div class="container">
-  <div class="row mt-5 ml-5" *ngIf="strategy.documentationUrl">
 
-    <a href="{{strategy.documentationUrl}}" target="_blanc">
-      <i class="fa fa-file-pdf-o fa-5" aria-hidden="true"></i>
+  <div class="card mt-2" style="width: 30rem;" *ngIf="strategy.documentationUrl">
+    <a href="{{strategy.documentationUrl}}" target="_blanc" class="mt-2">
+      <img src="../../../../assets/document.png" alt="documentation">
     </a>
-
-    <button type="button" class="btn btn-sm btn-danger ml-5" (click)="deleteDocumentation(strategy.id)">
-      <i class="fa fa-trash-o"></i>
-    </button>
+    <div class="card-body">
+      <h5 class="card-title">Documentation détaillée sur la stratégie</h5>
+      <button type="button" class="btn btn-sm btn-danger" (click)="deleteDocumentation(strategy.id)">
+        <i class="fa fa-trash-o"></i> Supprimer doucmentation
+      </button>
+    </div>
   </div>
 
   <div class="row mt-3" *ngIf="!strategy.documentationUrl">
