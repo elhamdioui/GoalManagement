@@ -92,4 +92,7 @@ export class HrService {
     return this.http.put(`${this.baseUrl}hr/updateAxisPole/${axisId}/${poleId}/${weight}`, {});
   }
 
+  deleteStrategyDocument(id: number) {
+    return this.http.post(this.baseUrl + 'hr/strategies/edit/' + id + '/documentation/delete', {});
+  }
 }

@@ -9,8 +9,8 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190915172454_AxisPolesAdded")]
-    partial class AxisPolesAdded
+    [Migration("20190923091729_StratgeyDocumentationPublicIdAdded")]
+    partial class StratgeyDocumentationPublicIdAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,6 +96,8 @@ namespace SothemaGoalManagement.API.Migrations
                     b.Property<string>("Description");
 
                     b.Property<int>("StrategyId");
+
+                    b.Property<string>("Title");
 
                     b.HasKey("Id");
 
@@ -236,6 +238,10 @@ namespace SothemaGoalManagement.API.Migrations
                     b.Property<DateTime>("Created");
 
                     b.Property<string>("Description");
+
+                    b.Property<string>("DocumentationPublicId");
+
+                    b.Property<string>("DocumentationUrl");
 
                     b.Property<int>("OwnerId");
 
@@ -383,7 +389,7 @@ namespace SothemaGoalManagement.API.Migrations
             modelBuilder.Entity("SothemaGoalManagement.API.Models.Axis", b =>
                 {
                     b.HasOne("SothemaGoalManagement.API.Models.Strategy", "Strategy")
-                        .WithMany()
+                        .WithMany("AxisList")
                         .HasForeignKey("StrategyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

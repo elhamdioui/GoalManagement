@@ -21,6 +21,7 @@ namespace SothemaGoalManagement.API.Models
         public DateTime Created { get; set; }
 
         public string DocumentationUrl { get; set; }
+        public string DocumentationPublicId { get; set; }
 
         public ICollection<Axis> AxisList { get; set; }
 

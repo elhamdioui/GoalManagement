@@ -2,17 +2,15 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SothemaGoalManagement.API.Data;
 
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190905100318_DefaultTokenProviderAdded")]
-    partial class DefaultTokenProviderAdded
+    partial class DataContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,6 +82,41 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.Axis", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("StrategyId");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StrategyId");
+
+                    b.ToTable("Axis");
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.AxisPole", b =>
+                {
+                    b.Property<int>("AxisId");
+
+                    b.Property<int>("PoleId");
+
+                    b.Property<int>("Weight");
+
+                    b.HasKey("AxisId", "PoleId");
+
+                    b.HasIndex("PoleId");
+
+                    b.ToTable("AxisPoles");
                 });
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.Department", b =>
@@ -203,6 +236,10 @@ namespace SothemaGoalManagement.API.Migrations
                     b.Property<DateTime>("Created");
 
                     b.Property<string>("Description");
+
+                    b.Property<string>("DocumentationPublicId");
+
+                    b.Property<string>("DocumentationUrl");
 
                     b.Property<int>("OwnerId");
 
@@ -344,6 +381,27 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.Axis", b =>
+                {
+                    b.HasOne("SothemaGoalManagement.API.Models.Strategy", "Strategy")
+                        .WithMany("AxisList")
+                        .HasForeignKey("StrategyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.AxisPole", b =>
+                {
+                    b.HasOne("SothemaGoalManagement.API.Models.Axis", "Axis")
+                        .WithMany("AxisPoles")
+                        .HasForeignKey("AxisId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SothemaGoalManagement.API.Models.Pole", "Pole")
+                        .WithMany("AxisPoles")
+                        .HasForeignKey("PoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
+
 namespace SothemaGoalManagement.API.Dtos
 {
     public class StrategyForUpdateDto

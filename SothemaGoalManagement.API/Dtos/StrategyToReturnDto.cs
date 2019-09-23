@@ -19,6 +19,10 @@ namespace SothemaGoalManagement.API.Dtos
 
         public DateTime Created { get; set; }
 
+        public string DocumentationUrl { get; set; }
+
+        public string DocumentationPublicId { get; set; }
+
         public ICollection<AxisToReturnDto> AxisList { get; set; }
 
         public StrategyToReturnDto()

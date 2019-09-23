@@ -26,10 +26,23 @@ namespace SothemaGoalManagement.API.Controllers
         private readonly IMapper _mapper;
         private readonly IGMRepository _repo;
 
-        public HrController(IGMRepository repo, IMapper mapper)
+        private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
+        private Cloudinary _cloudinary;
+
+
+        public HrController(IGMRepository repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig)
         {
             _repo = repo;
             _mapper = mapper;
+            _cloudinaryConfig = cloudinaryConfig;
+
+            Account acc = new Account(
+                _cloudinaryConfig.Value.CloudName,
+                _cloudinaryConfig.Value.ApiKey,
+                _cloudinaryConfig.Value.ApiSecret
+            );
+
+            _cloudinary = new Cloudinary(acc);
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
@@ -105,6 +118,67 @@ namespace SothemaGoalManagement.API.Controllers
             if (await _repo.SaveAll()) return NoContent();
 
             throw new Exception("La mise à jour de la stratégie a échouée.");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPost("strategies/edit/{id}/documentation")]
+        public async Task<IActionResult> AddDocumentationForStrategy(int id, [FromForm]DocumentForStrategyDto documentForStrategyDto)
+        {
+            var strategyFromRepo = await _repo.GetStrategy(id);
+
+            if (strategyFromRepo.DocumentationUrl != null)
+            {
+                return BadRequest("Vous ne pouvez télécharger qu'un seul document.");
+            }
+
+            var file = documentForStrategyDto.File;
+            var uploadResult = new ImageUploadResult();
+            if (file.Length > 0)
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(file.Name, stream)
+                    };
+                    uploadResult = _cloudinary.Upload(uploadParams);
+                }
+            }
+
+            strategyFromRepo.DocumentationUrl = uploadResult.Uri.ToString();
+            strategyFromRepo.DocumentationPublicId = uploadResult.PublicId;
+
+            if (await _repo.SaveAll())
+            {
+                var stratgeyToReturn = _mapper.Map<StrategyToReturnDto>(strategyFromRepo);
+                return CreatedAtRoute("GetStrategy", new { id = strategyFromRepo.Id }, stratgeyToReturn);
+            }
+
+            return BadRequest("Impossible d'ajouter le document.");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPost("strategies/edit/{id}/documentation/delete")]
+        public async Task<IActionResult> DeleteDocumentationForStrategy(int id)
+        {
+            var strategyFromRepo = await _repo.GetStrategy(id);
+
+            if (strategyFromRepo.DocumentationPublicId != null)
+            {
+                var deleteParams = new DeletionParams(strategyFromRepo.DocumentationPublicId);
+                var result = _cloudinary.Destroy(deleteParams);
+                if (result.Result == "ok")
+                {
+                    strategyFromRepo.DocumentationUrl = null;
+                    strategyFromRepo.DocumentationPublicId = null;
+
+                    if (await _repo.SaveAll()) return Ok();
+                    return BadRequest("Échoué de supprimer le document");
+                }
+            }
+
+
+            return BadRequest("Aucun document à supprimer.");
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]

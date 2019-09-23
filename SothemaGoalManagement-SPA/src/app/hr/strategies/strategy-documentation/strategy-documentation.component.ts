@@ -4,7 +4,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { Strategy } from '../../../_models/strategy';
 import { AlertifyService } from '../../../_services/alertify.service';
 import { environment } from '../../../../environments/environment';
-import { AuthService } from '../../../_services/auth.service';
+import { HrService } from '../../../_services/hr.service';
 
 @Component({
   selector: 'app-strategy-documentation',
@@ -18,7 +18,7 @@ export class StrategyDocumentationComponent implements OnInit {
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
 
-  constructor(private authService: AuthService, private alertifyService: AlertifyService) { }
+  constructor(private alertifyService: AlertifyService, private hrService: HrService, ) { }
 
   ngOnInit() {
     this.initializeUploader();
@@ -28,8 +28,8 @@ export class StrategyDocumentationComponent implements OnInit {
     this.uploader = new FileUploader({
       url:
         this.baseUrl +
-        'hr/' +
-        this.authService.decodedToken.nameid +
+        'hr/strategies/edit/' +
+        this.strategy.id +
         '/documentation',
       authToken: 'Bearer ' + localStorage.getItem('token'),
       isHTML5: true,
@@ -53,5 +53,24 @@ export class StrategyDocumentationComponent implements OnInit {
     this.uploader.onErrorItem = (item, response, status, headers) => {
       this.alertifyService.error(response);
     }
+  }
+
+  deleteDocumentation(id: number) {
+    this.alertifyService.confirm(
+      'Etes-vous sûr de vouloir supprimer ce document?',
+      () => {
+        this.hrService
+          .deleteStrategyDocument(id)
+          .subscribe(
+            () => {
+              this.strategy.documentationUrl = null;
+              this.alertifyService.success('Le document a été supprimée');
+            },
+            error => {
+              this.alertifyService.error('Échec de la suppression de document.');
+            }
+          );
+      }
+    );
   }
 }

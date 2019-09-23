@@ -9,8 +9,8 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190922170024_AxisTitleAdded")]
-    partial class AxisTitleAdded
+    [Migration("20190923080928_StrategyDocumentationUrlAdded")]
+    partial class StrategyDocumentationUrlAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -238,6 +238,8 @@ namespace SothemaGoalManagement.API.Migrations
                     b.Property<DateTime>("Created");
 
                     b.Property<string>("Description");
+
+                    b.Property<string>("DocumentationUrl");
 
                     b.Property<int>("OwnerId");
 

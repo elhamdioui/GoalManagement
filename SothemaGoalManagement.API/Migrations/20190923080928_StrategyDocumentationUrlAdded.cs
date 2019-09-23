@@ -2,21 +2,21 @@
 
 namespace SothemaGoalManagement.API.Migrations
 {
-    public partial class AxisTitleAdded : Migration
+    public partial class StrategyDocumentationUrlAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Title",
-                table: "Axis",
+                name: "DocumentationUrl",
+                table: "Strategies",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Title",
-                table: "Axis");
+                name: "DocumentationUrl",
+                table: "Strategies");
         }
     }
 }

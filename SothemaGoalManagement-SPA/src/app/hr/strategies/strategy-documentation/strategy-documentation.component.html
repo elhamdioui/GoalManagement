@@ -1,3 +1,58 @@
-<p>
-  strategy-documentation works!
-</p>
+<div class="container">
+  <div class="row mt-5 ml-5" *ngIf="strategy.documentationUrl">
+
+    <a href="{{strategy.documentationUrl}}" target="_blanc">
+      <i class="fa fa-file-pdf-o fa-5" aria-hidden="true"></i>
+    </a>
+
+    <button type="button" class="btn btn-sm btn-danger ml-5" (click)="deleteDocumentation(strategy.id)">
+      <i class="fa fa-trash-o"></i>
+    </button>
+  </div>
+
+  <div class="row mt-3" *ngIf="!strategy.documentationUrl">
+    <h5>Ajouter maximum 1 document</h5>
+    <input type="file" ng2FileSelect [uploader]="uploader" />
+  </div>
+
+  <div class="row" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
+    <h3>File d'attente de téléchargement</h3>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th width="50%">Nom</th>
+          <th>Taille</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of uploader.queue">
+          <td>
+            <strong>{{ item?.file?.name }}</strong>
+          </td>
+          <td *ngIf="uploader.options.isHTML5" nowrap>
+            {{ item?.file?.size / 1024 / 1024 | number: '.2' }} MB
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div>
+      <div>
+        Progression de la file d'attente:
+        <div class="progress mb-4">
+          <div class="progress-bar" role="progressbar" [ngStyle]="{ width: uploader.progress + '%' }"></div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-success btn-s  mr-1" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+        <span class="fa fa-upload"></span> Télécharger
+      </button>
+      <button type="button" class="btn btn-warning btn-s  mr-1" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+        <span class="fa fa-ban"></span> Annuler
+      </button>
+      <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+        <span class="fa fa-trash"></span> Retirer
+      </button>
+    </div>
+  </div>
+</div>
