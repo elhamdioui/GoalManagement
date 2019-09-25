@@ -60,16 +60,16 @@ export class CollaboratorSearchComponent implements OnInit {
       );
   }
 
-  deleteEvaluator(evaluatedId: number, evaluatorId: number) {
+  deleteEvaluator(evaluatedId: number, evaluator: User) {
     this.alertify.confirm(
-      'Etes-vous sûr de vouloir supprimer cet evaluateur?',
+      `Etes-vous sûr de vouloir supprimer l'evaluateur ${evaluator.firstName} ${evaluator.lastName}?`,
       () => {
         this.hrService
-          .deleteEvaluator(evaluatedId, evaluatorId)
+          .deleteEvaluator(evaluatedId, evaluator.id)
           .subscribe(
             () => {
               this.loadEvaluators();
-              this.alertify.success('Le document a été supprimée');
+              this.alertify.success('L\'evaluateur a été supprimé.');
             },
             error => {
               this.alertify.error('Échec de la suppression d\'evaluateur.');

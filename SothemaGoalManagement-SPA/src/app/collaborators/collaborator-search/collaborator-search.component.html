@@ -41,7 +41,7 @@
 
 <div class="card mt-3" *ngIf="evaluators?.length > 0">
   <div class="card-header">
-    Les évaluateurs de {{evaluated.firstName}} {{evaluated.lastName}}:
+    Les évaluateurs assignés à {{evaluated.firstName}} {{evaluated.lastName}}:
   </div>
   <div class="card-body">
     <table class="table table-hover" style="cursor: pointer">
@@ -58,7 +58,7 @@
         <td>{{ evaluator.title }}</td>
         <td>{{ evaluator.department.name }}</td>
         <td>
-          <button class="btn btn-sm btn-danger" (click)="$event.stopPropagation()" (click)="deleteEvaluator(evaluated.id, evaluator.id)">
+          <button class="btn btn-sm btn-danger" (click)="$event.stopPropagation()" (click)="deleteEvaluator(evaluated.id, evaluator)">
             <i class="fa fa-trash"></i>
           </button>
         </td>
