@@ -50,10 +50,10 @@ namespace SothemaGoalManagement.API.Controllers
             return Ok(userToReturn);
         }
 
-        [HttpGet("searchApprovers")]
-        public async Task<IActionResult> searchApprovers(string searchTerm)
+        [HttpGet("loadAllUsers")]
+        public async Task<IActionResult> loadAllUsers()
         {
-            var userFromRepo = await _repo.SerachForUsers(searchTerm);
+            var userFromRepo = await _repo.LoadAllUsers();
 
             var userToReturn = _mapper.Map<IEnumerable<UserForSearchResultDto>>(userFromRepo);
             return Ok(userToReturn);

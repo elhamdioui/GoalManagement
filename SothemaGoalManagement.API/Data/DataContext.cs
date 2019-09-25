@@ -16,6 +16,7 @@ namespace SothemaGoalManagement.API.Data
         public DbSet<Message> Messages { get; set; }
 
         public DbSet<Department> Departments { get; set; }
+
         public DbSet<Pole> Poles { get; set; }
 
         public DbSet<UserStatus> UserStatus { get; set; }
@@ -25,6 +26,8 @@ namespace SothemaGoalManagement.API.Data
         public DbSet<Axis> Axis { get; set; }
 
         public DbSet<AxisPole> AxisPoles { get; set; }
+
+        public DbSet<EvaluatedEvaluator> EvaluatedEvaluators { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -42,6 +45,16 @@ namespace SothemaGoalManagement.API.Data
                 userRole.HasOne(ur => ur.User)
                         .WithMany(r => r.UserRoles)
                         .HasForeignKey(ur => ur.UserId)
+                        .IsRequired();
+            });
+
+            builder.Entity<EvaluatedEvaluator>(evaluatedEvaluator =>
+            {
+                evaluatedEvaluator.HasKey(ee => new { ee.EvaluatedId, ee.EvaluatorId });
+
+                evaluatedEvaluator.HasOne(ee => ee.Evaluator)
+                        .WithMany(u => u.EvaluatedEvaluators)
+                        .HasForeignKey(ee => ee.EvaluatorId)
                         .IsRequired();
             });
 
@@ -78,6 +91,7 @@ namespace SothemaGoalManagement.API.Data
             builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
 
             builder.Entity<UserStatus>().Property(d => d.Name).IsRequired();
+
         }
     }
 }

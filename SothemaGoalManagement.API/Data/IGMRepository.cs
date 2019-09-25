@@ -16,6 +16,8 @@ namespace SothemaGoalManagement.API.Data
 
         Task<IEnumerable<User>> SerachForUsers(string searchTerm);
 
+        Task<IEnumerable<User>> LoadAllUsers();
+
         Task<User> GetUser(int id, bool isCurrentUser);
 
         Task<Photo> GetPhoto(int id);
@@ -46,6 +48,10 @@ namespace SothemaGoalManagement.API.Data
         Task<AxisPole> GetAxisPole(int axisId, int poleId);
 
         Task<bool> EmployeeNumberAlreadyExists(string employeNumber, int? employeeId = null);
+
+        Task<IEnumerable<User>> LoadEvaluators(int evaluatedId);
+
+        Task<EvaluatedEvaluator> GetEvaluatedEvaluator(int evaluatedId, int evaluatorId);
 
     }
 }

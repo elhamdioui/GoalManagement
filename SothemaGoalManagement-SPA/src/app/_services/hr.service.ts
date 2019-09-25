@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 import { Strategy } from '../_models/strategy';
 import { Axis } from '../_models/axis';
 import { AxisPole } from '../_models/axisPole';
+import { User } from '../_models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -94,5 +95,21 @@ export class HrService {
 
   deleteStrategyDocument(id: number) {
     return this.http.post(this.baseUrl + 'hr/strategies/edit/' + id + '/documentation/delete', {});
+  }
+
+  searchEvaluators(searchTerm: string): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl + 'hr/searchEvaluators?searchTerm=' + searchTerm);
+  }
+
+  addEvaluatorToUser(evaluatedId: number, evaluatorId: number) {
+    return this.http.post(`${this.baseUrl}hr/addEvaluatorToUser/${evaluatedId}/${evaluatorId}`, {});
+  }
+
+  loadEvaluators(evaluatedId: number) {
+    return this.http.get(`${this.baseUrl}hr/loadEvaluators/${evaluatedId}`);
+  }
+
+  deleteEvaluator(evaluatedId: number, evaluatorId: number) {
+    return this.http.delete(`${this.baseUrl}hr/deleteEvaluator/${evaluatedId}/${evaluatorId}`);
   }
 }

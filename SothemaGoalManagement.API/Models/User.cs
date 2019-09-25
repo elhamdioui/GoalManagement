@@ -35,12 +35,15 @@ namespace SothemaGoalManagement.API.Models
 
         public ICollection<UserRole> UserRoles { get; set; }
 
+        public ICollection<EvaluatedEvaluator> EvaluatedEvaluators { get; set; }
+
         public User()
         {
             Photos = new Collection<Photo>();
             MessagesSent = new Collection<Message>();
             MessagesReceived = new Collection<Message>();
             UserRoles = new Collection<UserRole>();
+            EvaluatedEvaluators = new Collection<EvaluatedEvaluator>();
         }
     }
 }

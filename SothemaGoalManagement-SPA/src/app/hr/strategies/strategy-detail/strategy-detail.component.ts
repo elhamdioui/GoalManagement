@@ -57,8 +57,4 @@ export class StrategyDetailComponent implements OnInit {
         }
       );
   }
-
-  handleDeleteDocumentation(strategy: Strategy) {
-
-  }
 }

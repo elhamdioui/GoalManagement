@@ -89,6 +89,11 @@ namespace SothemaGoalManagement.API.Data
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
+        public async Task<IEnumerable<User>> LoadAllUsers()
+        {
+            return await _context.Users.Include(u => u.Department).ToListAsync();
+        }
+
         public async Task<PagedList<object>> GetUsersWithRoles(UserParams userParams)
         {
             var usersWithRoles = (from user in _context.Users
@@ -236,6 +241,20 @@ namespace SothemaGoalManagement.API.Data
             return await _context.Users.Include(u => u.Department)
                                 .Where(u => u.FirstName.ToLower().Contains(searchTerm.ToLower()) || u.LastName.ToLower().Contains(searchTerm.ToLower()))
                                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<User>> LoadEvaluators(int evaluatedId)
+        {
+            var evaluators = await (from evaluatedEvaluator in _context.EvaluatedEvaluators
+                                    join evaluator in _context.Users.Include(u => u.Department) on evaluatedEvaluator.EvaluatorId equals evaluator.Id
+                                    select (evaluator)).ToListAsync();
+
+            return evaluators;
+        }
+
+        public async Task<EvaluatedEvaluator> GetEvaluatedEvaluator(int evaluatedId, int evaluatorId)
+        {
+            return await _context.EvaluatedEvaluators.SingleOrDefaultAsync(ee => ee.EvaluatedId == evaluatedId && ee.EvaluatorId == evaluatorId);
         }
 
         public async Task<bool> EmployeeNumberAlreadyExists(string employeNumber, int? employeeId = null)

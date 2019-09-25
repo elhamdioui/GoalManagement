@@ -16,8 +16,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
 import { TimeAgoPipe } from 'time-ago-pipe';
-import { MatFormFieldModule, MatSelectModule } from '@angular/material';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -74,6 +73,7 @@ import { CardsPanelComponent } from './userCards/cards-panel/cards-panel.compone
 import { GoalCardNewComponent } from './userCards/goal-card-new/goal-card-new.component';
 import { GoalsCardDetailResolver } from './_resolvers/goals-card-detail.resolver';
 import { StrategyDocumentationComponent } from './hr/strategies/strategy-documentation/strategy-documentation.component';
+import { CollaboratorSearchComponent } from './collaborators/collaborator-search/collaborator-search.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -91,6 +91,7 @@ export function tokenGetter() {
     CollaboratorEditComponent,
     CollaboratorNewComponent,
     CollaboratorMessagesComponent,
+    CollaboratorSearchComponent,
     ProfileEditComponent,
     PhotoEditorComponent,
     TimeAgoPipe,
@@ -135,12 +136,10 @@ export function tokenGetter() {
     CarouselModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     NgxGalleryModule,
+    BrowserAnimationsModule,
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
     FileUploadModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    NgxMatSelectSearchModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SothemaGoalManagement.API.Data;
 
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190924233737_EvaluatedEvaluatorsAdded")]
+    partial class EvaluatedEvaluatorsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,6 +136,19 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasIndex("PoleId");
 
                     b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluatedEvaluator", b =>
+                {
+                    b.Property<int>("EvaluatedId");
+
+                    b.Property<int>("EvaluatorId");
+
+                    b.HasKey("EvaluatedId", "EvaluatorId");
+
+                    b.HasIndex("EvaluatorId");
+
+                    b.ToTable("EvaluatedEvaluators");
                 });
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.Message", b =>
@@ -410,6 +425,19 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.Pole", "Pole")
                         .WithMany("Departments")
                         .HasForeignKey("PoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluatedEvaluator", b =>
+                {
+                    b.HasOne("SothemaGoalManagement.API.Models.User", "Evaluated")
+                        .WithMany()
+                        .HasForeignKey("EvaluatedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SothemaGoalManagement.API.Models.User", "Evaluator")
+                        .WithMany("EvaluatedEvaluators")
+                        .HasForeignKey("EvaluatorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
