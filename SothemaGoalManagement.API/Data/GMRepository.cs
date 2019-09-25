@@ -245,9 +245,11 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<IEnumerable<User>> LoadEvaluators(int evaluatedId)
         {
-            var evaluators = await (from evaluatedEvaluator in _context.EvaluatedEvaluators
-                                    join evaluator in _context.Users.Include(u => u.Department) on evaluatedEvaluator.EvaluatorId equals evaluator.Id
-                                    select (evaluator)).ToListAsync();
+            var evaluators = await (from u in _context.Users.Include(u => u.Department)
+                                    join e in _context.EvaluatedEvaluators
+                                    on u.Id equals e.EvaluatorId
+                                    where e.EvaluatedId == evaluatedId
+                                    select (u)).ToListAsync();
 
             return evaluators;
         }

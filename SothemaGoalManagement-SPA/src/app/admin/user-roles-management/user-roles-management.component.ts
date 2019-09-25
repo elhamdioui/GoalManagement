@@ -15,7 +15,7 @@ import { Pagination, PaginatedResult } from './../../_models/pagination';
 export class UserRolesManagementComponent implements OnInit {
   users: User[];
   bsModalRef: BsModalRef;
-  pagination: Pagination;
+  pagination: Pagination = { currentPage: 1, itemsPerPage: 10, totalItems: 0, totalPages: 0 };
   pageNumber = 1;
   pageSize = 10;
 
