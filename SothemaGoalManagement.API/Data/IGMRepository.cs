@@ -53,5 +53,9 @@ namespace SothemaGoalManagement.API.Data
 
         Task<EvaluatedEvaluator> GetEvaluatedEvaluator(int evaluatedId, int evaluatorId);
 
+        Task<IEnumerable<BehavioralSkill>> GetBehavioralSkills();
+
+        Task<BehavioralSkill> GetBehavioralSkill(int id);
+
     }
 }

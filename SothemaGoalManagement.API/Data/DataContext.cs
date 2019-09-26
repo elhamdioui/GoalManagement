@@ -29,6 +29,8 @@ namespace SothemaGoalManagement.API.Data
 
         public DbSet<EvaluatedEvaluator> EvaluatedEvaluators { get; set; }
 
+        public DbSet<BehavioralSkill> BehavioralSkills { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

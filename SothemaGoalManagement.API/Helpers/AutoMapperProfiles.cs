@@ -48,11 +48,6 @@ namespace SothemaGoalManagement.API.Helpers
                 opt.ResolveUsing(u => u.Owner.FirstName.FullName(u.Owner.LastName));
             });
 
-            // CreateMap<Strategy, PublishedStrategiesDto>().ForMember(dest => dest.AxisPoles, opt =>
-            // {
-            //     opt.MapFrom(src => src.AxisList.Select(a => a.AxisPoles.Select(ap => ap.))
-            // });
-
             CreateMap<StrategyForCreationDto, Strategy>();
 
             CreateMap<StrategyForUpdateDto, Strategy>();
@@ -70,13 +65,15 @@ namespace SothemaGoalManagement.API.Helpers
 
             CreateMap<AxisPole, AxisPoleToReturnDto>();
 
+            CreateMap<BehavioralSkillForCreationDto, BehavioralSkill>();
+
+            CreateMap<BehavioralSkillForUpdateDto, BehavioralSkill>();
+
+            CreateMap<BehavioralSkill, BehavioralSkillToReturnDto>().ForMember(dest => dest.CreatedByName, opt =>
+            {
+                opt.ResolveUsing(u => u.CreatedBy.FirstName.FullName(u.CreatedBy.LastName));
+            });
+
         }
     }
 }
-
-//PublishedStrategiesDto: ICollection<AxisPoleToReturnDto> AxisPoles
-//AxisPoleToReturnDto: AxisId, PoleId, AxisDescription, PoleName, Weight
-
-//Strategy: ICollection<Axis> AxisList
-//Axis: ICollection<AxisPole>
-//AxisPole: AxisId, Axis, PoleId, Pole, Weight

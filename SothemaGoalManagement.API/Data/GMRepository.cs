@@ -272,6 +272,16 @@ namespace SothemaGoalManagement.API.Data
             return true;
         }
 
+        public async Task<IEnumerable<BehavioralSkill>> GetBehavioralSkills()
+        {
+            return await _context.BehavioralSkills.ToListAsync();
+        }
+
+        public async Task<BehavioralSkill> GetBehavioralSkill(int id)
+        {
+            return await _context.BehavioralSkills.SingleOrDefaultAsync(bs => bs.Id == id);
+        }
+
 
     }
 }

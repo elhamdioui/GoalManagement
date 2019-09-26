@@ -1,8 +1,8 @@
 using System;
 
-namespace SothemaGoalManagement.API.Models
+namespace SothemaGoalManagement.API.Dtos
 {
-    public class BehavioralSkill
+    public class BehavioralSkillToReturnDto
     {
         public int Id { get; set; }
 
@@ -34,13 +34,12 @@ namespace SothemaGoalManagement.API.Models
 
         public string LevelFourDescription { get; set; }
 
+        public int CreatedById { get; set; }
+
         public string Status { get; set; }
 
         public DateTime Created { get; set; }
 
-        public User CreatedBy { get; set; }
-
-        public int CreatedById { get; set; }
-
+        public string CreatedByName { get; set; }
     }
 }

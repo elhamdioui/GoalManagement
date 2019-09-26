@@ -9,8 +9,8 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190924233737_EvaluatedEvaluatorsAdded")]
-    partial class EvaluatedEvaluatorsAdded
+    [Migration("20190926095007_newDB")]
+    partial class newDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,6 +119,52 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasIndex("PoleId");
 
                     b.ToTable("AxisPoles");
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.BehavioralSkill", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<int>("CreatedById");
+
+                    b.Property<string>("Defintion");
+
+                    b.Property<string>("LevelFour");
+
+                    b.Property<string>("LevelFourDescription");
+
+                    b.Property<string>("LevelFourGrade");
+
+                    b.Property<string>("LevelOne");
+
+                    b.Property<string>("LevelOneDescription");
+
+                    b.Property<string>("LevelOneGrade");
+
+                    b.Property<string>("LevelThree");
+
+                    b.Property<string>("LevelThreeDescription");
+
+                    b.Property<string>("LevelThreeGrade");
+
+                    b.Property<string>("LevelTwo");
+
+                    b.Property<string>("LevelTwoDescription");
+
+                    b.Property<string>("LevelTwoGrade");
+
+                    b.Property<string>("Skill");
+
+                    b.Property<string>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.ToTable("BehavioralSkills");
                 });
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.Department", b =>
@@ -417,6 +463,14 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.Pole", "Pole")
                         .WithMany("AxisPoles")
                         .HasForeignKey("PoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.BehavioralSkill", b =>
+                {
+                    b.HasOne("SothemaGoalManagement.API.Models.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

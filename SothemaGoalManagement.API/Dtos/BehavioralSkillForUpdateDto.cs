@@ -1,29 +1,31 @@
-using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace SothemaGoalManagement.API.Models
+namespace SothemaGoalManagement.API.Dtos
 {
-    public class BehavioralSkill
+    public class BehavioralSkillForUpdateDto
     {
+        [Required]
         public int Id { get; set; }
 
+        [Required]
         public string Skill { get; set; }
 
         public string Defintion { get; set; }
-
+        [Required]
         public string LevelOne { get; set; }
-
+        [Required]
         public string LevelTwo { get; set; }
-
+        [Required]
         public string LevelThree { get; set; }
-
+        [Required]
         public string LevelFour { get; set; }
-
+        [Required]
         public string LevelOneGrade { get; set; }
-
+        [Required]
         public string LevelTwoGrade { get; set; }
-
+        [Required]
         public string LevelThreeGrade { get; set; }
-
+        [Required]
         public string LevelFourGrade { get; set; }
 
         public string LevelOneDescription { get; set; }
@@ -34,13 +36,13 @@ namespace SothemaGoalManagement.API.Models
 
         public string LevelFourDescription { get; set; }
 
-        public string Status { get; set; }
 
-        public DateTime Created { get; set; }
-
-        public User CreatedBy { get; set; }
+        [Required]
 
         public int CreatedById { get; set; }
 
+        [Required]
+
+        public string Status { get; set; }
     }
 }
