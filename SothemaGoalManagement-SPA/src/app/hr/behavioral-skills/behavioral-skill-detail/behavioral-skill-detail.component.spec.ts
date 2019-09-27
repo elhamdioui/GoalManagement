@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { BehavioralSkillsComponent } from './behavioral-skills.component';
+import { BehavioralSkillDetailComponent } from './behavioral-skill-detail.component';
 
-describe('BehavioralSkillsComponent', () => {
-  let component: BehavioralSkillsComponent;
-  let fixture: ComponentFixture<BehavioralSkillsComponent>;
+describe('BehavioralSkillDetailComponent', () => {
+  let component: BehavioralSkillDetailComponent;
+  let fixture: ComponentFixture<BehavioralSkillDetailComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BehavioralSkillsComponent ]
+      declarations: [ BehavioralSkillDetailComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BehavioralSkillsComponent);
+    fixture = TestBed.createComponent(BehavioralSkillDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

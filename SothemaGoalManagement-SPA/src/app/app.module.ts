@@ -50,7 +50,6 @@ import { StrategiesComponent } from './strategies/strategies.component';
 import { GoalsCardsResolver } from './_resolvers/goals-cards.resolver';
 import { StrategiesResolver } from './_resolvers/strategies.resolver';
 import { StrategyListComponent } from './hr/strategies/strategy-list/strategy-list.component';
-import { BehavioralSkillsComponent } from './hr/behavioral-skills/behavioral-skills.component';
 import { StrategyListResolver } from './_resolvers/strategy-list.resolver';
 import { HrService } from './_services/hr.service';
 import { StrategyNewComponent } from './hr/strategies/strategy-new/strategy-new.component';
@@ -74,6 +73,10 @@ import { GoalCardNewComponent } from './userCards/goal-card-new/goal-card-new.co
 import { GoalsCardDetailResolver } from './_resolvers/goals-card-detail.resolver';
 import { StrategyDocumentationComponent } from './hr/strategies/strategy-documentation/strategy-documentation.component';
 import { CollaboratorSearchComponent } from './collaborators/collaborator-search/collaborator-search.component';
+import { BehavioralSkillNewComponent } from './hr/behavioral-skills/behavioral-skill-new/behavioral-skill-new.component';
+import { BehavioralSkillDetailComponent } from './hr/behavioral-skills/behavioral-skill-detail/behavioral-skill-detail.component';
+import { BehavioralSkillListComponent } from './hr/behavioral-skills/behavioral-skill-list/behavioral-skill-list.component';
+import { BehavioralSkillEditModalComponent } from './hr/behavioral-skills/behavioral-skill-edit-modal/behavioral-skill-edit-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -120,9 +123,12 @@ export function tokenGetter() {
     AxisPolesWeightsCardComponent,
     AxisPoleWeightItemComponent,
     AxisPolesWeightsListComponent,
-    BehavioralSkillsComponent,
     ResetPasswordComponent,
-    ForgetPasswordComponent
+    ForgetPasswordComponent,
+    BehavioralSkillListComponent,
+    BehavioralSkillDetailComponent,
+    BehavioralSkillNewComponent,
+    BehavioralSkillEditModalComponent
   ],
   imports: [
     BrowserModule,

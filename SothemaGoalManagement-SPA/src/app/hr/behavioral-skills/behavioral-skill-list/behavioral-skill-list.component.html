@@ -1,6 +1,6 @@
 <div class="container">
   <div *ngIf="!creationMode">
-    <form #form="ngForm" (ngSubmit)="loadStrategies()" class="form-inline" novalidate>
+    <form #form="ngForm" (ngSubmit)="loadBehavioralSkills()" class="form-inline" novalidate>
       <div class="form-group">
         <label for="status">Statut:</label>
         <select [(ngModel)]="filters.status" class="form-control" style="width: 150px" id="status" name="status">
@@ -21,7 +21,7 @@
       <div class="col">
         <div class="btn-group float-right">
           <button type="button" class="btn btn-primary" (click)="creationToggle()">
-            Créer Nouvelle Stratégie
+            Créer Nouvelle compétence comportementale
           </button>
         </div>
       </div>
@@ -32,20 +32,20 @@
     <div class="row">
       <table class="table table-hover" style="cursor: pointer">
         <tr>
-          <th style="width: 30%">Titre</th>
+          <th style="width: 30%">Compétence</th>
           <th style="width: 15%">Statut</th>
           <th style="width: 20%">Auteur</th>
           <th style="width: 15%">Date de création</th>
           <th style="width: 20%"></th>
         </tr>
 
-        <tr *ngFor="let strategy of strategies" [routerLink]="[
-        '/strategies', strategy.id
-      ]" [queryParams]="{ownerId:strategy.ownerId}">
-          <td>{{strategy.title}}</td>
-          <td>{{strategy.status}}</td>
-          <td>{{strategy.ownerName}}</td>
-          <td>{{strategy.created | date: 'mediumDate'}}</td>
+        <tr *ngFor="let behavioralSkill of behavioralSkills" [routerLink]="[
+        '/behavioralSkills', behavioralSkill.id
+      ]" [queryParams]="{ownerId:behavioralSkill.ownerId}">
+          <td>{{behavioralSkill.skill}}</td>
+          <td>{{behavioralSkill.status}}</td>
+          <td>{{behavioralSkill.createdByName}}</td>
+          <td>{{behavioralSkill.created | date: 'mediumDate'}}</td>
           <td>
             <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editStrategyModal(strategy)">Editer</button>
           </td>
@@ -53,16 +53,10 @@
 
       </table>
     </div>
-
-    <div class="d-flex justify-content-center">
-      <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
-        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
-      </pagination>
-    </div>
   </div>
 
   <div *ngIf="creationMode">
-    <app-strategy-new (cancelCreation)="cancelCreationMode($event)" (switchOffCreation)="switchOffCreationMode($event)"></app-strategy-new>
+    <app-behavioral-skill-new (cancelCreation)="cancelCreationMode($event)" (switchOffCreation)="switchOffCreationMode($event)"></app-behavioral-skill-new>
   </div>
 
 </div>

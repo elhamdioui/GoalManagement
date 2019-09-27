@@ -1,12 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
+import { Pagination } from '../../../_models/pagination';
 import { Strategy } from '../../../_models/strategy';
-import { Pagination, PaginatedResult } from '../../../_models/pagination';
-import { HrService } from '../../../_services/hr.service';
-import { AuthService } from '../../../_services/auth.service';
-import { AlertifyService } from '../../../_services/alertify.service';
 import { StrategyEditModalComponent } from '../strategy-edit-modal/strategy-edit-modal.component';
 
 
@@ -16,59 +12,33 @@ import { StrategyEditModalComponent } from '../strategy-edit-modal/strategy-edit
   styleUrls: ['./strategy-list.component.css']
 })
 export class StrategyListComponent implements OnInit {
-  statusList: string[];
-  strategies: Strategy[];
-  strategyParams: any = {};
-  pagination: Pagination;
+  @Input() statusList: string[];
+  @Input() strategies: Strategy[];
+  @Input() pagination: Pagination
+  @Output() loadStrategiesEvent = new EventEmitter<any>();
+  @Output() editStrategyEvent = new EventEmitter<any>();
+  @Output() pageChangedEvent = new EventEmitter<any>();
+  filters: any = {};
   creationMode = false;
   bsModalRef: BsModalRef;
 
   constructor(
-    private hrService: HrService,
-    private authService: AuthService,
-    private alertify: AlertifyService,
-    private route: ActivatedRoute,
     private modalService: BsModalService
   ) { }
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
-      this.strategies = data['strategies'].result;
-      this.statusList = this.getStatusList();
-      this.pagination = data['strategies'].pagination;
-    });
-
-    this.strategyParams.status = '';
-    this.strategyParams.orderBy = 'created';
+    this.filters.status = '';
+    this.filters.orderBy = 'created';
   }
 
   pageChanged(event: any): void {
-    this.pagination.currentPage = event.page;
-    this.loadStrategies();
+    let pageParams = { currentPage: event.page, filters: this.filters }
+    this.pageChangedEvent.emit(pageParams);;
   }
 
   resetFilters() {
-    this.strategyParams.status = '';
-    this.loadStrategies();
-  }
-
-  loadStrategies() {
-    this.hrService
-      .getStrategies(
-        this.authService.decodedToken.nameid,
-        this.pagination.currentPage,
-        this.pagination.itemsPerPage,
-        this.strategyParams
-      )
-      .subscribe(
-        (res: PaginatedResult<Strategy[]>) => {
-          this.strategies = res.result;
-          this.pagination = res.pagination;
-        },
-        error => {
-          this.alertify.error(error);
-        }
-      );
+    this.filters.status = '';
+    this.loadStrategiesEvent.emit(this.filters);
   }
 
   creationToggle() {
@@ -82,30 +52,20 @@ export class StrategyListComponent implements OnInit {
   switchOffCreationMode(reload: boolean) {
     this.creationMode = false;
     if (reload) {
-      this.loadStrategies();
+      this.loadStrategiesEvent.emit(this.filters);
     }
   }
 
   editStrategyModal(strategy: Strategy) {
     const initialState = {
       strategy,
-      statusList: this.getStatusList()
+      statusList: this.statusList
     };
 
     this.bsModalRef = this.modalService.show(StrategyEditModalComponent, { initialState });
     this.bsModalRef.content.updateSelectedStrategy.subscribe((updatedStrategy) => {
-      this.hrService.updateStrategy(this.authService.decodedToken.nameid, updatedStrategy).subscribe(() => {
-        this.alertify.success('Stratégie été mise à jour.');
-        this.loadStrategies();
-      }, error => {
-        this.loadStrategies();
-        this.alertify.error(error);
-      })
-
+      let updateParams = { updatedStrategy, filters: this.filters }
+      this.editStrategyEvent.emit(updateParams);
     });
-  }
-
-  private getStatusList(): string[] {
-    return ['Rédaction', 'En Revue', 'Publiée', 'Archivée']
   }
 }

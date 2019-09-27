@@ -4,13 +4,16 @@
     <tabset class="member-tabset">
       <tab heading="Axes Stratégique" *appHasRole="['HRD', 'HR']">
         <div class="container">
-          <app-strategy-list></app-strategy-list>
+          <app-strategy-list [statusList]="statusList" [strategies]="strategies" [pagination]="pagination" (pageChangedEvent)="(handlePageChanged($event))"
+            (loadStrategiesEvent)="handleLoadStrategies($event)" (editStrategyEvent)="handleEditStrategy($event)">
+          </app-strategy-list>
         </div>
       </tab>
 
       <tab heading="Compétences Comportementales" *appHasRole="['HRD', 'HR']">
         <div class="container">
-          <app-behavioral-skills></app-behavioral-skills>
+          <app-behavioral-skill-list [statusList]="statusList" [behavioralSkills]="behavioralSkills" (loadBehavioralSkillsEvent)="handleLoadBehavioralSkills($event)"
+            (editBehavioralSkillEvent)="handleEditBehavioralSkill($event)"></app-behavioral-skill-list>
         </div>
       </tab>
 

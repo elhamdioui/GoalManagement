@@ -1,3 +1,4 @@
+import { BehavioralSkill } from './../_models/behavioralSkill';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -111,5 +112,18 @@ export class HrService {
 
   deleteEvaluator(evaluatedId: number, evaluatorId: number) {
     return this.http.delete(`${this.baseUrl}hr/deleteEvaluator/${evaluatedId}/${evaluatorId}`);
+  }
+
+  getBehavioralSkills(filters?) {
+    let params = new HttpParams();
+    if (filters != null) {
+      params = params.append('status', filters.status);
+      params = params.append('orderBy', filters.orderBy);
+    }
+    return this.http.get<BehavioralSkill[]>(`${this.baseUrl}hr/behavioralskill`);
+  }
+
+  updateBehavioralSkill(createdById: number, behavioralSkill: BehavioralSkill) {
+    return this.http.put(`${this.baseUrl}hr/behavioralskill/edit/${createdById}`, behavioralSkill)
   }
 }
