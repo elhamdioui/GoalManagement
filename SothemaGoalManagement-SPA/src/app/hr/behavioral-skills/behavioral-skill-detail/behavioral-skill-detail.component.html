@@ -1,3 +1,82 @@
-<p>
-  behavioral-skill-detail works!
-</p>
+<div class="container mt-4">
+  <div class="row">
+    <h1>Compétence Comportementale détail</h1>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <div>
+            <strong>Compétence:</strong>
+            <p>{{ behavioralSkill.skill }}</p>
+          </div>
+          <div>
+            <strong>Définition:</strong>
+            <p>{{ behavioralSkill.definition }}</p>
+          </div>
+          <div>
+            <strong>Statut:</strong>
+            <p>{{ behavioralSkill.status }}</p>
+          </div>
+          <div>
+            <strong>Auteur:</strong>
+            <p>{{ behavioralSkill.createdByName }}</p>
+          </div>
+          <div>
+            <strong>Créé:</strong>
+            <p>{{ behavioralSkill.created | date: 'mediumDate' }}</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="btn-group d-fles">
+            <button class="btn btn-success w-100" [routerLink]="['/hr']">
+              Retour au List
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        <tabset class="strategy-tabset" #strategyTabs>
+          <tab heading="Niveau 1">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{behavioralSkill.levelOne}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Note: {{behavioralSkill.levelOneGrade}}</h6>
+                <p class="card-text">{{behavioralSkill.levelOneDescription}}</p>
+              </div>
+            </div>
+          </tab>
+          <tab heading="Niveau 2">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{behavioralSkill.levelTwo}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Note: {{behavioralSkill.levelTwoGrade}}</h6>
+                <p class="card-text">{{behavioralSkill.levelTwoDescription}}</p>
+              </div>
+            </div>
+          </tab>
+          <tab heading="Niveau 3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{behavioralSkill.levelThree}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Note: {{behavioralSkill.levelThreeGrade}}</h6>
+                <p class="card-text">{{behavioralSkill.levelThreeDescription}}</p>
+              </div>
+            </div>
+          </tab>
+          <tab heading="Niveau 4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{behavioralSkill.levelFour}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Note: {{behavioralSkill.levelFourGrade}}</h6>
+                <p class="card-text">{{behavioralSkill.levelFourDescription}}</p>
+              </div>
+            </div>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>

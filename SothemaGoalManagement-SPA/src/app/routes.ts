@@ -25,6 +25,8 @@ import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
 import { CardsPanelComponent } from './userCards/cards-panel/cards-panel.component';
 import { GoalCardDetailComponent } from './userCards/goal-card-detail/goal-card-detail.component';
 import { GoalsCardDetailResolver } from './_resolvers/goals-card-detail.resolver';
+import { BehavioralSkillDetailComponent } from './hr/behavioral-skills/behavioral-skill-detail/behavioral-skill-detail.component';
+import { BehavioralSkillDetailResolver } from './_resolvers/behavioral-skill-detail.resolver.';
 
 
 export const appRoutes: Routes = [
@@ -59,6 +61,10 @@ export const appRoutes: Routes = [
         path: 'strategies/:id',
         component: StrategyDetailComponent,
         resolve: { strategy: StrategyDetailResolver }
+      }, {
+        path: 'behavioralSkills/:id',
+        component: BehavioralSkillDetailComponent,
+        resolve: { behavioralSkill: BehavioralSkillDetailResolver }
       },
       {
         path: 'user/cards',

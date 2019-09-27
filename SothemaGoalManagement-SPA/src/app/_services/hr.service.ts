@@ -126,4 +126,8 @@ export class HrService {
   updateBehavioralSkill(createdById: number, behavioralSkill: BehavioralSkill) {
     return this.http.put(`${this.baseUrl}hr/behavioralskill/edit/${createdById}`, behavioralSkill)
   }
+
+  getBehavioralSkill(id: number) {
+    return this.http.get<BehavioralSkill>(`${this.baseUrl}hr/behavioralskill/${id}`);
+  }
 }

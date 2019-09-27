@@ -78,6 +78,7 @@ import { BehavioralSkillNewComponent } from './hr/behavioral-skills/behavioral-s
 import { BehavioralSkillDetailComponent } from './hr/behavioral-skills/behavioral-skill-detail/behavioral-skill-detail.component';
 import { BehavioralSkillListComponent } from './hr/behavioral-skills/behavioral-skill-list/behavioral-skill-list.component';
 import { BehavioralSkillEditModalComponent } from './hr/behavioral-skills/behavioral-skill-edit-modal/behavioral-skill-edit-modal.component';
+import { BehavioralSkillDetailResolver } from './_resolvers/behavioral-skill-detail.resolver.';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -172,6 +173,7 @@ export function tokenGetter() {
     StrategiesResolver,
     StrategyListResolver,
     StrategyDetailResolver,
+    BehavioralSkillDetailResolver,
     AdminService,
     HrService
   ],
