@@ -9,7 +9,8 @@ import {
   PaginationModule,
   ButtonsModule,
   ModalModule,
-  CarouselModule
+  CarouselModule,
+  AccordionModule
 } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -140,6 +141,7 @@ export function tokenGetter() {
     TabsModule.forRoot(),
     ButtonsModule.forRoot(),
     CarouselModule.forRoot(),
+    AccordionModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     NgxGalleryModule,
     BrowserAnimationsModule,
@@ -176,7 +178,8 @@ export function tokenGetter() {
   entryComponents: [
     RolesModalComponent,
     AxisModalComponent,
-    StrategyEditModalComponent
+    StrategyEditModalComponent,
+    BehavioralSkillEditModalComponent
   ],
   bootstrap: [AppComponent]
 })

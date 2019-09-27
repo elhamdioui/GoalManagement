@@ -79,7 +79,7 @@ export class HrPanelComponent implements OnInit {
   }
 
   handleEditBehavioralSkill(event: any) {
-    this.hrService.updateBehavioralSkill(this.authService.decodedToken.nameid, event.updatedStrategy).subscribe(() => {
+    this.hrService.updateBehavioralSkill(this.authService.decodedToken.nameid, event.updatedBehavioralSkill).subscribe(() => {
       this.alertify.success('Stratégie été mise à jour.');
       this.handleLoadBehavioralSkills(event.filters);
     }, error => {

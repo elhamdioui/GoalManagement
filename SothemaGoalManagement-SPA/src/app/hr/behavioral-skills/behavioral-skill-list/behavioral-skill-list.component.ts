@@ -48,7 +48,7 @@ export class BehavioralSkillListComponent implements OnInit {
     }
   }
 
-  editStrategyModal(behavioralSkill: BehavioralSkill) {
+  editBehavioralSkillModal(behavioralSkill: BehavioralSkill) {
     const initialState = {
       behavioralSkill,
       statusList: this.statusList

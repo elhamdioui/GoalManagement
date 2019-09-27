@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SothemaGoalManagement.API.Migrations
 {
-    public partial class newDB : Migration
+    public partial class NewDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -228,7 +228,7 @@ namespace SothemaGoalManagement.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Skill = table.Column<string>(nullable: true),
-                    Defintion = table.Column<string>(nullable: true),
+                    Definition = table.Column<string>(nullable: true),
                     LevelOne = table.Column<string>(nullable: true),
                     LevelTwo = table.Column<string>(nullable: true),
                     LevelThree = table.Column<string>(nullable: true),

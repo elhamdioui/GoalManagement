@@ -128,7 +128,7 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<int>("CreatedById");
 
-                    b.Property<string>("Defintion");
+                    b.Property<string>("Definition");
 
                     b.Property<string>("LevelFour");
 

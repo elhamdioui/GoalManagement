@@ -8,7 +8,7 @@ namespace SothemaGoalManagement.API.Models
 
         public string Skill { get; set; }
 
-        public string Defintion { get; set; }
+        public string Definition { get; set; }
 
         public string LevelOne { get; set; }
 

@@ -9,8 +9,8 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190926095007_newDB")]
-    partial class newDB
+    [Migration("20190927144403_NewDB")]
+    partial class NewDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -130,7 +130,7 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<int>("CreatedById");
 
-                    b.Property<string>("Defintion");
+                    b.Property<string>("Definition");
 
                     b.Property<string>("LevelFour");
 
