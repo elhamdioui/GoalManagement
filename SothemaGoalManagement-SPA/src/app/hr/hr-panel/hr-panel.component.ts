@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TabsetComponent } from 'ngx-bootstrap';
 
 import { Strategy } from '../../_models/strategy';
 import { Pagination, PaginatedResult } from '../../_models/pagination';
@@ -14,6 +15,7 @@ import { BehavioralSkill } from '../../_models/behavioralSkill';
   styleUrls: ['./hr-panel.component.css']
 })
 export class HrPanelComponent implements OnInit {
+  @ViewChild('hrTabs') hrTabs: TabsetComponent;
   statusList: string[];
   strategies: Strategy[];
   behavioralSkills: BehavioralSkill[];
@@ -30,6 +32,14 @@ export class HrPanelComponent implements OnInit {
     });
 
     this.statusList = this.getStatusList();
+
+    //https://hackernoon.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
+    Promise.resolve(null).then(() => {
+      this.route.queryParams.subscribe(params => {
+        const selectedTab = params['tab'] || 0;
+        this.hrTabs.tabs[selectedTab > 0 ? selectedTab : 0].active = true;
+      });
+    });
   }
 
   private getStatusList(): string[] {

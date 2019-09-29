@@ -1,9 +1,9 @@
 <div class="container mt-5">
   <h2>Panneau de Ressource Humaine</h2>
   <div class="tab-panel">
-    <tabset class="member-tabset">
+    <tabset class="hr-tabset" #hrTabs>
       <tab heading="Axes Stratégique" *appHasRole="['HRD', 'HR']">
-        <div class="container">
+        <div class="container mt-2">
           <app-strategy-list [statusList]="statusList" [strategies]="strategies" [pagination]="pagination" (pageChangedEvent)="(handlePageChanged($event))"
             (loadStrategiesEvent)="handleLoadStrategies($event)" (editStrategyEvent)="handleEditStrategy($event)">
           </app-strategy-list>
@@ -11,7 +11,7 @@
       </tab>
 
       <tab heading="Compétences Comportementales" *appHasRole="['HRD', 'HR']">
-        <div class="container">
+        <div class="container mt-2">
           <app-behavioral-skill-list [statusList]="statusList" [behavioralSkills]="behavioralSkills" (loadBehavioralSkillsEvent)="handleLoadBehavioralSkills($event)"
             (editBehavioralSkillEvent)="handleEditBehavioralSkill($event)"></app-behavioral-skill-list>
         </div>
