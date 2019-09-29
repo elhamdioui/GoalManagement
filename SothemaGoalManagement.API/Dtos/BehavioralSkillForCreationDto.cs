@@ -36,7 +36,6 @@ namespace SothemaGoalManagement.API.Dtos
         [Required]
         public int CreatedById { get; set; }
 
-        [Required]
         public string Status { get; set; }
 
         public DateTime Created { get; set; }

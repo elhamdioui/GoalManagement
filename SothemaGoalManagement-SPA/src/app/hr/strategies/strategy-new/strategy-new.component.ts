@@ -22,26 +22,26 @@ export class StrategyNewComponent implements OnInit {
   @Output() cancelCreation = new EventEmitter();
   @Output() switchOffCreation = new EventEmitter();
   newStrategy: Strategy;
-  newStrategyForm: FormGroup;
+  newForm: FormGroup;
 
 
   constructor(private fb: FormBuilder, private hrService: HrService, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
-    this.createStrategyForm();
+    this.createForm();
   }
 
-  createStrategyForm() {
-    this.newStrategyForm = this.fb.group(
+  createForm() {
+    this.newForm = this.fb.group(
       {
         title: ['', Validators.required],
         description: ['', [Validators.required]]
       });
   }
 
-  createStrategy() {
-    if (this.newStrategyForm.valid) {
-      this.newStrategy = Object.assign({}, this.newStrategyForm.value);
+  create() {
+    if (this.newForm.valid) {
+      this.newStrategy = Object.assign({}, this.newForm.value);
 
       this.hrService.createStrategy(this.authService.decodedToken.nameid, this.newStrategy).subscribe(
         () => {

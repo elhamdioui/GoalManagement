@@ -130,4 +130,8 @@ export class HrService {
   getBehavioralSkill(id: number) {
     return this.http.get<BehavioralSkill>(`${this.baseUrl}hr/behavioralskill/${id}`);
   }
+
+  createBehavioralSkill(createdById: number, behavioralSkill: BehavioralSkill) {
+    return this.http.post(`${this.baseUrl}hr/behavioralSkill/new/${createdById}`, behavioralSkill);
+  }
 }

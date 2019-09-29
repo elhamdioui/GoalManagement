@@ -1,3 +1,198 @@
-<p>
-  behavioral-skill-new works!
-</p>
+<div class="row" d-flex justify-content-center>
+  <form [formGroup]="newForm" class="form-inline" (ngSubmit)="create()">
+    <div class="col-sm-12 text-center">
+      <h2 class="ext-primary">Création d'une compétence comportementale</h2>
+      <hr />
+
+      <div class="form-group">
+        <label for="skill">Compétence: </label>
+        <input [ngClass]="{
+                        'is-invalid':
+                          newForm.get('skill').errors &&
+                          newForm.get('skill').touched
+                      }" class="form-control mb-1" placeholder="Compétence" formControlName="skill" />
+        <div class="invalid-feedback" *ngIf="
+                        newForm.get('skill').touched &&
+                        newForm.get('skill').hasError('required')
+                      ">
+          La compétence est requise
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="definition">Définition: </label>
+        <textarea formControlName="definition" rows="4" cols="50" [ngClass]="{
+                              'is-invalid':
+                                newForm.get('definition').errors &&
+                                newForm.get('definition').touched
+                            }" class="form-control mb-1" placeholder="Définition"></textarea>
+        <div class="invalid-feedback" *ngIf="
+                      newForm.get('definition').touched &&
+                      newForm.get('definition').hasError('required')
+                    ">
+          La définition est requise
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label for="levelOne">Niveau 1: </label>
+        <input [ngClass]="{
+                            'is-invalid':
+                              newForm.get('levelOne').errors &&
+                              newForm.get('levelOne').touched
+                          }" class="form-control mb-1" placeholder="Compétence" formControlName="levelOne" readonly/>
+        <div class="invalid-feedback" *ngIf="
+                            newForm.get('levelOne').touched &&
+                            newForm.get('levelOne').hasError('required')
+                          ">
+          Le niveau 1 est requis
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="levelOneGrade">Note de Niveau 1: </label>
+        <input type="number" [ngClass]="{
+                              'is-invalid':
+                                newForm.get('levelOneGrade').errors &&
+                                newForm.get('levelOneGrade').touched
+                            }" class="form-control mb-1" placeholder="Note" formControlName="levelOneGrade" />
+        <div class="invalid-feedback" *ngIf="
+                              newForm.get('levelOneGrade').touched &&
+                              newForm.get('levelOneGrade').hasError('required')
+                            ">
+          La note du niveau 1 est requise
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="levelOneDescription">Description de Niveau 1: </label>
+        <textarea formControlName="levelOneDescription" rows="3" class="form-control mb-1" placeholder="Description"></textarea>
+      </div>
+    </div>
+
+
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label for="levelTwo">Niveau 2: </label>
+        <input [ngClass]="{
+                              'is-invalid':
+                                newForm.get('levelTwo').errors &&
+                                newForm.get('levelTwo').touched
+                            }" class="form-control mb-1" placeholder="Compétence" formControlName="levelTwo" readonly/>
+        <div class="invalid-feedback" *ngIf="
+                              newForm.get('levelTwo').touched &&
+                              newForm.get('levelTwo').hasError('required')
+                            ">
+          Le niveau 2 est requis
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="levelTwoGrade">Note de Niveau 2: </label>
+        <input type="number" [ngClass]="{
+                                'is-invalid':
+                                  newForm.get('levelTwoGrade').errors &&
+                                  newForm.get('levelTwoGrade').touched
+                              }" class="form-control mb-1" placeholder="Note" formControlName="levelTwoGrade" />
+        <div class="invalid-feedback" *ngIf="
+                                newForm.get('levelTwoGrade').touched &&
+                                newForm.get('levelTwoGrade').hasError('required')
+                              ">
+          La note du niveau 2 est requise
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="levelTwoDescription">Description de Niveau 2: </label>
+        <textarea formControlName="levelTwoDescription" rows="3" class="form-control mb-1" placeholder="Description"></textarea>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label for="levelThree">Niveau 3: </label>
+        <input [ngClass]="{
+                              'is-invalid':
+                                newForm.get('levelThree').errors &&
+                                newForm.get('levelThree').touched
+                            }" class="form-control mb-1" placeholder="Compétence" formControlName="levelThree" readonly/>
+        <div class="invalid-feedback" *ngIf="
+                              newForm.get('levelThree').touched &&
+                              newForm.get('levelThree').hasError('required')
+                            ">
+          Le niveau 3 est requis
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="levelThreeGrade">Note de Niveau 3: </label>
+        <input type="number" [ngClass]="{
+                                'is-invalid':
+                                  newForm.get('levelThreeGrade').errors &&
+                                  newForm.get('levelThreeGrade').touched
+                              }" class="form-control mb-1" placeholder="Note" formControlName="levelThreeGrade" />
+        <div class="invalid-feedback" *ngIf="
+                                newForm.get('levelThreeGrade').touched &&
+                                newForm.get('levelThreeGrade').hasError('required')
+                              ">
+          La note du niveau 3 est requise
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="levelThreeDescription">Description de Niveau 3: </label>
+        <textarea formControlName="levelThreeDescription" rows="3" class="form-control mb-1" placeholder="Description"></textarea>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label for="levelFour">Niveau 4: </label>
+        <input [ngClass]="{
+                              'is-invalid':
+                                newForm.get('levelFour').errors &&
+                                newForm.get('levelFour').touched
+                            }" class="form-control mb-1" placeholder="Compétence" formControlName="levelFour" readonly/>
+        <div class="invalid-feedback" *ngIf="
+                              newForm.get('levelFour').touched &&
+                              newForm.get('levelFour').hasError('required')
+                            ">
+          Le niveau 4 est requis
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="levelFourGrade">Note de Niveau 4: </label>
+        <input type="number" [ngClass]="{
+                                'is-invalid':
+                                  newForm.get('levelFourGrade').errors &&
+                                  newForm.get('levelFourGrade').touched
+                              }" class="form-control mb-1" placeholder="Note" formControlName="levelFourGrade" />
+        <div class="invalid-feedback" *ngIf="
+                                newForm.get('levelFourGrade').touched &&
+                                newForm.get('levelFourGrade').hasError('required')
+                              ">
+          La note du niveau 4 est requise
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="levelFourDescription">Description de Niveau 4: </label>
+        <textarea formControlName="levelFourDescription" rows="3" class="form-control mb-1" placeholder="Description"></textarea>
+      </div>
+    </div>
+
+    <div class="col-sm-3 offset-4 text-center">
+      <div class="form-group mt-2">
+        <button class="btn btn-success mr-2" type="submit" [disabled]="!newForm.valid">
+          Soumettre
+        </button>
+        <button class="btn btn-primary" type="button" (click)="cancel()">
+          Annuler
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
