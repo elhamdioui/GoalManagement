@@ -243,13 +243,19 @@ namespace SothemaGoalManagement.API.Data
                                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<User>> LoadEvaluators(int evaluatedId)
+        public async Task<IEnumerable<object>> LoadEvaluators(int evaluatedId)
         {
             var evaluators = await (from u in _context.Users.Include(u => u.Department)
                                     join e in _context.EvaluatedEvaluators
                                     on u.Id equals e.EvaluatorId
                                     where e.EvaluatedId == evaluatedId
-                                    select (u)).ToListAsync();
+                                    select new
+                                    {
+                                        Id = u.Id,
+                                        FullName = u.FirstName + " " + u.LastName,
+                                        DepartmentName = u.Department.Name,
+                                        Rank = e.Rank
+                                    }).ToListAsync();
 
             return evaluators;
         }

@@ -44,25 +44,10 @@
     Les évaluateurs assignés à {{evaluated.firstName}} {{evaluated.lastName}}:
   </div>
   <div class="card-body">
-    <table class="table table-hover" style="cursor: pointer">
-      <tr>
-        <th style="width: 20%">Prénom</th>
-        <th style="width: 20%">Nom</th>
-        <th style="width: 30%">Fonction</th>
-        <th style="width: 20%">Direction</th>
-        <th style="width: 10%"></th>
-      </tr>
-      <tr *ngFor="let evaluator of evaluators">
-        <td>{{ evaluator.firstName }}</td>
-        <td>{{ evaluator.lastName }}</td>
-        <td>{{ evaluator.title }}</td>
-        <td>{{ evaluator.department.name }}</td>
-        <td>
-          <button class="btn btn-sm btn-danger" (click)="$event.stopPropagation()" (click)="deleteEvaluator(evaluated.id, evaluator)">
-            <i class="fa fa-trash"></i>
-          </button>
-        </td>
-      </tr>
-    </table>
+    <ul>
+      <li class="list-inline-item" *ngFor="let evaluator of evaluators">
+        <app-evaluator [evaluator]="evaluator" (deleteEvaluatorEvent)="handleDeleteEvaluator($event)" (updateRankOfEvaluatorEvent)="handleUpdateRankOfEvaluator($event)"></app-evaluator>
+      </li>
+    </ul>
   </div>
 </div>

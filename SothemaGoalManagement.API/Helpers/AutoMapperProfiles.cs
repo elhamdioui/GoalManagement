@@ -73,7 +73,6 @@ namespace SothemaGoalManagement.API.Helpers
             {
                 opt.ResolveUsing(u => u.CreatedBy.FirstName.FullName(u.CreatedBy.LastName));
             });
-
         }
     }
 }

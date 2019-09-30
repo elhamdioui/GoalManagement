@@ -7,6 +7,7 @@ import { PaginatedResult } from './../_models/pagination';
 import { environment } from '../../environments/environment';
 import { User } from '../_models/user';
 import { Strategy } from '../_models/strategy';
+import { Evaluator } from '../_models/evaluator';
 
 @Injectable({
   providedIn: 'root'
@@ -116,5 +117,25 @@ export class AdminService {
 
   employeeNumberAlreadyExists(employeeNumber: string) {
     return this.http.get(`${this.baseUrl}admin/employeeNumberAlreadyExists?employeeNumber=${employeeNumber}`);
+  }
+
+  searchEvaluators(searchTerm: string): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl + 'admin/searchEvaluators?searchTerm=' + searchTerm);
+  }
+
+  addEvaluatorToUser(evaluatedId: number, evaluatorId: number) {
+    return this.http.post(`${this.baseUrl}admin/addEvaluatorToUser/${evaluatedId}/${evaluatorId}`, {});
+  }
+
+  updateRankOfEvaluator(evaluatedId: number, evaluatorId: number, rank: number) {
+    return this.http.put(`${this.baseUrl}admin/updateRankOfEvaluator/${evaluatedId}/${evaluatorId}/${rank}`, {});
+  }
+
+  loadEvaluators(evaluatedId: number) {
+    return this.http.get<Evaluator[]>(`${this.baseUrl}admin/loadEvaluators/${evaluatedId}`);
+  }
+
+  deleteEvaluator(evaluatedId: number, evaluatorId: number) {
+    return this.http.delete(`${this.baseUrl}admin/deleteEvaluator/${evaluatedId}/${evaluatorId}`);
   }
 }

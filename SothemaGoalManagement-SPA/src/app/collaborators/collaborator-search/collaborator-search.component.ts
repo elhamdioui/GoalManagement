@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { User } from '../../_models/user';
-import { HrService } from '../../_services/hr.service';
+import { AdminService } from '../../_services/admin.service';
 import { AlertifyService } from '../../_services/alertify.service';
+import { Evaluator } from '../../_models/evaluator';
 
 @Component({
   selector: 'app-collaborator-search',
@@ -13,9 +14,9 @@ export class CollaboratorSearchComponent implements OnInit {
   @Input() evaluated: User;
   users: User[];
   searchTerm: string;
-  evaluators: User[];
+  evaluators: Evaluator[];
 
-  constructor(private hrService: HrService,
+  constructor(private adminService: AdminService,
     private alertify: AlertifyService) { }
 
   ngOnInit() {
@@ -23,7 +24,7 @@ export class CollaboratorSearchComponent implements OnInit {
   }
 
   searchUsers() {
-    this.hrService.searchEvaluators(this.searchTerm).subscribe(users => {
+    this.adminService.searchEvaluators(this.searchTerm).subscribe(users => {
       this.users = users;
       if (this.users.length === 0) {
         this.alertify.error(`impossible de trouver un utilisateur avec le terme de recherche: ${this.searchTerm}`);
@@ -37,10 +38,29 @@ export class CollaboratorSearchComponent implements OnInit {
   }
 
   setAsEvaluator(user: User) {
-    this.hrService.addEvaluatorToUser(this.evaluated.id, user.id)
+    this.adminService.addEvaluatorToUser(this.evaluated.id, user.id)
       .subscribe(
         () => {
-          this.evaluators.push(user);
+          let evaluator: Evaluator = {
+            id: user.id,
+            fullName: user.firstName + ' ' + user.lastName,
+            rank: 1,
+            departmentName: user.department.name,
+            title: user.title
+          };
+          this.evaluators.push(evaluator);
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
+  }
+
+  handleUpdateRankOfEvaluator(event: Evaluator) {
+    this.adminService.updateRankOfEvaluator(this.evaluated.id, event.id, event.rank)
+      .subscribe(
+        next => {
+          this.alertify.success('Mise à jour du rang réussie');
         },
         error => {
           this.alertify.error(error);
@@ -49,9 +69,9 @@ export class CollaboratorSearchComponent implements OnInit {
   }
 
   loadEvaluators() {
-    this.hrService.loadEvaluators(this.evaluated.id)
+    this.adminService.loadEvaluators(this.evaluated.id)
       .subscribe(
-        (evaluators: User[]) => {
+        (evaluators: Evaluator[]) => {
           this.evaluators = evaluators;
         },
         error => {
@@ -60,12 +80,12 @@ export class CollaboratorSearchComponent implements OnInit {
       );
   }
 
-  deleteEvaluator(evaluatedId: number, evaluator: User) {
+  handleDeleteEvaluator(event: Evaluator) {
     this.alertify.confirm(
-      `Etes-vous sûr de vouloir supprimer l'evaluateur ${evaluator.firstName} ${evaluator.lastName}?`,
+      `Etes-vous sûr de vouloir supprimer l'evaluateur ${event.fullName}?`,
       () => {
-        this.hrService
-          .deleteEvaluator(evaluatedId, evaluator.id)
+        this.adminService
+          .deleteEvaluator(this.evaluated.id, event.id)
           .subscribe(
             () => {
               this.loadEvaluators();

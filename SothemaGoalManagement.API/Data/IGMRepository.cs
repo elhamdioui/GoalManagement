@@ -49,7 +49,7 @@ namespace SothemaGoalManagement.API.Data
 
         Task<bool> EmployeeNumberAlreadyExists(string employeNumber, int? employeeId = null);
 
-        Task<IEnumerable<User>> LoadEvaluators(int evaluatedId);
+        Task<IEnumerable<object>> LoadEvaluators(int evaluatedId);
 
         Task<EvaluatedEvaluator> GetEvaluatedEvaluator(int evaluatedId, int evaluatorId);
 

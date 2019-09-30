@@ -7,5 +7,7 @@ namespace SothemaGoalManagement.API.Models
 
         public int EvaluatorId { get; set; }
         public User Evaluator { get; set; }
+
+        public int Rank { get; set; }
     }
 }

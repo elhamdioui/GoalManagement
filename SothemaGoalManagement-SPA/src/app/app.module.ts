@@ -79,6 +79,7 @@ import { BehavioralSkillDetailComponent } from './hr/behavioral-skills/behaviora
 import { BehavioralSkillListComponent } from './hr/behavioral-skills/behavioral-skill-list/behavioral-skill-list.component';
 import { BehavioralSkillEditModalComponent } from './hr/behavioral-skills/behavioral-skill-edit-modal/behavioral-skill-edit-modal.component';
 import { BehavioralSkillDetailResolver } from './_resolvers/behavioral-skill-detail.resolver.';
+import { EvaluatorComponent } from './collaborators/evaluator/evaluator.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -97,6 +98,7 @@ export function tokenGetter() {
     CollaboratorNewComponent,
     CollaboratorMessagesComponent,
     CollaboratorSearchComponent,
+    EvaluatorComponent,
     ProfileEditComponent,
     PhotoEditorComponent,
     TimeAgoPipe,

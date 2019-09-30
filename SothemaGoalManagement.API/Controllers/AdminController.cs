@@ -221,5 +221,77 @@ namespace SothemaGoalManagement.API.Controllers
 
             throw new Exception("La mise à jour de l'utilisateur a échoué lors de l'enregistrement.");
         }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpGet("searchEvaluators")]
+        public async Task<IActionResult> SearchEvaluators(string searchTerm)
+        {
+            var usersFromRepo = await _repo.SerachForUsers(searchTerm);
+
+            var usersToReturn = _mapper.Map<IEnumerable<UserForSearchResultDto>>(usersFromRepo);
+            return Ok(usersToReturn);
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpGet("loadEvaluators/{evaluatedId}")]
+        public async Task<IActionResult> LoadEvaluators(int evaluatedId)
+        {
+            var evaluatorsFromRepo = await _repo.LoadEvaluators(evaluatedId);
+            return Ok(evaluatorsFromRepo);
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPost("addEvaluatorToUser/{evaluatedId}/{evaluatorId}")]
+        public async Task<IActionResult> AddEvaluatorToUser(int evaluatedId, int evaluatorId)
+        {
+            var evaluatedEvaluator = new EvaluatedEvaluator()
+            {
+                EvaluatedId = evaluatedId,
+                EvaluatorId = evaluatorId,
+                Rank = 1
+            };
+
+            var evaluatedEvaluatorFromRepo = await _repo.GetEvaluatedEvaluator(evaluatedId, evaluatorId);
+            if (evaluatedEvaluatorFromRepo == null)
+            {
+                _repo.Add<EvaluatedEvaluator>(evaluatedEvaluator);
+            }
+
+            if (await _repo.SaveAll())
+            {
+                return Ok();
+            }
+
+
+            return BadRequest("Failed to remove the roles");
+
+            throw new Exception("La mise à jour de l'evaluateur a échoué lors de la sauvegarde");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPut("updateRankOfEvaluator/{evaluatedId}/{evaluatorId}/{rank}")]
+        public async Task<IActionResult> UpdateRankOfEvaluator(int evaluatedId, int evaluatorId, int rank)
+        {
+            var evaluatedEvaluatorFromRepo = await _repo.GetEvaluatedEvaluator(evaluatedId, evaluatorId);
+            if (evaluatedEvaluatorFromRepo == null) return NotFound();
+            evaluatedEvaluatorFromRepo.Rank = rank;
+
+            if (await _repo.SaveAll()) return NoContent();
+
+            throw new Exception("La mise à jour du rang del'évaliateur a échoué lors de l'enregistrement.");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpDelete("deleteEvaluator/{evaluatedId}/{evaluatorId}")]
+        public async Task<IActionResult> DeleteEvaluator(int evaluatedId, int evaluatorId)
+        {
+            var evaluatedEvaluatorFromRepo = await _repo.GetEvaluatedEvaluator(evaluatedId, evaluatorId);
+
+            if (evaluatedEvaluatorFromRepo == null) return NotFound();
+
+            _repo.Delete(evaluatedEvaluatorFromRepo);
+            if (await _repo.SaveAll()) return Ok();
+            return BadRequest("Échoué de supprimer l'evaluateur");
+        }
     }
 }
