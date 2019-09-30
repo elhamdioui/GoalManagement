@@ -70,7 +70,6 @@ import { GoalCardListComponent } from './userCards/goal-card-list/goal-card-list
 import { GoalCardDetailComponent } from './userCards/goal-card-detail/goal-card-detail.component';
 import { BehavioralSkillsCardComponent } from './userCards/behavioral-skills-card/behavioral-skills-card.component';
 import { CardsPanelComponent } from './userCards/cards-panel/cards-panel.component';
-import { GoalCardNewComponent } from './userCards/goal-card-new/goal-card-new.component';
 import { GoalsCardDetailResolver } from './_resolvers/goals-card-detail.resolver';
 import { StrategyDocumentationComponent } from './hr/strategies/strategy-documentation/strategy-documentation.component';
 import { CollaboratorSearchComponent } from './collaborators/collaborator-search/collaborator-search.component';
@@ -113,7 +112,6 @@ export function tokenGetter() {
     CardsPanelComponent,
     GoalCardListComponent,
     GoalCardDetailComponent,
-    GoalCardNewComponent,
     BehavioralSkillsCardComponent,
     HrPanelComponent,
     StrategiesComponent,

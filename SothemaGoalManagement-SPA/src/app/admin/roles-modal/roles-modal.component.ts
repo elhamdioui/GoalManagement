@@ -11,7 +11,7 @@ import { User } from './../../_models/user';
 export class RolesModalComponent implements OnInit {
   @Output() updateSelectedRoles = new EventEmitter();
 
-  title: User;
+  user: User;
   roles: any[]
 
   constructor(public bsModalRef: BsModalRef) { }

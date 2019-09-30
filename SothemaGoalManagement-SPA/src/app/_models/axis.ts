@@ -3,7 +3,8 @@ import { AxisPole } from "./axisPole";
 export interface Axis {
   id: number;
   strategyId: number;
-  axis: string;
+  title: string;
+  description: string;
   created: Date;
   axisPoles: AxisPole[]
 }
