@@ -16,6 +16,12 @@
             (editBehavioralSkillEvent)="handleEditBehavioralSkill($event)"></app-behavioral-skill-list>
         </div>
       </tab>
+
+      <tab heading="Fiches d'évaluation" *appHasRole="['HRD', 'HR']">
+        <div class="container mt-2">
+          Fiches d'évaluation...
+        </div>
+      </tab>
     </tabset>
   </div>
 </div>

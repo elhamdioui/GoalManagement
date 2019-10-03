@@ -56,6 +56,7 @@ namespace SothemaGoalManagement.API.Data
 
                 evaluatedEvaluator.HasOne(ee => ee.Evaluator)
                         .WithMany(u => u.EvaluatedEvaluators)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .HasForeignKey(ee => ee.EvaluatorId)
                         .IsRequired();
             });
@@ -66,6 +67,7 @@ namespace SothemaGoalManagement.API.Data
 
                 axisPole.HasOne(ap => ap.Pole)
                         .WithMany(p => p.AxisPoles)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .HasForeignKey(ap => ap.PoleId)
                         .IsRequired();
 
