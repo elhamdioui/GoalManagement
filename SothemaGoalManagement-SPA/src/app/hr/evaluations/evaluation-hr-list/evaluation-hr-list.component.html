@@ -1,6 +1,6 @@
 <div class="container">
   <div *ngIf="!creationMode">
-    <form #form="ngForm" (ngSubmit)="loadStrategies()" class="form-inline" novalidate>
+    <form #form="ngForm" (ngSubmit)="loadEvaluations()" class="form-inline" novalidate>
       <div class="form-group">
         <label for="status">Statut:</label>
         <select [(ngModel)]="filters.status" class="form-control" style="width: 150px" id="status" name="status">
@@ -21,7 +21,7 @@
       <div class="col">
         <div class="btn-group float-right">
           <button type="button" class="btn btn-primary" (click)="creationToggle()">
-            Créer Nouvelle Stratégie
+            Créer Nouvelle Fiche d'Evaluation
           </button>
         </div>
       </div>
@@ -39,28 +39,24 @@
           <th style="width: 20%"></th>
         </tr>
 
-        <tr *ngFor="let strategy of strategies" [routerLink]="['/strategies', strategy.id]">
-          <td>{{strategy.title}}</td>
-          <td>{{strategy.status}}</td>
-          <td>{{strategy.ownerName}}</td>
-          <td>{{strategy.created | date: 'mediumDate'}}</td>
+        <tr *ngFor="let evaluation of evaluations" [routerLink]="[
+        '/evaluationsForHR', evaluation.id
+      ]" [queryParams]="{createdById:evaluation.createdById}">
+          <td>{{evaluation.skill}}</td>
+          <td>{{evaluation.status}}</td>
+          <td>{{evaluation.createdByName}}</td>
+          <td>{{evaluation.created | date: 'mediumDate'}}</td>
           <td>
-            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editStrategyModal(strategy)">Editer</button>
+            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editEvaluationModal(evaluation)">Editer</button>
           </td>
         </tr>
 
       </table>
     </div>
-
-    <div class="d-flex justify-content-center">
-      <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
-        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
-      </pagination>
-    </div>
   </div>
 
   <div *ngIf="creationMode">
-    <app-strategy-new (cancelCreation)="cancelCreationMode($event)" (switchOffCreation)="switchOffCreationMode($event)"></app-strategy-new>
+    <app-behavioral-skill-new (cancelCreation)="cancelCreationMode($event)" (switchOffCreation)="switchOffCreationMode($event)"></app-behavioral-skill-new>
   </div>
 
 </div>

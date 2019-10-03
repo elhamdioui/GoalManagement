@@ -39,9 +39,7 @@
           <th style="width: 20%"></th>
         </tr>
 
-        <tr *ngFor="let behavioralSkill of behavioralSkills" [routerLink]="[
-        '/behavioralSkills', behavioralSkill.id
-      ]" [queryParams]="{ownerId:behavioralSkill.ownerId}">
+        <tr *ngFor="let behavioralSkill of behavioralSkills" [routerLink]="['/behavioralSkills', behavioralSkill.id]">
           <td>{{behavioralSkill.skill}}</td>
           <td>{{behavioralSkill.status}}</td>
           <td>{{behavioralSkill.createdByName}}</td>

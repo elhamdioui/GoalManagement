@@ -19,7 +19,8 @@
 
       <tab heading="Fiches d'évaluation" *appHasRole="['HRD', 'HR']">
         <div class="container mt-2">
-          Fiches d'évaluation...
+          <app-evaluation-hr-list [statusList]="statusList" [evaluations]="evaluations" (loadEvaluationsEvent)="handleLoadEvaluations($event)"
+            (editEvaluationEvent)="handleEditEvaluation($event)"></app-evaluation-hr-list>
         </div>
       </tab>
     </tabset>

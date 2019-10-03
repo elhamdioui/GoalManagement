@@ -79,6 +79,8 @@ import { BehavioralSkillListComponent } from './hr/behavioral-skills/behavioral-
 import { BehavioralSkillEditModalComponent } from './hr/behavioral-skills/behavioral-skill-edit-modal/behavioral-skill-edit-modal.component';
 import { BehavioralSkillDetailResolver } from './_resolvers/behavioral-skill-detail.resolver.';
 import { EvaluatorComponent } from './collaborators/evaluator/evaluator.component';
+import { EvaluationHrListComponent } from './hr/evaluations/evaluation-hr-list/evaluation-hr-list.component';
+import { EvaluationHrEditModalComponent } from './hr/evaluations/evaluation-hr-edit-modal/evaluation-hr-edit-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -130,7 +132,9 @@ export function tokenGetter() {
     BehavioralSkillListComponent,
     BehavioralSkillDetailComponent,
     BehavioralSkillNewComponent,
-    BehavioralSkillEditModalComponent
+    BehavioralSkillEditModalComponent,
+    EvaluationHrListComponent,
+    EvaluationHrEditModalComponent
   ],
   imports: [
     BrowserModule,
@@ -181,7 +185,8 @@ export function tokenGetter() {
     RolesModalComponent,
     AxisModalComponent,
     StrategyEditModalComponent,
-    BehavioralSkillEditModalComponent
+    BehavioralSkillEditModalComponent,
+    EvaluationHrEditModalComponent
   ],
   bootstrap: [AppComponent]
 })
