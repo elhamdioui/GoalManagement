@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using SothemaGoalManagement.API.Helpers;
 
 namespace SothemaGoalManagement.API.Dtos
 {
@@ -43,6 +44,7 @@ namespace SothemaGoalManagement.API.Dtos
         public BehavioralSkillForCreationDto()
         {
             Created = DateTime.Now;
+            Status = Constants.DRAFT;
         }
     }
 }

@@ -8,6 +8,7 @@ import { HrService } from '../../_services/hr.service';
 import { AuthService } from '../../_services/auth.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { BehavioralSkill } from '../../_models/behavioralSkill';
+import { EvaluationFile } from '../../_models/evaluationFile';
 
 @Component({
   selector: 'app-hr-panel',
@@ -19,6 +20,7 @@ export class HrPanelComponent implements OnInit {
   statusList: string[];
   strategies: Strategy[];
   behavioralSkills: BehavioralSkill[];
+  evaluationFiles: EvaluationFile[];
   pagination: Pagination;
 
   constructor(private route: ActivatedRoute, private hrService: HrService,
@@ -42,10 +44,6 @@ export class HrPanelComponent implements OnInit {
     });
   }
 
-  private getStatusList(): string[] {
-    return ['Rédaction', 'En Revue', 'Publiée', 'Archivée']
-  }
-
   handleLoadStrategies(filters) {
     this.hrService
       .getStrategies(
@@ -67,7 +65,7 @@ export class HrPanelComponent implements OnInit {
 
   handleEditStrategy(event: any) {
     this.hrService.updateStrategy(this.authService.decodedToken.nameid, event.updatedStrategy).subscribe(() => {
-      this.alertify.success('Stratégie été mise à jour.');
+      this.alertify.success('Stratégie a été mise à jour.');
       this.handleLoadStrategies(event.filters);
     }, error => {
       this.handleLoadStrategies(event.filters);
@@ -90,7 +88,7 @@ export class HrPanelComponent implements OnInit {
 
   handleEditBehavioralSkill(event: any) {
     this.hrService.updateBehavioralSkill(this.authService.decodedToken.nameid, event.updatedBehavioralSkill).subscribe(() => {
-      this.alertify.success('Stratégie été mise à jour.');
+      this.alertify.success('Compétence comportementale a été mise à jour.');
       this.handleLoadBehavioralSkills(event.filters);
     }, error => {
       this.handleLoadBehavioralSkills(event.filters);
@@ -98,8 +96,35 @@ export class HrPanelComponent implements OnInit {
     })
   }
 
+  handleLoadEvaluationFiles(filters) {
+    this.hrService
+      .getEvaluations(filters)
+      .subscribe(
+        (res: EvaluationFile[]) => {
+          this.evaluationFiles = res;
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
+  }
+
+  handleEditEvaluationFile(event: any) {
+    this.hrService.updateEvaluation(this.authService.decodedToken.nameid, event.updatedEvaluation).subscribe(() => {
+      this.alertify.success('Fiche d\'évaluation a été mis à jour.');
+      this.handleLoadEvaluationFiles(event.filters);
+    }, error => {
+      this.handleLoadEvaluationFiles(event.filters);
+      this.alertify.error(error);
+    })
+  }
+
   handlePageChanged(event: any): void {
     this.pagination.currentPage = event.currentPage;
     this.handleLoadStrategies(event.filters);;
+  }
+
+  private getStatusList(): string[] {
+    return ['Rédaction', 'En Revue', 'Publiée', 'Archivée']
   }
 }

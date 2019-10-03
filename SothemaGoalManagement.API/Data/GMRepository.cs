@@ -280,7 +280,7 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<IEnumerable<BehavioralSkill>> GetBehavioralSkills()
         {
-            return await _context.BehavioralSkills.ToListAsync();
+            return await _context.BehavioralSkills.Include(bs => bs.CreatedBy).ToListAsync();
         }
 
         public async Task<BehavioralSkill> GetBehavioralSkill(int id)
@@ -288,6 +288,14 @@ namespace SothemaGoalManagement.API.Data
             return await _context.BehavioralSkills.SingleOrDefaultAsync(bs => bs.Id == id);
         }
 
+        public async Task<IEnumerable<EvaluationFile>> GetEvaluationFiles()
+        {
+            return await _context.EvaluationFiles.Include(ef => ef.CreatedBy).ToListAsync();
+        }
 
+        public async Task<EvaluationFile> GetEvaluationFile(int id)
+        {
+            return await _context.EvaluationFiles.SingleOrDefaultAsync(ef => ef.Id == id);
+        }
     }
 }

@@ -19,8 +19,8 @@
 
       <tab heading="Fiches d'évaluation" *appHasRole="['HRD', 'HR']">
         <div class="container mt-2">
-          <app-evaluation-hr-list [statusList]="statusList" [evaluations]="evaluations" (loadEvaluationsEvent)="handleLoadEvaluations($event)"
-            (editEvaluationEvent)="handleEditEvaluation($event)"></app-evaluation-hr-list>
+          <app-evaluation-hr-list [statusList]="statusList" [evaluationFiles]="evaluationFiles" (loadEvaluationFilesEvent)="handleLoadEvaluationFiles($event)"
+            (editEvaluationFileEvent)="handleEditEvaluationFile($event)"></app-evaluation-hr-list>
         </div>
       </tab>
     </tabset>

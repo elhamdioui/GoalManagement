@@ -48,7 +48,6 @@ import { AdminService } from './_services/admin.service';
 import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 import { HrPanelComponent } from './hr/hr-panel/hr-panel.component';
 import { StrategiesComponent } from './strategies/strategies.component';
-import { GoalsCardsResolver } from './_resolvers/goals-cards.resolver';
 import { StrategiesResolver } from './_resolvers/strategies.resolver';
 import { StrategyListComponent } from './hr/strategies/strategy-list/strategy-list.component';
 import { StrategyListResolver } from './_resolvers/strategy-list.resolver';
@@ -66,11 +65,6 @@ import { AxisPolesWeightsCardComponent } from './hr/strategies/axis-poles-weight
 import { AxisPoleWeightItemComponent } from './hr/strategies/axis-pole-weight-item/axis-pole-weight-item.component';
 import { AxisPolesWeightsListComponent } from './hr/strategies/axis-poles-weights-list/axis-poles-weights-list.component';
 import { ProfileEditComponent } from './collaborators/profile-edit/profile-edit.component';
-import { GoalCardListComponent } from './userCards/goal-card-list/goal-card-list.component';
-import { GoalCardDetailComponent } from './userCards/goal-card-detail/goal-card-detail.component';
-import { BehavioralSkillsCardComponent } from './userCards/behavioral-skills-card/behavioral-skills-card.component';
-import { CardsPanelComponent } from './userCards/cards-panel/cards-panel.component';
-import { GoalsCardDetailResolver } from './_resolvers/goals-card-detail.resolver';
 import { StrategyDocumentationComponent } from './hr/strategies/strategy-documentation/strategy-documentation.component';
 import { CollaboratorSearchComponent } from './collaborators/collaborator-search/collaborator-search.component';
 import { BehavioralSkillNewComponent } from './hr/behavioral-skills/behavioral-skill-new/behavioral-skill-new.component';
@@ -81,6 +75,7 @@ import { BehavioralSkillDetailResolver } from './_resolvers/behavioral-skill-det
 import { EvaluatorComponent } from './collaborators/evaluator/evaluator.component';
 import { EvaluationHrListComponent } from './hr/evaluations/evaluation-hr-list/evaluation-hr-list.component';
 import { EvaluationHrEditModalComponent } from './hr/evaluations/evaluation-hr-edit-modal/evaluation-hr-edit-modal.component';
+import { EvaluationHrNewComponent } from './hr/evaluations/evaluation-hr-new/evaluation-hr-new.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -111,10 +106,6 @@ export function tokenGetter() {
     MessagesComponent,
     NavComponent,
     HomeComponent,
-    CardsPanelComponent,
-    GoalCardListComponent,
-    GoalCardDetailComponent,
-    BehavioralSkillsCardComponent,
     HrPanelComponent,
     StrategiesComponent,
     StrategyListComponent,
@@ -134,7 +125,8 @@ export function tokenGetter() {
     BehavioralSkillNewComponent,
     BehavioralSkillEditModalComponent,
     EvaluationHrListComponent,
-    EvaluationHrEditModalComponent
+    EvaluationHrEditModalComponent,
+    EvaluationHrNewComponent
   ],
   imports: [
     BrowserModule,
@@ -172,8 +164,6 @@ export function tokenGetter() {
     CollaboratorDetailResolver,
     ProfileEditResolver,
     MessagesResolver,
-    GoalsCardsResolver,
-    GoalsCardDetailResolver,
     StrategiesResolver,
     StrategyListResolver,
     StrategyDetailResolver,

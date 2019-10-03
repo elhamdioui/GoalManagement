@@ -386,6 +386,36 @@ namespace SothemaGoalManagement.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EvaluationFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(nullable: true),
+                    Year = table.Column<int>(nullable: false),
+                    Status = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
+                    CreatedById = table.Column<int>(nullable: false),
+                    StrategyId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EvaluationFiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EvaluationFiles_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EvaluationFiles_Strategies_StrategyId",
+                        column: x => x.StrategyId,
+                        principalTable: "Strategies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AxisPoles",
                 columns: table => new
                 {
@@ -406,6 +436,30 @@ namespace SothemaGoalManagement.API.Migrations
                         name: "FK_AxisPoles_Poles_PoleId",
                         column: x => x.PoleId,
                         principalTable: "Poles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EvaluationFileBehavioralSkills",
+                columns: table => new
+                {
+                    EvaluationFileId = table.Column<int>(nullable: false),
+                    BehavioralSkillId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EvaluationFileBehavioralSkills", x => new { x.EvaluationFileId, x.BehavioralSkillId });
+                    table.ForeignKey(
+                        name: "FK_EvaluationFileBehavioralSkills_BehavioralSkills_BehavioralSkillId",
+                        column: x => x.BehavioralSkillId,
+                        principalTable: "BehavioralSkills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_EvaluationFileBehavioralSkills_EvaluationFiles_EvaluationFileId",
+                        column: x => x.EvaluationFileId,
+                        principalTable: "EvaluationFiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -483,6 +537,21 @@ namespace SothemaGoalManagement.API.Migrations
                 column: "EvaluatorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EvaluationFileBehavioralSkills_BehavioralSkillId",
+                table: "EvaluationFileBehavioralSkills",
+                column: "BehavioralSkillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EvaluationFiles_CreatedById",
+                table: "EvaluationFiles",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EvaluationFiles_StrategyId",
+                table: "EvaluationFiles",
+                column: "StrategyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Messages_RecipientId",
                 table: "Messages",
                 column: "RecipientId");
@@ -524,10 +593,10 @@ namespace SothemaGoalManagement.API.Migrations
                 name: "AxisPoles");
 
             migrationBuilder.DropTable(
-                name: "BehavioralSkills");
+                name: "EvaluatedEvaluators");
 
             migrationBuilder.DropTable(
-                name: "EvaluatedEvaluators");
+                name: "EvaluationFileBehavioralSkills");
 
             migrationBuilder.DropTable(
                 name: "Messages");
@@ -540,6 +609,12 @@ namespace SothemaGoalManagement.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Axis");
+
+            migrationBuilder.DropTable(
+                name: "BehavioralSkills");
+
+            migrationBuilder.DropTable(
+                name: "EvaluationFiles");
 
             migrationBuilder.DropTable(
                 name: "Strategies");

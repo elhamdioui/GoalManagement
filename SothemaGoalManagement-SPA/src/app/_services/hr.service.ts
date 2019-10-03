@@ -10,6 +10,7 @@ import { Strategy } from '../_models/strategy';
 import { Axis } from '../_models/axis';
 import { AxisPole } from '../_models/axisPole';
 import { User } from '../_models/user';
+import { EvaluationFile } from '../_models/evaluationFile';
 
 @Injectable({
   providedIn: 'root'
@@ -104,18 +105,39 @@ export class HrService {
       params = params.append('status', filters.status);
       params = params.append('orderBy', filters.orderBy);
     }
-    return this.http.get<BehavioralSkill[]>(`${this.baseUrl}hr/behavioralskill`);
+    return this.http.get<BehavioralSkill[]>(`${this.baseUrl}hr/behavioralSkill`);
   }
 
   updateBehavioralSkill(createdById: number, behavioralSkill: BehavioralSkill) {
-    return this.http.put(`${this.baseUrl}hr/behavioralskill/edit/${createdById}`, behavioralSkill)
+    return this.http.put(`${this.baseUrl}hr/behavioralSkill/edit/${createdById}`, behavioralSkill)
   }
 
   getBehavioralSkill(id: number) {
-    return this.http.get<BehavioralSkill>(`${this.baseUrl}hr/behavioralskill/${id}`);
+    return this.http.get<BehavioralSkill>(`${this.baseUrl}hr/behavioralSkill/${id}`);
   }
 
   createBehavioralSkill(createdById: number, behavioralSkill: BehavioralSkill) {
     return this.http.post(`${this.baseUrl}hr/behavioralSkill/new/${createdById}`, behavioralSkill);
+  }
+
+  getEvaluations(filters?) {
+    let params = new HttpParams();
+    if (filters != null) {
+      params = params.append('status', filters.status);
+      params = params.append('orderBy', filters.orderBy);
+    }
+    return this.http.get<EvaluationFile[]>(`${this.baseUrl}hr/evaluationfile`);
+  }
+
+  updateEvaluation(createdById: number, behavioralSkill: EvaluationFile) {
+    return this.http.put(`${this.baseUrl}hr/evaluationfile/edit/${createdById}`, behavioralSkill)
+  }
+
+  getEvaluation(id: number) {
+    return this.http.get<EvaluationFile>(`${this.baseUrl}hr/evaluationfile/${id}`);
+  }
+
+  createEvaluation(createdById: number, behavioralSkill: EvaluationFile) {
+    return this.http.post(`${this.baseUrl}hr/evaluationfile/new/${createdById}`, behavioralSkill);
   }
 }

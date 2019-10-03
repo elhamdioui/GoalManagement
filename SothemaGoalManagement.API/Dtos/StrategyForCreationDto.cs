@@ -1,4 +1,5 @@
 using System;
+using SothemaGoalManagement.API.Helpers;
 
 namespace SothemaGoalManagement.API.Dtos
 {
@@ -17,6 +18,7 @@ namespace SothemaGoalManagement.API.Dtos
         public StrategyForCreationDto()
         {
             Created = DateTime.Now;
+            Status = Constants.DRAFT;
         }
     }
 }

@@ -4,7 +4,7 @@ namespace SothemaGoalManagement.API.Models
 {
     public class Evaluation
     {
-        public EvaluationCard EvaluationCard { get; set; }
+        public EvaluationFile EvaluationFile { get; set; }
 
         public User Evaluator { get; set; }
 

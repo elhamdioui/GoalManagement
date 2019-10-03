@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -6,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SothemaGoalManagement.API.Data;
 using SothemaGoalManagement.API.Dtos;
-using SothemaGoalManagement.API.Helpers;
 using SothemaGoalManagement.API.Models;
 
 namespace SothemaGoalManagement.API.Controllers
@@ -38,8 +38,8 @@ namespace SothemaGoalManagement.API.Controllers
         public async Task<IActionResult> GetBehavioralSkillList()
         {
             var behavioralSkillsFromRepo = await _repo.GetBehavioralSkills();
-
-            return Ok(behavioralSkillsFromRepo);
+            var behavioralSkillsToReturn = _mapper.Map<IEnumerable<BehavioralSkillToReturnDto>>(behavioralSkillsFromRepo);
+            return Ok(behavioralSkillsToReturn);
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
@@ -50,7 +50,6 @@ namespace SothemaGoalManagement.API.Controllers
             if (user.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
 
             behavioralSkillForCreationDto.CreatedById = createdById;
-            behavioralSkillForCreationDto.Status = Constants.DRAFT;
 
             var behavioralSkill = _mapper.Map<BehavioralSkill>(behavioralSkillForCreationDto);
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
-import { Evaluation } from './../../../_models/evaluation';
+import { EvaluationFile } from './../../../_models/evaluationFile';
 import { EvaluationHrEditModalComponent } from '../evaluation-hr-edit-modal/evaluation-hr-edit-modal.component';
 
 @Component({
@@ -11,9 +11,9 @@ import { EvaluationHrEditModalComponent } from '../evaluation-hr-edit-modal/eval
 })
 export class EvaluationHrListComponent implements OnInit {
   @Input() statusList: string[];
-  @Input() evaluations: Evaluation[];
-  @Output() loadEvaluationsEvent = new EventEmitter<any>();
-  @Output() editEvaluationEvent = new EventEmitter<any>();
+  @Input() evaluationFiles: EvaluationFile[];
+  @Output() loadEvaluationFilesEvent = new EventEmitter<any>();
+  @Output() editEvaluationFileEvent = new EventEmitter<any>();
   filters: any = {};
   creationMode = false;
   bsModalRef: BsModalRef;
@@ -25,12 +25,12 @@ export class EvaluationHrListComponent implements OnInit {
   ngOnInit() {
     this.filters.status = '';
     this.filters.orderBy = 'created';
-    this.loadEvaluationsEvent.emit(this.filters);
+    this.loadEvaluationFilesEvent.emit(this.filters);
   }
 
   resetFilters() {
     this.filters.status = '';
-    this.loadEvaluationsEvent.emit(this.filters);
+    this.loadEvaluationFilesEvent.emit(this.filters);
   }
 
   creationToggle() {
@@ -44,20 +44,20 @@ export class EvaluationHrListComponent implements OnInit {
   switchOffCreationMode(reload: boolean) {
     this.creationMode = false;
     if (reload) {
-      this.loadEvaluationsEvent.emit(this.filters);
+      this.loadEvaluationFilesEvent.emit(this.filters);
     }
   }
 
-  editBehavioralSkillModal(behavioralSkill: Evaluation) {
+  editEvaluationModal(evaluationFile: EvaluationFile) {
     const initialState = {
-      behavioralSkill,
+      evaluationFile,
       statusList: this.statusList
     };
 
     this.bsModalRef = this.modalService.show(EvaluationHrEditModalComponent, { initialState });
-    this.bsModalRef.content.updateSelectedBehavioralSkill.subscribe((updatedBehavioralSkill) => {
-      let updateParams = { updatedBehavioralSkill, filters: this.filters }
-      this.editEvaluationEvent.emit(updateParams);
+    this.bsModalRef.content.updateSelectedEvaluationFile.subscribe((updatedEvaluationFile) => {
+      let updateParams = { updatedEvaluationFile, filters: this.filters }
+      this.editEvaluationFileEvent.emit(updateParams);
     });
   }
 }

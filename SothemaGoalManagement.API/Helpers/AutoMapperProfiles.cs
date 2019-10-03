@@ -73,6 +73,13 @@ namespace SothemaGoalManagement.API.Helpers
             {
                 opt.ResolveUsing(u => u.CreatedBy.FirstName.FullName(u.CreatedBy.LastName));
             });
+
+            CreateMap<EvaluationFileForCreationDto, EvaluationFile>();
+
+            CreateMap<EvaluationFile, EvaluationFileToReturnDto>().ForMember(dest => dest.CreatedByName, opt =>
+            {
+                opt.ResolveUsing(u => u.CreatedBy.FirstName.FullName(u.CreatedBy.LastName));
+            });
         }
     }
 }

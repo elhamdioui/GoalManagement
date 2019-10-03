@@ -31,6 +31,10 @@ namespace SothemaGoalManagement.API.Data
 
         public DbSet<BehavioralSkill> BehavioralSkills { get; set; }
 
+        public DbSet<EvaluationFile> EvaluationFiles { get; set; }
+
+        public DbSet<EvaluationFileBehavioralSkill> EvaluationFileBehavioralSkills { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -95,6 +99,23 @@ namespace SothemaGoalManagement.API.Data
             builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
 
             builder.Entity<UserStatus>().Property(d => d.Name).IsRequired();
+
+            builder.Entity<EvaluationFileBehavioralSkill>(evaluationFileBehavioralSkill =>
+            {
+                evaluationFileBehavioralSkill.HasKey(efbs => new { efbs.EvaluationFileId, efbs.BehavioralSkillId });
+
+                evaluationFileBehavioralSkill.HasOne(bs => bs.BehavioralSkill)
+                                            .WithMany(ef => ef.EvaluationFiles)
+                                            .OnDelete(DeleteBehavior.Restrict)
+                                            .HasForeignKey(bs => bs.BehavioralSkillId)
+                                            .IsRequired();
+
+                evaluationFileBehavioralSkill.HasOne(ef => ef.EvaluationFile)
+                                            .WithMany(bs => bs.BehavioralSkills)
+                                            .OnDelete(DeleteBehavior.Restrict)
+                                            .HasForeignKey(ef => ef.EvaluationFileId)
+                                            .IsRequired();
+            });
 
         }
     }

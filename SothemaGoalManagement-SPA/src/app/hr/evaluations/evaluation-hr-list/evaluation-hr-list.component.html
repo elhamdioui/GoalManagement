@@ -39,15 +39,13 @@
           <th style="width: 20%"></th>
         </tr>
 
-        <tr *ngFor="let evaluation of evaluations" [routerLink]="[
-        '/evaluationsForHR', evaluation.id
-      ]" [queryParams]="{createdById:evaluation.createdById}">
-          <td>{{evaluation.skill}}</td>
-          <td>{{evaluation.status}}</td>
-          <td>{{evaluation.createdByName}}</td>
-          <td>{{evaluation.created | date: 'mediumDate'}}</td>
+        <tr *ngFor="let evaluationFile of evaluationFiles" [routerLink]="['/evaluationsForHR', evaluationFile.id]">
+          <td>{{evaluationFile.title}}</td>
+          <td>{{evaluationFile.status}}</td>
+          <td>{{evaluationFile.createdByName}}</td>
+          <td>{{evaluationFile.created | date: 'mediumDate'}}</td>
           <td>
-            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editEvaluationModal(evaluation)">Editer</button>
+            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editEvaluationFileModal(evaluationFile)">Editer</button>
           </td>
         </tr>
 
@@ -56,7 +54,7 @@
   </div>
 
   <div *ngIf="creationMode">
-    <app-behavioral-skill-new (cancelCreation)="cancelCreationMode($event)" (switchOffCreation)="switchOffCreationMode($event)"></app-behavioral-skill-new>
+    <app-evaluation-hr-new (cancelCreation)="cancelCreationMode($event)" (switchOffCreation)="switchOffCreationMode($event)"></app-evaluation-hr-new>
   </div>
 
 </div>

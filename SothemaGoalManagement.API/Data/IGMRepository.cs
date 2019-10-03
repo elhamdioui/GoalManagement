@@ -57,5 +57,9 @@ namespace SothemaGoalManagement.API.Data
 
         Task<BehavioralSkill> GetBehavioralSkill(int id);
 
+        Task<IEnumerable<EvaluationFile>> GetEvaluationFiles();
+
+        Task<EvaluationFile> GetEvaluationFile(int id);
+
     }
 }

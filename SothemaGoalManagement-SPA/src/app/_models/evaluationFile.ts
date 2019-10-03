@@ -1,4 +1,4 @@
-export interface Evaluation {
+export interface EvaluationFile {
   id: number;
   title: string;
   createdByName: string;

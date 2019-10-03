@@ -87,7 +87,6 @@ namespace SothemaGoalManagement.API.Controllers
             if (owner.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
 
             strategyForCreationDto.OwnerId = ownerId;
-            strategyForCreationDto.Status = Constants.DRAFT;
 
             var strategy = _mapper.Map<Strategy>(strategyForCreationDto);
 

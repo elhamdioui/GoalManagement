@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SothemaGoalManagement.API.Models
 {
@@ -41,6 +43,13 @@ namespace SothemaGoalManagement.API.Models
         public User CreatedBy { get; set; }
 
         public int CreatedById { get; set; }
+
+        public ICollection<EvaluationFileBehavioralSkill> EvaluationFiles { get; set; }
+
+        public BehavioralSkill()
+        {
+            EvaluationFiles = new Collection<EvaluationFileBehavioralSkill>();
+        }
 
     }
 }

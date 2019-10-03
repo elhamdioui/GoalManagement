@@ -9,7 +9,6 @@ import { PaginatedResult } from './../_models/pagination';
 import { Message } from '../_models/message';
 import { Goal } from '../_models/goal';
 import { Strategy } from '../_models/strategy';
-import { GoalCard } from '../_models/GoalCard';
 
 @Injectable({
   providedIn: 'root'
@@ -103,34 +102,6 @@ export class UserService {
       .subscribe();
   }
 
-  getGoals(id: number,
-    page?,
-    itemsPerPage?): Observable<PaginatedResult<Goal[]>> {
-    const paginatedResult: PaginatedResult<Goal[]> = new PaginatedResult<
-      Goal[]
-      >();
-    let params = new HttpParams();
-
-    if (page != null && itemsPerPage != null) {
-      params = params.append('pageNumber', page);
-      params = params.append('pageSize', itemsPerPage);
-    }
-
-    return this.http
-      .get<Goal[]>(this.baseUrl + 'users', { observe: 'response', params })
-      .pipe(
-        map(response => {
-          paginatedResult.result = response.body;
-          if (response.headers.get('Pagination') != null) {
-            paginatedResult.pagination = JSON.parse(
-              response.headers.get('Pagination')
-            );
-          }
-          return paginatedResult;
-        })
-      );
-  }
-
   getStrategies(id: number,
     page?,
     itemsPerPage?): Observable<PaginatedResult<Strategy[]>> {
@@ -161,39 +132,5 @@ export class UserService {
 
   getPublishedStrategies() {
     return this.http.get<Strategy[]>(`${this.baseUrl}users/publishedStrategies`);
-  }
-
-  getGoalsCards(id: number,
-    page?,
-    itemsPerPage?): Observable<PaginatedResult<GoalCard[]>> {
-    const paginatedResult: PaginatedResult<GoalCard[]> = new PaginatedResult<
-      GoalCard[]
-      >();
-    let params = new HttpParams();
-
-    if (page != null && itemsPerPage != null) {
-      params = params.append('pageNumber', page);
-      params = params.append('pageSize', itemsPerPage);
-    }
-
-    return this.http
-      .get<GoalCard[]>(this.baseUrl + 'users/goalCards', { observe: 'response', params })
-      .pipe(
-        map(response => {
-          paginatedResult.result = response.body;
-          if (response.headers.get('Pagination') != null) {
-            paginatedResult.pagination = JSON.parse(
-              response.headers.get('Pagination')
-            );
-          }
-          return paginatedResult;
-        })
-      );
-  }
-
-  getGoalCard(id: number, ownerId) {
-    let params = new HttpParams();
-    params = params.append('ownerId', ownerId);
-    return this.http.get<Strategy>(`${this.baseUrl}hr/${id}`, { params });
   }
 }

@@ -9,7 +9,7 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191002093811_newDB")]
+    [Migration("20191003220556_newDB")]
     partial class newDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -197,6 +197,45 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasIndex("EvaluatorId");
 
                     b.ToTable("EvaluatedEvaluators");
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<int>("CreatedById");
+
+                    b.Property<string>("Status");
+
+                    b.Property<int>("StrategyId");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int>("Year");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("StrategyId");
+
+                    b.ToTable("EvaluationFiles");
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFileBehavioralSkill", b =>
+                {
+                    b.Property<int>("EvaluationFileId");
+
+                    b.Property<int>("BehavioralSkillId");
+
+                    b.HasKey("EvaluationFileId", "BehavioralSkillId");
+
+                    b.HasIndex("BehavioralSkillId");
+
+                    b.ToTable("EvaluationFileBehavioralSkills");
                 });
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.Message", b =>
@@ -494,6 +533,32 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.User", "Evaluator")
                         .WithMany("EvaluatedEvaluators")
                         .HasForeignKey("EvaluatorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFile", b =>
+                {
+                    b.HasOne("SothemaGoalManagement.API.Models.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SothemaGoalManagement.API.Models.Strategy", "Strategy")
+                        .WithMany()
+                        .HasForeignKey("StrategyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFileBehavioralSkill", b =>
+                {
+                    b.HasOne("SothemaGoalManagement.API.Models.BehavioralSkill", "BehavioralSkill")
+                        .WithMany("EvaluationFiles")
+                        .HasForeignKey("BehavioralSkillId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SothemaGoalManagement.API.Models.EvaluationFile", "EvaluationFile")
+                        .WithMany("BehavioralSkills")
+                        .HasForeignKey("EvaluationFileId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
