@@ -168,7 +168,7 @@ namespace SothemaGoalManagement.API.Data
             return await _context.UserStatus.Include(u => u.Users).ToListAsync();
         }
 
-        public async Task<PagedList<Strategy>> GetStrategies(StrategyParams strategyParams)
+        public async Task<PagedList<Strategy>> GetStrategies(CommunParams strategyParams)
         {
             var strategies = _context.Strategies
                                 .Include(u => u.Owner)
@@ -187,17 +187,16 @@ namespace SothemaGoalManagement.API.Data
                     strategies = strategies.Where(s => s.Status == Constants.DRAFT && s.OwnerId == strategyParams.OwnerId);
                     break;
                 case Constants.REVIEW:
-                    strategies = strategies.Where(s => s.Status == Constants.REVIEW && s.OwnerId == strategyParams.OwnerId);
+                    strategies = strategies.Where(s => s.Status == Constants.REVIEW);
                     break;
                 case Constants.ARCHIVED:
-                    strategies = strategies.Where(s => s.Status == Constants.ARCHIVED && s.OwnerId == strategyParams.OwnerId);
+                    strategies = strategies.Where(s => s.Status == Constants.ARCHIVED);
                     break;
                 default:
                     strategies = strategies.Where(s => s.OwnerId == strategyParams.OwnerId);
                     break;
             }
 
-            strategies = strategies.OrderByDescending(u => u.Created);
             return await PagedList<Strategy>.CreateAsync(strategies, strategyParams.PageNumber, strategyParams.PageSize);
         }
 
@@ -278,9 +277,32 @@ namespace SothemaGoalManagement.API.Data
             return true;
         }
 
-        public async Task<IEnumerable<BehavioralSkill>> GetBehavioralSkills()
+        public async Task<IEnumerable<BehavioralSkill>> GetBehavioralSkills(CommunParams behavioralSkillParams)
         {
-            return await _context.BehavioralSkills.Include(bs => bs.CreatedBy).ToListAsync();
+            var behavioralSkills = _context.BehavioralSkills.Include(bs => bs.CreatedBy)
+                                                            .OrderByDescending(s => s.Created)
+                                                            .AsQueryable();
+
+            switch (behavioralSkillParams.Status)
+            {
+                case Constants.PUBLISHED:
+                    behavioralSkills = behavioralSkills.Where(s => s.Status == Constants.PUBLISHED);
+                    break;
+                case Constants.DRAFT:
+                    behavioralSkills = behavioralSkills.Where(s => s.Status == Constants.DRAFT && s.CreatedById == behavioralSkillParams.OwnerId);
+                    break;
+                case Constants.REVIEW:
+                    behavioralSkills = behavioralSkills.Where(s => s.Status == Constants.REVIEW);
+                    break;
+                case Constants.ARCHIVED:
+                    behavioralSkills = behavioralSkills.Where(s => s.Status == Constants.ARCHIVED);
+                    break;
+                default:
+                    behavioralSkills = behavioralSkills.Where(s => s.CreatedById == behavioralSkillParams.OwnerId);
+                    break;
+            }
+
+            return await behavioralSkills.ToListAsync();
         }
 
         public async Task<BehavioralSkill> GetBehavioralSkill(int id)
@@ -288,9 +310,32 @@ namespace SothemaGoalManagement.API.Data
             return await _context.BehavioralSkills.SingleOrDefaultAsync(bs => bs.Id == id);
         }
 
-        public async Task<IEnumerable<EvaluationFile>> GetEvaluationFiles()
+        public async Task<IEnumerable<EvaluationFile>> GetEvaluationFiles(CommunParams evaluationFileParams)
         {
-            return await _context.EvaluationFiles.Include(ef => ef.CreatedBy).ToListAsync();
+            var evaluationFiles = _context.EvaluationFiles.Include(ef => ef.CreatedBy)
+                                                            .OrderByDescending(s => s.Created)
+                                                            .AsQueryable();
+
+            switch (evaluationFileParams.Status)
+            {
+                case Constants.PUBLISHED:
+                    evaluationFiles = evaluationFiles.Where(s => s.Status == Constants.PUBLISHED);
+                    break;
+                case Constants.DRAFT:
+                    evaluationFiles = evaluationFiles.Where(s => s.Status == Constants.DRAFT && s.CreatedById == evaluationFileParams.OwnerId);
+                    break;
+                case Constants.REVIEW:
+                    evaluationFiles = evaluationFiles.Where(s => s.Status == Constants.REVIEW);
+                    break;
+                case Constants.ARCHIVED:
+                    evaluationFiles = evaluationFiles.Where(s => s.Status == Constants.ARCHIVED);
+                    break;
+                default:
+                    evaluationFiles = evaluationFiles.Where(s => s.CreatedById == evaluationFileParams.OwnerId);
+                    break;
+            }
+
+            return await evaluationFiles.ToListAsync();
         }
 
         public async Task<EvaluationFile> GetEvaluationFile(int id)

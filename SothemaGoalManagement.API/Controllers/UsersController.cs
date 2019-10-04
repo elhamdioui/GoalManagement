@@ -75,7 +75,7 @@ namespace SothemaGoalManagement.API.Controllers
         [HttpGet("publishedStrategies")]
         public async Task<IActionResult> GetPublishedStrategies()
         {
-            StrategyParams strategyParams = new StrategyParams()
+            CommunParams strategyParams = new CommunParams()
             {
                 Status = Constants.PUBLISHED
             };

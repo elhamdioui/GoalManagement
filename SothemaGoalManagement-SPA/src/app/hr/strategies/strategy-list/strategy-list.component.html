@@ -1,31 +1,7 @@
 <div class="container">
   <div *ngIf="!creationMode">
-    <form #form="ngForm" (ngSubmit)="loadStrategies()" class="form-inline" novalidate>
-      <div class="form-group">
-        <label for="status">Statut:</label>
-        <select [(ngModel)]="filters.status" class="form-control" style="width: 150px" id="status" name="status">
-          <option value="">Tous les statut</option>
-          <option *ngFor="let status of statusList" [value]="status">
-            {{ status }}
-          </option>
-        </select>
-      </div>
-
-      <button type="submit" class="btn btn-primary" style="margin-left:10px">
-        Appliquer Filtre
-      </button>
-      <button type="button" class="btn btn-info" style="margin-left:10px" (click)="resetFilters()">
-        Réinitialiser Filtre
-      </button>
-
-      <div class="col">
-        <div class="btn-group float-right">
-          <button type="button" class="btn btn-primary" (click)="creationToggle()">
-            Créer Nouvelle Stratégie
-          </button>
-        </div>
-      </div>
-    </form>
+    <app-hr-filter-create-actions [statusList]="statusList" [dataType]="dataType" (loadDataEvent)="handleLoadStrategies($event)"
+      (creationModeEvent)="handleCreationMode($event)"></app-hr-filter-create-actions>
 
     <br />
 

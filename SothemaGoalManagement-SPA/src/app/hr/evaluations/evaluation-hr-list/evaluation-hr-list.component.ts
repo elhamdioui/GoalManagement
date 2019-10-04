@@ -17,14 +17,14 @@ export class EvaluationHrListComponent implements OnInit {
   filters: any = {};
   creationMode = false;
   bsModalRef: BsModalRef;
+  dataType: string;
 
   constructor(
     private modalService: BsModalService
   ) { }
 
   ngOnInit() {
-    this.filters.status = '';
-    this.filters.orderBy = 'created';
+    this.dataType = 'evaluationFile';
     this.loadEvaluationFilesEvent.emit(this.filters);
   }
 
@@ -46,6 +46,16 @@ export class EvaluationHrListComponent implements OnInit {
     if (reload) {
       this.loadEvaluationFilesEvent.emit(this.filters);
     }
+  }
+
+  handleLoadEvaluations(event: any) {
+    this.filters = event;
+    this.loadEvaluationFilesEvent.emit(this.filters);
+  }
+
+
+  handleCreationMode(event: boolean) {
+    this.creationMode = event;
   }
 
   editEvaluationModal(evaluationFile: EvaluationFile) {

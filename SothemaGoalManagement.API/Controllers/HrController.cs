@@ -70,7 +70,7 @@ namespace SothemaGoalManagement.API.Controllers
 
         [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpGet("strategies")]
-        public async Task<IActionResult> GetStrategies([FromQuery]StrategyParams strategyParams)
+        public async Task<IActionResult> GetStrategies([FromQuery]CommunParams strategyParams)
         {
             var strategies = await _repo.GetStrategies(strategyParams);
             var strategiesToReturn = _mapper.Map<IEnumerable<StrategyForListDto>>(strategies);

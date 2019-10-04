@@ -17,14 +17,14 @@ export class BehavioralSkillListComponent implements OnInit {
   filters: any = {};
   creationMode = false;
   bsModalRef: BsModalRef;
+  dataType: string;
 
   constructor(
     private modalService: BsModalService
   ) { }
 
   ngOnInit() {
-    this.filters.status = '';
-    this.filters.orderBy = 'created';
+    this.dataType = 'behavioralSkill';
     this.loadBehavioralSkillsEvent.emit(this.filters);
   }
 
@@ -46,6 +46,16 @@ export class BehavioralSkillListComponent implements OnInit {
     if (reload) {
       this.loadBehavioralSkillsEvent.emit(this.filters);
     }
+  }
+
+  handleLoadBehavioralSkills(event: any) {
+    this.filters = event;
+    this.loadBehavioralSkillsEvent.emit(this.filters);
+  }
+
+
+  handleCreationMode(event: boolean) {
+    this.creationMode = event;
   }
 
   editBehavioralSkillModal(behavioralSkill: BehavioralSkill) {

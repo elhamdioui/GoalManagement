@@ -99,13 +99,14 @@ export class HrService {
     return this.http.post(this.baseUrl + 'hr/strategies/edit/' + id + '/documentation/delete', {});
   }
 
-  getBehavioralSkills(filters?) {
+  getBehavioralSkills(createdById, filters?) {
     let params = new HttpParams();
+    params = params.append('ownerId', createdById);
     if (filters != null) {
       params = params.append('status', filters.status);
       params = params.append('orderBy', filters.orderBy);
     }
-    return this.http.get<BehavioralSkill[]>(`${this.baseUrl}hr/behavioralSkill`);
+    return this.http.get<BehavioralSkill[]>(`${this.baseUrl}hr/behavioralSkill`, { params });
   }
 
   updateBehavioralSkill(createdById: number, behavioralSkill: BehavioralSkill) {
@@ -120,13 +121,14 @@ export class HrService {
     return this.http.post(`${this.baseUrl}hr/behavioralSkill/new/${createdById}`, behavioralSkill);
   }
 
-  getEvaluations(filters?) {
+  getEvaluations(createdById, filters?) {
     let params = new HttpParams();
+    params = params.append('ownerId', createdById);
     if (filters != null) {
       params = params.append('status', filters.status);
       params = params.append('orderBy', filters.orderBy);
     }
-    return this.http.get<EvaluationFile[]>(`${this.baseUrl}hr/evaluationfile`);
+    return this.http.get<EvaluationFile[]>(`${this.baseUrl}hr/evaluationfile`, { params });
   }
 
   updateEvaluation(createdById: number, behavioralSkill: EvaluationFile) {

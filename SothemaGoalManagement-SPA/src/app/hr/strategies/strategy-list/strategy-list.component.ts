@@ -12,37 +12,28 @@ import { StrategyEditModalComponent } from '../strategy-edit-modal/strategy-edit
   styleUrls: ['./strategy-list.component.css']
 })
 export class StrategyListComponent implements OnInit {
-  @Input() statusList: string[];
   @Input() strategies: Strategy[];
-  @Input() pagination: Pagination
+  @Input() pagination: Pagination;
+  @Input() statusList: string[];
   @Output() loadStrategiesEvent = new EventEmitter<any>();
   @Output() editStrategyEvent = new EventEmitter<any>();
   @Output() pageChangedEvent = new EventEmitter<any>();
-  filters: any = {};
   creationMode = false;
   bsModalRef: BsModalRef;
+  dataType: string;
+  filters: any = {};
 
   constructor(
     private modalService: BsModalService
   ) { }
 
   ngOnInit() {
-    this.filters.status = '';
-    this.filters.orderBy = 'created';
+    this.dataType = 'strategy';
   }
 
   pageChanged(event: any): void {
     let pageParams = { currentPage: event.page, filters: this.filters }
     this.pageChangedEvent.emit(pageParams);;
-  }
-
-  resetFilters() {
-    this.filters.status = '';
-    this.loadStrategiesEvent.emit(this.filters);
-  }
-
-  creationToggle() {
-    this.creationMode = true;
   }
 
   cancelCreationMode(creationMode: boolean) {
@@ -54,6 +45,15 @@ export class StrategyListComponent implements OnInit {
     if (reload) {
       this.loadStrategiesEvent.emit(this.filters);
     }
+  }
+
+  handleLoadStrategies(event: any) {
+    this.filters = event;
+    this.loadStrategiesEvent.emit(this.filters);
+  }
+
+  handleCreationMode(event: boolean) {
+    this.creationMode = event;
   }
 
   editStrategyModal(strategy: Strategy) {

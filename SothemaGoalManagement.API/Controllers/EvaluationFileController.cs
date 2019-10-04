@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SothemaGoalManagement.API.Data;
 using SothemaGoalManagement.API.Dtos;
+using SothemaGoalManagement.API.Helpers;
 using SothemaGoalManagement.API.Models;
 
 namespace SothemaGoalManagement.API.Controllers
@@ -35,9 +36,9 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetEvaluationFileList()
+        public async Task<IActionResult> GetEvaluationFileList([FromQuery]CommunParams evaluationFileParams)
         {
-            var evaluationFilesFromRepo = await _repo.GetEvaluationFiles();
+            var evaluationFilesFromRepo = await _repo.GetEvaluationFiles(evaluationFileParams);
             var evaluationFilesToReturn = _mapper.Map<IEnumerable<EvaluationFileToReturnDto>>(evaluationFilesFromRepo);
             return Ok(evaluationFilesToReturn);
         }

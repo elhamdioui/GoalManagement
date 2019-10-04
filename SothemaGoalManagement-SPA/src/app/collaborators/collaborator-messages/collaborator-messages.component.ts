@@ -59,7 +59,7 @@ export class CollaboratorMessagesComponent implements OnInit {
       .subscribe(
         (message: Message) => {
           this.messages.unshift(message);
-          this.newMessage.content = ';';
+          this.newMessage.content = '';
         },
         error => {
           this.alertify.error(error);

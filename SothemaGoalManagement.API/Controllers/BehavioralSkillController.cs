@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SothemaGoalManagement.API.Data;
 using SothemaGoalManagement.API.Dtos;
+using SothemaGoalManagement.API.Helpers;
 using SothemaGoalManagement.API.Models;
 
 namespace SothemaGoalManagement.API.Controllers
@@ -35,9 +36,9 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBehavioralSkillList()
+        public async Task<IActionResult> GetBehavioralSkillList([FromQuery]CommunParams behavioralSkillParams)
         {
-            var behavioralSkillsFromRepo = await _repo.GetBehavioralSkills();
+            var behavioralSkillsFromRepo = await _repo.GetBehavioralSkills(behavioralSkillParams);
             var behavioralSkillsToReturn = _mapper.Map<IEnumerable<BehavioralSkillToReturnDto>>(behavioralSkillsFromRepo);
             return Ok(behavioralSkillsToReturn);
         }

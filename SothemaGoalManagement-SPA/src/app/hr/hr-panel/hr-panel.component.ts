@@ -33,7 +33,7 @@ export class HrPanelComponent implements OnInit {
       this.pagination = data['strategies'].pagination;
     });
 
-    this.statusList = this.getStatusList();
+    this.statusList = ['Rédaction', 'En Revue', 'Publiée', 'Archivée'];
 
     //https://hackernoon.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
     Promise.resolve(null).then(() => {
@@ -75,7 +75,7 @@ export class HrPanelComponent implements OnInit {
 
   handleLoadBehavioralSkills(filters) {
     this.hrService
-      .getBehavioralSkills(filters)
+      .getBehavioralSkills(this.authService.decodedToken.nameid, filters)
       .subscribe(
         (res: BehavioralSkill[]) => {
           this.behavioralSkills = res;
@@ -98,7 +98,7 @@ export class HrPanelComponent implements OnInit {
 
   handleLoadEvaluationFiles(filters) {
     this.hrService
-      .getEvaluations(filters)
+      .getEvaluations(this.authService.decodedToken.nameid, filters)
       .subscribe(
         (res: EvaluationFile[]) => {
           this.evaluationFiles = res;
@@ -122,9 +122,5 @@ export class HrPanelComponent implements OnInit {
   handlePageChanged(event: any): void {
     this.pagination.currentPage = event.currentPage;
     this.handleLoadStrategies(event.filters);;
-  }
-
-  private getStatusList(): string[] {
-    return ['Rédaction', 'En Revue', 'Publiée', 'Archivée']
   }
 }

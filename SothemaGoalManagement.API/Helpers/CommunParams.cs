@@ -1,6 +1,6 @@
 namespace SothemaGoalManagement.API.Helpers
 {
-    public class StrategyParams
+    public class CommunParams
     {
         private const int MaxPageSize = 50;
         public int PageNumber { get; set; } = 1;

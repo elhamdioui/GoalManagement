@@ -35,7 +35,7 @@ namespace SothemaGoalManagement.API.Data
 
         Task<IEnumerable<UserStatus>> GetUserStatus();
 
-        Task<PagedList<Strategy>> GetStrategies(StrategyParams strategyParams);
+        Task<PagedList<Strategy>> GetStrategies(CommunParams strategyParams);
 
         Task<Strategy> GetStrategy(int id);
 
@@ -53,11 +53,11 @@ namespace SothemaGoalManagement.API.Data
 
         Task<EvaluatedEvaluator> GetEvaluatedEvaluator(int evaluatedId, int evaluatorId);
 
-        Task<IEnumerable<BehavioralSkill>> GetBehavioralSkills();
+        Task<IEnumerable<BehavioralSkill>> GetBehavioralSkills(CommunParams behavioralSkillParams);
 
         Task<BehavioralSkill> GetBehavioralSkill(int id);
 
-        Task<IEnumerable<EvaluationFile>> GetEvaluationFiles();
+        Task<IEnumerable<EvaluationFile>> GetEvaluationFiles(CommunParams evaluationFileParams);
 
         Task<EvaluationFile> GetEvaluationFile(int id);
 
