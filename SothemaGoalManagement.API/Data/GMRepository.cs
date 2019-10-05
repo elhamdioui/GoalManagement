@@ -102,7 +102,7 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<PagedList<object>> GetUsersWithRoles(UserParams userParams)
         {
-            var usersWithRoles = (from user in _context.Users.Include(d => d.Department).Include(s => s.UserStatus)
+            var usersWithRoles = (from user in _context.Users.Include(p => p.Photos).Include(d => d.Department).Include(s => s.UserStatus)
                                   select new
                                   {
                                       Id = user.Id,
@@ -115,7 +115,8 @@ namespace SothemaGoalManagement.API.Data
                                                join role in _context.Roles on userRole.RoleId equals role.Id
                                                select role.Name).ToList(),
                                       Created = user.Created,
-                                      LastActive = user.LastActive
+                                      LastActive = user.LastActive,
+                                      PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain).Url
                                   }).OrderByDescending(u => u.Created)
                                   .AsQueryable();
 

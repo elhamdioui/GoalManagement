@@ -27,6 +27,7 @@ export class UserRolesManagementComponent implements OnInit {
   constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
+    this.loadUsersWithRolesEvent.emit(this.filters);
   }
 
   pageChanged(event: any): void {
