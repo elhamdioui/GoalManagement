@@ -1,10 +1,9 @@
 <div class="container">
-  <div class="row">
-    <form #form="ngForm" (ngSubmit)="loadData()" class="form-inline" novalidate>
-
-      <div class="form-group">
-        <label for="department">Direction:</label>
-        <select [(ngModel)]="filters.departmentId" class="form-control" style="width: 200px" id="department" name="department">
+  <form #form="ngForm" (ngSubmit)="loadData()" novalidate>
+    <div class="form-row align-items-center">
+      <div class="col-auto">
+        <label class="sr-only" for="department">Direction:</label>
+        <select [(ngModel)]="filters.departmentId" class="form-control" style="width: 150px" id="department" name="department">
           <option value="0">Toutes les dirctions</option>
           <option *ngFor="let dpt of departmentList" [value]="dpt.id">
             {{ dpt.name }}
@@ -12,9 +11,9 @@
         </select>
       </div>
 
-      <div class="form-group ml-2">
-        <label for="userStatus">Statut:</label>
-        <select [(ngModel)]="filters.userStatusId" class="form-control" style="width: 200px" id="userStatus" name="userStatus">
+      <div class="col-auto">
+        <label class="sr-only" for="userStatus">Statut:</label>
+        <select [(ngModel)]="filters.userStatusId" class="form-control" style="width: 150px" id="userStatus" name="userStatus">
           <option value="0">Toutes les Statuts</option>
           <option *ngFor="let status of userStatusList" [value]="status.id">
             {{ status.name }}
@@ -22,29 +21,28 @@
         </select>
       </div>
 
-      <div class="form-group ml-2">
-        <label for="userToSearch">Nom:</label>
-        <input type="text" [(ngModel)]="filters.userToSearch" class="form-control" style="width: 200px" id="userToSearch" name="userToSearch"
+      <div class="col-auto">
+        <label class="sr-only" for="userToSearch">Nom:</label>
+        <input type="text" [(ngModel)]="filters.userToSearch" class="form-control" style="width: 150px" id="userToSearch" name="userToSearch"
           placeholder="Nom à rechercher">
       </div>
 
-      <div class="btn-group col float-right">
+      <div class="col-auto">
         <button type="submit" class="btn btn-primary" style="margin-left:10px">
-          Appliquer Filtre
+          Appliquer
         </button>
+      </div>
+      <div class="col-auto">
         <button type="button" class="btn btn-info" style="margin-left:10px" (click)="resetFilters()">
-          Réinitialiser Filtre
+          Réinitialiser
         </button>
       </div>
 
-    </form>
-  </div>
-
-  <div class="btn-group mt-2 mb-2 float-right">
-    <div class="align-items-center">
-      <button type="button" class="btn btn-primary" (click)="creationToggle()">
-        Créer Nouveau Utilisateur
-      </button>
+      <div class="col-auto">
+        <button type="button" class="btn btn-primary" style="margin-left:10px" (click)="creationToggle()">
+          Nouveau
+        </button>
+      </div>
     </div>
-  </div>
+  </form>
 </div>

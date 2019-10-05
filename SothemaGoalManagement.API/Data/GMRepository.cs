@@ -102,19 +102,51 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<PagedList<object>> GetUsersWithRoles(UserParams userParams)
         {
-            var usersWithRoles = (from user in _context.Users
+            var usersWithRoles = (from user in _context.Users.Include(d => d.Department).Include(s => s.UserStatus)
                                   select new
                                   {
                                       Id = user.Id,
                                       FirstName = user.FirstName,
                                       LastName = user.LastName,
                                       Email = user.Email,
+                                      DepartmentId = user.DepartmentId,
+                                      UserStatusId = user.UserStatusId,
                                       Roles = (from userRole in user.UserRoles
                                                join role in _context.Roles on userRole.RoleId equals role.Id
                                                select role.Name).ToList(),
-                                      Created = user.Created
+                                      Created = user.Created,
+                                      LastActive = user.LastActive
                                   }).OrderByDescending(u => u.Created)
                                   .AsQueryable();
+
+            if (userParams.DepartmentId > 0)
+            {
+                usersWithRoles = usersWithRoles.Where(u => u.DepartmentId == userParams.DepartmentId);
+            }
+
+            if (userParams.UserStatusId > 0)
+            {
+                usersWithRoles = usersWithRoles.Where(u => u.UserStatusId == userParams.UserStatusId);
+            }
+
+            if (!string.IsNullOrEmpty(userParams.UserToSearch))
+            {
+                usersWithRoles = usersWithRoles.Where(u => u.FirstName.ToLower().Contains(userParams.UserToSearch.ToLower())
+                                    || u.LastName.ToLower().Contains(userParams.UserToSearch.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(userParams.OrderBy))
+            {
+                switch (userParams.OrderBy)
+                {
+                    case "created":
+                        usersWithRoles = usersWithRoles.OrderByDescending(u => u.Created);
+                        break;
+                    default:
+                        usersWithRoles = usersWithRoles.OrderByDescending(u => u.LastActive);
+                        break;
+                }
+            }
 
             return await PagedList<object>.CreateAsync(usersWithRoles, userParams.PageNumber, userParams.PageSize);
         }

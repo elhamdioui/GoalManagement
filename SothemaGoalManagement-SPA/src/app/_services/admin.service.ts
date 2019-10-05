@@ -65,12 +65,20 @@ export class AdminService {
   }
 
   getUsersWithRoles(page?,
-    itemsPerPage?): Observable<PaginatedResult<User[]>> {
+    itemsPerPage?, userParams?): Observable<PaginatedResult<User[]>> {
     const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
     let params = new HttpParams();
+
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
+    }
+
+    if (userParams != null) {
+      params = params.append('departmentId', userParams.departmentId);
+      params = params.append('userStatusId', userParams.userStatusId);
+      params = params.append('userToSearch', userParams.userToSearch);
+      params = params.append('orderBy', userParams.orderBy);
     }
 
     return this.http

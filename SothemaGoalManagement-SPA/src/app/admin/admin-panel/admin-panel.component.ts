@@ -49,6 +49,28 @@ export class AdminPanelComponent implements OnInit {
       );
   }
 
+  handleLoadUsersWithRoles(filters) {
+    this.adminService.getUsersWithRoles(this.pagination.currentPage,
+      this.pagination.itemsPerPage,
+      filters).subscribe(
+        (res: PaginatedResult<User[]>) => {
+          this.users = res.result;
+          this.pagination = res.pagination;
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
+  }
+
+  handleEditUserRoles(event: any) {
+    this.adminService.updateUserRoles(event.user, event.rolesToUpdate).subscribe(() => {
+      this.alertify.success('Les rôles ont été mis à jour.');
+      this.handleLoadUsersWithRoles(event.filters);
+    }, error => {
+      this.alertify.error(error);
+    })
+  }
   handlePageChanged(event: any): void {
     this.pagination.currentPage = event.currentPage;
     this.handleLoadUsers(event.filters);;

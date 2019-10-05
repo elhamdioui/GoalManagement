@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { User } from '../../_models/user';
-import { AdminService } from '../../_services/admin.service';
-import { AlertifyService } from './../../_services/alertify.service';
 import { RolesModalComponent } from '../roles-modal/roles-modal.component';
 import { Pagination, PaginatedResult } from './../../_models/pagination';
+import { UserStatus } from '../../_models/userStatus';
+import { Department } from '../../_models/department';
 
 @Component({
   selector: 'app-user-roles-management',
@@ -13,41 +13,45 @@ import { Pagination, PaginatedResult } from './../../_models/pagination';
   styleUrls: ['./user-roles-management.component.css']
 })
 export class UserRolesManagementComponent implements OnInit {
-  users: User[];
+  @Input() users: User[];
+  @Input() pagination: Pagination;
+  @Input() departmentList: Department[];
+  @Input() userStatusList: UserStatus[];
+  @Output() loadUsersWithRolesEvent = new EventEmitter<any>();
+  @Output() pageChangedEvent = new EventEmitter<any>();
+  @Output() editUserRoleEvent = new EventEmitter<any>();
+  creationMode = false;
+  filters: any = {};
   bsModalRef: BsModalRef;
-  pagination: Pagination = { currentPage: 1, itemsPerPage: 10, totalItems: 0, totalPages: 0 };
-  pageNumber = 1;
-  pageSize = 10;
 
-  constructor(private adminService: AdminService, private alertify: AlertifyService, private modalService: BsModalService) { }
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
-    this.adminService.getUsersWithRoles(this.pageNumber, this.pageSize).subscribe(
-      (res: PaginatedResult<User[]>) => {
-        this.users = res.result;
-        this.pagination = res.pagination;
-      },
-      error => {
-        this.alertify.error(error);
-      }
-    );
-  }
-
-  getUsersWithRoles() {
-    this.adminService.getUsersWithRoles(this.pagination.currentPage, this.pagination.itemsPerPage).subscribe(
-      (res: PaginatedResult<User[]>) => {
-        this.users = res.result;
-        this.pagination = res.pagination;
-      },
-      error => {
-        this.alertify.error(error);
-      }
-    );
   }
 
   pageChanged(event: any): void {
-    this.pagination.currentPage = event.page;
-    this.getUsersWithRoles();
+    let pageParams = { currentPage: event.page, filters: this.filters }
+    this.pageChangedEvent.emit(pageParams);;
+  }
+
+  cancelRegisterMode(creationMode: boolean) {
+    this.creationMode = creationMode;
+  }
+
+  switchOffRegisterMode(reload: boolean) {
+    this.creationMode = false;
+    if (reload) {
+      this.loadUsersWithRolesEvent.emit(this.filters);
+    }
+  }
+
+  handleLoadUsers(event: any) {
+    this.filters = event;
+    this.loadUsersWithRolesEvent.emit(this.filters);
+  }
+
+  handleCreationMode(event: boolean) {
+    this.creationMode = event;
   }
 
   editRolesModal(user: User) {
@@ -61,12 +65,8 @@ export class UserRolesManagementComponent implements OnInit {
         roleNames: [...values.filter(el => el.checked === true).map(el => el.name)]
       };
       if (rolesToUpdate) {
-        this.adminService.updateUserRoles(user, rolesToUpdate).subscribe(() => {
-          user.roles = [...rolesToUpdate.roleNames];
-          this.alertify.success('Les rôles ont été mis à jour.');
-        }, error => {
-          this.alertify.error(error);
-        })
+        let updateParams = { user, rolesToUpdate, filters: this.filters }
+        this.editUserRoleEvent.emit(updateParams);
       }
     });
   }

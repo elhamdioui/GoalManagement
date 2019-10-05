@@ -11,7 +11,8 @@
 
       <tab heading="Gestion des roles" *appHasRole="['Admin', 'HR']">
         <div class="container">
-          <app-user-roles-management></app-user-roles-management>
+          <app-user-roles-management [departmentList]="departmentList" [userStatusList]="userStatusList" [users]="users" [pagination]="pagination"
+            (pageChangedEvent)="(handlePageChanged($event))" (loadUsersWithRolesEvent)="handleLoadUsersWithRoles($event)" (editUserRoleEvent)="handleEditUserRoles($event)"></app-user-roles-management>
         </div>
       </tab>
 
