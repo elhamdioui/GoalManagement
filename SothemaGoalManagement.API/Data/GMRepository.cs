@@ -73,6 +73,12 @@ namespace SothemaGoalManagement.API.Data
                 users = users.Where(u => u.UserStatusId == userParams.UserStatusId);
             }
 
+            if (!string.IsNullOrEmpty(userParams.UserToSearch))
+            {
+                users = users.Where(u => u.FirstName.ToLower().Contains(userParams.UserToSearch.ToLower())
+                                    || u.LastName.ToLower().Contains(userParams.UserToSearch.ToLower()));
+            }
+
             if (!string.IsNullOrEmpty(userParams.OrderBy))
             {
                 switch (userParams.OrderBy)

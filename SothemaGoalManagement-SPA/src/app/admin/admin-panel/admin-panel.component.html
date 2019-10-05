@@ -4,7 +4,8 @@
     <tabset class="member-tabset">
       <tab heading="Gestion des utilisateurs" *appHasRole="['Admin', 'HR']">
         <div class="row">
-          <app-collaborator-list></app-collaborator-list>
+          <app-collaborator-list [departmentList]="departmentList" [userStatusList]="userStatusList" [users]="users" [pagination]="pagination"
+            (pageChangedEvent)="(handlePageChanged($event))" (loadUsersEvent)="handleLoadUsers($event)"></app-collaborator-list>
         </div>
       </tab>
 

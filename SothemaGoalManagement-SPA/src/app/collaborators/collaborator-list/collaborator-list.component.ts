@@ -1,12 +1,9 @@
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import { Pagination } from '../../_models/pagination';
 import { User } from '../../_models/user';
-import { AdminService } from '../../_services/admin.service';
-import { AlertifyService } from '../../_services/alertify.service';
-import { Pagination, PaginatedResult } from './../../_models/pagination';
 import { UserStatus } from '../../_models/userStatus';
-import { Department } from './../../_models/department';
+import { Department } from '../../_models/department';
 
 @Component({
   selector: 'app-collaborator-list',
@@ -14,74 +11,44 @@ import { Department } from './../../_models/department';
   styleUrls: ['./collaborator-list.component.css']
 })
 export class CollaboratorListComponent implements OnInit {
-  departmentList: Department[];
-  userStatusList: UserStatus[];
-  users: User[];
-  userParams: any = {};
-  pagination: Pagination;
-  registerMode = false;
+  @Input() users: User[];
+  @Input() pagination: Pagination;
+  @Input() departmentList: Department[];
+  @Input() userStatusList: UserStatus[];
+  @Output() loadUsersEvent = new EventEmitter<any>();
+  @Output() pageChangedEvent = new EventEmitter<any>();
+  creationMode = false;
+  filters: any = {};
 
   constructor(
-    private adminService: AdminService,
-    private alertify: AlertifyService,
-    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
-      const resolvedData = data['resolvedData'];
-      this.users = resolvedData['users'].result;
-      this.departmentList = resolvedData['departmentList'];
-      this.userStatusList = resolvedData['userStatusList'];
-      this.pagination = resolvedData['users'].pagination;
-    });
 
-    this.userParams.departmentId = 0;
-    this.userParams.userStatusId = 0;
-    this.userParams.orderBy = 'lastActive';
   }
-
   pageChanged(event: any): void {
-    this.pagination.currentPage = event.page;
-    this.loadUsers();
+    let pageParams = { currentPage: event.page, filters: this.filters }
+    this.pageChangedEvent.emit(pageParams);;
   }
 
-  resetFilters() {
-    this.userParams.departmentId = 0;
-    this.userParams.userStatusId = 0;
-    this.loadUsers();
-  }
-
-  loadUsers() {
-    this.adminService
-      .getUsers(
-        this.pagination.currentPage,
-        this.pagination.itemsPerPage,
-        this.userParams
-      )
-      .subscribe(
-        (res: PaginatedResult<User[]>) => {
-          this.users = res.result;
-          this.pagination = res.pagination;
-        },
-        error => {
-          this.alertify.error(error);
-        }
-      );
-  }
-
-  registerToggle() {
-    this.registerMode = true;
-  }
-
-  cancelRegisterMode(registerMode: boolean) {
-    this.registerMode = registerMode;
+  cancelRegisterMode(creationMode: boolean) {
+    this.creationMode = creationMode;
   }
 
   switchOffRegisterMode(reload: boolean) {
-    this.registerMode = false;
+    this.creationMode = false;
     if (reload) {
-      this.loadUsers();
+      this.loadUsersEvent.emit(this.filters);
     }
   }
+
+  handleLoadUsers(event: any) {
+    this.filters = event;
+    this.loadUsersEvent.emit(this.filters);
+  }
+
+  handleCreationMode(event: boolean) {
+    this.creationMode = event;
+  }
+
 }

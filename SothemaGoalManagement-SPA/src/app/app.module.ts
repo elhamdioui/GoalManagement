@@ -77,6 +77,7 @@ import { EvaluationHrListComponent } from './hr/evaluations/evaluation-hr-list/e
 import { EvaluationHrEditModalComponent } from './hr/evaluations/evaluation-hr-edit-modal/evaluation-hr-edit-modal.component';
 import { EvaluationHrNewComponent } from './hr/evaluations/evaluation-hr-new/evaluation-hr-new.component';
 import { HrFilterCreateActionsComponent } from './hr/hr-filter-create-actions/hr-filter-create-actions.component';
+import { AdminFilterActionsComponent } from './admin/admin-filter-actions/admin-filter-actions.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -128,7 +129,8 @@ export function tokenGetter() {
     EvaluationHrListComponent,
     EvaluationHrEditModalComponent,
     EvaluationHrNewComponent,
-    HrFilterCreateActionsComponent
+    HrFilterCreateActionsComponent,
+    AdminFilterActionsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,42 +1,7 @@
 <div class="container mt-3">
-  <div *ngIf="!registerMode">
-    <form #form="ngForm" (ngSubmit)="loadUsers()" class="form-inline" novalidate>
-      <div class="form-group">
-        <label for="department">Direction:</label>
-        <select [(ngModel)]="userParams.departmentId" class="form-control" style="width: 200px" id="department" name="department">
-          <option value="0">Toutes les dirctions</option>
-          <option *ngFor="let dpt of departmentList" [value]="dpt.id">
-            {{ dpt.name }}
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="userStatus">Statut:</label>
-        <select [(ngModel)]="userParams.userStatusId" class="form-control" style="width: 200px" id="userStatus" name="userStatus">
-          <option value="0">Toutes les Statuts</option>
-          <option *ngFor="let status of userStatusList" [value]="status.id">
-            {{ status.name }}
-          </option>
-        </select>
-      </div>
-
-      <button type="submit" class="btn btn-primary" style="margin-left:10px">
-        Appliquer Filtre
-      </button>
-      <button type="button" class="btn btn-info" style="margin-left:10px" (click)="resetFilters()">
-        Réinitialiser Filtre
-      </button>
-
-      <div class="col">
-        <div class="btn-group float-right">
-          <button type="button" class="btn btn-primary" (click)="registerToggle()">
-            Créer Nouveau Utilisateur
-          </button>
-        </div>
-      </div>
-    </form>
-
+  <div *ngIf="!creationMode">
+    <app-admin-filter-actions [departmentList]="departmentList" [userStatusList]="userStatusList" (loadDataEvent)="handleLoadUsers($event)"
+      (creationModeEvent)="handleCreationMode($event)"></app-admin-filter-actions>
     <br />
 
     <div class="row">
@@ -52,7 +17,7 @@
     </div>
   </div>
 
-  <div *ngIf="registerMode" class="container">
+  <div *ngIf="creationMode" class="container">
     <div class="row justify-content-center">
       <div class="col-4">
         <app-collaborator-new [departmentList]="departmentList" [userStatusList]="userStatusList" (cancelRegister)="cancelRegisterMode($event)"
