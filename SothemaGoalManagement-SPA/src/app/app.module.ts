@@ -12,6 +12,7 @@ import {
   CarouselModule,
   AccordionModule
 } from 'ngx-bootstrap';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery';
@@ -143,6 +144,7 @@ export function tokenGetter() {
     ButtonsModule.forRoot(),
     CarouselModule.forRoot(),
     AccordionModule.forRoot(),
+    NgxSpinnerModule,
     RouterModule.forRoot(appRoutes),
     NgxGalleryModule,
     BrowserAnimationsModule,
