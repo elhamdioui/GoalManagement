@@ -27,6 +27,7 @@ export class ResetPasswordComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.model.token = params['token'];
       this.model.email = params['email']
+      console.log('model:', this.model);
     });
 
     this.createResetPasswordForm();
@@ -39,11 +40,12 @@ export class ResetPasswordComponent implements OnInit {
           '',
           [
             Validators.required,
-            Validators.minLength(4),
-            Validators.maxLength(8)
+            Validators.minLength(8),
+            Validators.maxLength(24)
           ]
         ],
-        confirmPassword: ['', Validators.required]
+        confirmPassword: ['', Validators.required],
+        token: ['', Validators.required]
       },
       { validator: this.passwordMatchValidator }
     );

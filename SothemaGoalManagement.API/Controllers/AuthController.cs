@@ -93,7 +93,7 @@ namespace SothemaGoalManagement.API.Controllers
                 var generatedToken = await _userManager.GeneratePasswordResetTokenAsync(user);
                 generatedToken = System.Web.HttpUtility.UrlEncode(generatedToken);
 
-                var content = $"{user.FirstName},<br><p>Quelqu'un a demandé de réinitialiser le mot de passe de votre compte.</p><p>Si vous n'avez pas demandé de réinitialisation de mot de passe, vous pouvez ignorer cet email.</p><p>Aucune modification n'a été apportée à votre compte.</p><p>Pour réinitialiser votre mot de passe, suivez ce lien(ou collez - le dans votre navigateur) dans les 90 prochaines minutes:<br>http://localhost:4200/resetPassword?token={generatedToken}&email={user.Email}</p>";
+                var content = $"{user.FirstName},<br><p>Quelqu'un a demandé de réinitialiser le mot de passe de votre compte.</p><p>Si vous n'avez pas demandé de réinitialisation de mot de passe, vous pouvez ignorer cet email.</p><p>Aucune modification n'a été apportée à votre compte.</p><p>Pour réinitialiser votre mot de passe, suivez ce lien(ou collez - le dans votre navigateur) dans les 90 prochaines minutes:<br>{this.Request.Scheme}://{this.Request.Host}/resetPassword?token={generatedToken}&email={user.Email}</p>";
                 await new Mailer(_config).SendEmail(user.Email, generatedToken, "Réinitialisation de votre mot de passe Goal Management", content);
                 return Ok(new { message = "Le lien de réinitialisation du mot de passe a été envoyé à votre adresse e-mail!" });
             }
