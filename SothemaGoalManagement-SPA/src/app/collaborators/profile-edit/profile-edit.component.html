@@ -49,7 +49,13 @@
               <input type="text" name="lastName" rows="6" class="form-control" [(ngModel)]="user.lastName" />
               <h4>Fonction:</h4>
               <input type="text" name="title" rows="6" class="form-control" [(ngModel)]="user.title" />
-
+              <hr />
+              <h4>Matricule:</h4>
+              <p>{{ user.employeeNumber }}</p>
+              <h4>Email:</h4>
+              <p>{{ user.email }}</p>
+              <h4>Date de recrutement:</h4>
+              <p>{{ user.recruitmentDate | date: 'mediumDate'}}</p>
             </form>
           </tab>
           <tab heading="Editer Photos">
