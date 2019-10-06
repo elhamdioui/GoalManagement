@@ -12,7 +12,7 @@ import {
   CarouselModule,
   AccordionModule
 } from 'ngx-bootstrap';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxLoadingModule } from 'ngx-loading';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery';
@@ -79,6 +79,7 @@ import { EvaluationHrEditModalComponent } from './hr/evaluations/evaluation-hr-e
 import { EvaluationHrNewComponent } from './hr/evaluations/evaluation-hr-new/evaluation-hr-new.component';
 import { HrFilterCreateActionsComponent } from './hr/hr-filter-create-actions/hr-filter-create-actions.component';
 import { AdminFilterActionsComponent } from './admin/admin-filter-actions/admin-filter-actions.component';
+import { LayoutService } from './_services/layout.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -144,7 +145,7 @@ export function tokenGetter() {
     ButtonsModule.forRoot(),
     CarouselModule.forRoot(),
     AccordionModule.forRoot(),
-    NgxSpinnerModule,
+    NgxLoadingModule.forRoot({}),
     RouterModule.forRoot(appRoutes),
     NgxGalleryModule,
     BrowserAnimationsModule,
@@ -175,7 +176,8 @@ export function tokenGetter() {
     StrategyDetailResolver,
     BehavioralSkillDetailResolver,
     AdminService,
-    HrService
+    HrService,
+    LayoutService
   ],
   entryComponents: [
     RolesModalComponent,

@@ -18,6 +18,7 @@ import { AuthService } from '../../_services/auth.service';
 export class ResetPasswordComponent implements OnInit {
   model: any = {};
   resetPasswordForm: FormGroup;
+  loading = false;
 
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private authService: AuthService,
     private alertify: AlertifyService, ) { }
@@ -55,11 +56,14 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   resetPassword() {
+    this.loading = true;
     this.authService.resetPassword(this.model).subscribe(
       next => {
+        this.loading = false;
         this.alertify.success('Réinitialisation avec succès');
       },
       error => {
+        this.loading = false;
         this.alertify.error(error);
       },
       () => {

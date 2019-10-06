@@ -11,6 +11,7 @@ import { AuthService } from '../_services/auth.service';
 export class HomeComponent implements OnInit {
   registerMode = false;
   model: any = {};
+  loading = false;
 
   constructor(private authService: AuthService,
     private alertify: AlertifyService,
@@ -23,15 +24,18 @@ export class HomeComponent implements OnInit {
   }
 
   login() {
+    this.loading = true;
     this.authService.login(this.model).subscribe(
       next => {
+        this.loading = false;
         this.alertify.success('Connecté avec succès');
       },
       error => {
+        this.loading = false;
         this.alertify.error(error);
       },
       () => {
-        this.router.navigate(['/members']);
+        this.router.navigate(['']);
       }
     );
   }

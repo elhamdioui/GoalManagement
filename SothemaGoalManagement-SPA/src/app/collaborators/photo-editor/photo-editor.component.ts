@@ -18,6 +18,7 @@ export class PhotoEditorComponent implements OnInit {
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
   currentMain: Photo;
+  loading = false;
 
   constructor(
     private authService: AuthService,
@@ -81,10 +82,12 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   setMainPhoto(photo: Photo) {
+    this.loading = true;
     this.userService
       .setMainPhoto(this.authService.decodedToken.nameid, photo.id)
       .subscribe(
         () => {
+          this.loading = false;
           this.currentMain = this.photos.filter(p => p.isMain === true)[0];
           this.currentMain.isMain = false;
           photo.isMain = true;
@@ -97,6 +100,7 @@ export class PhotoEditorComponent implements OnInit {
           );
         },
         error => {
+          this.loading = false;
           this.alertifyService.error(error);
         }
       );
@@ -106,14 +110,17 @@ export class PhotoEditorComponent implements OnInit {
     this.alertifyService.confirm(
       'Etes-vous sûr de vouloir supprimer cette photo?',
       () => {
+        this.loading = true;
         this.userService
           .deletePhoto(this.authService.decodedToken.nameid, id)
           .subscribe(
             () => {
+              this.loading = false;
               this.photos.splice(this.photos.findIndex(p => p.id === id), 1);
               this.alertifyService.success('La photo a été supprimée');
             },
             error => {
+              this.loading = false;
               this.alertifyService.error('Échec de la suppression de la photo');
             }
           );

@@ -11,17 +11,22 @@ import { AuthService } from '../../_services/auth.service';
 })
 export class ForgetPasswordComponent implements OnInit {
   model: any = {};
+  loading = false;
+
   constructor(private router: Router, private authService: AuthService, private alertify: AlertifyService, ) { }
 
   ngOnInit() {
   }
 
   requestResetPassword() {
+    this.loading = true;
     this.authService.requestResetPassword(this.model).subscribe(
       next => {
+        this.loading = false;
         this.alertify.success('Demande est faite avec succèes');
       },
       error => {
+        this.loading = false;
         this.alertify.error(error);
       },
       () => {

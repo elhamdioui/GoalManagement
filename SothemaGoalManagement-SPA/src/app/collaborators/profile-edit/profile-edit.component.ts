@@ -22,6 +22,7 @@ export class ProfileEditComponent implements OnInit {
       $event.returnValue = true;
     }
   }
+  loading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,14 +42,17 @@ export class ProfileEditComponent implements OnInit {
   }
 
   updateUser() {
+    this.loading = true;
     this.userService
       .updateProfile(this.authService.decodedToken.nameid, this.user)
       .subscribe(
         next => {
+          this.loading = false;
           this.alertify.success('Mise à jour du profil réussie');
           this.editForm.reset(this.user);
         },
         error => {
+          this.loading = false;
           this.alertify.error(error);
         }
       );

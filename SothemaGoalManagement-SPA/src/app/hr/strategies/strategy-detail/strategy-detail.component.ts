@@ -21,6 +21,7 @@ import { AuthService } from '../../../_services/auth.service';
 export class StrategyDetailComponent implements OnInit {
   strategy: Strategy;
   axisList: Axis[];
+  loading = false;
 
   constructor(private hrService: HrService, private authService: AuthService, private alertify: AlertifyService, private route: ActivatedRoute
   ) { }
@@ -34,11 +35,14 @@ export class StrategyDetailComponent implements OnInit {
   }
 
   loadAxisList(strategyId) {
+    this.loading = true;
     this.hrService.getAxisList(strategyId).subscribe(
       axises => {
+        this.loading = false;
         this.axisList = axises;
       },
       error => {
+        this.loading = false;
         this.alertify.error(error);
       }
     );
@@ -46,13 +50,16 @@ export class StrategyDetailComponent implements OnInit {
 
   handleAddAxis(strategyId: number, newAxis: Axis) {
     newAxis.strategyId = strategyId;
+    this.loading = true;
     this.hrService
       .addAxis(newAxis)
       .subscribe(
         (axis: Axis) => {
+          this.loading = false;
           this.axisList.unshift(axis);
         },
         error => {
+          this.loading = false;
           this.alertify.error(error);
         }
       );

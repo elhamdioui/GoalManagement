@@ -15,6 +15,7 @@ export class CollaboratorMessagesComponent implements OnInit {
   @Input() recipientId: number;
   messages: Message[];
   newMessage: any = {};
+  public loading = false;
 
   constructor(
     private userService: UserService,
@@ -27,6 +28,7 @@ export class CollaboratorMessagesComponent implements OnInit {
   }
 
   loadMessages() {
+    this.loading = true;
     const currentUserId = +this.authService.decodedToken.nameid;
     this.userService
       .getMessageThread(this.authService.decodedToken.nameid, this.recipientId)
@@ -45,14 +47,17 @@ export class CollaboratorMessagesComponent implements OnInit {
       .subscribe(
         messages => {
           this.messages = messages;
+          this.loading = false;
         },
         error => {
           this.alertify.error(error);
+          this.loading = false;
         }
       );
   }
 
   sendMessage() {
+    this.loading = true;
     this.newMessage.recipientId = this.recipientId;
     this.userService
       .sendMessage(this.authService.decodedToken.nameid, this.newMessage)
@@ -60,9 +65,11 @@ export class CollaboratorMessagesComponent implements OnInit {
         (message: Message) => {
           this.messages.unshift(message);
           this.newMessage.content = '';
+          this.loading = false;
         },
         error => {
           this.alertify.error(error);
+          this.loading = false;
         }
       );
   }

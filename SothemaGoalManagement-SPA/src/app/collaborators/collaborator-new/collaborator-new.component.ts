@@ -28,6 +28,7 @@ export class CollaboratorNewComponent implements OnInit {
   newUserForm: FormGroup;
   bsConfig: Partial<BsDatepickerConfig>;
   notifyUser: boolean = false;
+  loading = false;
 
   constructor(private fb: FormBuilder, private adminService: AdminService, private alertify: AlertifyService) { }
 
@@ -55,7 +56,6 @@ export class CollaboratorNewComponent implements OnInit {
 
   checkValidEmployeeNumber(control: AbstractControl) {
     return new Promise((resolve, reject) => {
-
       this.adminService.employeeNumberAlreadyExists(control.value).subscribe(result => {
         if (result) {
           resolve({ employeeNumberIsTaken: true })
@@ -64,6 +64,7 @@ export class CollaboratorNewComponent implements OnInit {
         }
       },
         error => {
+
           this.alertify.error(error);
           resolve(null)
         })
@@ -88,14 +89,17 @@ export class CollaboratorNewComponent implements OnInit {
   }
 
   createUser() {
+    this.loading = true;
     if (this.newUserForm.valid) {
       this.newUser = Object.assign({}, this.newUserForm.value);
       console.log('this.notifyUser', this.notifyUser);
       this.adminService.createUser(this.notifyUser, this.newUser).subscribe(
         next => {
+          this.loading = false;
           this.alertify.success('Utilisateur créé avec succès');
         },
         error => {
+          this.loading = false;
           this.alertify.error(error);
         },
         () => {

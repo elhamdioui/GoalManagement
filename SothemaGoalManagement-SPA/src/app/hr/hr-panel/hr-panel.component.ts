@@ -22,6 +22,7 @@ export class HrPanelComponent implements OnInit {
   behavioralSkills: BehavioralSkill[];
   evaluationFiles: EvaluationFile[];
   pagination: Pagination;
+  loading = false;
 
   constructor(private route: ActivatedRoute, private hrService: HrService,
     private authService: AuthService,
@@ -45,6 +46,7 @@ export class HrPanelComponent implements OnInit {
   }
 
   handleLoadStrategies(filters) {
+    this.loading = true;
     this.hrService
       .getStrategies(
         this.authService.decodedToken.nameid,
@@ -54,66 +56,83 @@ export class HrPanelComponent implements OnInit {
       )
       .subscribe(
         (res: PaginatedResult<Strategy[]>) => {
+          this.loading = false;
           this.strategies = res.result;
           this.pagination = res.pagination;
         },
         error => {
+          this.loading = false;
           this.alertify.error(error);
         }
       );
   }
 
   handleEditStrategy(event: any) {
+    this.loading = true;
     this.hrService.updateStrategy(this.authService.decodedToken.nameid, event.updatedStrategy).subscribe(() => {
+      this.loading = false;
       this.alertify.success('Stratégie a été mise à jour.');
       this.handleLoadStrategies(event.filters);
     }, error => {
+      this.loading = false;
       this.handleLoadStrategies(event.filters);
       this.alertify.error(error);
     })
   }
 
   handleLoadBehavioralSkills(filters) {
+    this.loading = true;
     this.hrService
       .getBehavioralSkills(this.authService.decodedToken.nameid, filters)
       .subscribe(
         (res: BehavioralSkill[]) => {
+          this.loading = false;
           this.behavioralSkills = res;
         },
         error => {
+          this.loading = false;
           this.alertify.error(error);
         }
       );
   }
 
   handleEditBehavioralSkill(event: any) {
+    this.loading = true;
     this.hrService.updateBehavioralSkill(this.authService.decodedToken.nameid, event.updatedBehavioralSkill).subscribe(() => {
+      this.loading = false;
       this.alertify.success('Compétence comportementale a été mise à jour.');
       this.handleLoadBehavioralSkills(event.filters);
     }, error => {
+      this.loading = false;
       this.handleLoadBehavioralSkills(event.filters);
       this.alertify.error(error);
     })
   }
 
   handleLoadEvaluationFiles(filters) {
+    this.loading = true;
     this.hrService
       .getEvaluations(this.authService.decodedToken.nameid, filters)
       .subscribe(
         (res: EvaluationFile[]) => {
+          this.loading = false;
           this.evaluationFiles = res;
         },
         error => {
+          this.loading = false;
           this.alertify.error(error);
         }
       );
   }
 
   handleEditEvaluationFile(event: any) {
+    this.loading = true;
     this.hrService.updateEvaluation(this.authService.decodedToken.nameid, event.updatedEvaluation).subscribe(() => {
+      this.loading = false;
       this.alertify.success('Fiche d\'évaluation a été mis à jour.');
       this.handleLoadEvaluationFiles(event.filters);
     }, error => {
+      this.loading = false;
       this.handleLoadEvaluationFiles(event.filters);
       this.alertify.error(error);
     })

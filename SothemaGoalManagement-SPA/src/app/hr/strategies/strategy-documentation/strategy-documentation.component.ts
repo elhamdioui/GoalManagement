@@ -17,6 +17,7 @@ export class StrategyDocumentationComponent implements OnInit {
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
+  loading = false;
 
   constructor(private alertifyService: AlertifyService, private hrService: HrService, ) { }
 
@@ -59,14 +60,17 @@ export class StrategyDocumentationComponent implements OnInit {
     this.alertifyService.confirm(
       'Etes-vous sûr de vouloir supprimer ce document?',
       () => {
+        this.loading = true;
         this.hrService
           .deleteStrategyDocument(id)
           .subscribe(
             () => {
+              this.loading = false;
               this.strategy.documentationUrl = null;
               this.alertifyService.success('Le document a été supprimée');
             },
             error => {
+              this.loading = false;
               this.alertifyService.error('Échec de la suppression de document.');
             }
           );

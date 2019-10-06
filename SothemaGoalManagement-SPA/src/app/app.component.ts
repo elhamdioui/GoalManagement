@@ -2,7 +2,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './_services/auth.service';
 import { User } from './_models/user';
-
+import { LayoutService } from './_services/layout.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,9 @@ import { User } from './_models/user';
 })
 export class AppComponent implements OnInit {
   jwtHelper = new JwtHelperService();
+  isSpinnerVisibile$: Observable<boolean> = this.layoutService.isNavigationPending$;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private layoutService: LayoutService) { }
 
   ngOnInit() {
     const token = localStorage.getItem('token');

@@ -17,6 +17,7 @@ export class StrategyAxisComponent implements OnInit {
   @Output() addAxisEvent = new EventEmitter<Axis>();
   newAxis: any = {};
   bsModalRef: BsModalRef;
+  loading = false;
 
   constructor(private hrService: HrService, private authService: AuthService, private alertify: AlertifyService, private modalService: BsModalService) { }
 
@@ -33,10 +34,12 @@ export class StrategyAxisComponent implements OnInit {
     this.alertify.confirm(
       'Etes-vous sur de vouloir supprimer cet axe?',
       () => {
+        this.loading = true;
         this.hrService
           .deleteAxis(id, this.authService.decodedToken.nameid)
           .subscribe(
             () => {
+              this.loading = false;
               this.axisList.splice(
                 this.axisList.findIndex(a => a.id === id),
                 1
@@ -44,6 +47,7 @@ export class StrategyAxisComponent implements OnInit {
               this.alertify.success('L\'axe a été supprimé');
             },
             error => {
+              this.loading = false;
               this.alertify.error('Impossible de supprimer l\'axe');
             }
           );
@@ -58,9 +62,12 @@ export class StrategyAxisComponent implements OnInit {
 
     this.bsModalRef = this.modalService.show(AxisModalComponent, { initialState });
     this.bsModalRef.content.updateSelectedAxis.subscribe((updatedAxis) => {
+      this.loading = true;
       this.hrService.updateAxis(axis.id, updatedAxis).subscribe(() => {
+        this.loading = false;
         this.alertify.success('L\'axe été mis à jour.');
       }, error => {
+        this.loading = false;
         this.alertify.error(error);
       })
 

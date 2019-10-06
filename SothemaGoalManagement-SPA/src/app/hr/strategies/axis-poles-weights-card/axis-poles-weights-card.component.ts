@@ -14,6 +14,7 @@ import { Axis } from '../../../_models/axis';
 export class AxisPolesWeightsCardComponent implements OnInit {
   @Input() axis: Axis;
   axisPoleList: AxisPole[];
+  loading = false;
 
   constructor(private hrService: HrService, private alertify: AlertifyService) { }
 
@@ -22,24 +23,30 @@ export class AxisPolesWeightsCardComponent implements OnInit {
   }
 
   loadAxisPoles() {
+    this.loading = true;
     this.hrService.getAxisPoleList(this.axis.id).subscribe(
       result => {
+        this.loading = false;
         this.axisPoleList = result;
       },
       error => {
+        this.loading = false;
         this.alertify.error(error);
       }
     );
   }
 
   handleUpdateAxisPole(axisPole: AxisPole) {
+    this.loading = true;
     this.hrService
       .updateAxisPoleWeigth(axisPole.axisId, axisPole.poleId, axisPole.weight)
       .subscribe(
         next => {
+          this.loading = false;
           this.alertify.success('Mise à jour du pondération réussie');
         },
         error => {
+          this.loading = false;
           this.alertify.error(error);
         }
       );

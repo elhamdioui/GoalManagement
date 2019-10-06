@@ -16,6 +16,7 @@ export class MessagesComponent implements OnInit {
   messages: Message[];
   pagination: Pagination;
   messageContainer = 'Unread';
+  loading = false;
 
   constructor(
     private userService: UserService,
@@ -32,6 +33,7 @@ export class MessagesComponent implements OnInit {
   }
 
   loadMessages() {
+    this.loading = true;
     this.userService
       .getMessages(
         this.authService.decodedToken.nameid,
@@ -41,10 +43,12 @@ export class MessagesComponent implements OnInit {
       )
       .subscribe(
         (res: PaginatedResult<Message[]>) => {
+          this.loading = false;
           this.messages = res.result;
           this.pagination = res.pagination;
         },
         error => {
+          this.loading = false;
           this.alertify.error(error);
         }
       );
@@ -54,10 +58,12 @@ export class MessagesComponent implements OnInit {
     this.alertify.confirm(
       'Etes-vous sur de vouloir supprimer ce message',
       () => {
+        this.loading = true;
         this.userService
           .deleteMessage(id, this.authService.decodedToken.nameid)
           .subscribe(
             () => {
+              this.loading = false;
               this.messages.splice(
                 this.messages.findIndex(m => m.id === id),
                 1
@@ -65,6 +71,7 @@ export class MessagesComponent implements OnInit {
               this.alertify.success('Le message a été supprimé');
             },
             error => {
+              this.loading = false;
               this.alertify.error('Impossible de supprimer le message');
             }
           );

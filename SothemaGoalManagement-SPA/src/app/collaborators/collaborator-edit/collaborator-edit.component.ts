@@ -29,6 +29,7 @@ export class CollaboratorEditComponent implements OnInit {
   bsValue = new Date();
   departmentList: Department[];
   userStatusList: UserStatus[];
+  public loading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -52,6 +53,7 @@ export class CollaboratorEditComponent implements OnInit {
   }
 
   updateUser() {
+    this.loading = true;
     var updatedUser = {
       departmentId: this.user.department.id,
       userStatusId: this.user.userStatus.id,
@@ -67,11 +69,13 @@ export class CollaboratorEditComponent implements OnInit {
       .updateUser(updatedUser)
       .subscribe(
         next => {
+          this.loading = false;
           this.alertify.success('Mise à jour du profil réussie');
           this.editForm.reset(updatedUser);
         },
         error => {
           this.alertify.error(error);
+          this.loading = false;
         }
       );
   }

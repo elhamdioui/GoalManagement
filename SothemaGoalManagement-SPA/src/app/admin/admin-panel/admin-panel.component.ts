@@ -18,6 +18,7 @@ export class AdminPanelComponent implements OnInit {
   userStatusList: UserStatus[];
   users: User[];
   pagination: Pagination;
+  public loading = false;
 
   constructor(private route: ActivatedRoute, private adminService: AdminService, private alertify: AlertifyService) { }
 
@@ -32,6 +33,7 @@ export class AdminPanelComponent implements OnInit {
   }
 
   handleLoadUsers(filters) {
+    this.loading = true;
     this.adminService
       .getUsers(
         this.pagination.currentPage,
@@ -42,33 +44,41 @@ export class AdminPanelComponent implements OnInit {
         (res: PaginatedResult<User[]>) => {
           this.users = res.result;
           this.pagination = res.pagination;
+          this.loading = false;
         },
         error => {
           this.alertify.error(error);
+          this.loading = false;
         }
       );
   }
 
   handleLoadUsersWithRoles(filters) {
+    this.loading = true;
     this.adminService.getUsersWithRoles(this.pagination.currentPage,
       this.pagination.itemsPerPage,
       filters).subscribe(
         (res: PaginatedResult<User[]>) => {
           this.users = res.result;
           this.pagination = res.pagination;
+          this.loading = false;
         },
         error => {
           this.alertify.error(error);
+          this.loading = false;
         }
       );
   }
 
   handleEditUserRoles(event: any) {
+    this.loading = true;
     this.adminService.updateUserRoles(event.user, event.rolesToUpdate).subscribe(() => {
       this.alertify.success('Les rôles ont été mis à jour.');
       this.handleLoadUsersWithRoles(event.filters);
+      this.loading = false;
     }, error => {
       this.alertify.error(error);
+      this.loading = false;
     })
   }
   handlePageChanged(event: any): void {

@@ -24,6 +24,7 @@ export class BehavioralSkillNewComponent implements OnInit {
   @Output() switchOffCreation = new EventEmitter();
   newBehavioralSkill: BehavioralSkill;
   newForm: FormGroup;
+  loading = false;
 
   constructor(private fb: FormBuilder, private hrService: HrService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -54,12 +55,14 @@ export class BehavioralSkillNewComponent implements OnInit {
   create() {
     if (this.newForm.valid) {
       this.newBehavioralSkill = Object.assign({}, this.newForm.value);
-
+      this.loading = true;
       this.hrService.createBehavioralSkill(this.authService.decodedToken.nameid, this.newBehavioralSkill).subscribe(
         () => {
+          this.loading = false;
           this.alertify.success('Compétence comportementale créé avec succèes');
         },
         error => {
+          this.loading = false;
           this.alertify.error(error);
         },
         () => { this.switchOffCreation.emit(true); }
