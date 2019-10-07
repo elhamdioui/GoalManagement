@@ -1,3 +1,4 @@
+import { BehavioralSkill } from './../_models/behavioralSkill';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
@@ -132,5 +133,9 @@ export class UserService {
 
   getPublishedStrategies() {
     return this.http.get<Strategy[]>(`${this.baseUrl}users/publishedStrategies`);
+  }
+
+  getPublishedBehavioralSkills() {
+    return this.http.get<BehavioralSkill[]>(`${this.baseUrl}users/publishedBehavioralSkills`);
   }
 }

@@ -88,6 +88,22 @@ namespace SothemaGoalManagement.API.Controllers
             return Ok(publishedStrategiesToReturnList);
         }
 
+        [HttpGet("publishedBehavioralSkills")]
+        public async Task<IActionResult> GetPublishedBehavioralSkills()
+        {
+            CommunParams communParams = new CommunParams()
+            {
+                Status = Constants.PUBLISHED
+            };
+
+            var behavioralSkills = await _repo.GetBehavioralSkills(communParams);
+
+            var publishedBehavioralSkillsToReturnList = _mapper.Map<IEnumerable<BehavioralSkill>, IEnumerable<BehavioralSkillToReturnDto>>(behavioralSkills);
+
+
+            return Ok(publishedBehavioralSkillsToReturnList);
+        }
+
         [HttpGet("goalCards")]
         public async Task<IActionResult> GetGoalCards()
         {

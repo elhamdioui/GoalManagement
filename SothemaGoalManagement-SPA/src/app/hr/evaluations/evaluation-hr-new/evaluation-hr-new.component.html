@@ -1,3 +1,76 @@
-<p>
-  evaluation-hr-new works!
-</p>
+<div class="row" d-flex justify-content-center>
+  <form [formGroup]="newForm" (ngSubmit)="create()">
+    <h2 class="ext-primary">Création d'une fiche d'évaluation</h2>
+    <hr />
+    <div class="form-group row">
+      <label for="title" class="col-sm-2 col-form-label">Titre: </label>
+      <div class="col-sm-10">
+        <input [ngClass]="{
+                        'is-invalid':
+                          newForm.get('title').errors &&
+                          newForm.get('title').touched
+                      }" class="form-control mb-1" placeholder="Titre" formControlName="title" />
+      </div>
+      <div class="invalid-feedback" *ngIf="
+                        newForm.get('title').touched &&
+                        newForm.get('title').hasError('required')
+                      ">
+        Le titre est requis
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="year" class="col-sm-2 col-form-label">Année: </label>
+      <div class="col-sm-10">
+        <input [ngClass]="{
+                        'is-invalid':
+                          newForm.get('year').errors &&
+                          newForm.get('year').touched
+                      }" class="form-control mb-1" placeholder="Année" type="number" min="2019" max="2100" formControlName="year"
+        />
+      </div>
+      <div class="invalid-feedback" *ngIf="
+                        newForm.get('year').touched &&
+                        newForm.get('year').hasError('required')
+                      ">
+        L'année' est requise
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="stratgeyId" class="col-sm-2 col-form-label">Stratégie: </label>
+      <div class="col-sm-10">
+        <select class="form-control mb-1" id="stratgeyId" name="stratgeyId">
+          <option [ngValue]="null" disabled>Choisissez une stratégie</option>
+          <option *ngFor="let stratgey of strategyList" [ngValue]="stratgey.id">
+            {{ stratgey.title }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="behavioralSkillId" class="col-sm-12 col-form-label">Compétence comportementale: </label>
+    </div>
+    <div class="form-group row" *ngFor="let behavioralSkill of behavioralSkillList">
+      <div class="form-check col-sm-4 offset-sm-2">
+        <input class="form-check-input" type="checkbox" id="gridCheck1">
+        <label class="form-check-label" for="gridCheck1">
+          {{behavioralSkill.skill}}
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-10 ">
+        <button class="btn btn-success mr-2" type="submit" [disabled]="!newForm.valid">
+          Soumettre
+        </button>
+
+        <button class="btn btn-primary" type="button" (click)="cancel()">
+          Annuler
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

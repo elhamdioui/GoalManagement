@@ -112,7 +112,7 @@ export class HrPanelComponent implements OnInit {
   handleLoadEvaluationFiles(filters) {
     this.loading = true;
     this.hrService
-      .getEvaluations(this.authService.decodedToken.nameid, filters)
+      .getEvaluationFiles(this.authService.decodedToken.nameid, filters)
       .subscribe(
         (res: EvaluationFile[]) => {
           this.loading = false;
@@ -127,7 +127,7 @@ export class HrPanelComponent implements OnInit {
 
   handleEditEvaluationFile(event: any) {
     this.loading = true;
-    this.hrService.updateEvaluation(this.authService.decodedToken.nameid, event.updatedEvaluation).subscribe(() => {
+    this.hrService.updateEvaluationFile(this.authService.decodedToken.nameid, event.updatedEvaluation).subscribe(() => {
       this.loading = false;
       this.alertify.success('Fiche d\'évaluation a été mis à jour.');
       this.handleLoadEvaluationFiles(event.filters);

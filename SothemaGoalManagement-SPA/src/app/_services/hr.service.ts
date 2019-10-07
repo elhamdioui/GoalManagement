@@ -121,7 +121,7 @@ export class HrService {
     return this.http.post(`${this.baseUrl}hr/behavioralSkill/new/${createdById}`, behavioralSkill);
   }
 
-  getEvaluations(createdById, filters?) {
+  getEvaluationFiles(createdById, filters?) {
     let params = new HttpParams();
     params = params.append('ownerId', createdById);
     if (filters != null) {
@@ -131,15 +131,15 @@ export class HrService {
     return this.http.get<EvaluationFile[]>(`${this.baseUrl}hr/evaluationfile`, { params });
   }
 
-  updateEvaluation(createdById: number, behavioralSkill: EvaluationFile) {
+  updateEvaluationFile(createdById: number, behavioralSkill: EvaluationFile) {
     return this.http.put(`${this.baseUrl}hr/evaluationfile/edit/${createdById}`, behavioralSkill)
   }
 
-  getEvaluation(id: number) {
+  getEvaluationFile(id: number) {
     return this.http.get<EvaluationFile>(`${this.baseUrl}hr/evaluationfile/${id}`);
   }
 
-  createEvaluation(createdById: number, behavioralSkill: EvaluationFile) {
+  createEvaluationFile(createdById: number, behavioralSkill: EvaluationFile) {
     return this.http.post(`${this.baseUrl}hr/evaluationfile/new/${createdById}`, behavioralSkill);
   }
 }
