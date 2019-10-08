@@ -139,7 +139,7 @@ export class HrService {
     return this.http.get<EvaluationFile>(`${this.baseUrl}hr/evaluationfile/${id}`);
   }
 
-  createEvaluationFile(createdById: number, behavioralSkill: EvaluationFile) {
+  createEvaluationFile(createdById: number, behavioralSkill: any) {
     return this.http.post(`${this.baseUrl}hr/evaluationfile/new/${createdById}`, behavioralSkill);
   }
 }

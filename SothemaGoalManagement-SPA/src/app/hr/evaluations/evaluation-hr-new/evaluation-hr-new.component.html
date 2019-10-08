@@ -4,14 +4,14 @@
     <hr />
     <div class="form-group row">
       <label for="title" class="col-sm-2 col-form-label">Titre: </label>
-      <div class="col-sm-10">
+      <div class="col-sm-5">
         <input [ngClass]="{
                         'is-invalid':
                           newForm.get('title').errors &&
                           newForm.get('title').touched
                       }" class="form-control mb-1" placeholder="Titre" formControlName="title" />
       </div>
-      <div class="invalid-feedback" *ngIf="
+      <div class="col-sm-5 invalid-feedback" *ngIf="
                         newForm.get('title').touched &&
                         newForm.get('title').hasError('required')
                       ">
@@ -21,7 +21,7 @@
 
     <div class="form-group row">
       <label for="year" class="col-sm-2 col-form-label">Année: </label>
-      <div class="col-sm-10">
+      <div class="col-sm-5">
         <input [ngClass]="{
                         'is-invalid':
                           newForm.get('year').errors &&
@@ -29,21 +29,20 @@
                       }" class="form-control mb-1" placeholder="Année" type="number" min="2019" max="2100" formControlName="year"
         />
       </div>
-      <div class="invalid-feedback" *ngIf="
+      <div class="col-sm-5 invalid-feedback" *ngIf="
                         newForm.get('year').touched &&
                         newForm.get('year').hasError('required')
                       ">
-        L'année' est requise
+        L'année est requise
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="stratgeyId" class="col-sm-2 col-form-label">Stratégie: </label>
+      <label for="strategy" class="col-sm-2 col-form-label">Stratégie: </label>
       <div class="col-sm-10">
-        <select class="form-control mb-1" id="stratgeyId" name="stratgeyId">
-          <option [ngValue]="null" disabled>Choisissez une stratégie</option>
-          <option *ngFor="let stratgey of strategyList" [ngValue]="stratgey.id">
-            {{ stratgey.title }}
+        <select class="form-control mb-1" id="strategyId" formControlName="strategy">
+          <option *ngFor="let strategy of strategyList" [ngValue]="strategy">
+            {{ strategy.title }}
           </option>
         </select>
       </div>
@@ -52,12 +51,15 @@
     <div class="form-group row">
       <label for="behavioralSkillId" class="col-sm-12 col-form-label">Compétence comportementale: </label>
     </div>
-    <div class="form-group row" *ngFor="let behavioralSkill of behavioralSkillList">
-      <div class="form-check col-sm-4 offset-sm-2">
-        <input class="form-check-input" type="checkbox" id="gridCheck1">
-        <label class="form-check-label" for="gridCheck1">
-          {{behavioralSkill.skill}}
-        </label>
+    <div class="form-group row">
+      <label class="ml-3" formArrayName="skills" *ngFor="let skill of newForm.controls.skills.controls; let i = index">
+        <input type="checkbox" [formControlName]="i"> {{skillsData[i].skill}}
+      </label>
+      <div class="invalid-feedback" *ngIf="
+                        newForm.get('skills').touched &&
+                        newForm.get('skills').status !== 'INVALID'
+                      ">
+        La Compétence est requise
       </div>
     </div>
 

@@ -1,12 +1,16 @@
+import { filter } from 'rxjs/operators';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   FormGroup,
+  FormArray,
   FormControl,
+  ValidatorFn,
   Validators,
   FormBuilder,
   AbstractControl
 } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
+import { of } from 'rxjs';
 
 import { HrService } from '../../../_services/hr.service';
 import { AuthService } from '../../../_services/auth.service';
@@ -26,22 +30,23 @@ export class EvaluationHrNewComponent implements OnInit {
   @Output() switchOffCreation = new EventEmitter();
   newForm: FormGroup;
   loading = false;
-  newEvaluationFile: EvaluationFile;
   strategyList: Strategy[];
-  behavioralSkillList: BehavioralSkill[];
+  skillsData: BehavioralSkill[];
 
-  constructor(private fb: FormBuilder, private userService: UserService, private hrService: HrService, private authService: AuthService, private alertify: AlertifyService) { }
+  constructor(private fb: FormBuilder, private userService: UserService, private hrService: HrService, private authService: AuthService, private alertify: AlertifyService) {
+  }
 
   ngOnInit() {
+    this.createForm();
     this.loadPublishedStratgeies();
     this.loadPublishedBehavioralSkills();
-    this.createForm();
   }
 
   loadPublishedStratgeies() {
     this.loading = true;
     this.userService.getPublishedStrategies().subscribe(
       (result: Strategy[]) => {
+        this.loading = false;
         this.strategyList = result;
       },
       error => {
@@ -50,17 +55,20 @@ export class EvaluationHrNewComponent implements OnInit {
       }
     );
   }
+
   loadPublishedBehavioralSkills() {
     this.loading = true;
-    this.userService.getPublishedBehavioralSkills().subscribe(
+    of(this.userService.getPublishedBehavioralSkills().subscribe(
       (result: BehavioralSkill[]) => {
-        this.behavioralSkillList = result;
+        this.loading = false;
+        this.skillsData = result;
+        this.addCheckboxes();
       },
       error => {
         this.loading = false;
         this.alertify.error(error);
       }
-    );
+    ));
   }
 
   createForm() {
@@ -68,16 +76,18 @@ export class EvaluationHrNewComponent implements OnInit {
       {
         title: ['', Validators.required],
         year: ['', Validators.required],
-        stratgey: ['', Validators.required],
-        //behaviorlSkills: ['', Validators.required],
+        strategy: ['', Validators.required],
+        skills: new FormArray([], this.minSelectedCheckboxes(1))
       });
   }
 
   create() {
     if (this.newForm.valid) {
-      this.newEvaluationFile = Object.assign({}, this.newForm.value);
+      const selectedSkillIds = this.newForm.value.skills.map((v, i) => v ? this.skillsData[i].id : null).filter(v => v !== null);
+      const newEvaluationFile = { title: this.newForm.value.title, year: this.newForm.value.year, strategyId: this.newForm.value.strategy.id, behavioralSkillIds: selectedSkillIds };
+      console.log('newEvaluationFile:', newEvaluationFile)
       this.loading = true;
-      this.hrService.createEvaluationFile(this.authService.decodedToken.nameid, this.newEvaluationFile).subscribe(
+      this.hrService.createEvaluationFile(this.authService.decodedToken.nameid, newEvaluationFile).subscribe(
         () => {
           this.loading = false;
           this.alertify.success('Fiche d\'évaluation créé avec succèes');
@@ -93,5 +103,27 @@ export class EvaluationHrNewComponent implements OnInit {
 
   cancel() {
     this.cancelCreation.emit(false);
+  }
+
+  private addCheckboxes() {
+    this.skillsData.forEach((o, i) => {
+      const control = new FormControl(true);
+      (this.newForm.controls.skills as FormArray).push(control);
+    });
+  }
+
+  minSelectedCheckboxes(min = 1) {
+    const validator: ValidatorFn = (formArray: FormArray) => {
+      const totalSelected = formArray.controls
+        // get a list of checkbox values (boolean)
+        .map(control => control.value)
+        // total up the number of checked checkboxes
+        .reduce((prev, next) => next ? prev + next : prev, 0);
+
+      // if the total is not greater than the minimum, return the error message
+      return totalSelected >= min ? null : { required: true };
+    };
+
+    return validator;
   }
 }
