@@ -131,7 +131,7 @@ export class HrService {
     return this.http.get<EvaluationFile[]>(`${this.baseUrl}hr/evaluationfile`, { params });
   }
 
-  updateEvaluationFile(createdById: number, behavioralSkill: EvaluationFile) {
+  updateEvaluationFile(createdById: number, behavioralSkill: any) {
     return this.http.put(`${this.baseUrl}hr/evaluationfile/edit/${createdById}`, behavioralSkill)
   }
 

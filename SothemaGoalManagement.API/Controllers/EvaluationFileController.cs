@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -38,9 +39,9 @@ namespace SothemaGoalManagement.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEvaluationFileList([FromQuery]CommunParams evaluationFileParams)
         {
-            var evaluationFilesFromRepo = await _repo.GetEvaluationFiles(evaluationFileParams);
-            var evaluationFilesToReturn = _mapper.Map<IEnumerable<EvaluationFileToReturnDto>>(evaluationFilesFromRepo);
-            return Ok(evaluationFilesToReturn);
+            var evaluationFilesWithBehaviorSkillsFromRepo = await _repo.GetEvaluationFiles(evaluationFileParams);
+
+            return Ok(evaluationFilesWithBehaviorSkillsFromRepo);
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
@@ -90,9 +91,30 @@ namespace SothemaGoalManagement.API.Controllers
 
             _mapper.Map(evaluationFileForUpdateDto, evaluationFileFromRepo);
 
-            if (await _repo.SaveAll()) return NoContent();
+            try
+            {
+                await _repo.SaveAll();
+                var efbsFromRepo = await _repo.GetEvaluationFileBehavioralSkills(evaluationFileForUpdateDto.Id);
+                var selectedBehavioralSkillIds = evaluationFileForUpdateDto.BehavioralSkillIds;
+                selectedBehavioralSkillIds = selectedBehavioralSkillIds ?? new int[] { };
+                foreach (var bsId in selectedBehavioralSkillIds.Except(efbsFromRepo))
+                {
+                    _repo.Add<EvaluationFileBehavioralSkill>(new EvaluationFileBehavioralSkill { BehavioralSkillId = bsId, EvaluationFileId = evaluationFileFromRepo.Id });
+                }
+                foreach (var bsId in efbsFromRepo.Except(selectedBehavioralSkillIds))
+                {
+                    _repo.Delete<EvaluationFileBehavioralSkill>(new EvaluationFileBehavioralSkill { BehavioralSkillId = bsId, EvaluationFileId = evaluationFileFromRepo.Id });
+                }
 
-            throw new Exception("La mise à jour de l'évaluation a échouée.");
+                await _repo.SaveAll();
+                return Ok(evaluationFileFromRepo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Échec de la mise à jour dans le fichier d'évaluation: " + ex.Message);
+            }
+
+
         }
     }
 }

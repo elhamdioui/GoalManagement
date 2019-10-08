@@ -3,6 +3,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { EvaluationFile } from './../../../_models/evaluationFile';
 import { EvaluationHrEditModalComponent } from '../evaluation-hr-edit-modal/evaluation-hr-edit-modal.component';
+import { Strategy } from '../../../_models/strategy';
+import { BehavioralSkill } from '../../../_models/behavioralSkill';
 
 @Component({
   selector: 'app-evaluation-hr-list',
@@ -12,6 +14,8 @@ import { EvaluationHrEditModalComponent } from '../evaluation-hr-edit-modal/eval
 export class EvaluationHrListComponent implements OnInit {
   @Input() statusList: string[];
   @Input() evaluationFiles: EvaluationFile[];
+  @Input() strategyList: Strategy[];
+  @Input() skillList: BehavioralSkill[];
   @Output() loadEvaluationFilesEvent = new EventEmitter<any>();
   @Output() editEvaluationFileEvent = new EventEmitter<any>();
   filters: any = {};
@@ -58,16 +62,41 @@ export class EvaluationHrListComponent implements OnInit {
     this.creationMode = event;
   }
 
-  editEvaluationModal(evaluationFile: EvaluationFile) {
+  editEvaluationFileModal(evaluationFile: any) {
     const initialState = {
       evaluationFile,
+      skillList: this.getSkillsArray(evaluationFile),
+      strategyList: this.strategyList,
       statusList: this.statusList
     };
 
     this.bsModalRef = this.modalService.show(EvaluationHrEditModalComponent, { initialState });
     this.bsModalRef.content.updateSelectedEvaluationFile.subscribe((updatedEvaluationFile) => {
-      let updateParams = { updatedEvaluationFile, filters: this.filters }
+      let updateParams = { updatedEvaluationFile: updatedEvaluationFile, filters: this.filters }
       this.editEvaluationFileEvent.emit(updateParams);
     });
   }
+
+  private getSkillsArray(evaluationFile) {
+    const skills = [];
+    const availableSkills: any[] = [...this.skillList];
+
+    for (let i = 0; i < availableSkills.length; i++) {
+      let isMatch = false;
+      for (let j = 0; j < evaluationFile.behavioralSkills.length; j++) {
+        if (availableSkills[i].id === evaluationFile.behavioralSkills[j].id) {
+          isMatch = true;
+          availableSkills[i].checked = true;
+          skills.push(availableSkills[i]);
+          break;
+        }
+      }
+      if (!isMatch) {
+        availableSkills[i].checked = false;
+        skills.push(availableSkills[i]);
+      }
+    }
+    return skills;
+  }
 }
+

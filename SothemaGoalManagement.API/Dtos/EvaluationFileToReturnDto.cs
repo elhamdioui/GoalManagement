@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SothemaGoalManagement.API.Dtos
 {
@@ -9,6 +10,10 @@ namespace SothemaGoalManagement.API.Dtos
         public string Title { get; set; }
 
         public int Year { get; set; }
+
+        public StrategyToReturnDto Strategy { get; set; }
+
+        public ICollection<BehavioralSkillToReturnDto> BehavioralSkills { get; set; }
 
         public int CreatedById { get; set; }
 

@@ -349,37 +349,55 @@ namespace SothemaGoalManagement.API.Data
             return await _context.BehavioralSkills.SingleOrDefaultAsync(bs => bs.Id == id);
         }
 
-        public async Task<IEnumerable<EvaluationFile>> GetEvaluationFiles(CommunParams evaluationFileParams)
+        public async Task<IEnumerable<object>> GetEvaluationFiles(CommunParams evaluationFileParams)
         {
-            var evaluationFiles = _context.EvaluationFiles.Include(ef => ef.CreatedBy)
-                                                            .OrderByDescending(s => s.Created)
-                                                            .AsQueryable();
+            var evaluationFilesWithBehavioralSkills = (from evaluationFile in _context.EvaluationFiles.Include(ef => ef.Strategy).Include(ef => ef.CreatedBy)
+                                                       select new
+                                                       {
+                                                           Id = evaluationFile.Id,
+                                                           Title = evaluationFile.Title,
+                                                           Year = evaluationFile.Year,
+                                                           Strategy = evaluationFile.Strategy,
+                                                           CreatedById = evaluationFile.CreatedById,
+                                                           CreatedByName = evaluationFile.CreatedBy.FirstName.FullName(evaluationFile.CreatedBy.LastName),
+                                                           BehavioralSkills = (from evaluationFileBehavioralSkill in evaluationFile.BehavioralSkills
+                                                                               join bs in _context.BehavioralSkills on evaluationFileBehavioralSkill.BehavioralSkillId equals bs.Id
+                                                                               select bs).ToList(),
+                                                           Created = evaluationFile.Created,
+                                                           Status = evaluationFile.Status
+                                                       }).OrderByDescending(u => u.Created)
+                                  .AsQueryable();
 
             switch (evaluationFileParams.Status)
             {
                 case Constants.PUBLISHED:
-                    evaluationFiles = evaluationFiles.Where(s => s.Status == Constants.PUBLISHED);
+                    evaluationFilesWithBehavioralSkills = evaluationFilesWithBehavioralSkills.Where(s => s.Status == Constants.PUBLISHED);
                     break;
                 case Constants.DRAFT:
-                    evaluationFiles = evaluationFiles.Where(s => s.Status == Constants.DRAFT && s.CreatedById == evaluationFileParams.OwnerId);
+                    evaluationFilesWithBehavioralSkills = evaluationFilesWithBehavioralSkills.Where(s => s.Status == Constants.DRAFT && s.CreatedById == evaluationFileParams.OwnerId);
                     break;
                 case Constants.REVIEW:
-                    evaluationFiles = evaluationFiles.Where(s => s.Status == Constants.REVIEW);
+                    evaluationFilesWithBehavioralSkills = evaluationFilesWithBehavioralSkills.Where(s => s.Status == Constants.REVIEW);
                     break;
                 case Constants.ARCHIVED:
-                    evaluationFiles = evaluationFiles.Where(s => s.Status == Constants.ARCHIVED);
+                    evaluationFilesWithBehavioralSkills = evaluationFilesWithBehavioralSkills.Where(s => s.Status == Constants.ARCHIVED);
                     break;
                 default:
-                    evaluationFiles = evaluationFiles.Where(s => s.CreatedById == evaluationFileParams.OwnerId);
+                    evaluationFilesWithBehavioralSkills = evaluationFilesWithBehavioralSkills.Where(s => s.CreatedById == evaluationFileParams.OwnerId);
                     break;
             }
 
-            return await evaluationFiles.ToListAsync();
+            return await evaluationFilesWithBehavioralSkills.ToListAsync();
         }
 
         public async Task<EvaluationFile> GetEvaluationFile(int id)
         {
             return await _context.EvaluationFiles.SingleOrDefaultAsync(ef => ef.Id == id);
+        }
+
+        public async Task<IEnumerable<int>> GetEvaluationFileBehavioralSkills(int evaluationFileId)
+        {
+            return await _context.EvaluationFileBehavioralSkills.Where(efbs => efbs.EvaluationFileId == evaluationFileId).Select(efbs => efbs.BehavioralSkillId).ToListAsync();
         }
     }
 }

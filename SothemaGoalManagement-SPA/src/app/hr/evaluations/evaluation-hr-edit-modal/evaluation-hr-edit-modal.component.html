@@ -1,3 +1,46 @@
-<p>
-  evaluation-hr-edit-modal works!
-</p>
+<div class="modal-header">
+  <h5 class="modal-title pull-left">Modifier fiche d'évaluation</h5>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form #evaluationFileForm="ngForm" id="evaluationFileForm">
+    <h6>Titre:</h6>
+    <input [(ngModel)]="evaluationFile.title" name="title" required type="text" class="form-control input-sm" placeholder="Titre"
+    />
+
+    <h6>Année: </h6>
+    <input [(ngModel)]="evaluationFile.year" name="year" required min="2019" max="2100" type="number" class="form-control mb-1"
+      placeholder="Année" />
+
+    <h6>Stratégie: </h6>
+    <select class="form-control mb-1" id="strategy" name="strategy" required [(ngModel)]="evaluationFile.strategy.id">
+      <option *ngFor="let strategy of strategyList" [ngValue]="strategy.id">
+        {{ strategy.title }}
+      </option>
+    </select>
+
+    <h6>Compétence comportementale:</h6>
+    <label class="ml-4 mr-3" *ngFor="let bs of skillList">
+      <input name="{{bs.skill}}" type="checkbox" class="form-check-input mr-6" [value]="bs.id" [checked]="bs.checked" (change)="bs.checked = !bs.checked"> {{ bs.skill }}
+    </label>
+
+    <h6>Statut:</h6>
+    <select class="form-control mb-1" style="width: 200px" id="status" name="status" required [(ngModel)]="evaluationFile.status">
+      <option *ngFor="let status of statusList" [ngValue]="status">
+        {{ status }}
+      </option>
+    </select>
+  </form>
+</div>
+
+<div *ngIf="showErrors" class="alert alert-danger" role="alert">
+  Sélectionnez au moins une compétence comportementale.
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="bsModalRef.hide()">Annuler</button>
+  <button type="button" class="btn btn-success" (click)="updateEvaluationFile()" form="evaluationFileForm" [disabled]="!evaluationFileForm.valid">Mettre à jour</button>
+</div>

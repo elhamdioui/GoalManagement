@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SothemaGoalManagement.API.Dtos
@@ -7,15 +8,25 @@ namespace SothemaGoalManagement.API.Dtos
         [Required]
         public int Id { get; set; }
 
+
         [Required]
         public string Title { get; set; }
 
-        [Required]
 
+        [Required]
+        public int Year { get; set; }
+
+
+        [Required]
         public int CreatedById { get; set; }
 
         [Required]
-
         public string Status { get; set; }
+
+        [Required]
+        public int StrategyId { get; set; }
+
+        [Required]
+        public ICollection<int> BehavioralSkillIds { get; set; }
     }
 }

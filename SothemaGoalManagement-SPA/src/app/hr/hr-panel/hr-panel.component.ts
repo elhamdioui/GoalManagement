@@ -2,12 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap';
 
-import { Strategy } from '../../_models/strategy';
 import { Pagination, PaginatedResult } from '../../_models/pagination';
 import { HrService } from '../../_services/hr.service';
+import { UserService } from '../../_services/user.service';
 import { AuthService } from '../../_services/auth.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { BehavioralSkill } from '../../_models/behavioralSkill';
+import { Strategy } from '../../_models/strategy';
 import { EvaluationFile } from '../../_models/evaluationFile';
 
 @Component({
@@ -21,10 +22,13 @@ export class HrPanelComponent implements OnInit {
   strategies: Strategy[];
   behavioralSkills: BehavioralSkill[];
   evaluationFiles: EvaluationFile[];
+  strategyList: Strategy[];
+  skillList: BehavioralSkill[];
   pagination: Pagination;
   loading = false;
 
   constructor(private route: ActivatedRoute, private hrService: HrService,
+    private userService: UserService,
     private authService: AuthService,
     private alertify: AlertifyService) { }
 
@@ -43,6 +47,9 @@ export class HrPanelComponent implements OnInit {
         this.hrTabs.tabs[selectedTab > 0 ? selectedTab : 0].active = true;
       });
     });
+
+    this.loadPublishedBehavioralSkills();
+    this.loadPublishedStratgeies();
   }
 
   handleLoadStrategies(filters) {
@@ -76,6 +83,7 @@ export class HrPanelComponent implements OnInit {
     }, error => {
       this.loading = false;
       this.handleLoadStrategies(event.filters);
+      this.loadPublishedStratgeies();
       this.alertify.error(error);
     })
   }
@@ -127,9 +135,9 @@ export class HrPanelComponent implements OnInit {
 
   handleEditEvaluationFile(event: any) {
     this.loading = true;
-    this.hrService.updateEvaluationFile(this.authService.decodedToken.nameid, event.updatedEvaluation).subscribe(() => {
+    this.hrService.updateEvaluationFile(this.authService.decodedToken.nameid, event.updatedEvaluationFile).subscribe(() => {
       this.loading = false;
-      this.alertify.success('Fiche d\'évaluation a été mis à jour.');
+      this.alertify.success('Fiche d\'évaluation a été mise à jour.');
       this.handleLoadEvaluationFiles(event.filters);
     }, error => {
       this.loading = false;
@@ -141,5 +149,33 @@ export class HrPanelComponent implements OnInit {
   handlePageChanged(event: any): void {
     this.pagination.currentPage = event.currentPage;
     this.handleLoadStrategies(event.filters);;
+  }
+
+  loadPublishedStratgeies() {
+    this.loading = true;
+    this.userService.getPublishedStrategies().subscribe(
+      (result: Strategy[]) => {
+        this.loading = false;
+        this.strategyList = result;
+      },
+      error => {
+        this.loading = false;
+        this.alertify.error(error);
+      }
+    );
+  }
+
+  loadPublishedBehavioralSkills() {
+    this.loading = true;
+    this.userService.getPublishedBehavioralSkills().subscribe(
+      (result: BehavioralSkill[]) => {
+        this.loading = false;
+        this.skillList = result;
+      },
+      error => {
+        this.loading = false;
+        this.alertify.error(error);
+      }
+    );
   }
 }

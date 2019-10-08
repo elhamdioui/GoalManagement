@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap';
+
+import { EvaluationFile } from '../../../_models/evaluationFile';
+import { BehavioralSkill } from '../../../_models/behavioralSkill';
+import { Strategy } from '../../../_models/strategy';
 
 @Component({
   selector: 'app-evaluation-hr-edit-modal',
@@ -6,10 +11,37 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./evaluation-hr-edit-modal.component.css']
 })
 export class EvaluationHrEditModalComponent implements OnInit {
+  @Output() updateSelectedEvaluationFile = new EventEmitter();
+  evaluationFile: EvaluationFile;
+  skillList: any[];
+  strategyList: Strategy[];
+  statusList: string[];
+  showErrors: boolean;
 
-  constructor() { }
+  constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
+
   }
 
+  updateEvaluationFile() {
+    this.showErrors = false;
+    const selectedSkillIds = [...this.skillList.filter(s => s.checked === true).map(s => s.id)]
+    if (selectedSkillIds.length > 0) {
+      const evaluationFileToUpdate = {
+        id: this.evaluationFile.id,
+        title: this.evaluationFile.title,
+        year: this.evaluationFile.year,
+        strategyId: this.evaluationFile.strategy.id,
+        behavioralSkillIds: selectedSkillIds,
+        status: this.evaluationFile.status
+      };
+
+      this.updateSelectedEvaluationFile.emit(evaluationFileToUpdate);
+      this.bsModalRef.hide();
+    } else {
+      this.showErrors = true;
+    }
+
+  }
 }

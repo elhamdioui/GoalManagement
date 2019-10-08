@@ -40,7 +40,7 @@
     <div class="form-group row">
       <label for="strategy" class="col-sm-2 col-form-label">Stratégie: </label>
       <div class="col-sm-10">
-        <select class="form-control mb-1" id="strategyId" formControlName="strategy">
+        <select class="form-control mb-1" id="strategy" formControlName="strategy">
           <option *ngFor="let strategy of strategyList" [ngValue]="strategy">
             {{ strategy.title }}
           </option>
