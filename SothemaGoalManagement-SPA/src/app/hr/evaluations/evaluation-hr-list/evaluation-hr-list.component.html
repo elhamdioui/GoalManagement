@@ -16,7 +16,7 @@
           <th style="width: 10%"></th>
         </tr>
 
-        <tr *ngFor="let evaluationFile of evaluationFiles" [routerLink]="['/evaluationsForHR', evaluationFile.id]">
+        <tr *ngFor="let evaluationFile of evaluationFiles" [routerLink]="['/evaluationFiles', evaluationFile.id]">
           <td>{{evaluationFile.title}}</td>
           <td>{{evaluationFile.year}}</td>
           <td>{{evaluationFile.status}}</td>

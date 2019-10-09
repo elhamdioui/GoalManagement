@@ -23,6 +23,8 @@ import { ProfileEditComponent } from './collaborators/profile-edit/profile-edit.
 import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
 import { BehavioralSkillDetailComponent } from './hr/behavioral-skills/behavioral-skill-detail/behavioral-skill-detail.component';
 import { BehavioralSkillDetailResolver } from './_resolvers/behavioral-skill-detail.resolver.';
+import { EvaluationHrDetailComponent } from './hr/evaluations/evaluation-hr-detail/evaluation-hr-detail.component';
+import { EvaluationHrDetailResolver } from './_resolvers/evaluation-hr-detail.resolver.';
 
 
 export const appRoutes: Routes = [
@@ -61,6 +63,11 @@ export const appRoutes: Routes = [
         path: 'behavioralSkills/:id',
         component: BehavioralSkillDetailComponent,
         resolve: { behavioralSkill: BehavioralSkillDetailResolver }
+      },
+      {
+        path: 'evaluationFiles/:id',
+        component: EvaluationHrDetailComponent,
+        resolve: { evaluationFile: EvaluationHrDetailResolver }
       },
       {
         path: 'messages',

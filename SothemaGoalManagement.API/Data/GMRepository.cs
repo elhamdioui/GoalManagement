@@ -395,6 +395,25 @@ namespace SothemaGoalManagement.API.Data
             return await _context.EvaluationFiles.SingleOrDefaultAsync(ef => ef.Id == id);
         }
 
+        public async Task<object> GetEvaluationFileDetail(int id)
+        {
+            return await (from evaluationFile in _context.EvaluationFiles.Include(ef => ef.Strategy).Include(ef => ef.CreatedBy)
+                          select new
+                          {
+                              Id = evaluationFile.Id,
+                              Title = evaluationFile.Title,
+                              Year = evaluationFile.Year,
+                              Strategy = evaluationFile.Strategy,
+                              CreatedById = evaluationFile.CreatedById,
+                              CreatedByName = evaluationFile.CreatedBy.FirstName.FullName(evaluationFile.CreatedBy.LastName),
+                              BehavioralSkills = (from evaluationFileBehavioralSkill in evaluationFile.BehavioralSkills
+                                                  join bs in _context.BehavioralSkills on evaluationFileBehavioralSkill.BehavioralSkillId equals bs.Id
+                                                  select bs).ToList(),
+                              Created = evaluationFile.Created,
+                              Status = evaluationFile.Status
+                          }).SingleOrDefaultAsync(ef => ef.Id == id);
+        }
+
         public async Task<IEnumerable<int>> GetEvaluationFileBehavioralSkills(int evaluationFileId)
         {
             return await _context.EvaluationFileBehavioralSkills.Where(efbs => efbs.EvaluationFileId == evaluationFileId).Select(efbs => efbs.BehavioralSkillId).ToListAsync();

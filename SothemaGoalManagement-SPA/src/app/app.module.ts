@@ -77,9 +77,11 @@ import { EvaluatorComponent } from './collaborators/evaluator/evaluator.componen
 import { EvaluationHrListComponent } from './hr/evaluations/evaluation-hr-list/evaluation-hr-list.component';
 import { EvaluationHrEditModalComponent } from './hr/evaluations/evaluation-hr-edit-modal/evaluation-hr-edit-modal.component';
 import { EvaluationHrNewComponent } from './hr/evaluations/evaluation-hr-new/evaluation-hr-new.component';
+import { EvaluationHrDetailComponent } from './hr/evaluations/evaluation-hr-detail/evaluation-hr-detail.component';
 import { HrFilterCreateActionsComponent } from './hr/hr-filter-create-actions/hr-filter-create-actions.component';
 import { AdminFilterActionsComponent } from './admin/admin-filter-actions/admin-filter-actions.component';
 import { LayoutService } from './_services/layout.service';
+import { EvaluationHrDetailResolver } from './_resolvers/evaluation-hr-detail.resolver.';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -131,6 +133,7 @@ export function tokenGetter() {
     EvaluationHrListComponent,
     EvaluationHrEditModalComponent,
     EvaluationHrNewComponent,
+    EvaluationHrDetailComponent,
     HrFilterCreateActionsComponent,
     AdminFilterActionsComponent
   ],
@@ -175,6 +178,7 @@ export function tokenGetter() {
     StrategyListResolver,
     StrategyDetailResolver,
     BehavioralSkillDetailResolver,
+    EvaluationHrDetailResolver,
     AdminService,
     HrService,
     LayoutService
