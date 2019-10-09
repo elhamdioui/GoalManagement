@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap';
+import { Router } from '@angular/router';
 
 import { Pagination, PaginatedResult } from '../../_models/pagination';
 import { HrService } from '../../_services/hr.service';
@@ -30,7 +31,8 @@ export class HrPanelComponent implements OnInit {
   constructor(private route: ActivatedRoute, private hrService: HrService,
     private userService: UserService,
     private authService: AuthService,
-    private alertify: AlertifyService) { }
+    private alertify: AlertifyService,
+    private router: Router) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -47,9 +49,13 @@ export class HrPanelComponent implements OnInit {
         this.hrTabs.tabs[selectedTab > 0 ? selectedTab : 0].active = true;
       });
     });
+  }
 
-    this.loadPublishedBehavioralSkills();
-    this.loadPublishedStratgeies();
+  onSelect(event) {
+    if (this.hrTabs.tabs[2].active) {
+      this.loadPublishedBehavioralSkills();
+      this.loadPublishedStratgeies();
+    }
   }
 
   handleLoadStrategies(filters) {
@@ -83,7 +89,6 @@ export class HrPanelComponent implements OnInit {
     }, error => {
       this.loading = false;
       this.handleLoadStrategies(event.filters);
-      this.loadPublishedStratgeies();
       this.alertify.error(error);
     })
   }
@@ -114,7 +119,7 @@ export class HrPanelComponent implements OnInit {
       this.loading = false;
       this.handleLoadBehavioralSkills(event.filters);
       this.alertify.error(error);
-    })
+    });
   }
 
   handleLoadEvaluationFiles(filters) {
