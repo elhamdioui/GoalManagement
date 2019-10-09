@@ -67,8 +67,8 @@ namespace SothemaGoalManagement.API.Controllers
                 }
                 if (await _repo.SaveAll())
                 {
-                    var evaluationFileToReturn = _mapper.Map<EvaluationFileToReturnDto>(evaluationFile);
-                    return CreatedAtRoute("GetEvaluationFile", new { id = evaluationFile.Id }, evaluationFileToReturn);
+                    // var evaluationFileToReturn = _mapper.Map<EvaluationFileToReturnDto>(evaluationFile);
+                    return CreatedAtRoute("GetEvaluationFile", new { id = evaluationFile.Id }, evaluationFile);
                 }
                 else
                 {

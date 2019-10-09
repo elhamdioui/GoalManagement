@@ -52,7 +52,7 @@
       <label for="behavioralSkillId" class="col-sm-12 col-form-label">Compétence comportementale: </label>
     </div>
     <div class="form-group row">
-      <label class="ml-3" formArrayName="skills" *ngFor="let skill of newForm.controls.skills.controls; let i = index">
+      <label class="ml-3" formArrayName="skills" *ngFor="let skill of newForm.get('skills')['controls']; let i = index">
         <input type="checkbox" [formControlName]="i"> {{skillsData[i].skill}}
       </label>
       <div class="invalid-feedback" *ngIf="

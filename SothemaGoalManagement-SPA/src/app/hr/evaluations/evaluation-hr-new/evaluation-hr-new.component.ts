@@ -108,7 +108,7 @@ export class EvaluationHrNewComponent implements OnInit {
   private addCheckboxes() {
     this.skillsData.forEach((o, i) => {
       const control = new FormControl(true);
-      (this.newForm.controls.skills as FormArray).push(control);
+      (this.newForm.get('skills') as FormArray).push(control);
     });
   }
 
