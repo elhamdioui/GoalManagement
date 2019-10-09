@@ -25,9 +25,12 @@ namespace SothemaGoalManagement.API.Models
 
         public ICollection<Axis> AxisList { get; set; }
 
+        public ICollection<EvaluationFile> EvaluationFiles { get; set; }
+
         public Strategy()
         {
             AxisList = new Collection<Axis>();
+            EvaluationFiles = new Collection<EvaluationFile>();
         }
     }
 }
