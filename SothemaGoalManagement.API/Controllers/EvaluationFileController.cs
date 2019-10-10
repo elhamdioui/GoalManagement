@@ -88,6 +88,11 @@ namespace SothemaGoalManagement.API.Controllers
 
             evaluationFileForUpdateDto.CreatedById = createdById;
             var evaluationFileFromRepo = await _repo.GetEvaluationFile(evaluationFileForUpdateDto.Id);
+            var generateEvaluationInstances = false;
+            if (evaluationFileFromRepo.Status != Constants.PUBLISHED && evaluationFileForUpdateDto.Status == Constants.PUBLISHED)
+            {
+                generateEvaluationInstances = true;
+            }
 
             _mapper.Map(evaluationFileForUpdateDto, evaluationFileFromRepo);
 
@@ -107,6 +112,11 @@ namespace SothemaGoalManagement.API.Controllers
                 }
 
                 await _repo.SaveAll();
+
+                if(generateEvaluationInstances)
+                {
+                    
+                }
                 return Ok(evaluationFileFromRepo);
             }
             catch (Exception ex)
