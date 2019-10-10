@@ -87,9 +87,9 @@ namespace SothemaGoalManagement.API.Helpers
 
             CreateMap<EvaluationFileForUpdateDto, EvaluationFile>().ForMember(x => x.BehavioralSkills, opt => opt.Ignore()); ;
 
-            CreateMap<EvaluationFile, EvaluationFileToReturnDto>().ForMember(dest => dest.CreatedByName, opt =>
+            CreateMap<EvaluationFile, EvaluationFileToReturnDto>().ForMember(dest => dest.OwnerName, opt =>
             {
-                opt.ResolveUsing(u => u.CreatedBy.FirstName.FullName(u.CreatedBy.LastName));
+                opt.ResolveUsing(u => u.Owner.FirstName.FullName(u.Owner.LastName));
             });
         }
     }

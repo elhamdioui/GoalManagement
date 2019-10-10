@@ -18,9 +18,9 @@ namespace SothemaGoalManagement.API.Models
 
         public DateTime Created { get; set; }
 
-        public User CreatedBy { get; set; }
+        public User Owner { get; set; }
 
-        public int CreatedById { get; set; }
+        public int OwnerId { get; set; }
 
         public ICollection<EvaluationFileBehavioralSkill> BehavioralSkills { get; set; }
 

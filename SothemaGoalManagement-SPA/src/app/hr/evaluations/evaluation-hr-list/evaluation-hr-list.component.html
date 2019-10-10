@@ -20,7 +20,7 @@
           <td>{{evaluationFile.title}}</td>
           <td>{{evaluationFile.year}}</td>
           <td>{{evaluationFile.status}}</td>
-          <td>{{evaluationFile.createdByName}}</td>
+          <td>{{evaluationFile.ownerName}}</td>
           <td>{{evaluationFile.created | date: 'mediumDate'}}</td>
           <td>
             <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editEvaluationFileModal(evaluationFile)">Editer</button>

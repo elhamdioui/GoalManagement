@@ -7,8 +7,8 @@ export interface EvaluationFile {
   year: number;
   strategy: Strategy;
   behavioralSkills: BehavioralSkill[];
-  createdByName: string;
-  createdById: number;
+  ownerName: string;
+  ownerId: number;
   status: string;
   created: Date;
 }

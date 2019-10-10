@@ -204,7 +204,7 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<DateTime>("Created");
 
-                    b.Property<int>("CreatedById");
+                    b.Property<int>("OwnerId");
 
                     b.Property<string>("Status");
 
@@ -216,7 +216,7 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
+                    b.HasIndex("OwnerId");
 
                     b.HasIndex("StrategyId");
 
@@ -536,9 +536,9 @@ namespace SothemaGoalManagement.API.Migrations
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFile", b =>
                 {
-                    b.HasOne("SothemaGoalManagement.API.Models.User", "CreatedBy")
+                    b.HasOne("SothemaGoalManagement.API.Models.User", "Owner")
                         .WithMany()
-                        .HasForeignKey("CreatedById")
+                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SothemaGoalManagement.API.Models.Strategy", "Strategy")

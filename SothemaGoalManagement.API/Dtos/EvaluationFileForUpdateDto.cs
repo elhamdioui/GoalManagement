@@ -18,7 +18,7 @@ namespace SothemaGoalManagement.API.Dtos
 
 
         [Required]
-        public int CreatedById { get; set; }
+        public int OwnerId { get; set; }
 
         [Required]
         public string Status { get; set; }

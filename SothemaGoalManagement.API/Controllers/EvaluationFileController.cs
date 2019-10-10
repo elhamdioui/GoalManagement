@@ -45,13 +45,13 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpPost("new/{createdById}")]
-        public async Task<IActionResult> CreateEvaluationFile(int createdById, EvaluationFileForCreationDto evaluationFileForCreationDto)
+        [HttpPost("new/{ownerId}")]
+        public async Task<IActionResult> CreateEvaluationFile(int ownerId, EvaluationFileForCreationDto evaluationFileForCreationDto)
         {
-            var user = await _repo.GetUser(createdById, false);
+            var user = await _repo.GetUser(ownerId, false);
             if (user.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
 
-            evaluationFileForCreationDto.CreatedById = createdById;
+            evaluationFileForCreationDto.OwnerId = ownerId;
 
             var evaluationFile = _mapper.Map<EvaluationFile>(evaluationFileForCreationDto);
 
@@ -80,13 +80,13 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpPut("edit/{createdById}")]
-        public async Task<IActionResult> UpdateEvaluationFile(int createdById, EvaluationFileForUpdateDto evaluationFileForUpdateDto)
+        [HttpPut("edit/{ownerId}")]
+        public async Task<IActionResult> UpdateEvaluationFile(int ownerId, EvaluationFileForUpdateDto evaluationFileForUpdateDto)
         {
-            var owner = await _repo.GetUser(createdById, false);
+            var owner = await _repo.GetUser(ownerId, false);
             if (owner.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
 
-            evaluationFileForUpdateDto.CreatedById = createdById;
+            evaluationFileForUpdateDto.OwnerId = ownerId;
             var evaluationFileFromRepo = await _repo.GetEvaluationFile(evaluationFileForUpdateDto.Id);
             var generateEvaluationInstances = false;
             if (evaluationFileFromRepo.Status != Constants.PUBLISHED && evaluationFileForUpdateDto.Status == Constants.PUBLISHED)
@@ -113,9 +113,9 @@ namespace SothemaGoalManagement.API.Controllers
 
                 await _repo.SaveAll();
 
-                if(generateEvaluationInstances)
+                if (generateEvaluationInstances)
                 {
-                    
+
                 }
                 return Ok(evaluationFileFromRepo);
             }

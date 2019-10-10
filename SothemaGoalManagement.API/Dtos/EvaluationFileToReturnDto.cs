@@ -15,12 +15,12 @@ namespace SothemaGoalManagement.API.Dtos
 
         public ICollection<BehavioralSkillToReturnDto> BehavioralSkills { get; set; }
 
-        public int CreatedById { get; set; }
+        public int OwnerId { get; set; }
 
         public string Status { get; set; }
 
         public DateTime Created { get; set; }
 
-        public string CreatedByName { get; set; }
+        public string OwnerName { get; set; }
     }
 }

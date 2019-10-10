@@ -351,15 +351,15 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<IEnumerable<object>> GetEvaluationFiles(CommunParams evaluationFileParams)
         {
-            var evaluationFilesWithBehavioralSkills = (from evaluationFile in _context.EvaluationFiles.Include(ef => ef.Strategy).Include(ef => ef.CreatedBy)
+            var evaluationFilesWithBehavioralSkills = (from evaluationFile in _context.EvaluationFiles.Include(ef => ef.Strategy).Include(ef => ef.Owner)
                                                        select new
                                                        {
                                                            Id = evaluationFile.Id,
                                                            Title = evaluationFile.Title,
                                                            Year = evaluationFile.Year,
                                                            Strategy = evaluationFile.Strategy,
-                                                           CreatedById = evaluationFile.CreatedById,
-                                                           CreatedByName = evaluationFile.CreatedBy.FirstName.FullName(evaluationFile.CreatedBy.LastName),
+                                                           CreatedById = evaluationFile.OwnerId,
+                                                           CreatedByName = evaluationFile.Owner.FirstName.FullName(evaluationFile.Owner.LastName),
                                                            BehavioralSkills = (from evaluationFileBehavioralSkill in evaluationFile.BehavioralSkills
                                                                                join bs in _context.BehavioralSkills on evaluationFileBehavioralSkill.BehavioralSkillId equals bs.Id
                                                                                select bs).ToList(),
@@ -397,15 +397,15 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<object> GetEvaluationFileDetail(int id)
         {
-            return await (from evaluationFile in _context.EvaluationFiles.Include(ef => ef.Strategy).Include(ef => ef.CreatedBy)
+            return await (from evaluationFile in _context.EvaluationFiles.Include(ef => ef.Strategy).Include(ef => ef.Owner)
                           select new
                           {
                               Id = evaluationFile.Id,
                               Title = evaluationFile.Title,
                               Year = evaluationFile.Year,
                               Strategy = evaluationFile.Strategy,
-                              CreatedById = evaluationFile.CreatedById,
-                              CreatedByName = evaluationFile.CreatedBy.FirstName.FullName(evaluationFile.CreatedBy.LastName),
+                              CreatedById = evaluationFile.OwnerId,
+                              CreatedByName = evaluationFile.Owner.FirstName.FullName(evaluationFile.Owner.LastName),
                               BehavioralSkills = (from evaluationFileBehavioralSkill in evaluationFile.BehavioralSkills
                                                   join bs in _context.BehavioralSkills on evaluationFileBehavioralSkill.BehavioralSkillId equals bs.Id
                                                   select bs).ToList(),

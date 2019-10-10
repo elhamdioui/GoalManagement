@@ -395,15 +395,15 @@ namespace SothemaGoalManagement.API.Migrations
                     Year = table.Column<int>(nullable: false),
                     Status = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
-                    CreatedById = table.Column<int>(nullable: false),
+                    OwnerId = table.Column<int>(nullable: false),
                     StrategyId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EvaluationFiles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EvaluationFiles_AspNetUsers_CreatedById",
-                        column: x => x.CreatedById,
+                        name: "FK_EvaluationFiles_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -542,9 +542,9 @@ namespace SothemaGoalManagement.API.Migrations
                 column: "BehavioralSkillId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EvaluationFiles_CreatedById",
+                name: "IX_EvaluationFiles_OwnerId",
                 table: "EvaluationFiles",
-                column: "CreatedById");
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EvaluationFiles_StrategyId",
