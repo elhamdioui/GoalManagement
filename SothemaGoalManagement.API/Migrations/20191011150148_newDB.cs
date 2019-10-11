@@ -243,7 +243,9 @@ namespace SothemaGoalManagement.API.Migrations
                     LevelFourDescription = table.Column<string>(nullable: true),
                     Status = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
-                    CreatedById = table.Column<int>(nullable: false)
+                    CreatedById = table.Column<int>(nullable: false),
+                    Sealed = table.Column<bool>(nullable: false),
+                    SealedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -350,7 +352,9 @@ namespace SothemaGoalManagement.API.Migrations
                     OwnerId = table.Column<int>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
                     DocumentationUrl = table.Column<string>(nullable: true),
-                    DocumentationPublicId = table.Column<string>(nullable: true)
+                    DocumentationPublicId = table.Column<string>(nullable: true),
+                    Sealed = table.Column<bool>(nullable: false),
+                    SealedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -372,7 +376,9 @@ namespace SothemaGoalManagement.API.Migrations
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     StrategyId = table.Column<int>(nullable: false),
-                    Created = table.Column<DateTime>(nullable: false)
+                    Created = table.Column<DateTime>(nullable: false),
+                    Sealed = table.Column<bool>(nullable: false),
+                    SealedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -396,7 +402,9 @@ namespace SothemaGoalManagement.API.Migrations
                     Status = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
                     OwnerId = table.Column<int>(nullable: false),
-                    StrategyId = table.Column<int>(nullable: false)
+                    StrategyId = table.Column<int>(nullable: false),
+                    Sealed = table.Column<bool>(nullable: false),
+                    SealedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -421,7 +429,9 @@ namespace SothemaGoalManagement.API.Migrations
                 {
                     AxisId = table.Column<int>(nullable: false),
                     PoleId = table.Column<int>(nullable: false),
-                    Weight = table.Column<int>(nullable: false)
+                    Weight = table.Column<int>(nullable: false),
+                    Sealed = table.Column<bool>(nullable: false),
+                    SealedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

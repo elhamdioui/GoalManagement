@@ -13,11 +13,14 @@ export class BehavioralSkillEditModalComponent implements OnInit {
   isFirstOpen = true;
   behavioralSkill: BehavioralSkill;
   statusList: string[];
+  isReadOnly: boolean;
 
   constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
-
+    if(this.behavioralSkill.sealed){
+      this.isReadOnly = true;
+    }
   }
 
   updateBehavioralSkill() {

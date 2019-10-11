@@ -88,10 +88,18 @@ namespace SothemaGoalManagement.API.Controllers
 
             evaluationFileForUpdateDto.OwnerId = ownerId;
             var evaluationFileFromRepo = await _repo.GetEvaluationFile(evaluationFileForUpdateDto.Id);
-            var generateEvaluationInstances = false;
+            if (evaluationFileFromRepo == null) return BadRequest("La fiche d'évaluation n'existe pas!");
+            if (evaluationFileFromRepo.Sealed && evaluationFileForUpdateDto.Status != Constants.ARCHIVED) return BadRequest("La fiche d'évaluation est scellée!");
+
+            var publishEvaluation = false;
+            var archiveEvaluation = false;
             if (evaluationFileFromRepo.Status != Constants.PUBLISHED && evaluationFileForUpdateDto.Status == Constants.PUBLISHED)
             {
-                generateEvaluationInstances = true;
+                publishEvaluation = true;
+            }
+            if (evaluationFileFromRepo.Status != Constants.ARCHIVED && evaluationFileForUpdateDto.Status == Constants.ARCHIVED)
+            {
+                archiveEvaluation = true;
             }
 
             _mapper.Map(evaluationFileForUpdateDto, evaluationFileFromRepo);
@@ -113,9 +121,14 @@ namespace SothemaGoalManagement.API.Controllers
 
                 await _repo.SaveAll();
 
-                if (generateEvaluationInstances)
+                if (publishEvaluation)
                 {
+                    await PublishEvaluationFile(evaluationFileForUpdateDto.Id);
+                }
 
+                if (archiveEvaluation)
+                {
+                    await ArchiveEvaluationComponents(evaluationFileForUpdateDto.Id);
                 }
                 return Ok(evaluationFileFromRepo);
             }
@@ -123,8 +136,51 @@ namespace SothemaGoalManagement.API.Controllers
             {
                 return BadRequest("Échec de la mise à jour dans le fichier d'évaluation: " + ex.Message);
             }
+        }
 
+        private async Task PublishEvaluationFile(int evaluationFileId)
+        {
+            var evaluationFileFromRepo = await _repo.GetEvaluationFile(evaluationFileId);
+            evaluationFileFromRepo.Sealed = true;
+            evaluationFileFromRepo.SealedDate = DateTime.Now;
+            var strategyFromRepo = await _repo.GetStrategy(evaluationFileFromRepo.StrategyId);
+            strategyFromRepo.Sealed = true;
+            strategyFromRepo.SealedDate = DateTime.Now;
+            foreach (var axis in strategyFromRepo.AxisList)
+            {
+                axis.Sealed = true;
+                axis.SealedDate = DateTime.Now;
+                foreach (var ap in axis.AxisPoles)
+                {
+                    ap.Sealed = true;
+                    ap.SealedDate = DateTime.Now;
+                }
+            }
 
+            var skillIds = await _repo.GetEvaluationFileBehavioralSkills(evaluationFileId);
+            var behavioralSkillListFromRepo = await _repo.GetBehavioralSkillsByIds(skillIds);
+            foreach (var behavioralSkill in behavioralSkillListFromRepo)
+            {
+                behavioralSkill.Sealed = true;
+                behavioralSkill.SealedDate = DateTime.Now;
+            }
+
+            await _repo.SaveAll();
+        }
+
+        private async Task ArchiveEvaluationComponents(int evaluationFileId)
+        {
+            var evaluationFileFromRepo = await _repo.GetEvaluationFile(evaluationFileId);
+            var strategyFromRepo = await _repo.GetStrategy(evaluationFileFromRepo.StrategyId);
+            strategyFromRepo.Status = Constants.ARCHIVED;
+
+            var skillIds = await _repo.GetEvaluationFileBehavioralSkills(evaluationFileId);
+            var behavioralSkillListFromRepo = await _repo.GetBehavioralSkillsByIds(skillIds);
+            foreach (var behavioralSkill in behavioralSkillListFromRepo)
+            {
+                behavioralSkill.Status = Constants.ARCHIVED;
+            }
+            await _repo.SaveAll();
         }
     }
 }

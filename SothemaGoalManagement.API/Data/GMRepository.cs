@@ -243,6 +243,7 @@ namespace SothemaGoalManagement.API.Data
         {
             return await _context.Strategies.Include(s => s.Owner)
                                             .Include(s => s.AxisList)
+                                            .ThenInclude(a => a.AxisPoles)
                                             .FirstOrDefaultAsync(s => s.Id == id);
         }
 
@@ -316,6 +317,11 @@ namespace SothemaGoalManagement.API.Data
             return true;
         }
 
+        public async Task<IEnumerable<BehavioralSkill>> GetBehavioralSkillsByIds(IEnumerable<int> ids)
+        {
+            return await _context.BehavioralSkills.Where(bs => ids.Contains(bs.Id)).ToListAsync();
+        }
+
         public async Task<IEnumerable<BehavioralSkill>> GetBehavioralSkills(CommunParams behavioralSkillParams)
         {
             var behavioralSkills = _context.BehavioralSkills.Include(bs => bs.CreatedBy)
@@ -349,10 +355,10 @@ namespace SothemaGoalManagement.API.Data
             return await _context.BehavioralSkills.SingleOrDefaultAsync(bs => bs.Id == id);
         }
 
-        public async Task<IEnumerable<object>> GetEvaluationFiles(CommunParams evaluationFileParams)
+        public async Task<IEnumerable<EvaluationViewModel>> GetEvaluationFiles(CommunParams evaluationFileParams)
         {
             var evaluationFilesWithBehavioralSkills = (from evaluationFile in _context.EvaluationFiles.Include(ef => ef.Strategy).Include(ef => ef.Owner)
-                                                       select new
+                                                       select new EvaluationViewModel()
                                                        {
                                                            Id = evaluationFile.Id,
                                                            Title = evaluationFile.Title,
@@ -364,7 +370,9 @@ namespace SothemaGoalManagement.API.Data
                                                                                join bs in _context.BehavioralSkills on evaluationFileBehavioralSkill.BehavioralSkillId equals bs.Id
                                                                                select bs).ToList(),
                                                            Created = evaluationFile.Created,
-                                                           Status = evaluationFile.Status
+                                                           Status = evaluationFile.Status,
+                                                           Sealed = evaluationFile.Sealed,
+                                                           SealedDate = evaluationFile.SealedDate
                                                        }).OrderByDescending(u => u.Created)
                                   .AsQueryable();
 
@@ -395,10 +403,10 @@ namespace SothemaGoalManagement.API.Data
             return await _context.EvaluationFiles.SingleOrDefaultAsync(ef => ef.Id == id);
         }
 
-        public async Task<object> GetEvaluationFileDetail(int id)
+        public async Task<EvaluationViewModel> GetEvaluationFileDetail(int id)
         {
             return await (from evaluationFile in _context.EvaluationFiles.Include(ef => ef.Strategy).Include(ef => ef.Owner)
-                          select new
+                          select new EvaluationViewModel
                           {
                               Id = evaluationFile.Id,
                               Title = evaluationFile.Title,
@@ -410,7 +418,9 @@ namespace SothemaGoalManagement.API.Data
                                                   join bs in _context.BehavioralSkills on evaluationFileBehavioralSkill.BehavioralSkillId equals bs.Id
                                                   select bs).ToList(),
                               Created = evaluationFile.Created,
-                              Status = evaluationFile.Status
+                              Status = evaluationFile.Status,
+                              Sealed = evaluationFile.Sealed,
+                              SealedDate = evaluationFile.SealedDate
                           }).SingleOrDefaultAsync(ef => ef.Id == id);
         }
 

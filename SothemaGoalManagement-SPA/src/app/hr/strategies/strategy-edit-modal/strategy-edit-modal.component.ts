@@ -13,11 +13,14 @@ export class StrategyEditModalComponent implements OnInit {
 
   strategy: Strategy;
   statusList: string[];
+  isReadOnly: boolean;
 
   constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
-    
+    if (this.strategy.sealed) {
+      this.isReadOnly = true;
+    }
   }
 
   updateStrategy() {

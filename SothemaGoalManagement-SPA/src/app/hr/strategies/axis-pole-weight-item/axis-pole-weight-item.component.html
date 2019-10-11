@@ -9,9 +9,11 @@
     <div *ngIf="editing" class="mb-2">
       <input type="number" min="0" max="100" [value]="axisPole.weight" (input)="onWeightChange(weight.value)" #weight> %
     </div>
-    <button class="btn" [ngClass]="editing ? 'btn-success' : 'btn-info'" (click)="toggleEdit()">
-      <i *ngIf="editing" class="fa fa-save"></i>
-      <i *ngIf="!editing" class="fa fa-edit"></i>
-    </button>
+   <div *ngIf="!isReadOnly">
+      <button class="btn" [ngClass]="editing ? 'btn-success' : 'btn-info'" (click)="toggleEdit()">
+        <i *ngIf="editing" class="fa fa-save"></i>
+        <i *ngIf="!editing" class="fa fa-edit"></i>
+      </button>
+    </div>
   </div>
 </div>

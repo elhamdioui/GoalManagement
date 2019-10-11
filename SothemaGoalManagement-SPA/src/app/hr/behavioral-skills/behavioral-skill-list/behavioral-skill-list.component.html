@@ -21,7 +21,7 @@
           <td>{{behavioralSkill.createdByName}}</td>
           <td>{{behavioralSkill.created | date: 'mediumDate'}}</td>
           <td>
-            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editBehavioralSkillModal(behavioralSkill)">Editer</button>
+            <button *ngIf="behavioralSkill.status !== 'Archivée'" class="btn btn-info" (click)="$event.stopPropagation()" (click)="editBehavioralSkillModal(behavioralSkill)">Editer</button>
           </td>
         </tr>
 

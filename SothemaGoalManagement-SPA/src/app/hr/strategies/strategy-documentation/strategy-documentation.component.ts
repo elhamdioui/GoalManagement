@@ -13,6 +13,7 @@ import { HrService } from '../../../_services/hr.service';
 })
 export class StrategyDocumentationComponent implements OnInit {
   @Input() strategy: Strategy;
+  @Input() isReadOnly: boolean; 
   @Output() getMemberPhotoChange = new EventEmitter<string>();
   uploader: FileUploader;
   hasBaseDropZoneOver = false;

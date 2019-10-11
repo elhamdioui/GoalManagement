@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap';
@@ -144,9 +145,13 @@ export class HrPanelComponent implements OnInit {
       this.loading = false;
       this.alertify.success('Fiche d\'évaluation a été mise à jour.');
       this.handleLoadEvaluationFiles(event.filters);
+      this.handleLoadStrategies(event.filters);
+      this.handleLoadBehavioralSkills(event.filters);
     }, error => {
       this.loading = false;
       this.handleLoadEvaluationFiles(event.filters);
+      this.handleLoadStrategies(event.filters);
+      this.handleLoadBehavioralSkills(event.filters);
       this.alertify.error(error);
     })
   }

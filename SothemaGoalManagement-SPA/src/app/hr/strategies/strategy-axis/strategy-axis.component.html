@@ -1,13 +1,14 @@
 <div class="card">
-  <div class="card-header">
+  <div *ngIf="!isReadOnly" class="card-header">
     <form #axisForm="ngForm" (ngSubmit)="axisForm.valid && addAxis()">
       <div class="form-group">
-        <input [(ngModel)]="newAxis.title" name="title" required type="text" class="form-control input-sm" placeholder="Titre de l'axe stratigique"/>
+        <input [(ngModel)]="newAxis.title" name="title" required type="text" class="form-control input-sm" placeholder="Titre de l'axe stratigique"
+        />
       </div>
       <div class="form-group">
         <textarea [(ngModel)]="newAxis.description" name="description" required rows="3" class="form-control input-sm" placeholder="Description de l'axe stratigique"></textarea>
       </div>
-     
+
       <button class="btn btn-primary" [disabled]="!axisForm.valid">
         Ajouter
       </button>
@@ -21,20 +22,20 @@
 
     <table *ngIf="axisList?.length > 0" class="table table-hover" style="cursor: pointer">
       <tr>
-          <th style="width: 30%">Titre</th>
+        <th style="width: 30%">Titre</th>
         <th style="width: 50%">Description</th>
         <th style="width: 10%"></th>
         <th style="width: 10%"></th>
       </tr>
       <tr *ngFor="let axis of axisList">
-          <td>{{ axis.title }}</td>
+        <td>{{ axis.title }}</td>
         <td>{{ axis.description }}</td>
-        <td>
+        <td *ngIf="!isReadOnly">
           <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editAxisModal(axis)">
             <i class="fa fa-edit"></i>
           </button>
         </td>
-        <td>
+        <td *ngIf="!isReadOnly">
           <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteAxis(axis.id)">
             <i class="fa fa-trash"></i>
           </button>

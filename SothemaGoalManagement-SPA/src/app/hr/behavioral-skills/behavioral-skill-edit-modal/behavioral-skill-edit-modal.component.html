@@ -8,16 +8,16 @@
   <form #behavioralSkillForm="ngForm" id="behavioralSkillForm">
 
     <h6>Compétence:</h6>
-    <input [(ngModel)]="behavioralSkill.skill" name="skill" required type="text" class="form-control input-sm" placeholder="Compétence"
+    <input [readonly]="isReadOnly" [(ngModel)]="behavioralSkill.skill" name="skill" required type="text" class="form-control input-sm" placeholder="Compétence"
     />
 
 
     <h6>Définition:</h6>
-    <textarea rowa="3" [(ngModel)]="behavioralSkill.definition" name="definition" required type="text" class="form-control input-sm"
+    <textarea [readonly]="isReadOnly" rowa="3" [(ngModel)]="behavioralSkill.definition" name="definition" required type="text" class="form-control input-sm"
       placeholder="Definition"></textarea>
 
     <h6>Statut:</h6>
-    <select class="form-control mb-1" style="width: 200px" id="status" name="status" [(ngModel)]="behavioralSkill.status" required>
+    <select class="form-control mb-1" style="width: 200px" id="status" name="status" [(ngModel)]="behavioralSkill.status" required [disabled]="isReadOnly">
       <option *ngFor="let status of statusList" [ngValue]="status">
         {{ status }}
       </option>
@@ -26,53 +26,53 @@
     <accordion>
       <accordion-group heading="Niveau 1" [isOpen]="isFirstOpen">
         <div class="card-body">
-          <input [(ngModel)]="behavioralSkill.levelOne" name="levelOne" required type="text" class="form-control input-sm" placeholder="Niveau 1"
+          <input [readonly]="isReadOnly" [(ngModel)]="behavioralSkill.levelOne" name="levelOne" required type="text" class="form-control input-sm" placeholder="Niveau 1"
           />
           <h6>Niveau 1 Note:</h6>
-          <input [(ngModel)]="behavioralSkill.levelOneGrade" name="levelOneGrade" required type="number" class="form-control input-sm"
+          <input [readonly]="isReadOnly" [(ngModel)]="behavioralSkill.levelOneGrade" name="levelOneGrade" required type="number" class="form-control input-sm"
             placeholder="Niveau 1 Note" />
 
           <h6>Niveau 1 Description:</h6>
-          <textarea rowa="3" [(ngModel)]="behavioralSkill.levelOneDescription" name="levelOneDescription" class="form-control input-sm"
+          <textarea [readonly]="isReadOnly" rowa="3" [(ngModel)]="behavioralSkill.levelOneDescription" name="levelOneDescription" class="form-control input-sm"
             placeholder="Niveau 1 description"></textarea>
         </div>
       </accordion-group>
       <accordion-group heading="Niveau 2">
         <div class="card-body">
-          <input [(ngModel)]="behavioralSkill.levelTwo" name="levelTwo" required type="text" class="form-control input-sm" placeholder="Niveau 2"
+          <input [readonly]="isReadOnly" [(ngModel)]="behavioralSkill.levelTwo" name="levelTwo" required type="text" class="form-control input-sm" placeholder="Niveau 2"
           />
           <h6>Niveau 2 Note:</h6>
-          <input [(ngModel)]="behavioralSkill.levelTwoGrade" name="levelTwoGrade" required type="number" class="form-control input-sm"
+          <input [readonly]="isReadOnly" [(ngModel)]="behavioralSkill.levelTwoGrade" name="levelTwoGrade" required type="number" class="form-control input-sm"
             placeholder="Niveau 2 Note" />
 
           <h6>Niveau 2 Description:</h6>
-          <textarea rowa="3" [(ngModel)]="behavioralSkill.levelTwoDescription" name="levelTwoDescription" class="form-control input-sm"
+          <textarea [readonly]="isReadOnly" rowa="3" [(ngModel)]="behavioralSkill.levelTwoDescription" name="levelTwoDescription" class="form-control input-sm"
             placeholder="Niveau 2 description"></textarea>
         </div>
       </accordion-group>
       <accordion-group heading="Niveau 3">
         <div class="card-body">
-          <input [(ngModel)]="behavioralSkill.levelThree" name="levelThree" required type="text" class="form-control input-sm" placeholder="Niveau 3"
+          <input [readonly]="isReadOnly" [(ngModel)]="behavioralSkill.levelThree" name="levelThree" required type="text" class="form-control input-sm" placeholder="Niveau 3"
           />
           <h6>Niveau 2 Note:</h6>
-          <input [(ngModel)]="behavioralSkill.levelThreeGrade" name="levelThreeGrade" required type="number" class="form-control input-sm"
+          <input [readonly]="isReadOnly" [(ngModel)]="behavioralSkill.levelThreeGrade" name="levelThreeGrade" required type="number" class="form-control input-sm"
             placeholder="Niveau 3 Note" />
 
           <h6>Niveau 2 Description:</h6>
-          <textarea rowa="3" [(ngModel)]="behavioralSkill.levelThreeDescription" name="levelThreeDescription" class="form-control input-sm"
+          <textarea [readonly]="isReadOnly" rowa="3" [(ngModel)]="behavioralSkill.levelThreeDescription" name="levelThreeDescription" class="form-control input-sm"
             placeholder="Niveau 2 description"></textarea>
         </div>
       </accordion-group>
       <accordion-group heading="Niveau 4">
         <div class="card-body">
-          <input [(ngModel)]="behavioralSkill.levelFour" name="levelFour" required type="text" class="form-control input-sm" placeholder="Niveau 4"
+          <input [readonly]="isReadOnly" [(ngModel)]="behavioralSkill.levelFour" name="levelFour" required type="text" class="form-control input-sm" placeholder="Niveau 4"
           />
           <h6>Niveau 4 Note:</h6>
-          <input [(ngModel)]="behavioralSkill.levelFourGrade" name="levelFourGrade" required type="number" class="form-control input-sm"
+          <input [readonly]="isReadOnly" [(ngModel)]="behavioralSkill.levelFourGrade" name="levelFourGrade" required type="number" class="form-control input-sm"
             placeholder="Niveau 4 Note" />
 
           <h6>Niveau 4 Description:</h6>
-          <textarea rowa="3" [(ngModel)]="behavioralSkill.levelFourDescription" name="levelFourDescription" class="form-control input-sm"
+          <textarea [readonly]="isReadOnly" rowa="3" [(ngModel)]="behavioralSkill.levelFourDescription" name="levelFourDescription" class="form-control input-sm"
             placeholder="Niveau 4 description"></textarea>
         </div>
       </accordion-group>

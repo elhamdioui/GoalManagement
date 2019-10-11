@@ -53,16 +53,18 @@ namespace SothemaGoalManagement.API.Data
 
         Task<EvaluatedEvaluator> GetEvaluatedEvaluator(int evaluatedId, int evaluatorId);
 
+        Task<IEnumerable<BehavioralSkill>> GetBehavioralSkillsByIds(IEnumerable<int> ids);
         Task<IEnumerable<BehavioralSkill>> GetBehavioralSkills(CommunParams behavioralSkillParams);
 
         Task<BehavioralSkill> GetBehavioralSkill(int id);
 
-        Task<IEnumerable<object>> GetEvaluationFiles(CommunParams evaluationFileParams);
+        Task<IEnumerable<EvaluationViewModel>> GetEvaluationFiles(CommunParams evaluationFileParams);
 
         Task<EvaluationFile> GetEvaluationFile(int id);
 
         Task<IEnumerable<int>> GetEvaluationFileBehavioralSkills(int evaluationFileId);
 
-        Task<object> GetEvaluationFileDetail(int id);
+        Task<EvaluationViewModel> GetEvaluationFileDetail(int id);
+
     }
 }

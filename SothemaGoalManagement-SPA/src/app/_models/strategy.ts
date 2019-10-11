@@ -9,5 +9,7 @@ export interface Strategy {
   status: string;
   created: Date;
   documentationUrl: string;
-  axisList: Axis[]
+  axisList: Axis[];
+  sealed?: boolean;
+  sealedDate?: Date;
 }

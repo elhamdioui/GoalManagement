@@ -11,4 +11,6 @@ export interface EvaluationFile {
   ownerId: number;
   status: string;
   created: Date;
+  sealed?: boolean;
+  sealedDate?: Date;
 }

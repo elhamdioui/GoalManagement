@@ -93,6 +93,10 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<bool>("Sealed");
+
+                    b.Property<DateTime>("SealedDate");
+
                     b.Property<int>("StrategyId");
 
                     b.Property<string>("Title");
@@ -109,6 +113,10 @@ namespace SothemaGoalManagement.API.Migrations
                     b.Property<int>("AxisId");
 
                     b.Property<int>("PoleId");
+
+                    b.Property<bool>("Sealed");
+
+                    b.Property<DateTime>("SealedDate");
 
                     b.Property<int>("Weight");
 
@@ -153,6 +161,10 @@ namespace SothemaGoalManagement.API.Migrations
                     b.Property<string>("LevelTwoDescription");
 
                     b.Property<string>("LevelTwoGrade");
+
+                    b.Property<bool>("Sealed");
+
+                    b.Property<DateTime>("SealedDate");
 
                     b.Property<string>("Skill");
 
@@ -205,6 +217,10 @@ namespace SothemaGoalManagement.API.Migrations
                     b.Property<DateTime>("Created");
 
                     b.Property<int>("OwnerId");
+
+                    b.Property<bool>("Sealed");
+
+                    b.Property<DateTime>("SealedDate");
 
                     b.Property<string>("Status");
 
@@ -342,6 +358,10 @@ namespace SothemaGoalManagement.API.Migrations
                     b.Property<string>("DocumentationUrl");
 
                     b.Property<int>("OwnerId");
+
+                    b.Property<bool>("Sealed");
+
+                    b.Property<DateTime>("SealedDate");
 
                     b.Property<string>("Status");
 

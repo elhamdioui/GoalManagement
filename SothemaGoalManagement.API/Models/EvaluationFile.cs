@@ -28,6 +28,11 @@ namespace SothemaGoalManagement.API.Models
 
         public Strategy Strategy { get; set; }
 
+        public bool Sealed { get; set; }
+
+        public DateTime SealedDate { get; set; }
+
+
         public EvaluationFile()
         {
             BehavioralSkills = new Collection<EvaluationFileBehavioralSkill>();

@@ -21,7 +21,7 @@
           <td>{{strategy.ownerName}}</td>
           <td>{{strategy.created | date: 'mediumDate'}}</td>
           <td>
-            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editStrategyModal(strategy)">Editer</button>
+            <button *ngIf="strategy.status !== 'Archivée'" class="btn btn-info" (click)="$event.stopPropagation()" (click)="editStrategyModal(strategy)">Editer</button>
           </td>
         </tr>
 

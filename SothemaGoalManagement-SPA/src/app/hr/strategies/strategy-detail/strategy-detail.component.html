@@ -18,6 +18,10 @@
             <strong>Statut:</strong>
             <p>{{ strategy.status }}</p>
           </div>
+          <div *ngIf="strategy.sealed">
+            <strong>Date scellée:</strong>
+            <p>{{ strategy.sealedDate | date: 'mediumDate' }}</p>
+          </div>
           <div>
             <strong>Auteur:</strong>
             <p>{{ strategy.ownerName }}</p>
@@ -40,15 +44,15 @@
       <div class="tab-panel">
         <tabset class="strategy-tabset" #strategyTabs>
           <tab heading="Axes stratigique">
-            <app-strategy-axis [axisList]="axisList" (addAxisEvent)="handleAddAxis(strategy.id, $event)"></app-strategy-axis>
+            <app-strategy-axis [isReadOnly]="isReadOnly" [axisList]="axisList" (addAxisEvent)="handleAddAxis(strategy.id, $event)"></app-strategy-axis>
           </tab>
           <tab heading="Pôles et Pondération">
             <div class="container">
-              <app-axis-poles-weights-list [axisList]="axisList"></app-axis-poles-weights-list>
+              <app-axis-poles-weights-list [isReadOnly]="isReadOnly" [axisList]="axisList"></app-axis-poles-weights-list>
             </div>
           </tab>
           <tab heading="Documentation">
-            <app-strategy-documentation [strategy]="strategy"></app-strategy-documentation>
+            <app-strategy-documentation [isReadOnly]="isReadOnly" [strategy]="strategy"></app-strategy-documentation>
           </tab>
         </tabset>
       </div>

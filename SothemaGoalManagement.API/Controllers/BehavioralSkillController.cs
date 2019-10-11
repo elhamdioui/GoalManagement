@@ -75,6 +75,7 @@ namespace SothemaGoalManagement.API.Controllers
 
             behavioralSkillForUpdateDto.CreatedById = createdById;
             var behavioralSkillFromRepo = await _repo.GetBehavioralSkill(behavioralSkillForUpdateDto.Id);
+            if (behavioralSkillFromRepo.Sealed) return BadRequest("La compétence comportementale est scellée!");
 
             _mapper.Map(behavioralSkillForUpdateDto, behavioralSkillFromRepo);
 

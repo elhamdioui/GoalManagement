@@ -9,6 +9,7 @@ namespace SothemaGoalManagement.API.Models
         public int Id { get; set; }
 
         public string Title { get; set; }
+            
         public string Description { get; set; }
 
         public int StrategyId { get; set; }
@@ -18,6 +19,10 @@ namespace SothemaGoalManagement.API.Models
         public DateTime Created { get; set; }
 
         public ICollection<AxisPole> AxisPoles { get; set; }
+
+        public bool Sealed { get; set; }
+
+        public DateTime SealedDate { get; set; }
 
         public Axis()
         {

@@ -13,6 +13,7 @@ import { Axis } from '../../../_models/axis';
 })
 export class AxisPolesWeightsCardComponent implements OnInit {
   @Input() axis: Axis;
+  @Input() isReadOnly: boolean; 
   axisPoleList: AxisPole[];
   loading = false;
 

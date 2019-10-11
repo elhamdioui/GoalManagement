@@ -25,6 +25,10 @@ namespace SothemaGoalManagement.API.Dtos
 
         public ICollection<AxisToReturnDto> AxisList { get; set; }
 
+        public bool Sealed { get; set; }
+
+        public DateTime SealedDate { get; set; }
+
         public StrategyToReturnDto()
         {
             AxisList = new Collection<AxisToReturnDto>();

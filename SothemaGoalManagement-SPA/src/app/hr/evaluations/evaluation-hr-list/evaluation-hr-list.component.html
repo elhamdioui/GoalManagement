@@ -23,7 +23,7 @@
           <td>{{evaluationFile.ownerName}}</td>
           <td>{{evaluationFile.created | date: 'mediumDate'}}</td>
           <td>
-            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editEvaluationFileModal(evaluationFile)">Editer</button>
+            <button *ngIf="evaluationFile.status !== 'Archivée'" class="btn btn-info" (click)="$event.stopPropagation()" (click)="editEvaluationFileModal(evaluationFile)">Editer</button>
           </td>
         </tr>
 

@@ -18,6 +18,10 @@
             <strong>Statut:</strong>
             <p>{{ behavioralSkill.status }}</p>
           </div>
+           <div *ngIf="behavioralSkill.sealed">
+            <strong>Date scellée:</strong>
+            <p>{{ behavioralSkill.sealedDate | date: 'mediumDate' }}</p>
+          </div>
           <div>
             <strong>Auteur:</strong>
             <p>{{ behavioralSkill.createdByName }}</p>

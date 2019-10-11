@@ -111,6 +111,8 @@ namespace SothemaGoalManagement.API.Controllers
 
             strategyForUpdateDto.OwnerId = ownerId;
             var strategyFromRepo = await _repo.GetStrategy(strategyForUpdateDto.Id);
+            if (strategyFromRepo == null) return BadRequest("La stratégie n'existe pas!");
+            if (strategyFromRepo.Sealed) return BadRequest("La stratégie est scellée!");
 
             _mapper.Map(strategyForUpdateDto, strategyFromRepo);
 
@@ -250,6 +252,8 @@ namespace SothemaGoalManagement.API.Controllers
         public async Task<IActionResult> UpdateAxis(int id, AxisForUpdateDto axisForUpdateDto)
         {
             var axisFromRepo = await _repo.GetAxis(id);
+            if (axisFromRepo == null) return BadRequest("L'axe n'exist pas!");
+            if (axisFromRepo.Sealed) return BadRequest("L'axe est scellé!");
             _mapper.Map(axisForUpdateDto, axisFromRepo);
 
             if (await _repo.SaveAll()) return NoContent();
@@ -288,14 +292,14 @@ namespace SothemaGoalManagement.API.Controllers
         public async Task<IActionResult> updateAxisPole(int axisId, int poleId, int weight)
         {
             var axisPoleFromRepo = await _repo.GetAxisPole(axisId, poleId);
-            if (axisPoleFromRepo != null)
-            {
-                axisPoleFromRepo.Weight = weight;
+            if (axisPoleFromRepo == null) return BadRequest("La pondération n'existe pas!");
+            if (axisPoleFromRepo.Sealed) return BadRequest("La pondération est scellée!");
 
-                if (await _repo.SaveAll()) return NoContent();
-            }
+            axisPoleFromRepo.Weight = weight;
+            if (await _repo.SaveAll()) return NoContent();
 
-            throw new Exception("La mise à jour de l'axe a échoué lors de la sauvegarde");
+
+            throw new Exception("La mise à jour de pondération a échoué lors de la sauvegarde");
         }
     }
 }

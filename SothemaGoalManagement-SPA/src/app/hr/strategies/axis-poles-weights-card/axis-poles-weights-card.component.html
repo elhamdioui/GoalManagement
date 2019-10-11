@@ -6,7 +6,7 @@
   <div class="card-body">
     <ul class="list-inline member-icons animate text-center">
       <li class="list-inline-item" *ngFor="let ap of axisPoleList">
-        <app-axis-pole-weight-item [axisPole]="ap" (updateWeightEvent)="handleUpdateAxisPole($event)"></app-axis-pole-weight-item>
+        <app-axis-pole-weight-item [isReadOnly]="isReadOnly" [axisPole]="ap" (updateWeightEvent)="handleUpdateAxisPole($event)"></app-axis-pole-weight-item>
       </li>
     </ul>
   </div>

@@ -44,6 +44,11 @@ namespace SothemaGoalManagement.API.Models
 
         public int CreatedById { get; set; }
 
+        public bool Sealed { get; set; }
+
+        public DateTime SealedDate { get; set; }
+
+
         public ICollection<EvaluationFileBehavioralSkill> EvaluationFiles { get; set; }
 
         public BehavioralSkill()

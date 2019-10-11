@@ -18,4 +18,6 @@ export interface BehavioralSkill {
   createdById: number;
   status: string;
   created: Date;
+  sealed?: boolean;
+  sealedDate?: Date;
 }

@@ -9,7 +9,8 @@ import { AxisPole } from './../../../_models/axisPole';
 })
 export class AxisPoleWeightItemComponent implements OnInit {
   @Input() axisPole: AxisPole;
-  @Output() updateWeightEvent = new EventEmitter<AxisPole>()
+  @Output() updateWeightEvent = new EventEmitter<AxisPole>();
+  @Input() isReadOnly: boolean; 
   editing: boolean = false;
 
   constructor() { }

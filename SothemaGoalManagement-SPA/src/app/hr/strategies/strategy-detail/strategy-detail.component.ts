@@ -21,7 +21,8 @@ import { AuthService } from '../../../_services/auth.service';
 export class StrategyDetailComponent implements OnInit {
   strategy: Strategy;
   axisList: Axis[];
-  loading = false;
+  loading: boolean = false;
+  isReadOnly: boolean;
 
   constructor(private hrService: HrService, private authService: AuthService, private alertify: AlertifyService, private route: ActivatedRoute
   ) { }
@@ -29,6 +30,7 @@ export class StrategyDetailComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.strategy = data['strategy'];
+      this.isReadOnly = this.strategy.sealed;
     });
 
     this.loadAxisList(this.strategy.id);

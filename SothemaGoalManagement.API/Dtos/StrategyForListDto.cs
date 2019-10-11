@@ -18,5 +18,11 @@ namespace SothemaGoalManagement.API.Dtos
         public int OwnerId { get; set; }
 
         public DateTime Created { get; set; }
+
+        public bool Sealed { get; set; }
+
+        public DateTime SealedDate { get; set; }
+
+
     }
 }

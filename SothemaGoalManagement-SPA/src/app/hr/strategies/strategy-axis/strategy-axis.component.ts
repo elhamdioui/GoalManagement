@@ -14,6 +14,7 @@ import { AxisModalComponent } from '../axis-modal/axis-modal.component';
 })
 export class StrategyAxisComponent implements OnInit {
   @Input() axisList: Axis[];
+  @Input() isReadOnly: boolean; 
   @Output() addAxisEvent = new EventEmitter<Axis>();
   newAxis: any = {};
   bsModalRef: BsModalRef;

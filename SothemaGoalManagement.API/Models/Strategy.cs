@@ -27,6 +27,10 @@ namespace SothemaGoalManagement.API.Models
 
         public ICollection<EvaluationFile> EvaluationFiles { get; set; }
 
+        public bool Sealed { get; set; }
+
+        public DateTime SealedDate { get; set; }
+
         public Strategy()
         {
             AxisList = new Collection<Axis>();

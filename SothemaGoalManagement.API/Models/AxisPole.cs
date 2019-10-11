@@ -1,3 +1,5 @@
+using System;
+
 namespace SothemaGoalManagement.API.Models
 {
     public class AxisPole
@@ -10,5 +12,10 @@ namespace SothemaGoalManagement.API.Models
         public Pole Pole { get; set; }
 
         public int Weight { get; set; }
+
+        public bool Sealed { get; set; }
+
+        public DateTime SealedDate { get; set; }
+
     }
 }

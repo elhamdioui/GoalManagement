@@ -41,5 +41,9 @@ namespace SothemaGoalManagement.API.Dtos
         public DateTime Created { get; set; }
 
         public string CreatedByName { get; set; }
+
+        public bool Sealed { get; set; }
+
+        public DateTime SealedDate { get; set; }
     }
 }

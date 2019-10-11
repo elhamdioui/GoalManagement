@@ -11,6 +11,7 @@ import { AlertifyService } from '../../../_services/alertify.service';
 })
 export class AxisPolesWeightsListComponent implements OnInit {
   @Input() axisList: Axis[];
+  @Input() isReadOnly: boolean; 
 
   constructor() { }
 

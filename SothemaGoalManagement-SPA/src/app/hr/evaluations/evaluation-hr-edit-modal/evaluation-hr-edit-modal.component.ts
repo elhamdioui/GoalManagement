@@ -17,10 +17,15 @@ export class EvaluationHrEditModalComponent implements OnInit {
   strategyList: Strategy[];
   statusList: string[];
   showErrors: boolean;
+  isReadOnly: boolean;
 
   constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
+    if(this.evaluationFile.sealed){
+      this.isReadOnly = true;
+      this.statusList = ['Publiée', 'Archivée'];
+    }
 
   }
 
