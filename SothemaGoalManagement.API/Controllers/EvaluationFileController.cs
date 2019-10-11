@@ -124,6 +124,7 @@ namespace SothemaGoalManagement.API.Controllers
                 if (publishEvaluation)
                 {
                     await PublishEvaluationFile(evaluationFileForUpdateDto.Id);
+                    await GenerateEvaluationFileInstances(evaluationFileForUpdateDto.Id);
                 }
 
                 if (archiveEvaluation)
@@ -181,6 +182,57 @@ namespace SothemaGoalManagement.API.Controllers
                 behavioralSkill.Status = Constants.ARCHIVED;
             }
             await _repo.SaveAll();
+        }
+
+        private async Task GenerateEvaluationFileInstances(int evaluationFileId)
+        {
+            var users = await _repo.LoadAllUsers();
+            var evaluationFileFromRepo = await _repo.GetEvaluationFile(evaluationFileId);
+            foreach (var user in users)
+            {
+                var evaluationFileInstance = new EvaluationFileInstance()
+                {
+                    Title = evaluationFileFromRepo.Title,
+                    Year = evaluationFileFromRepo.Year,
+                    Status = Constants.DRAFT,
+                    Created = DateTime.Now,
+                    OwnerId = user.Id,
+                    StrategyTitle = evaluationFileFromRepo.Strategy.Title,
+                    StrategyDescription = evaluationFileFromRepo.Strategy.Description
+                };
+
+                _repo.Add(evaluationFileInstance);
+            }
+
+            if (await _repo.SaveAll())
+            {
+                var skillIds = await _repo.GetEvaluationFileBehavioralSkills(evaluationFileId);
+                var behavioralSkillListFromRepo = await _repo.GetBehavioralSkillsByIds(skillIds);
+                foreach (var bs in behavioralSkillListFromRepo)
+                {
+                    var behavioralSkillInstance = new BehavioralSkillInstance()
+                    {
+                        Skill = bs.Skill,
+                        Definition = bs.Definition,
+                        LevelOne = bs.LevelOne,
+                        LevelOneDescription = bs.LevelOneDescription,
+                        LevelOneGrade = bs.LevelOneGrade,
+                        LevelTwo = bs.LevelTwo,
+                        LevelTwoDescription = bs.LevelTwoDescription,
+                        LevelTwoGrade = bs.LevelTwoGrade,
+                        LevelThree = bs.LevelThree,
+                        LevelThreeDescription = bs.LevelThreeDescription,
+                        LevelThreeGrade = bs.LevelThreeGrade,
+                        LevelFour = bs.LevelFour,
+                        LevelFourDescription = bs.LevelFourDescription,
+                        LevelFourGrade = bs.LevelFourGrade
+                    };
+                    _repo.Add(behavioralSkillInstance);
+                }
+                if (await _repo.SaveAll())
+                {
+                }
+            }
         }
     }
 }

@@ -25,15 +25,23 @@ namespace SothemaGoalManagement.API.Data
 
         public DbSet<Axis> Axis { get; set; }
 
+        public DbSet<AxisInstance> AxisInstances { get; set; }
+
         public DbSet<AxisPole> AxisPoles { get; set; }
 
         public DbSet<EvaluatedEvaluator> EvaluatedEvaluators { get; set; }
 
         public DbSet<BehavioralSkill> BehavioralSkills { get; set; }
 
+        public DbSet<BehavioralSkillInstance> BehavioralSkillInstances { get; set; }
+
         public DbSet<EvaluationFile> EvaluationFiles { get; set; }
 
+        public DbSet<EvaluationFileInstance> EvaluationFileInstances { get; set; }
+
         public DbSet<EvaluationFileBehavioralSkill> EvaluationFileBehavioralSkills { get; set; }
+
+        public DbSet<EvaluationFileInstanceBehavioralSkillInstance> EvaluationFileInstanceBehavioralSkillInstances { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -117,8 +125,27 @@ namespace SothemaGoalManagement.API.Data
                                             .IsRequired();
             });
 
+            builder.Entity<EvaluationFileInstanceBehavioralSkillInstance>(evaluationFileInstanceBehavioralSkillInstance =>
+            {
+                evaluationFileInstanceBehavioralSkillInstance.HasKey(efibsi => new { efibsi.EvaluationFileInstanceId, efibsi.BehavioralSkillInstanceId });
+
+                evaluationFileInstanceBehavioralSkillInstance.HasOne(bsi => bsi.BehavioralSkillInstance)
+                                            .WithMany(efi => efi.EvaluationFileInstances)
+                                            .OnDelete(DeleteBehavior.Restrict)
+                                            .HasForeignKey(bsi => bsi.BehavioralSkillInstanceId)
+                                            .IsRequired();
+
+                evaluationFileInstanceBehavioralSkillInstance.HasOne(efi => efi.EvaluationFileInstance)
+                                            .WithMany(bsi => bsi.BehavioralSkillInstances)
+                                            .OnDelete(DeleteBehavior.Restrict)
+                                            .HasForeignKey(efi => efi.EvaluationFileInstanceId)
+                                            .IsRequired();
+            });
+
             builder.Entity<EvaluationFile>().HasOne<Strategy>(ef => ef.Strategy)
                        .WithMany(e => e.EvaluationFiles).HasForeignKey(ef => ef.StrategyId);
+
+
 
             builder.Entity<Strategy>().HasMany<EvaluationFile>(s => s.EvaluationFiles)
                                            .WithOne(ef => ef.Strategy)

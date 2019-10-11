@@ -97,7 +97,7 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<IEnumerable<User>> LoadAllUsers()
         {
-            return await _context.Users.Include(u => u.Department).ToListAsync();
+            return await _context.Users.Include(u => u.Department).ThenInclude(p => p.Pole).ToListAsync();
         }
 
         public async Task<PagedList<object>> GetUsersWithRoles(UserParams userParams)
