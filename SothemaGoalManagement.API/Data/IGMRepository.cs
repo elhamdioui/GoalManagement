@@ -43,6 +43,8 @@ namespace SothemaGoalManagement.API.Data
 
         Task<IEnumerable<Axis>> GetAxisList(int strategyId);
 
+        Task<IEnumerable<Axis>> GetAxisListDetailed(int strategyId);
+
         Task<IEnumerable<AxisPole>> GetAxisPoleList(int axisId);
 
         Task<AxisPole> GetAxisPole(int axisId, int poleId);
@@ -54,6 +56,9 @@ namespace SothemaGoalManagement.API.Data
         Task<EvaluatedEvaluator> GetEvaluatedEvaluator(int evaluatedId, int evaluatorId);
 
         Task<IEnumerable<BehavioralSkill>> GetBehavioralSkillsByIds(IEnumerable<int> ids);
+
+        Task<IEnumerable<BehavioralSkillInstance>> GetBehavioralSkillInstancesByBSIds(IEnumerable<int> bsIds);
+
         Task<IEnumerable<BehavioralSkill>> GetBehavioralSkills(CommunParams behavioralSkillParams);
 
         Task<BehavioralSkill> GetBehavioralSkill(int id);
@@ -65,6 +70,8 @@ namespace SothemaGoalManagement.API.Data
         Task<IEnumerable<int>> GetEvaluationFileBehavioralSkills(int evaluationFileId);
 
         Task<EvaluationViewModel> GetEvaluationFileDetail(int id);
+
+        Task<IEnumerable<EvaluationFileInstance>> GetEvaluationFileInstancesByEvaluationFileId(int evaluationFileId);
 
     }
 }

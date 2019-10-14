@@ -188,17 +188,19 @@ namespace SothemaGoalManagement.API.Controllers
         {
             var users = await _repo.LoadAllUsers();
             var evaluationFileFromRepo = await _repo.GetEvaluationFile(evaluationFileId);
+
             foreach (var user in users)
             {
                 var evaluationFileInstance = new EvaluationFileInstance()
                 {
-                    Title = evaluationFileFromRepo.Title,
+                    Title = evaluationFileFromRepo.Title + "-" + user.FirstName + " " + user.LastName,
                     Year = evaluationFileFromRepo.Year,
                     Status = Constants.DRAFT,
                     Created = DateTime.Now,
                     OwnerId = user.Id,
                     StrategyTitle = evaluationFileFromRepo.Strategy.Title,
-                    StrategyDescription = evaluationFileFromRepo.Strategy.Description
+                    StrategyDescription = evaluationFileFromRepo.Strategy.Description,
+                    EvaluationFileId = evaluationFileId
                 };
 
                 _repo.Add(evaluationFileInstance);
@@ -206,31 +208,75 @@ namespace SothemaGoalManagement.API.Controllers
 
             if (await _repo.SaveAll())
             {
-                var skillIds = await _repo.GetEvaluationFileBehavioralSkills(evaluationFileId);
-                var behavioralSkillListFromRepo = await _repo.GetBehavioralSkillsByIds(skillIds);
-                foreach (var bs in behavioralSkillListFromRepo)
+                var evaluationFileInstances = await _repo.GetEvaluationFileInstancesByEvaluationFileId(evaluationFileId);
+                var axisFromRepo = await _repo.GetAxisListDetailed(evaluationFileFromRepo.StrategyId);
+
+                foreach (var efi in evaluationFileInstances)
                 {
-                    var behavioralSkillInstance = new BehavioralSkillInstance()
+                    foreach (var axis in axisFromRepo)
                     {
-                        Skill = bs.Skill,
-                        Definition = bs.Definition,
-                        LevelOne = bs.LevelOne,
-                        LevelOneDescription = bs.LevelOneDescription,
-                        LevelOneGrade = bs.LevelOneGrade,
-                        LevelTwo = bs.LevelTwo,
-                        LevelTwoDescription = bs.LevelTwoDescription,
-                        LevelTwoGrade = bs.LevelTwoGrade,
-                        LevelThree = bs.LevelThree,
-                        LevelThreeDescription = bs.LevelThreeDescription,
-                        LevelThreeGrade = bs.LevelThreeGrade,
-                        LevelFour = bs.LevelFour,
-                        LevelFourDescription = bs.LevelFourDescription,
-                        LevelFourGrade = bs.LevelFourGrade
-                    };
-                    _repo.Add(behavioralSkillInstance);
+                        foreach (var ap in axis.AxisPoles)
+                        {
+                            if (ap.PoleId == efi.Owner.Department.PoleId)
+                            {
+                                var newAxisInstance = new AxisInstance()
+                                {
+                                    Title = axis.Title,
+                                    Description = axis.Description,
+                                    EvaluationFileInstanceId = efi.Id,
+                                    PoleId = ap.PoleId,
+                                    Weight = ap.Weight,
+                                    Created = DateTime.Now
+                                };
+                                efi.AxisInstances.Add(newAxisInstance);
+                                _repo.Add(newAxisInstance);
+                            }
+                        }
+                    }
                 }
+
                 if (await _repo.SaveAll())
                 {
+                    var skillIds = await _repo.GetEvaluationFileBehavioralSkills(evaluationFileId);
+                    var behavioralSkillListFromRepo = await _repo.GetBehavioralSkillsByIds(skillIds);
+                    foreach (var bs in behavioralSkillListFromRepo)
+                    {
+                        var newBehavioralSkillInstance = new BehavioralSkillInstance()
+                        {
+                            Skill = bs.Skill,
+                            Definition = bs.Definition,
+                            LevelOne = bs.LevelOne,
+                            LevelOneDescription = bs.LevelOneDescription,
+                            LevelOneGrade = bs.LevelOneGrade,
+                            LevelTwo = bs.LevelTwo,
+                            LevelTwoDescription = bs.LevelTwoDescription,
+                            LevelTwoGrade = bs.LevelTwoGrade,
+                            LevelThree = bs.LevelThree,
+                            LevelThreeDescription = bs.LevelThreeDescription,
+                            LevelThreeGrade = bs.LevelThreeGrade,
+                            LevelFour = bs.LevelFour,
+                            LevelFourDescription = bs.LevelFourDescription,
+                            LevelFourGrade = bs.LevelFourGrade,
+                            BehavioralSkillId = bs.Id
+                        };
+
+                        _repo.Add(newBehavioralSkillInstance);
+                    }
+                    if (await _repo.SaveAll())
+                    {
+                        var behavioralSkillInstancesFromRepo = await _repo.GetBehavioralSkillInstancesByBSIds(skillIds);
+                        foreach (var efi in evaluationFileInstances)
+                        {
+                            foreach (var bsi in behavioralSkillInstancesFromRepo)
+                            {
+                                efi.BehavioralSkillInstances.Add(new EvaluationFileInstanceBehavioralSkillInstance { BehavioralSkillInstance = bsi });
+                            }
+                        }
+                        if (!await _repo.SaveAll())
+                        {
+                            throw new Exception("La création de l'association entre l'évaluation et la compétence a échouée lors de la sauvegarde..");
+                        }
+                    }
                 }
             }
         }

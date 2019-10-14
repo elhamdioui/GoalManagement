@@ -8,6 +8,8 @@ namespace SothemaGoalManagement.API.Models
     {
         public int Id { get; set; }
 
+        public int BehavioralSkillId { get; set; }
+
         public string Skill { get; set; }
 
         public string Definition { get; set; }

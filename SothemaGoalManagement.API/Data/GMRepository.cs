@@ -260,6 +260,15 @@ namespace SothemaGoalManagement.API.Data
             return axisList;
         }
 
+        public async Task<IEnumerable<Axis>> GetAxisListDetailed(int strategyId)
+        {
+            var axisList = await _context.Axis.Include(a => a.AxisPoles).ThenInclude(ap => ap.Pole)
+                                                .Where(a => a.StrategyId == strategyId)
+                                                .OrderByDescending(a => a.Created)
+                                                .ToListAsync();
+            return axisList;
+        }
+
         public async Task<IEnumerable<AxisPole>> GetAxisPoleList(int axisId)
         {
             var axisPoleList = await _context.AxisPoles
@@ -320,6 +329,11 @@ namespace SothemaGoalManagement.API.Data
         public async Task<IEnumerable<BehavioralSkill>> GetBehavioralSkillsByIds(IEnumerable<int> ids)
         {
             return await _context.BehavioralSkills.Where(bs => ids.Contains(bs.Id)).ToListAsync();
+        }
+
+        public async Task<IEnumerable<BehavioralSkillInstance>> GetBehavioralSkillInstancesByBSIds(IEnumerable<int> bsIds)
+        {
+            return await _context.BehavioralSkillInstances.Where(bsi => bsIds.Contains(bsi.BehavioralSkillId)).ToListAsync();
         }
 
         public async Task<IEnumerable<BehavioralSkill>> GetBehavioralSkills(CommunParams behavioralSkillParams)
@@ -428,5 +442,12 @@ namespace SothemaGoalManagement.API.Data
         {
             return await _context.EvaluationFileBehavioralSkills.Where(efbs => efbs.EvaluationFileId == evaluationFileId).Select(efbs => efbs.BehavioralSkillId).ToListAsync();
         }
+
+        public async Task<IEnumerable<EvaluationFileInstance>> GetEvaluationFileInstancesByEvaluationFileId(int evaluationFileId)
+        {
+            return await _context.EvaluationFileInstances.Include(efi => efi.Owner).ThenInclude(u => u.Department).ThenInclude(d => d.Pole)
+                                 .Where(efi => efi.EvaluationFileId == evaluationFileId).ToListAsync();
+        }
+
     }
 }
