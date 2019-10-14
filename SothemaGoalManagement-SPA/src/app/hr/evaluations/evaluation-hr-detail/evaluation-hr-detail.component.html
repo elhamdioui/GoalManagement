@@ -24,7 +24,7 @@
           </div>
           <div>
             <strong>Auteur:</strong>
-            <p>{{ evaluationFile.createdByName }}</p>
+            <p>{{ evaluationFile.ownerName }}</p>
           </div>
           <div>
             <strong>Créé:</strong>
@@ -41,21 +41,32 @@
       </div>
     </div>
     <div class="col-sm-8">
-      <div class="tab-panel">
-        <h4>Stratégie:</h4>
-        <p>{{evaluationFile.strategy.title}}</p>
-        <h4>Compétence comportementale:</h4>
-        <ul class="list-inline text-center">
-          <li class="list-inline-item" *ngFor="let bs of evaluationFile.behavioralSkills">
-            <div class="card text-center mb-2" style="width: 15rem;">
-              <div class="card-body">
-                <h4 class="card-title text-center">
+      <div class="tab-panel panel-body">
+        <tabset class="strategy-tabset" #strategyTabs>
+          <tab heading="Stratégie / Compétences">
+            <div class="container">
+              <h4>Stratégie:</h4> {{evaluationFile.strategy.title}}
+              <h4>Axes:</h4>
+              <ul>
+                <li *ngFor="let axis of evaluationFile.axisList">{{axis.title}}</li>
+              </ul>
+              <h4>Compétence comportementale:</h4>
+              <ul>
+                <li *ngFor="let bs of evaluationFile.behavioralSkills">
                   {{bs.skill}}
-                </h4>
-              </div>
+                </li>
+              </ul>
             </div>
-          </li>
-        </ul>
+          </tab>
+          <tab heading="Instances de fiche d'évaluation générées">
+            <div class="container">
+              <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList" (updateUserWeightEvent)="handleUpdateUserWeight($event)"></app-evaluation-file-instance-hr-list>
+            </div>
+          </tab>
+          <tab heading="Paramétrages">
+            Paramétrage
+          </tab>
+        </tabset>
       </div>
     </div>
   </div>

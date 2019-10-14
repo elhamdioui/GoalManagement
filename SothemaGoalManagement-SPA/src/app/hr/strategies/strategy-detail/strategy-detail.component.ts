@@ -11,7 +11,6 @@ import { Strategy } from '../../../_models/strategy';
 import { Axis } from './../../../_models/axis';
 import { HrService } from '../../../_services/hr.service';
 import { AlertifyService } from '../../../_services/alertify.service';
-import { AuthService } from '../../../_services/auth.service';
 
 @Component({
   selector: 'app-strategy-detail',
@@ -24,7 +23,7 @@ export class StrategyDetailComponent implements OnInit {
   loading: boolean = false;
   isReadOnly: boolean;
 
-  constructor(private hrService: HrService, private authService: AuthService, private alertify: AlertifyService, private route: ActivatedRoute
+  constructor(private hrService: HrService, private alertify: AlertifyService, private route: ActivatedRoute
   ) { }
 
   ngOnInit() {

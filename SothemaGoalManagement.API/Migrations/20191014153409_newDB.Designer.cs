@@ -9,7 +9,7 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191014091507_newDB")]
+    [Migration("20191014153409_newDB")]
     partial class newDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,9 +123,11 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<int>("PoleId");
 
+                    b.Property<int>("PoleWeight");
+
                     b.Property<string>("Title");
 
-                    b.Property<int>("Weight");
+                    b.Property<int>("UserWeight");
 
                     b.HasKey("Id");
 

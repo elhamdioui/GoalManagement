@@ -92,7 +92,6 @@ export class CollaboratorNewComponent implements OnInit {
     this.loading = true;
     if (this.newUserForm.valid) {
       this.newUser = Object.assign({}, this.newUserForm.value);
-      console.log('this.notifyUser', this.notifyUser);
       this.adminService.createUser(this.notifyUser, this.newUser).subscribe(
         next => {
           this.loading = false;

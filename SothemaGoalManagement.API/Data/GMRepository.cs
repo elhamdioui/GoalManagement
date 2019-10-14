@@ -247,6 +247,10 @@ namespace SothemaGoalManagement.API.Data
                                             .FirstOrDefaultAsync(s => s.Id == id);
         }
 
+        public async Task<AxisInstance> GetAxisInstance(int id)
+        {
+            return await _context.AxisInstances.FirstOrDefaultAsync(a => a.Id == id);
+        }
         public async Task<Axis> GetAxis(int id)
         {
             return await _context.Axis.Include(a => a.Strategy).FirstOrDefaultAsync(a => a.Id == id);
@@ -419,7 +423,7 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<EvaluationViewModel> GetEvaluationFileDetail(int id)
         {
-            return await (from evaluationFile in _context.EvaluationFiles.Include(ef => ef.Strategy).Include(ef => ef.Owner)
+            return await (from evaluationFile in _context.EvaluationFiles.Include(ef => ef.Strategy).ThenInclude(s => s.AxisList).Include(ef => ef.Owner)
                           select new EvaluationViewModel
                           {
                               Id = evaluationFile.Id,
@@ -431,6 +435,7 @@ namespace SothemaGoalManagement.API.Data
                               BehavioralSkills = (from evaluationFileBehavioralSkill in evaluationFile.BehavioralSkills
                                                   join bs in _context.BehavioralSkills on evaluationFileBehavioralSkill.BehavioralSkillId equals bs.Id
                                                   select bs).ToList(),
+                              AxisList = evaluationFile.Strategy.AxisList,
                               Created = evaluationFile.Created,
                               Status = evaluationFile.Status,
                               Sealed = evaluationFile.Sealed,
@@ -445,8 +450,11 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<IEnumerable<EvaluationFileInstance>> GetEvaluationFileInstancesByEvaluationFileId(int evaluationFileId)
         {
-            return await _context.EvaluationFileInstances.Include(efi => efi.Owner).ThenInclude(u => u.Department).ThenInclude(d => d.Pole)
-                                 .Where(efi => efi.EvaluationFileId == evaluationFileId).ToListAsync();
+            return await _context.EvaluationFileInstances.Include(efi => efi.AxisInstances)
+                                                        .Include(efi => efi.Owner)
+                                                        .ThenInclude(u => u.Department)
+                                                        .ThenInclude(d => d.Pole)
+                                                        .Where(efi => efi.EvaluationFileId == evaluationFileId).ToListAsync();
         }
 
     }

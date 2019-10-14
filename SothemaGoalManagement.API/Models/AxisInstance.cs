@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace SothemaGoalManagement.API.Models
 {
@@ -22,7 +20,9 @@ namespace SothemaGoalManagement.API.Models
 
         public Pole Pole { get; set; }
 
-        public int Weight { get; set; }
+        public int PoleWeight { get; set; }
+
+        public int UserWeight { get; set; }
 
     }
 }

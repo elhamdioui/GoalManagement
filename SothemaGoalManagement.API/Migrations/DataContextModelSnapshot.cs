@@ -121,9 +121,11 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<int>("PoleId");
 
+                    b.Property<int>("PoleWeight");
+
                     b.Property<string>("Title");
 
-                    b.Property<int>("Weight");
+                    b.Property<int>("UserWeight");
 
                     b.HasKey("Id");
 

@@ -44,6 +44,17 @@ namespace SothemaGoalManagement.API.Controllers
             return Ok(evaluationFilesWithBehaviorSkillsFromRepo);
         }
 
+        [HttpGet("evaluationFileInstances/{evaluationFileId}", Name = "GetEvaluationFileInstanceList")]
+        public async Task<IActionResult> GetEvaluationFileInstanceList(int evaluationFileId)
+        {
+            var evaluationFilesInstanceFromRepo = await _repo.GetEvaluationFileInstancesByEvaluationFileId(evaluationFileId);
+            var evaluationFileInstancesToReturn = _mapper.Map<IEnumerable<EvaluationFileInstanceHrToReturnDto>>(evaluationFilesInstanceFromRepo);
+
+            return Ok(evaluationFileInstancesToReturn);
+            // return Ok(evaluationFilesInstanceFromRepo);
+        }
+
+
         [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpPost("new/{ownerId}")]
         public async Task<IActionResult> CreateEvaluationFile(int ownerId, EvaluationFileForCreationDto evaluationFileForCreationDto)
@@ -139,6 +150,23 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPut("axisInstance/edit/{userId}/{axisInstanceId}/{userWeight}")]
+        public async Task<IActionResult> UpdateAxisInstance(int userId, int axisInstanceId, int userWeight)
+        {
+            var userFromRepo = await _repo.GetUser(userId, false);
+            if (userFromRepo.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+
+            var axisIntsnaceFromRepo = await _repo.GetAxisInstance(axisInstanceId);
+            if (axisIntsnaceFromRepo != null)
+            {
+                axisIntsnaceFromRepo.UserWeight = userWeight;
+                await _repo.SaveAll();
+                return NoContent();
+            }
+            throw new Exception("La mise à jour de pondération a échoué lors de la sauvegarde");
+        }
+
         private async Task PublishEvaluationFile(int evaluationFileId)
         {
             var evaluationFileFromRepo = await _repo.GetEvaluationFile(evaluationFileId);
@@ -225,7 +253,8 @@ namespace SothemaGoalManagement.API.Controllers
                                     Description = axis.Description,
                                     EvaluationFileInstanceId = efi.Id,
                                     PoleId = ap.PoleId,
-                                    Weight = ap.Weight,
+                                    PoleWeight = ap.Weight,
+                                    UserWeight = ap.Weight,
                                     Created = DateTime.Now
                                 };
                                 efi.AxisInstances.Add(newAxisInstance);

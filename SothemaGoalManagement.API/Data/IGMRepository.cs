@@ -39,6 +39,8 @@ namespace SothemaGoalManagement.API.Data
 
         Task<Strategy> GetStrategy(int id);
 
+        Task<AxisInstance> GetAxisInstance(int id);
+
         Task<Axis> GetAxis(int id);
 
         Task<IEnumerable<Axis>> GetAxisList(int strategyId);

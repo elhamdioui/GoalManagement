@@ -546,7 +546,8 @@ namespace SothemaGoalManagement.API.Migrations
                     EvaluationFileInstanceId = table.Column<int>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
                     PoleId = table.Column<int>(nullable: false),
-                    Weight = table.Column<int>(nullable: false)
+                    PoleWeight = table.Column<int>(nullable: false),
+                    UserWeight = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

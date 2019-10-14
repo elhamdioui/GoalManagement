@@ -11,6 +11,8 @@ import { Axis } from '../_models/axis';
 import { AxisPole } from '../_models/axisPole';
 import { User } from '../_models/user';
 import { EvaluationFile } from '../_models/evaluationFile';
+import { EvaluationFileInstance } from '../_models/evaluationFileInstance';
+import { AxisInstance } from '../_models/axisInstance';
 
 @Injectable({
   providedIn: 'root'
@@ -141,5 +143,13 @@ export class HrService {
 
   createEvaluationFile(ownerId: number, behavioralSkill: any) {
     return this.http.post(`${this.baseUrl}hr/evaluationfile/new/${ownerId}`, behavioralSkill);
+  }
+
+  getEvaluationFileInstancesByEvaluationFileId(evaluationFileId: number) {
+    return this.http.get<EvaluationFileInstance[]>(`${this.baseUrl}hr/evaluationFile/evaluationFileInstances/${evaluationFileId}`);
+  }
+
+  updateAxisInstance(userId: number, axisInstanceId: number, userWeight: number) {
+    return this.http.put(`${this.baseUrl}hr/evaluationfile/axisInstance/edit/${userId}/${axisInstanceId}/${userWeight}`, {})
   }
 }

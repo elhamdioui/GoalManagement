@@ -20,10 +20,12 @@ namespace SothemaGoalManagement.API.Models
 
         public ICollection<BehavioralSkill> BehavioralSkills { get; set; }
 
+        public ICollection<Axis> AxisList { get; set; }
+
         public DateTime Created { get; set; }
 
         public string Status { get; set; }
-        
+
         public bool Sealed { get; set; }
 
         public DateTime SealedDate { get; set; }
@@ -31,6 +33,7 @@ namespace SothemaGoalManagement.API.Models
         public EvaluationViewModel()
         {
             BehavioralSkills = new Collection<BehavioralSkill>();
+            AxisList = new Collection<Axis>();
         }
     }
 }

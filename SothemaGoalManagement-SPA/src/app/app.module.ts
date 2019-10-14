@@ -57,7 +57,7 @@ import { StrategyNewComponent } from './hr/strategies/strategy-new/strategy-new.
 import { StrategyDetailComponent } from './hr/strategies/strategy-detail/strategy-detail.component';
 import { StrategyEditModalComponent } from './hr/strategies/strategy-edit-modal/strategy-edit-modal.component';
 import { StrategyAxisComponent } from './hr/strategies/strategy-axis/strategy-axis.component';
-import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver.';
+import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver';
 import { ResetPasswordComponent } from './collaborators/reset-password/reset-password.component';
 import { ForgetPasswordComponent } from './collaborators/forget-password/forget-password.component';
 import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
@@ -81,7 +81,10 @@ import { EvaluationHrDetailComponent } from './hr/evaluations/evaluation-hr-deta
 import { HrFilterCreateActionsComponent } from './hr/hr-filter-create-actions/hr-filter-create-actions.component';
 import { AdminFilterActionsComponent } from './admin/admin-filter-actions/admin-filter-actions.component';
 import { LayoutService } from './_services/layout.service';
-import { EvaluationHrDetailResolver } from './_resolvers/evaluation-hr-detail.resolver.';
+import { EvaluationHrDetailResolver } from './_resolvers/evaluation-hr-detail.resolver';
+import { EvaluationFileInstanceHrListComponent } from './hr/evaluations/evaluation-file-instance-hr-list/evaluation-file-instance-hr-list.component';
+import { EvaluationFileInstanceHrItemComponent } from './hr/evaluations/evaluation-file-instance-hr-item/evaluation-file-instance-hr-item.component';
+import { EvaluationFileInstanceHrCardComponent } from './hr/evaluations/evaluation-file-instance-hr-card/evaluation-file-instance-hr-card.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -135,7 +138,10 @@ export function tokenGetter() {
     EvaluationHrNewComponent,
     EvaluationHrDetailComponent,
     HrFilterCreateActionsComponent,
-    AdminFilterActionsComponent
+    AdminFilterActionsComponent,
+    EvaluationFileInstanceHrListComponent,
+    EvaluationFileInstanceHrCardComponent,
+    EvaluationFileInstanceHrItemComponent
   ],
   imports: [
     BrowserModule,

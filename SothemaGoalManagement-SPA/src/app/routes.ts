@@ -16,7 +16,7 @@ import { CollaboratorDetailResolver } from './_resolvers/collaborator-detail.res
 import { CollaboratorDetailComponent } from './collaborators/collaborator-detail/collaborator-detail.component';
 import { StrategyListResolver } from './_resolvers/strategy-list.resolver';
 import { StrategyDetailComponent } from './hr/strategies/strategy-detail/strategy-detail.component';
-import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver.';
+import { StrategyDetailResolver } from './_resolvers/strategy-detail.resolver';
 import { ResetPasswordComponent } from './collaborators/reset-password/reset-password.component';
 import { ForgetPasswordComponent } from './collaborators/forget-password/forget-password.component';
 import { ProfileEditComponent } from './collaborators/profile-edit/profile-edit.component';
@@ -24,7 +24,7 @@ import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
 import { BehavioralSkillDetailComponent } from './hr/behavioral-skills/behavioral-skill-detail/behavioral-skill-detail.component';
 import { BehavioralSkillDetailResolver } from './_resolvers/behavioral-skill-detail.resolver.';
 import { EvaluationHrDetailComponent } from './hr/evaluations/evaluation-hr-detail/evaluation-hr-detail.component';
-import { EvaluationHrDetailResolver } from './_resolvers/evaluation-hr-detail.resolver.';
+import { EvaluationHrDetailResolver } from './_resolvers/evaluation-hr-detail.resolver';
 
 
 export const appRoutes: Routes = [
@@ -67,7 +67,7 @@ export const appRoutes: Routes = [
       {
         path: 'evaluationFiles/:id',
         component: EvaluationHrDetailComponent,
-        resolve: { evaluationFile: EvaluationHrDetailResolver }
+        resolve: { resolvedData: EvaluationHrDetailResolver }
       },
       {
         path: 'messages',
