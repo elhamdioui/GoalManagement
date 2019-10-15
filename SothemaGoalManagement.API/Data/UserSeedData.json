@@ -1,4 +1,5 @@
 [{
+        "EmployeeNumber": "123456789",
         "Username": "Roy.Papa@gmail.com",
         "Email": "Roy.Papa@gmail.com",
         "FirstName": "Roy",
@@ -13,6 +14,7 @@
         }]
     },
     {
+        "EmployeeNumber": "123456780",
         "Username": "Lola.Huber@gmail.com",
         "Email": "Lola.Huber@gmail.com",
         "FirstName": "Lola",
@@ -27,6 +29,7 @@
         }]
     },
     {
+        "EmployeeNumber": "123456781",
         "Username": "admin",
         "Email": "admin@gmail.com",
         "FirstName": "Admin",
