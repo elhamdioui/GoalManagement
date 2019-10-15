@@ -37,6 +37,8 @@ namespace SothemaGoalManagement.API.Models
 
         public ICollection<EvaluatedEvaluator> EvaluatedEvaluators { get; set; }
 
+        public ICollection<EvaluationFileInstance> EvaluationFileInstances { get; set; }
+
         public User()
         {
             Photos = new Collection<Photo>();
@@ -44,6 +46,7 @@ namespace SothemaGoalManagement.API.Models
             MessagesReceived = new Collection<Message>();
             UserRoles = new Collection<UserRole>();
             EvaluatedEvaluators = new Collection<EvaluatedEvaluator>();
+            EvaluationFileInstances = new Collection<EvaluationFileInstance>();
         }
     }
 }
