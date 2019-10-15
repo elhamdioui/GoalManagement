@@ -9,7 +9,7 @@
               newUserForm.get('employeeNumber').touched) ||
               (newUserForm.get('employeeNumber').touched &&
               newUserForm.get('employeeNumber').hasError('employeeNumberIsTaken'))
-          }" class="form-control mb-1" placeholder="Matricule" name="employeeNumber" />
+          }" class="form-control mb-1" placeholder="Matricule" formControlName="employeeNumber" />
     <div class="invalid-feedback" *ngIf="
             newUserForm.get('employeeNumber').touched &&
             newUserForm.get('employeeNumber').hasError('required')
@@ -32,7 +32,7 @@
             newUserForm.get('email').hasError('email')) ||
             (newUserForm.get('email').touched &&
             newUserForm.get('email').hasError('emailIsTaken'))
-          }" type="text" class="form-control mb-1" placeholder="Email" name="email" />
+          }" type="text" class="form-control mb-1" placeholder="Email" formControlName="email" />
     <div class="invalid-feedback" *ngIf="newUserForm.get('email').hasError('required') && newUserForm.get('email').touched">Email est requis</div>
     <div class="invalid-feedback" *ngIf="newUserForm.get('email').hasError('email') && newUserForm.get('email').touched">Email est invalide</div>
     <div class="invalid-feedback" *ngIf="newUserForm.get('email').hasError('emailIsTaken') && newUserForm.get('email').touched">Cet email est déjà pris</div>
@@ -47,7 +47,7 @@
           'is-invalid':
             newUserForm.get('firstName')?.errors &&
             newUserForm.get('firstName').touched
-        }" class="form-control mb-1" placeholder="Prénom" name="firstName" />
+        }" class="form-control mb-1" placeholder="Prénom" formControlName="firstName" />
     <div class="invalid-feedback" *ngIf="
           newUserForm.get('firstName').touched &&
           newUserForm.get('firstName').hasError('required')
@@ -62,7 +62,7 @@
             'is-invalid':
               newUserForm.get('lastName')?.errors &&
               newUserForm.get('lastName').touched
-          }" class="form-control mb-1" placeholder="Nom" name="lastName" />
+          }" class="form-control mb-1" placeholder="Nom" formControlName="lastName" />
     <div class="invalid-feedback" *ngIf="
             newUserForm.get('lastName').touched &&
             newUserForm.get('lastName').hasError('required')
@@ -77,7 +77,7 @@
               'is-invalid':
                 newUserForm.get('title')?.errors &&
                 newUserForm.get('title').touched
-            }" class="form-control mb-1" placeholder="Fonction" name="title" />
+            }" class="form-control mb-1" placeholder="Fonction" formControlName="title" />
     <div class="invalid-feedback" *ngIf="
               newUserForm.get('title').touched &&
               newUserForm.get('title').hasError('required')
@@ -88,7 +88,7 @@
 
   <div class="form-group">
     <label for="userStatusId">Statut: </label>
-    <select class="form-control mb-1" style="width: 200px" id="userStatusId" name="userStatusId">
+    <select class="form-control mb-1" style="width: 200px" id="userStatusId" formControlName="userStatusId">
       <option [ngValue]="null" disabled>Choisissez un statut</option>
       <option *ngFor="let us of userStatusList" [ngValue]="us.id">
         {{ us.name }}
@@ -98,7 +98,7 @@
 
   <div class="form-group">
     <label for="departmentId">Direction: </label>
-    <select class="form-control mb-1" style="width: 200px" id="departmentId" name="departmentId">
+    <select class="form-control mb-1" style="width: 200px" id="departmentId" formControlName="departmentId">
       <option [ngValue]="null" disabled>Choisissez une direction</option>
       <option *ngFor="let dpt of departmentList" [ngValue]="dpt.id">
         {{ dpt.name }}
@@ -112,8 +112,8 @@
             'is-invalid':
               newUserForm.get('recruitmentDate')?.errors &&
               newUserForm.get('recruitmentDate').touched
-          }" class="form-control mb-1" placeholder="Date de recrutement" id="recruitmentDate" name="recruitmentDate" type="text"
-      bsDatepicker [bsConfig]="bsConfig" />
+          }" class="form-control mb-1" placeholder="Date de recrutement" id="recruitmentDate" formControlName="recruitmentDate"
+      type="text" bsDatepicker [bsConfig]="bsConfig" />
     <div class="invalid-feedback" *ngIf="
             newUserForm.get('recruitmentDate').touched &&
             newUserForm.get('recruitmentDate').hasError('required')
