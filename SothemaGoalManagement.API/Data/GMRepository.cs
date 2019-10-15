@@ -62,7 +62,6 @@ namespace SothemaGoalManagement.API.Data
                                 .OrderByDescending(u => u.LastActive)
                                 .AsQueryable();
 
-            users = users.Where(u => u.Id != userParams.UserId);
             if (userParams.DepartmentId > 0)
             {
                 users = users.Where(u => u.DepartmentId == userParams.DepartmentId);
