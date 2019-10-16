@@ -67,6 +67,58 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPost("clone/{ownerId}/{BehavioralSkillId}")]
+        public async Task<IActionResult> CloneBehavioralSkill(int ownerId, int BehavioralSkillId)
+        {
+            var owner = await _repo.GetUser(ownerId, false);
+            if (owner.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+
+            var behavioralSkillFromRepo = await _repo.GetBehavioralSkill(BehavioralSkillId);
+            var newBehavioralSkill = new BehavioralSkillForCreationDto()
+            {
+                Skill = behavioralSkillFromRepo.Skill + " - clone",
+                CreatedById = ownerId,
+                Definition = behavioralSkillFromRepo.Definition,
+                LevelOne = behavioralSkillFromRepo.LevelOne,
+                LevelOneGrade = behavioralSkillFromRepo.LevelOneGrade,
+                LevelOneDescription = behavioralSkillFromRepo.LevelOneDescription,
+                LevelTwo = behavioralSkillFromRepo.LevelTwo,
+                LevelTwoGrade = behavioralSkillFromRepo.LevelTwoGrade,
+                LevelTwoDescription = behavioralSkillFromRepo.LevelTwoDescription,
+                LevelThree = behavioralSkillFromRepo.LevelThree,
+                LevelThreeGrade = behavioralSkillFromRepo.LevelThreeGrade,
+                LevelThreeDescription = behavioralSkillFromRepo.LevelThreeDescription,
+                LevelFour = behavioralSkillFromRepo.LevelFour,
+                LevelFourGrade = behavioralSkillFromRepo.LevelFourGrade,
+                LevelFourDescription = behavioralSkillFromRepo.LevelFourDescription,
+            };
+
+            var behavioralSkill = _mapper.Map<BehavioralSkill>(newBehavioralSkill);
+
+            _repo.Add(behavioralSkill);
+
+            if (await _repo.SaveAll())
+            {
+                return NoContent();
+            }
+            throw new Exception("Le clonage a échoué.");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpDelete("delete/{BehavioralSkillId}")]
+        public async Task<IActionResult> DeleteStrategy(int BehavioralSkillId)
+        {
+            var behavioralSkillFromRepo = await _repo.GetBehavioralSkill(BehavioralSkillId);
+
+            if (behavioralSkillFromRepo == null) return NotFound();
+            if (behavioralSkillFromRepo.Status == Constants.PUBLISHED || behavioralSkillFromRepo.Status == Constants.ARCHIVED) return BadRequest("Vous ne pouvez pas supprimer cette stratégie");
+
+            _repo.Delete(behavioralSkillFromRepo);
+            if (await _repo.SaveAll()) return Ok();
+            return BadRequest("Échoué de supprimer la compétence");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpPut("edit/{createdById}")]
         public async Task<IActionResult> UpdateBehavioralSkill(int createdById, BehavioralSkillForUpdateDto behavioralSkillForUpdateDto)
         {

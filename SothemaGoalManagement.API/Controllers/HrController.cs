@@ -176,7 +176,7 @@ namespace SothemaGoalManagement.API.Controllers
 
             _repo.Delete(strategyFromRepo);
             if (await _repo.SaveAll()) return Ok();
-            return BadRequest("Échoué de supprimer l'evaluateur");
+            return BadRequest("Échoué de supprimer la stratégie");
         }
 
 

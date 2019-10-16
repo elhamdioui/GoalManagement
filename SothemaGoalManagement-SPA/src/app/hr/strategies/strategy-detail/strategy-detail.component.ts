@@ -25,8 +25,7 @@ export class StrategyDetailComponent implements OnInit {
   loading: boolean = false;
   isReadOnly: boolean;
 
-  constructor(private hrService: HrService, private authService: AuthService, private alertify: AlertifyService, private route: ActivatedRoute, private router: Router
-  ) { }
+  constructor(private hrService: HrService, private authService: AuthService, private alertify: AlertifyService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {

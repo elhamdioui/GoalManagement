@@ -18,7 +18,7 @@
             <strong>Statut:</strong>
             <p>{{ behavioralSkill.status }}</p>
           </div>
-           <div *ngIf="behavioralSkill.sealed">
+          <div *ngIf="behavioralSkill.sealed">
             <strong>Date scellée:</strong>
             <p>{{ behavioralSkill.sealedDate | date: 'mediumDate' }}</p>
           </div>
@@ -33,8 +33,14 @@
         </div>
         <div class="card-footer">
           <div class="btn-group d-fles">
-            <button class="btn btn-success w-100" [routerLink]="['/hr']" [queryParams]="{ tab: 1 }">
+            <button class="btn btn-success w-80 mr-1" [routerLink]="['/hr']" [queryParams]="{ tab: 1 }">
               Retour au List
+            </button>
+            <button class="btn btn-secondary w-60 mr-1" (click)="clone()">
+              Coloner
+            </button>
+            <button class="btn btn-danger" (click)="delete()">
+              <i class="fa fa-trash"></i>
             </button>
           </div>
         </div>

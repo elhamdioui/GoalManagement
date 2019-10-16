@@ -119,6 +119,14 @@ export class HrService {
     return this.http.get<BehavioralSkill[]>(`${this.baseUrl}hr/behavioralSkill`, { params });
   }
 
+  cloneBehavioralSkill(ownerId: number, behavioralSkillId: number) {
+    return this.http.post(`${this.baseUrl}hr/behavioralSkill/clone/${ownerId}/${behavioralSkillId}`, {});
+  }
+
+  deleteBehavioralSkill(id: number) {
+    return this.http.delete(`${this.baseUrl}hr/behavioralSkill/delete/${id}`);
+  }
+
   updateBehavioralSkill(createdById: number, behavioralSkill: BehavioralSkill) {
     return this.http.put(`${this.baseUrl}hr/behavioralSkill/edit/${createdById}`, behavioralSkill)
   }
