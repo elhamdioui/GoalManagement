@@ -91,6 +91,18 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPost("generate/{userId}/{evaluationFileId}")]
+        public async Task<IActionResult> CreateEvaluationFileInstance(int userId, int evaluationFileId)
+        {
+            var users = new List<User>();
+            var user = await _repo.GetUser(userId, false);
+            users.Add(user);
+            await GenerateEvaluationFileInstances(evaluationFileId, users);
+
+            throw new Exception("La création de l'évaluation a échouée lors de la sauvegarde..");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpPut("edit/{ownerId}")]
         public async Task<IActionResult> UpdateEvaluationFile(int ownerId, EvaluationFileForUpdateDto evaluationFileForUpdateDto)
         {
@@ -140,7 +152,8 @@ namespace SothemaGoalManagement.API.Controllers
                 if (publishEvaluation)
                 {
                     await PublishEvaluationFile(evaluationFileForUpdateDto.Id);
-                    await GenerateEvaluationFileInstances(evaluationFileForUpdateDto.Id);
+                    var users = await _repo.LoadAllUsers();
+                    await GenerateEvaluationFileInstances(evaluationFileForUpdateDto.Id, users);
                 }
 
                 if (archiveEvaluation)
@@ -230,11 +243,41 @@ namespace SothemaGoalManagement.API.Controllers
             await _repo.SaveAll();
         }
 
-        private async Task GenerateEvaluationFileInstances(int evaluationFileId)
+        private async Task GenerateEvaluationFileInstances(int evaluationFileId, IEnumerable<User> users)
         {
-            var users = await _repo.LoadAllUsers();
-            var evaluationFileFromRepo = await _repo.GetEvaluationFile(evaluationFileId);
+            // Create behavioral skill instances if they don't exist
+            var skillIds = await _repo.GetEvaluationFileBehavioralSkillIds(evaluationFileId);
+            var behavioralSkillInstancesFromRepo = await _repo.GetBehavioralSkillInstancesByBSIds(skillIds);
+            if (behavioralSkillInstancesFromRepo == null || behavioralSkillInstancesFromRepo.Count() == 0)
+            {
+                var behavioralSkillListFromRepo = await _repo.GetBehavioralSkillsByIds(skillIds);
+                foreach (var bs in behavioralSkillListFromRepo)
+                {
+                    var newBehavioralSkillInstance = new BehavioralSkillInstance()
+                    {
+                        Skill = bs.Skill,
+                        Definition = bs.Definition,
+                        LevelOne = bs.LevelOne,
+                        LevelOneDescription = bs.LevelOneDescription,
+                        LevelOneGrade = bs.LevelOneGrade,
+                        LevelTwo = bs.LevelTwo,
+                        LevelTwoDescription = bs.LevelTwoDescription,
+                        LevelTwoGrade = bs.LevelTwoGrade,
+                        LevelThree = bs.LevelThree,
+                        LevelThreeDescription = bs.LevelThreeDescription,
+                        LevelThreeGrade = bs.LevelThreeGrade,
+                        LevelFour = bs.LevelFour,
+                        LevelFourDescription = bs.LevelFourDescription,
+                        LevelFourGrade = bs.LevelFourGrade,
+                        BehavioralSkillId = bs.Id
+                    };
+                    _repo.Add(newBehavioralSkillInstance);
+                }
+                await _repo.SaveAll();
+            }
 
+            // Create for them evaluation file instance foreach user
+            var evaluationFileFromRepo = await _repo.GetEvaluationFile(evaluationFileId);
             foreach (var user in users)
             {
                 var evaluationFileInstance = new EvaluationFileInstance()
@@ -254,10 +297,11 @@ namespace SothemaGoalManagement.API.Controllers
 
             if (await _repo.SaveAll())
             {
+                // Add axis instances to each evaluation file instance which doesn't have them yet
                 var evaluationFileInstances = await _repo.GetEvaluationFileInstancesByEvaluationFileId(evaluationFileId);
                 var axisFromRepo = await _repo.GetAxisListDetailed(evaluationFileFromRepo.StrategyId);
 
-                foreach (var efi in evaluationFileInstances)
+                foreach (var efi in evaluationFileInstances.Where(efi => efi.AxisInstances.Count() == 0))
                 {
                     foreach (var axis in axisFromRepo)
                     {
@@ -284,45 +328,18 @@ namespace SothemaGoalManagement.API.Controllers
 
                 if (await _repo.SaveAll())
                 {
-                    var skillIds = await _repo.GetEvaluationFileBehavioralSkillIds(evaluationFileId);
-                    var behavioralSkillListFromRepo = await _repo.GetBehavioralSkillsByIds(skillIds);
-                    foreach (var bs in behavioralSkillListFromRepo)
+                    // Add behavioral skill instances to each evaluation file instance which doesn't have them yet
+                    behavioralSkillInstancesFromRepo = await _repo.GetBehavioralSkillInstancesByBSIds(skillIds);
+                    foreach (var efi in evaluationFileInstances.Where(efi => efi.BehavioralSkillInstances.Count() == 0))
                     {
-                        var newBehavioralSkillInstance = new BehavioralSkillInstance()
+                        foreach (var bsi in behavioralSkillInstancesFromRepo)
                         {
-                            Skill = bs.Skill,
-                            Definition = bs.Definition,
-                            LevelOne = bs.LevelOne,
-                            LevelOneDescription = bs.LevelOneDescription,
-                            LevelOneGrade = bs.LevelOneGrade,
-                            LevelTwo = bs.LevelTwo,
-                            LevelTwoDescription = bs.LevelTwoDescription,
-                            LevelTwoGrade = bs.LevelTwoGrade,
-                            LevelThree = bs.LevelThree,
-                            LevelThreeDescription = bs.LevelThreeDescription,
-                            LevelThreeGrade = bs.LevelThreeGrade,
-                            LevelFour = bs.LevelFour,
-                            LevelFourDescription = bs.LevelFourDescription,
-                            LevelFourGrade = bs.LevelFourGrade,
-                            BehavioralSkillId = bs.Id
-                        };
-
-                        _repo.Add(newBehavioralSkillInstance);
+                            efi.BehavioralSkillInstances.Add(new EvaluationFileInstanceBehavioralSkillInstance { BehavioralSkillInstance = bsi });
+                        }
                     }
-                    if (await _repo.SaveAll())
+                    if (!await _repo.SaveAll())
                     {
-                        var behavioralSkillInstancesFromRepo = await _repo.GetBehavioralSkillInstancesByBSIds(skillIds);
-                        foreach (var efi in evaluationFileInstances)
-                        {
-                            foreach (var bsi in behavioralSkillInstancesFromRepo)
-                            {
-                                efi.BehavioralSkillInstances.Add(new EvaluationFileInstanceBehavioralSkillInstance { BehavioralSkillInstance = bsi });
-                            }
-                        }
-                        if (!await _repo.SaveAll())
-                        {
-                            throw new Exception("La création de l'association entre l'évaluation et la compétence a échouée lors de la sauvegarde..");
-                        }
+                        throw new Exception("La création de l'association entre l'évaluation et la compétence a échouée lors de la sauvegarde..");
                     }
                 }
             }

@@ -418,7 +418,7 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<EvaluationFile> GetEvaluationFile(int id)
         {
-            return await _context.EvaluationFiles.SingleOrDefaultAsync(ef => ef.Id == id);
+            return await _context.EvaluationFiles.Include(ef => ef.Strategy).SingleOrDefaultAsync(ef => ef.Id == id);
         }
 
         public async Task<EvaluationViewModel> GetEvaluationFileDetail(int id)

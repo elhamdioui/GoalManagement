@@ -35,7 +35,7 @@ export class AdminPanelComponent implements OnInit {
   handleLoadUsers(filters) {
     this.loading = true;
     this.adminService
-      .getUsers(
+      .getUsersWithRoles(
         this.pagination.currentPage,
         this.pagination.itemsPerPage,
         filters

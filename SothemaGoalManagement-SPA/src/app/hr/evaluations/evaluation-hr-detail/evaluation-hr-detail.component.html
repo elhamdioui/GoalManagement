@@ -43,7 +43,7 @@
     <div class="col-sm-8">
       <div class="tab-panel panel-body">
         <tabset class="strategy-tabset" #strategyTabs>
-          <tab heading="Stratégie / Compétences">
+          <tab heading="Composants">
             <div class="container">
               <h4>Stratégie:</h4> {{evaluationFile.strategy.title}}
               <h4>Axes:</h4>
@@ -58,9 +58,14 @@
               </ul>
             </div>
           </tab>
-          <tab heading="Instances de fiche d'évaluation générées">
+          <tab heading="Instances">
             <div class="container">
-              <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList" (actionEvent)="handleAction($event)"></app-evaluation-file-instance-hr-list>
+              <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList"></app-evaluation-file-instance-hr-list>
+            </div>
+          </tab>
+          <tab heading="Générer Instance">
+            <div class="container">
+              <app-evaluation-file-instance-hr-new (actionEvent)="handleAction($event)"></app-evaluation-file-instance-hr-new>
             </div>
           </tab>
           <tab heading="Paramétrages">

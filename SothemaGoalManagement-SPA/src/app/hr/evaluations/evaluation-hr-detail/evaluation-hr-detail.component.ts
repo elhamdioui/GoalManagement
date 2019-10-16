@@ -17,6 +17,7 @@ export class EvaluationHrDetailComponent implements OnInit {
   evaluationFile: EvaluationFile;
   evaluationFileInstanceList: EvaluationFileInstance[];
   loading: boolean;
+
   constructor(private route: ActivatedRoute, private hrService: HrService, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
