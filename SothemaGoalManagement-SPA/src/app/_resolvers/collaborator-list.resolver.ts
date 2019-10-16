@@ -45,7 +45,7 @@ export class CollaboratorListResolver implements Resolve<any> {
       [
         this.adminService.getDepartments(),
         this.adminService.getUserStatus(),
-        this.adminService.getUsers(this.pageNumber, this.pageSize)
+        this.adminService.getUsersWithRoles(this.pageNumber, this.pageSize)
           .pipe(catchError(error => {
             this.alertify.error('Problème lors de la récupération des données des utilisateurs');
             this.router.navigate(['/home']);

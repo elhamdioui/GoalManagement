@@ -532,7 +532,7 @@ namespace SothemaGoalManagement.API.Migrations
                         column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -557,7 +557,7 @@ namespace SothemaGoalManagement.API.Migrations
                         column: x => x.EvaluationFileInstanceId,
                         principalTable: "EvaluationFileInstances",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AxisInstances_Poles_PoleId",
                         column: x => x.PoleId,

@@ -632,7 +632,7 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.EvaluationFileInstance", "EvaluationFileInstance")
                         .WithMany("AxisInstances")
                         .HasForeignKey("EvaluationFileInstanceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SothemaGoalManagement.API.Models.Pole", "Pole")
                         .WithMany()
@@ -716,9 +716,9 @@ namespace SothemaGoalManagement.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SothemaGoalManagement.API.Models.User", "Owner")
-                        .WithMany()
+                        .WithMany("EvaluationFileInstances")
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFileInstanceBehavioralSkillInstance", b =>

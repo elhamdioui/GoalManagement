@@ -108,6 +108,7 @@ namespace SothemaGoalManagement.API.Data
                                       FirstName = user.FirstName,
                                       LastName = user.LastName,
                                       Email = user.Email,
+                                      Title = user.Title,
                                       DepartmentId = user.DepartmentId,
                                       UserStatusId = user.UserStatusId,
                                       Roles = (from userRole in user.UserRoles
