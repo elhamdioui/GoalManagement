@@ -2,8 +2,19 @@
   <p>Pas d'instance de fiche d'evaluation...</p>
 </div>
 
-<div *ngIf="evaluationFileInstanceList?.length > 0" class="row" class="body">
+<!-- <div *ngIf="evaluationFileInstanceList?.length > 0" class="row" class="body">
   <div *ngFor="let evaluationFileInsatnce of evaluationFileInstanceList">
     <app-evaluation-file-instance-hr-card [evaluationFileInsatnce]="evaluationFileInsatnce" (updateUserWeightEvent)="handleUpdateUserWeight($event)"></app-evaluation-file-instance-hr-card>
   </div>
-</div>
+</div> -->
+
+<table *ngIf="evaluationFileInstanceList?.length > 0" class="table table-hover" style="cursor: pointer">
+  <tr>
+    <th style="width: 50%">Titre</th>
+    <th style="width: 50%">Pole</th>
+  </tr>
+  <tr *ngFor="let evaluationFileInsatnce of evaluationFileInstanceList">
+    <td>{{ evaluationFileInsatnce.title }}</td>
+    <td>{{ evaluationFileInsatnce.axisInstances[0].poleName }}</td>
+  </tr>
+</table>

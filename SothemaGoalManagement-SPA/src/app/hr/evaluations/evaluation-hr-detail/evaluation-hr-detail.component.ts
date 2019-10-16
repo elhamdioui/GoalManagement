@@ -27,19 +27,19 @@ export class EvaluationHrDetailComponent implements OnInit {
     });
   }
 
-  handleUpdateUserWeight(axisInstance: AxisInstance) {
-    this.loading = true;
-    this.hrService
-      .updateAxisInstance(this.authService.decodedToken.nameid, axisInstance.id, axisInstance.userWeight)
-      .subscribe(
-        next => {
-          this.loading = false;
-          this.alertify.success('Mise à jour du pondération réussie');
-        },
-        error => {
-          this.loading = false;
-          this.alertify.error(error);
-        }
-      );
-  }
+  // handleUpdateUserWeight(axisInstance: AxisInstance) {
+  //   this.loading = true;
+  //   this.hrService
+  //     .updateAxisInstance(this.authService.decodedToken.nameid, axisInstance.id, axisInstance.userWeight)
+  //     .subscribe(
+  //       next => {
+  //         this.loading = false;
+  //         this.alertify.success('Mise à jour du pondération réussie');
+  //       },
+  //       error => {
+  //         this.loading = false;
+  //         this.alertify.error(error);
+  //       }
+  //     );
+  // }
 }
