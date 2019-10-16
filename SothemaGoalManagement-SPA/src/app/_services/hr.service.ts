@@ -67,6 +67,14 @@ export class HrService {
     return this.http.post(`${this.baseUrl}hr/strategies/new/${ownerId}`, strategy);
   }
 
+  cloneStrategy(ownerId: number, strategyId: number) {
+    return this.http.post(`${this.baseUrl}hr/strategies/clone/${ownerId}/${strategyId}`, {});
+  }
+
+  deleteStrategy(id: number) {
+    return this.http.delete(`${this.baseUrl}hr/strategies/delete/${id}`);
+  }
+
   updateStrategy(ownerId: number, strategy: Strategy) {
     return this.http.put(`${this.baseUrl}hr/strategies/edit/${ownerId}`, strategy);
   }

@@ -15,6 +15,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using System;
 using System.Security.Claims;
+using System.Collections.ObjectModel;
 
 namespace SothemaGoalManagement.API.Controllers
 {
@@ -99,8 +100,85 @@ namespace SothemaGoalManagement.API.Controllers
             }
 
 
-            throw new Exception("La création du stratégie a échouée lors de la sauvegarde..");
+            throw new Exception("La création du stratégie a échouée lors de la sauvegarde.");
         }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPost("strategies/clone/{ownerId}/{stratgeyId}")]
+        public async Task<IActionResult> CloneStrategy(int ownerId, int stratgeyId)
+        {
+            var owner = await _repo.GetUser(ownerId, false);
+            if (owner.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+
+            var strategyFromRepo = await _repo.GetStrategy(stratgeyId);
+            var newStratgey = new StrategyForCreationDto()
+            {
+                Title = strategyFromRepo.Title + " - clone",
+                OwnerId = ownerId,
+                Description = strategyFromRepo.Description,
+            };
+
+            var strategy = _mapper.Map<Strategy>(newStratgey);
+
+            _repo.Add(strategy);
+
+            if (await _repo.SaveAll())
+            {
+                var axisListFromRepo = await _repo.GetAxisListDetailed(stratgeyId);
+
+                foreach (var axis in axisListFromRepo)
+                {
+                    _repo.Add(new Axis
+                    {
+                        Title = axis.Title,
+                        Description = axis.Description,
+                        StrategyId = strategy.Id
+                    });
+                }
+                if (await _repo.SaveAll())
+                {
+                    var newAxisListFromRepo = await _repo.GetAxisList(strategy.Id);
+                    foreach (var newAxis in newAxisListFromRepo)
+                    {
+                        foreach (var axis in axisListFromRepo)
+                        {
+                            if (axis.Title == newAxis.Title)
+                            {
+                                foreach (var ap in axis.AxisPoles)
+                                {
+                                    _repo.Add(new AxisPole
+                                    {
+                                        AxisId = newAxis.Id,
+                                        PoleId = ap.PoleId,
+                                        Weight = ap.Weight
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    if (await _repo.SaveAll())
+                    {
+                        return NoContent();
+                    }
+                }
+            }
+            throw new Exception("Le clonage a échoué.");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpDelete("strategies/delete/{strategyId}")]
+        public async Task<IActionResult> DeleteStrategy(int strategyId)
+        {
+            var strategyFromRepo = await _repo.GetStrategy(strategyId);
+
+            if (strategyFromRepo == null) return NotFound();
+            if (strategyFromRepo.Status == Constants.PUBLISHED || strategyFromRepo.Status == Constants.ARCHIVED) return BadRequest("Vous ne pouvez pas supprimer cette stratégie");
+
+            _repo.Delete(strategyFromRepo);
+            if (await _repo.SaveAll()) return Ok();
+            return BadRequest("Échoué de supprimer l'evaluateur");
+        }
+
 
         [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpPut("strategies/edit/{ownerId}")]

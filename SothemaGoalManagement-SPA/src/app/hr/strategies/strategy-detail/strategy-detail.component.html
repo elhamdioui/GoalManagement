@@ -33,8 +33,14 @@
         </div>
         <div class="card-footer">
           <div class="btn-group d-fles">
-            <button class="btn btn-success w-100" [routerLink]="['/hr']">
+            <button class="btn btn-success w-80 mr-1" [routerLink]="['/hr']">
               Retour au List
+            </button>
+            <button class="btn btn-secondary w-60 mr-1" (click)="clone()">
+              Coloner
+            </button>
+            <button class="btn btn-danger" (click)="delete()">
+              <i class="fa fa-trash"></i>
             </button>
           </div>
         </div>
