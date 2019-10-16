@@ -14,6 +14,8 @@ namespace SothemaGoalManagement.API.Dtos
 
         public string StrategyTitle { get; set; }
 
+        public string OwnerName { get; set; }
+
         public DateTime Created { get; set; }
 
         public ICollection<AxisInstanceToReturnDto> AxisInstances { get; set; }

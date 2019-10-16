@@ -85,6 +85,7 @@ import { EvaluationHrDetailResolver } from './_resolvers/evaluation-hr-detail.re
 import { EvaluationFileInstanceHrListComponent } from './hr/evaluations/evaluation-file-instance-hr-list/evaluation-file-instance-hr-list.component';
 import { EvaluationFileInstanceHrItemComponent } from './hr/evaluations/evaluation-file-instance-hr-item/evaluation-file-instance-hr-item.component';
 import { EvaluationFileInstanceHrCardComponent } from './hr/evaluations/evaluation-file-instance-hr-card/evaluation-file-instance-hr-card.component';
+import { EvaluatorAssignmentComponent } from './collaborators/evaluator-assignment/evaluator-assignment.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -141,7 +142,8 @@ export function tokenGetter() {
     AdminFilterActionsComponent,
     EvaluationFileInstanceHrListComponent,
     EvaluationFileInstanceHrCardComponent,
-    EvaluationFileInstanceHrItemComponent
+    EvaluationFileInstanceHrItemComponent,
+    EvaluatorAssignmentComponent
   ],
   imports: [
     BrowserModule,

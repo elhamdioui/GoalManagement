@@ -96,6 +96,9 @@ namespace SothemaGoalManagement.API.Helpers
             CreateMap<EvaluationFileInstance, EvaluationFileInstanceHrToReturnDto>().ForMember(dest => dest.AxisInstances, opt =>
             {
                 opt.ResolveUsing(u => u.AxisInstances);
+            }).ForMember(dest => dest.OwnerName, opt =>
+            {
+                opt.ResolveUsing(u => u.Owner.FirstName.FullName(u.Owner.LastName));
             });
         }
     }

@@ -36,9 +36,6 @@
             <button class="btn btn-success w-70 mr-1" [routerLink]="['/hr']" [queryParams]="{ tab: 2 }">
               Retour au List
             </button>
-            <button class="btn btn-secondary w-70" *ngIf="evaluationFile.status === 'Publiée'">
-              Générer une fiche d'évaluation
-            </button>
           </div>
         </div>
       </div>
@@ -63,7 +60,7 @@
           </tab>
           <tab heading="Instances de fiche d'évaluation générées">
             <div class="container">
-              <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList"></app-evaluation-file-instance-hr-list>
+              <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList" (actionEvent)="handleAction($event)"></app-evaluation-file-instance-hr-list>
             </div>
           </tab>
           <tab heading="Paramétrages">

@@ -149,16 +149,20 @@ export class HrService {
     return this.http.get<EvaluationFile[]>(`${this.baseUrl}hr/evaluationfile`, { params });
   }
 
-  updateEvaluationFile(ownerId: number, behavioralSkill: any) {
-    return this.http.put(`${this.baseUrl}hr/evaluationfile/edit/${ownerId}`, behavioralSkill)
+  updateEvaluationFile(ownerId: number, evaluationFile: any) {
+    return this.http.put(`${this.baseUrl}hr/evaluationfile/edit/${ownerId}`, evaluationFile)
   }
 
   getEvaluationFile(id: number) {
     return this.http.get<EvaluationFile>(`${this.baseUrl}hr/evaluationfile/${id}`);
   }
 
-  createEvaluationFile(ownerId: number, behavioralSkill: any) {
-    return this.http.post(`${this.baseUrl}hr/evaluationfile/new/${ownerId}`, behavioralSkill);
+  createEvaluationFile(ownerId: number, newEvaluationFile: any) {
+    return this.http.post(`${this.baseUrl}hr/evaluationfile/new/${ownerId}`, newEvaluationFile);
+  }
+
+  generateEvaluationFile(userId: number, evaluationFileId: number) {
+    return this.http.post(`${this.baseUrl}hr/evaluationfile/generate/${userId}/${evaluationFileId}`, {});
   }
 
   getEvaluationFileInstancesByEvaluationFileId(evaluationFileId: number) {

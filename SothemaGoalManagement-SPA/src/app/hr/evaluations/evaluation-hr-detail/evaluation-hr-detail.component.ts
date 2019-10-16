@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { EvaluationFile } from '../../../_models/evaluationFile';
 import { EvaluationFileInstance } from '../../../_models/evaluationFileInstance';
-import { AxisInstance } from '../../../_models/axisInstance';
+import { User } from '../../../_models/user';
 import { HrService } from '../../../_services/hr.service';
 import { AuthService } from '../../../_services/auth.service';
 import { AlertifyService } from '../../../_services/alertify.service';
@@ -27,19 +27,19 @@ export class EvaluationHrDetailComponent implements OnInit {
     });
   }
 
-  // handleUpdateUserWeight(axisInstance: AxisInstance) {
-  //   this.loading = true;
-  //   this.hrService
-  //     .updateAxisInstance(this.authService.decodedToken.nameid, axisInstance.id, axisInstance.userWeight)
-  //     .subscribe(
-  //       next => {
-  //         this.loading = false;
-  //         this.alertify.success('Mise à jour du pondération réussie');
-  //       },
-  //       error => {
-  //         this.loading = false;
-  //         this.alertify.error(error);
-  //       }
-  //     );
-  // }
+  handleAction(user: User) {
+    this.loading = true;
+    this.hrService
+      .generateEvaluationFile(user.id, this.evaluationFile.id)
+      .subscribe(
+        next => {
+          this.loading = false;
+          this.alertify.success('La fiche d\'évaluation a été générée avec succèes');
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
+  }
 }
