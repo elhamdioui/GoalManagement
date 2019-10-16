@@ -443,7 +443,7 @@ namespace SothemaGoalManagement.API.Data
                           }).SingleOrDefaultAsync(ef => ef.Id == id);
         }
 
-        public async Task<IEnumerable<int>> GetEvaluationFileBehavioralSkills(int evaluationFileId)
+        public async Task<IEnumerable<int>> GetEvaluationFileBehavioralSkillIds(int evaluationFileId)
         {
             return await _context.EvaluationFileBehavioralSkills.Where(efbs => efbs.EvaluationFileId == evaluationFileId).Select(efbs => efbs.BehavioralSkillId).ToListAsync();
         }

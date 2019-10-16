@@ -69,7 +69,7 @@ namespace SothemaGoalManagement.API.Data
 
         Task<EvaluationFile> GetEvaluationFile(int id);
 
-        Task<IEnumerable<int>> GetEvaluationFileBehavioralSkills(int evaluationFileId);
+        Task<IEnumerable<int>> GetEvaluationFileBehavioralSkillIds(int evaluationFileId);
 
         Task<EvaluationViewModel> GetEvaluationFileDetail(int id);
 

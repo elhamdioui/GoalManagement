@@ -101,6 +101,11 @@ namespace SothemaGoalManagement.API.Controllers
             var evaluationFileFromRepo = await _repo.GetEvaluationFile(evaluationFileForUpdateDto.Id);
             if (evaluationFileFromRepo == null) return BadRequest("La fiche d'évaluation n'existe pas!");
             if (evaluationFileFromRepo.Sealed && evaluationFileForUpdateDto.Status != Constants.ARCHIVED) return BadRequest("La fiche d'évaluation est scellée!");
+            if (evaluationFileFromRepo.Status != Constants.PUBLISHED && evaluationFileForUpdateDto.Status == Constants.PUBLISHED &&
+                (evaluationFileFromRepo.Strategy.Sealed || await IsBehavioralSkillSealed(evaluationFileFromRepo.Id)))
+            {
+                return BadRequest("Vous ne pouvez pas publier cette fiche d'évaluation car une stratégie ou bien une compétence est déjà associée à une autre fiche d'évaluation.");
+            }
 
             var publishEvaluation = false;
             var archiveEvaluation = false;
@@ -118,14 +123,14 @@ namespace SothemaGoalManagement.API.Controllers
             try
             {
                 await _repo.SaveAll();
-                var efbsFromRepo = await _repo.GetEvaluationFileBehavioralSkills(evaluationFileForUpdateDto.Id);
+                var efbsIdListFromRepo = await _repo.GetEvaluationFileBehavioralSkillIds(evaluationFileForUpdateDto.Id);
                 var selectedBehavioralSkillIds = evaluationFileForUpdateDto.BehavioralSkillIds;
                 selectedBehavioralSkillIds = selectedBehavioralSkillIds ?? new int[] { };
-                foreach (var bsId in selectedBehavioralSkillIds.Except(efbsFromRepo))
+                foreach (var bsId in selectedBehavioralSkillIds.Except(efbsIdListFromRepo))
                 {
                     _repo.Add<EvaluationFileBehavioralSkill>(new EvaluationFileBehavioralSkill { BehavioralSkillId = bsId, EvaluationFileId = evaluationFileFromRepo.Id });
                 }
-                foreach (var bsId in efbsFromRepo.Except(selectedBehavioralSkillIds))
+                foreach (var bsId in efbsIdListFromRepo.Except(selectedBehavioralSkillIds))
                 {
                     _repo.Delete<EvaluationFileBehavioralSkill>(new EvaluationFileBehavioralSkill { BehavioralSkillId = bsId, EvaluationFileId = evaluationFileFromRepo.Id });
                 }
@@ -167,6 +172,19 @@ namespace SothemaGoalManagement.API.Controllers
             throw new Exception("La mise à jour de pondération a échoué lors de la sauvegarde");
         }
 
+        private async Task<bool> IsBehavioralSkillSealed(int evaluationFileId)
+        {
+            var skillIds = await _repo.GetEvaluationFileBehavioralSkillIds(evaluationFileId);
+            var behavioralSkillListFromRepo = await _repo.GetBehavioralSkillsByIds(skillIds);
+            foreach (var behavioralSkill in behavioralSkillListFromRepo)
+            {
+                if (behavioralSkill.Sealed)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         private async Task PublishEvaluationFile(int evaluationFileId)
         {
             var evaluationFileFromRepo = await _repo.GetEvaluationFile(evaluationFileId);
@@ -186,7 +204,7 @@ namespace SothemaGoalManagement.API.Controllers
                 }
             }
 
-            var skillIds = await _repo.GetEvaluationFileBehavioralSkills(evaluationFileId);
+            var skillIds = await _repo.GetEvaluationFileBehavioralSkillIds(evaluationFileId);
             var behavioralSkillListFromRepo = await _repo.GetBehavioralSkillsByIds(skillIds);
             foreach (var behavioralSkill in behavioralSkillListFromRepo)
             {
@@ -203,7 +221,7 @@ namespace SothemaGoalManagement.API.Controllers
             var strategyFromRepo = await _repo.GetStrategy(evaluationFileFromRepo.StrategyId);
             strategyFromRepo.Status = Constants.ARCHIVED;
 
-            var skillIds = await _repo.GetEvaluationFileBehavioralSkills(evaluationFileId);
+            var skillIds = await _repo.GetEvaluationFileBehavioralSkillIds(evaluationFileId);
             var behavioralSkillListFromRepo = await _repo.GetBehavioralSkillsByIds(skillIds);
             foreach (var behavioralSkill in behavioralSkillListFromRepo)
             {
@@ -266,7 +284,7 @@ namespace SothemaGoalManagement.API.Controllers
 
                 if (await _repo.SaveAll())
                 {
-                    var skillIds = await _repo.GetEvaluationFileBehavioralSkills(evaluationFileId);
+                    var skillIds = await _repo.GetEvaluationFileBehavioralSkillIds(evaluationFileId);
                     var behavioralSkillListFromRepo = await _repo.GetBehavioralSkillsByIds(skillIds);
                     foreach (var bs in behavioralSkillListFromRepo)
                     {

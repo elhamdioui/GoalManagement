@@ -47,7 +47,7 @@ export class EvaluationHrNewComponent implements OnInit {
     this.userService.getPublishedStrategies().subscribe(
       (result: Strategy[]) => {
         this.loading = false;
-        this.strategyList = result;
+        this.strategyList = result.filter(r => r.sealed === false);
       },
       error => {
         this.loading = false;
@@ -61,7 +61,7 @@ export class EvaluationHrNewComponent implements OnInit {
     of(this.userService.getPublishedBehavioralSkills().subscribe(
       (result: BehavioralSkill[]) => {
         this.loading = false;
-        this.skillsData = result;
+        this.skillsData = result.filter(r => r.sealed === false);;
         this.addCheckboxes();
       },
       error => {
