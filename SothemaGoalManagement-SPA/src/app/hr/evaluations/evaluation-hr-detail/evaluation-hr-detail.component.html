@@ -33,8 +33,11 @@
         </div>
         <div class="card-footer">
           <div class="btn-group d-fles">
-            <button class="btn btn-success w-100" [routerLink]="['/hr']" [queryParams]="{ tab: 2 }">
+            <button class="btn btn-success w-70 mr-1" [routerLink]="['/hr']" [queryParams]="{ tab: 2 }">
               Retour au List
+            </button>
+            <button class="btn btn-secondary w-70" *ngIf="evaluationFile.status === 'Publiée'">
+              Générer une fiche d'évaluation
             </button>
           </div>
         </div>
