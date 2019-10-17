@@ -52,13 +52,6 @@ export class HrPanelComponent implements OnInit {
     });
   }
 
-  onSelect(event) {
-    if (this.hrTabs.tabs[2].active) {
-      this.loadPublishedBehavioralSkills();
-      this.loadPublishedStratgeies();
-    }
-  }
-
   handleLoadStrategies(filters) {
     this.loading = true;
     this.hrService
@@ -161,7 +154,7 @@ export class HrPanelComponent implements OnInit {
     this.handleLoadStrategies(event.filters);;
   }
 
-  loadPublishedStratgeies() {
+  handleLoadPublishedStratgeies() {
     this.loading = true;
     this.userService.getPublishedStrategies().subscribe(
       (result: Strategy[]) => {
@@ -175,7 +168,7 @@ export class HrPanelComponent implements OnInit {
     );
   }
 
-  loadPublishedBehavioralSkills() {
+  handleLoadPublishedBehavioralSkills() {
     this.loading = true;
     this.userService.getPublishedBehavioralSkills().subscribe(
       (result: BehavioralSkill[]) => {

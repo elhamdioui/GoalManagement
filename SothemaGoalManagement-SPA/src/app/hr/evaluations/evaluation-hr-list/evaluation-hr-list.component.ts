@@ -18,6 +18,8 @@ export class EvaluationHrListComponent implements OnInit {
   @Input() skillList: BehavioralSkill[];
   @Output() loadEvaluationFilesEvent = new EventEmitter<any>();
   @Output() editEvaluationFileEvent = new EventEmitter<any>();
+  @Output() loadPublishedStratgeiesEvent = new EventEmitter<any>();
+  @Output() loadPublishedBehavioralSkillsEvent = new EventEmitter<any>();
   filters: any = {};
   creationMode = false;
   bsModalRef: BsModalRef;
@@ -30,6 +32,8 @@ export class EvaluationHrListComponent implements OnInit {
   ngOnInit() {
     this.dataType = 'evaluationFile';
     this.loadEvaluationFilesEvent.emit(this.filters);
+    this.loadPublishedBehavioralSkillsEvent.emit();
+    this.loadPublishedStratgeiesEvent.emit();
   }
 
   resetFilters() {

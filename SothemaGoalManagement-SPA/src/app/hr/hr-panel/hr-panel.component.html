@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <h2>Panneau de Ressource Humaine</h2>
   <div class="tab-panel">
-    <tabset class="hr-tabset" (click)="onSelect($event)" #hrTabs>
+    <tabset class="hr-tabset" #hrTabs>
       <tab heading="Axes Stratégique" *appHasRole="['HRD', 'HR']">
         <div class="container mt-2">
           <app-strategy-list [statusList]="statusList" [strategies]="strategies" [pagination]="pagination" (pageChangedEvent)="(handlePageChanged($event))"
@@ -20,7 +20,8 @@
       <tab heading="Fiches d'évaluation" *appHasRole="['HRD', 'HR']">
         <div class="container mt-2">
           <app-evaluation-hr-list [statusList]="statusList" [evaluationFiles]="evaluationFiles" [strategyList]="strategyList" [skillList]="skillList"
-            (loadEvaluationFilesEvent)="handleLoadEvaluationFiles($event)" (editEvaluationFileEvent)="handleEditEvaluationFile($event)"></app-evaluation-hr-list>
+            (loadEvaluationFilesEvent)="handleLoadEvaluationFiles($event)" (editEvaluationFileEvent)="handleEditEvaluationFile($event)"
+            (loadPublishedStratgeiesEvent)="handleLoadPublishedStratgeies($event)" (loadPublishedBehavioralSkillsEvent)="handleLoadPublishedBehavioralSkills($event)"></app-evaluation-hr-list>
         </div>
       </tab>
     </tabset>
