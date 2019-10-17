@@ -99,7 +99,7 @@ namespace SothemaGoalManagement.API.Controllers
             users.Add(user);
             await GenerateEvaluationFileInstances(evaluationFileId, users);
 
-            throw new Exception("La création de l'évaluation a échouée lors de la sauvegarde..");
+            return NoContent();
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
