@@ -103,11 +103,5 @@ namespace SothemaGoalManagement.API.Controllers
 
             return Ok(publishedBehavioralSkillsToReturnList);
         }
-
-        [HttpGet("goalCards")]
-        public async Task<IActionResult> GetGoalCards()
-        {
-            return Ok();
-        }
     }
 }

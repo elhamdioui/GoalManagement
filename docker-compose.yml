@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+  nginx:
+    container_name: nginx
+    image: nginx
+    build:
+      context: .
+      dockerfile: .docker/nginx.dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app-network
+  
+  aspnet:
+    container_name: 'goalmanagementapi'
+    image: 'goalmanagementapi'
+    build:
+      context: ./SothemaGoalManagement.API
+      dockerfile: .docker/aspnetcore.production.dockerfile
+    ports:
+     - "5000:5000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
