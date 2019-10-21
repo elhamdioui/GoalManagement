@@ -19,6 +19,7 @@ export class CollaboratorDetailComponent implements OnInit {
   user: User;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
+  loading: boolean;
 
   constructor(
     private route: ActivatedRoute

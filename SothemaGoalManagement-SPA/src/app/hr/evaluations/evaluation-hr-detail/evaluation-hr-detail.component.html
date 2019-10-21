@@ -1,6 +1,6 @@
 <div class="container mt-4">
   <div class="row">
-    <h1>Fiche d'évaluation détail</h1>
+    <h1>Modèle d'évaluation détail</h1>
   </div>
   <div class="row">
     <div class="col-sm-4">
@@ -43,29 +43,45 @@
     <div class="col-sm-8">
       <div class="tab-panel panel-body">
         <tabset class="strategy-tabset" #strategyTabs>
-          <tab heading="Composants">
+          <tab heading="Stratégie">
             <div class="container">
-              <h4>Stratégie:</h4> {{evaluationFile.strategy.title}}
+              <h4> {{evaluationFile.strategy.title}}</h4>
+              <p>{{evaluationFile.strategy.description}}</p>
               <h4>Axes:</h4>
               <ul>
-                <li *ngFor="let axis of evaluationFile.axisList">{{axis.title}}</li>
-              </ul>
-              <h4>Compétence comportementale:</h4>
-              <ul>
-                <li *ngFor="let bs of evaluationFile.behavioralSkills">
-                  {{bs.skill}}
+                <li *ngFor="let axis of evaluationFile.axisList">
+                  {{axis.title}}
+                  <ol>
+                    <li *ngFor="let ap of axis.axisPoles">
+                      {{ap.poleName}}
+                      <span class="badge badge-pill badge-danger">
+                        {{ap.weight}} %
+                      </span>
+                    </li>
+                  </ol>
                 </li>
               </ul>
             </div>
           </tab>
-          <tab heading="Instances">
+          <tab heading="Compétence comportementale">
             <div class="container">
-              <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList"></app-evaluation-file-instance-hr-list>
+              <ul>
+                <li *ngFor="let bs of evaluationFile.behavioralSkills">
+                  {{bs.skill}}
+                  <ol>
+                    <li>{{bs.levelOne}}</li>
+                    <li>{{bs.levelTwo}}</li>
+                    <li>{{bs.levelThree}}</li>
+                    <li>{{bs.levelFour}}</li>
+                  </ol>
+                </li>
+              </ul>
+              <!-- <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList"></app-evaluation-file-instance-hr-list> -->
             </div>
           </tab>
           <tab heading="Générer Instance">
             <div class="container">
-              <app-evaluation-file-instance-hr-new (actionEvent)="handleAction($event)"></app-evaluation-file-instance-hr-new>
+              <app-evaluation-file-instance-hr-new [userStatusList]="userStatusList" (actionEvent)="handleAction($event)"></app-evaluation-file-instance-hr-new>
             </div>
           </tab>
           <tab heading="Paramétrages">

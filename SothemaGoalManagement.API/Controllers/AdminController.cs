@@ -224,9 +224,9 @@ namespace SothemaGoalManagement.API.Controllers
 
         [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpGet("searchEvaluators")]
-        public async Task<IActionResult> SearchEvaluators(string searchTerm)
+        public async Task<IActionResult> SearchEvaluators([FromQuery]UserParams searchParams)
         {
-            var usersFromRepo = await _repo.SerachForUsers(searchTerm);
+            var usersFromRepo = await _repo.SerachForUsers(searchParams.UserToSearch, searchParams.UserStatusId);
 
             var usersToReturn = _mapper.Map<IEnumerable<UserForSearchResultDto>>(usersFromRepo);
             return Ok(usersToReturn);
@@ -241,20 +241,23 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpPost("addEvaluatorToUser/{evaluatedId}/{evaluatorId}")]
-        public async Task<IActionResult> AddEvaluatorToUser(int evaluatedId, int evaluatorId)
+        [HttpPost("addEvaluatorToUser/{evaluatedId}")]
+        public async Task<IActionResult> AddEvaluatorToUser(int evaluatedId, List<int> evaluatorIds)
         {
-            var evaluatedEvaluator = new EvaluatedEvaluator()
+            foreach (var evaluatorId in evaluatorIds)
             {
-                EvaluatedId = evaluatedId,
-                EvaluatorId = evaluatorId,
-                Rank = 1
-            };
+                var evaluatedEvaluator = new EvaluatedEvaluator()
+                {
+                    EvaluatedId = evaluatedId,
+                    EvaluatorId = evaluatorId,
+                    Rank = 1
+                };
 
-            var evaluatedEvaluatorFromRepo = await _repo.GetEvaluatedEvaluator(evaluatedId, evaluatorId);
-            if (evaluatedEvaluatorFromRepo == null)
-            {
-                _repo.Add<EvaluatedEvaluator>(evaluatedEvaluator);
+                var evaluatedEvaluatorFromRepo =  _repo.GetEvaluatedEvaluator(evaluatedId, evaluatorId).Result;
+                if (evaluatedEvaluatorFromRepo == null)
+                {
+                    _repo.Add<EvaluatedEvaluator>(evaluatedEvaluator);
+                }
             }
 
             if (await _repo.SaveAll())
@@ -262,8 +265,7 @@ namespace SothemaGoalManagement.API.Controllers
                 return Ok();
             }
 
-
-            return BadRequest("Failed to remove the roles");
+            return BadRequest("Échec de l'ajout d'évaluateurs");
 
             throw new Exception("La mise à jour de l'evaluateur a échoué lors de la sauvegarde");
         }

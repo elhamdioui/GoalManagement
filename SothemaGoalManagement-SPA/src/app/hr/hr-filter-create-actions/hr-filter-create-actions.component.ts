@@ -27,7 +27,7 @@ export class HrFilterCreateActionsComponent implements OnInit {
         this.labelButton = 'Créer Nouvelle compétence comportementale';
         break;
       case 'evaluationFile':
-        this.labelButton = 'Créer Nouvelle Fiche d\'Evaluation';
+        this.labelButton = 'Créer Nouveau Modèle d\'Evaluation';
         break;
     }
   }

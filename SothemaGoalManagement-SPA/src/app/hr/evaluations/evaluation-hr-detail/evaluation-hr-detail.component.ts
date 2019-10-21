@@ -7,6 +7,8 @@ import { User } from '../../../_models/user';
 import { HrService } from '../../../_services/hr.service';
 import { AuthService } from '../../../_services/auth.service';
 import { AlertifyService } from '../../../_services/alertify.service';
+import { UserStatus } from '../../../_models/userStatus';
+import { AdminService } from '../../../_services/admin.service';
 
 @Component({
   selector: 'app-evaluation-hr-detail',
@@ -17,8 +19,9 @@ export class EvaluationHrDetailComponent implements OnInit {
   evaluationFile: EvaluationFile;
   evaluationFileInstanceList: EvaluationFileInstance[];
   loading: boolean;
+  userStatusList: UserStatus[];
 
-  constructor(private route: ActivatedRoute, private hrService: HrService, private authService: AuthService, private alertify: AlertifyService) { }
+  constructor(private route: ActivatedRoute, private hrService: HrService, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -26,6 +29,8 @@ export class EvaluationHrDetailComponent implements OnInit {
       this.evaluationFile = resolvedData['evaluationFile'];
       this.evaluationFileInstanceList = resolvedData['evaluationFileInstanceList'];
     });
+
+    this.getUserStatus();
   }
 
   handleAction(user: User) {
@@ -42,5 +47,23 @@ export class EvaluationHrDetailComponent implements OnInit {
           this.alertify.error(error);
         }
       );
+  }
+
+  getUserStatus() {
+    if (localStorage.getItem('userStatusList')) {
+      this.userStatusList = JSON.parse(localStorage.getItem('userStatusList'))
+    } else {
+      this.loading = true;
+      this.adminService.getUserStatus().subscribe(
+        (result: UserStatus[]) => {
+          this.loading = false;
+          this.userStatusList = result
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
+    }
   }
 }

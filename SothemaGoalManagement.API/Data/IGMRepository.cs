@@ -14,7 +14,7 @@ namespace SothemaGoalManagement.API.Data
 
         Task<PagedList<object>> GetUsersWithRoles(UserParams userParams);
 
-        Task<IEnumerable<User>> SerachForUsers(string searchTerm);
+        Task<IEnumerable<User>> SerachForUsers(string userToSearch, int userStatusId);
 
         Task<IEnumerable<User>> LoadAllUsers();
 

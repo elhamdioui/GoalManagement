@@ -4,7 +4,7 @@ import { User } from '../../_models/user';
 import { AdminService } from '../../_services/admin.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { Evaluator } from '../../_models/evaluator';
-
+import { UserStatus } from '../../_models/userStatus';
 
 @Component({
   selector: 'app-evaluator-assignment',
@@ -16,6 +16,9 @@ export class EvaluatorAssignmentComponent implements OnInit {
   evaluators: Evaluator[];
   actionLabel: string;
   loading = false;
+  isFirstOpen = false;
+  isSecondOpen = true;
+  userStatusList: UserStatus[];
 
   constructor(private adminService: AdminService,
     private alertify: AlertifyService) { }
@@ -23,22 +26,47 @@ export class EvaluatorAssignmentComponent implements OnInit {
   ngOnInit() {
     this.actionLabel = 'Assigner comme évaluateur';
     this.loadEvaluators();
+    this.getUserStatus();
   }
 
-  handleAction(user: User) {
+  getUserStatus() {
+    if (localStorage.getItem('userStatusList')) {
+      this.userStatusList = JSON.parse(localStorage.getItem('userStatusList'))
+    } else {
+      this.loading = true;
+      this.adminService.getUserStatus().subscribe(
+        (result: UserStatus[]) => {
+          this.loading = false;
+          this.userStatusList = result
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
+    }
+  }
+
+  handleAction(users: User[]) {
     this.loading = true;
-    this.adminService.addEvaluatorToUser(this.evaluated.id, user.id)
+    let userIds = users.map(u => u.id);
+    this.adminService.addEvaluatorToUser(this.evaluated.id, userIds)
       .subscribe(
         () => {
           this.loading = false;
-          let evaluator: Evaluator = {
-            id: user.id,
-            fullName: user.firstName + ' ' + user.lastName,
-            rank: 1,
-            departmentName: user.department.name,
-            title: user.title
-          };
-          this.evaluators.push(evaluator);
+          this.evaluators = users.map(u => {
+            let evaluator: Evaluator = {
+              id: u.id,
+              fullName: u.firstName + ' ' + u.lastName,
+              rank: 1,
+              departmentName: u.department.name,
+              title: u.title
+            };
+            return evaluator;
+          });
+          this.isFirstOpen = false;
+          this.isSecondOpen = true;
+          this.alertify.success('Les évaluateurs ont été ajoutés avec succès');
         },
         error => {
           this.loading = false;

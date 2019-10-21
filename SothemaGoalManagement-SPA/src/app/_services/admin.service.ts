@@ -127,12 +127,18 @@ export class AdminService {
     return this.http.get(`${this.baseUrl}admin/employeeNumberAlreadyExists?employeeNumber=${employeeNumber}`);
   }
 
-  searchEvaluators(searchTerm: string): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl + 'admin/searchEvaluators?searchTerm=' + searchTerm);
+  searchEvaluators(searchTerm: { userToSearch: string, userStatusId: number }): Observable<User[]> {
+    let params = new HttpParams();
+
+    params = params.append('userToSearch', searchTerm.userToSearch);
+    params = params.append('userStatusId', searchTerm.userStatusId.toString());
+
+    return this.http.get<User[]>(this.baseUrl + 'admin/searchEvaluators', { params });
   }
 
-  addEvaluatorToUser(evaluatedId: number, evaluatorId: number) {
-    return this.http.post(`${this.baseUrl}admin/addEvaluatorToUser/${evaluatedId}/${evaluatorId}`, {});
+  addEvaluatorToUser(evaluatedId: number, evaluatorIds: number[]) {
+    console.log('evaluatorIds:', evaluatorIds)
+    return this.http.post(`${this.baseUrl}admin/addEvaluatorToUser/${evaluatedId}`, evaluatorIds);
   }
 
   updateRankOfEvaluator(evaluatedId: number, evaluatorId: number, rank: number) {

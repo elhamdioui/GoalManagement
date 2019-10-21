@@ -288,11 +288,17 @@ namespace SothemaGoalManagement.API.Data
             return await _context.AxisPoles.SingleOrDefaultAsync(ap => ap.AxisId == axisId && ap.PoleId == poleId);
         }
 
-        public async Task<IEnumerable<User>> SerachForUsers(string searchTerm)
+        public async Task<IEnumerable<User>> SerachForUsers(string userToSearch, int userStatusId)
         {
-            return await _context.Users.Include(u => u.Department)
-                                .Where(u => u.FirstName.ToLower().Contains(searchTerm.ToLower()) || u.LastName.ToLower().Contains(searchTerm.ToLower()))
-                                .ToListAsync();
+            var query = _context.Users.Include(u => u.Department).Include(u => u.UserStatus).AsQueryable();
+            if(!string.IsNullOrEmpty(userToSearch)){
+                query = query.Where(u => u.FirstName.ToLower().Contains(userToSearch.ToLower()) || u.LastName.ToLower().Contains(userToSearch.ToLower()));
+            }
+
+            if(userStatusId > 0){
+                query = query.Where(u => u.UserStatusId == userStatusId);
+            }
+            return await query.ToListAsync();
         }
 
         public async Task<IEnumerable<object>> LoadEvaluators(int evaluatedId)
@@ -423,7 +429,10 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<EvaluationViewModel> GetEvaluationFileDetail(int id)
         {
-            return await (from evaluationFile in _context.EvaluationFiles.Include(ef => ef.Strategy).ThenInclude(s => s.AxisList).Include(ef => ef.Owner)
+            return await (from evaluationFile in _context.EvaluationFiles.Include(ef => ef.Strategy)
+                                                                         .ThenInclude(s => s.AxisList)
+                                                                         .ThenInclude(a => a.AxisPoles)
+                                                                         .Include(ef => ef.Owner)
                           select new EvaluationViewModel
                           {
                               Id = evaluationFile.Id,
