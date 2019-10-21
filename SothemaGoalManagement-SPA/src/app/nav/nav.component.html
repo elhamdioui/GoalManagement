@@ -1,42 +1,51 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-primary">
   <div class="container">
     <a class="navbar-brand" [routerLink]="['/home']">Goal Management</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/strategies']">Stratégies</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/user/cards']">Fiches</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" *appHasRole="['HR', 'HRD']">
-        <a class="nav-link" [routerLink]="['/hr']">Ressources Humaines</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/messages']">Messages</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" *appHasRole="['Admin', 'HR']">
-        <a class="nav-link" [routerLink]="['/admin']">Administration</a>
-      </li>
-    </ul>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="['/strategies']">Stratégies</a>
+        </li>
 
-    <div *ngIf="loggedIn()" class="dropdown" dropdown>
-      <span class="mr-1">
-        <img src="{{ photoUrl || '../../assets/user.png' }}" alt="" />
-      </span>
-      <a class="dropdown-toggle text-light" dropdownToggle>
-        Bienvenue {{ authService.currentUser?.firstName }}
-      </a>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="['/user/cards']">Fiches d'évaluation</a>
+        </li>
 
-      <div class="dropdown-menu mt-3" *dropdownMenu>
-        <a class="dropdown-item" [routerLink]="['/profile/edit']">
-          <i class="fa fa-user"></i>Editer le profil</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" [routerLink]="['/requestResetPassword']">
-          <i class="fa fa-key fa-fw"></i>Changer password</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" (click)="logout()">
-          <i class="fa fa-sign-out"></i>Déconnecter</a>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="['/messages']">Messages</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active" *appHasRole="['HR', 'HRD']">
+          <a class="nav-link" [routerLink]="['/hr']">Ressources Humaines</a>
+        </li>
+
+        <li class="nav-item" routerLinkActive="active" *appHasRole="['Admin', 'HR']">
+          <a class="nav-link" [routerLink]="['/admin']">Administration</a>
+        </li>
+      </ul>
+
+      <div *ngIf="loggedIn()" class="dropdown" dropdown>
+        <span class="mr-1">
+          <img src="{{ photoUrl || '../../assets/user.png' }}" alt="" />
+        </span>
+        <a class="dropdown-toggle text-light" dropdownToggle>
+          Bienvenue {{ authService.currentUser?.firstName }}
+        </a>
+
+        <div class="dropdown-menu mt-3" *dropdownMenu>
+          <a class="dropdown-item" [routerLink]="['/profile/edit']">
+            <i class="fa fa-user"></i>Editer le profil</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" [routerLink]="['/requestResetPassword']">
+            <i class="fa fa-key fa-fw"></i>Changer password</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" (click)="logout()">
+            <i class="fa fa-sign-out"></i>Déconnecter</a>
+        </div>
       </div>
     </div>
   </div>
