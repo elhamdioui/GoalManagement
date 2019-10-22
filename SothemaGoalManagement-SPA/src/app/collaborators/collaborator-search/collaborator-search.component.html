@@ -22,7 +22,7 @@
 
   <div class="card-body">
     <div class="float-right mb-1">
-      <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="executeAction()">
+      <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="executeAction()" [disabled]="disableAction()">
         {{actionLabel}}
       </button>
     </div>

@@ -242,7 +242,7 @@ namespace SothemaGoalManagement.API.Controllers
 
         [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpPost("addEvaluatorToUser/{evaluatedId}")]
-        public async Task<IActionResult> AddEvaluatorToUser(int evaluatedId, List<int> evaluatorIds)
+        public async Task<IActionResult> AddEvaluatorToUser(int evaluatedId, IEnumerable<int> evaluatorIds)
         {
             foreach (var evaluatorId in evaluatorIds)
             {
@@ -253,7 +253,7 @@ namespace SothemaGoalManagement.API.Controllers
                     Rank = 1
                 };
 
-                var evaluatedEvaluatorFromRepo =  _repo.GetEvaluatedEvaluator(evaluatedId, evaluatorId).Result;
+                var evaluatedEvaluatorFromRepo = _repo.GetEvaluatedEvaluator(evaluatedId, evaluatorId).Result;
                 if (evaluatedEvaluatorFromRepo == null)
                 {
                     _repo.Add<EvaluatedEvaluator>(evaluatedEvaluator);

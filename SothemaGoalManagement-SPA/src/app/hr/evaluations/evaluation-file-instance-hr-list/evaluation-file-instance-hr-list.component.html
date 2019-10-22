@@ -1,29 +1,38 @@
-<div class="card mt-2">
-  <div class="card-header">
-    <input type="text" placeholder="Filtrer par utilisateurs" [(value)]="values" (keyup)="onKeyUp($event)" />
-  </div>
+<accordion class="panel-body mt-2">
+  <accordion-group heading="Rechercher des utilisateurs" [(isOpen)]="isFirstOpen">
+    <app-collaborator-search [userStatusList]="userStatusList" [actionLabel]="actionLabel" (actionEvent)="handleAction($event)"></app-collaborator-search>
+  </accordion-group>
 
-  <div class="card-body">
+  <accordion-group heading="Fiches d'évaluation générées" [(isOpen)]="isSecondOpen">
     <div class="alert alert-danger mt-3" role="alert" *ngIf="evaluationFileInstanceList?.length === 0">
-      <p>Pas d'instance de fiche d'evaluation pour le moment...</p>
+      Aucune fiche d'évaluateur n'a été générée!
     </div>
 
-    <!-- <div *ngIf="evaluationFileInstanceList?.length > 0" class="row" class="body">
-  <div *ngFor="let evaluationFileInsatnce of evaluationFileInstanceList">
-    <app-evaluation-file-instance-hr-card [evaluationFileInsatnce]="evaluationFileInsatnce" (updateUserWeightEvent)="handleUpdateUserWeight($event)"></app-evaluation-file-instance-hr-card>
-  </div>
-</div> -->
+    <div class="card mt-2">
+      <div class="card-header">
+        <input type="text" placeholder="Filtrer par utilisateurs" [(value)]="values" (keyup)="onKeyUp($event)" />
+      </div>
 
-    <table *ngIf="evaluationFileInstanceList?.length > 0" class="table table-hover  mt-2" style="cursor: pointer">
-      <tr>
-        <th style="width: 30%">Titre</th>
-        <th style="width: 20%">Utilisateur</th>
-        <th style="width: 30%">Pole</th>
-      </tr>
-      <tr *ngFor="let evaluationFileInsatnce of filteredEvaluationFileInstances">
-        <td>{{ evaluationFileInsatnce.title }}</td>
-        <td>{{ evaluationFileInsatnce.ownerName }}</td>
-        <td>{{ evaluationFileInsatnce.axisInstances[0].poleName }}</td>
-      </tr>
-    </table>
-  </div>
+      <div class="card-body">
+        <!-- <div *ngIf="evaluationFileInstanceList?.length > 0" class="row" class="body">
+    <div *ngFor="let evaluationFileInsatnce of evaluationFileInstanceList">
+      <app-evaluation-file-instance-hr-card [evaluationFileInsatnce]="evaluationFileInsatnce" (updateUserWeightEvent)="handleUpdateUserWeight($event)"></app-evaluation-file-instance-hr-card>
+      </div>
+    </div> -->
+
+        <table *ngIf="evaluationFileInstanceList?.length > 0" class="table table-hover  mt-2" style="cursor: pointer">
+          <tr>
+            <th style="width: 30%">Titre</th>
+            <th style="width: 20%">Utilisateur</th>
+            <th style="width: 30%">Pole</th>
+          </tr>
+          <tr *ngFor="let evaluationFileInsatnce of filteredEvaluationFileInstances">
+            <td>{{ evaluationFileInsatnce.title }}</td>
+            <td>{{ evaluationFileInsatnce.ownerName }}</td>
+            <td>{{ evaluationFileInsatnce.axisInstances[0].poleName }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </accordion-group>
+</accordion>

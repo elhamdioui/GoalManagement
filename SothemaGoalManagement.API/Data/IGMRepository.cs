@@ -75,5 +75,7 @@ namespace SothemaGoalManagement.API.Data
 
         Task<IEnumerable<EvaluationFileInstance>> GetEvaluationFileInstancesByEvaluationFileId(int evaluationFileId);
 
+        Task<IEnumerable<User>> GetUsersWithoutInstanceFileEvaluation(int evaluationFileId, IEnumerable<int> userIds);
+
     }
 }

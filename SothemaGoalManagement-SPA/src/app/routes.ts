@@ -67,7 +67,7 @@ export const appRoutes: Routes = [
       {
         path: 'evaluationFiles/:id',
         component: EvaluationHrDetailComponent,
-        resolve: { resolvedData: EvaluationHrDetailResolver }
+        resolve: { evaluationFile: EvaluationHrDetailResolver }
       },
       {
         path: 'messages',

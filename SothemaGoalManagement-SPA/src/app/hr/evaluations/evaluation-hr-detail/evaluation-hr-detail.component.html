@@ -76,12 +76,12 @@
                   </ol>
                 </li>
               </ul>
-              <!-- <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList"></app-evaluation-file-instance-hr-list> -->
             </div>
           </tab>
-          <tab heading="Générer Instance">
+          <tab heading="Fiche d'évaluation">
             <div class="container">
-              <app-evaluation-file-instance-hr-new [userStatusList]="userStatusList" (actionEvent)="handleAction($event)"></app-evaluation-file-instance-hr-new>
+              <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList" [userStatusList]="userStatusList"
+                (actionEvent)="handleAction($event)"></app-evaluation-file-instance-hr-list>
             </div>
           </tab>
           <tab heading="Paramétrages">

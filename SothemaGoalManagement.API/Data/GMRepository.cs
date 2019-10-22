@@ -291,11 +291,13 @@ namespace SothemaGoalManagement.API.Data
         public async Task<IEnumerable<User>> SerachForUsers(string userToSearch, int userStatusId)
         {
             var query = _context.Users.Include(u => u.Department).Include(u => u.UserStatus).AsQueryable();
-            if(!string.IsNullOrEmpty(userToSearch)){
+            if (!string.IsNullOrEmpty(userToSearch))
+            {
                 query = query.Where(u => u.FirstName.ToLower().Contains(userToSearch.ToLower()) || u.LastName.ToLower().Contains(userToSearch.ToLower()));
             }
 
-            if(userStatusId > 0){
+            if (userStatusId > 0)
+            {
                 query = query.Where(u => u.UserStatusId == userStatusId);
             }
             return await query.ToListAsync();
@@ -466,5 +468,12 @@ namespace SothemaGoalManagement.API.Data
                                                         .Where(efi => efi.EvaluationFileId == evaluationFileId).ToListAsync();
         }
 
+        public async Task<IEnumerable<User>> GetUsersWithoutInstanceFileEvaluation(int evaluationFileId, IEnumerable<int> userIds)
+        {
+            return await _context.EvaluationFileInstances.Include(efi => efi.Owner)
+                                                         .Where(efi => efi.EvaluationFileId == evaluationFileId && !userIds.Contains(efi.OwnerId))
+                                                         .Select(efi => efi.Owner)
+                                                         .ToListAsync();
+        }
     }
 }

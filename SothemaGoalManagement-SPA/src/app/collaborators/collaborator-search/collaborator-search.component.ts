@@ -77,4 +77,14 @@ export class CollaboratorSearchComponent implements OnInit {
     this.actionEvent.emit(this.selectedUsers);
 
   }
+
+  disableAction() {
+    if (this.users === undefined) return true;
+    for (var i = 0; i < this.users.length; i++) {
+      if (this.users[i].selected) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

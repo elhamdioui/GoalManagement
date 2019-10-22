@@ -137,7 +137,6 @@ export class AdminService {
   }
 
   addEvaluatorToUser(evaluatedId: number, evaluatorIds: number[]) {
-    console.log('evaluatorIds:', evaluatorIds)
     return this.http.post(`${this.baseUrl}admin/addEvaluatorToUser/${evaluatedId}`, evaluatorIds);
   }
 

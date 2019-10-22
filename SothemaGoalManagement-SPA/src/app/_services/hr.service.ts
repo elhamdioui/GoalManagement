@@ -161,8 +161,8 @@ export class HrService {
     return this.http.post(`${this.baseUrl}hr/evaluationfile/new/${ownerId}`, newEvaluationFile);
   }
 
-  generateEvaluationFile(userId: number, evaluationFileId: number) {
-    return this.http.post(`${this.baseUrl}hr/evaluationfile/generate/${userId}/${evaluationFileId}`, {});
+  generateEvaluationFile(evaluationFileId: number, users: User[]) {
+    return this.http.post(`${this.baseUrl}hr/evaluationfile/generate/${evaluationFileId}`, users);
   }
 
   getEvaluationFileInstancesByEvaluationFileId(evaluationFileId: number) {

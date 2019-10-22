@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+
 import { EvaluationFile } from '../../../_models/evaluationFile';
 import { EvaluationFileInstance } from '../../../_models/evaluationFileInstance';
 import { User } from '../../../_models/user';
@@ -25,28 +26,25 @@ export class EvaluationHrDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      const resolvedData = data['resolvedData'];
-      this.evaluationFile = resolvedData['evaluationFile'];
-      this.evaluationFileInstanceList = resolvedData['evaluationFileInstanceList'];
+      this.evaluationFile = data['evaluationFile'];
+      this.getEvaluationFileInstances();
     });
 
     this.getUserStatus();
   }
 
-  handleAction(user: User) {
+  getEvaluationFileInstances() {
     this.loading = true;
-    this.hrService
-      .generateEvaluationFile(user.id, this.evaluationFile.id)
-      .subscribe(
-        next => {
-          this.loading = false;
-          this.alertify.success('La fiche d\'évaluation a été générée avec succèes');
-        },
-        error => {
-          this.loading = false;
-          this.alertify.error(error);
-        }
-      );
+    this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe(
+      (result: EvaluationFileInstance[]) => {
+        this.loading = false;
+        this.evaluationFileInstanceList = result;
+      },
+      error => {
+        this.loading = false;
+        this.alertify.error(error);
+      }
+    );
   }
 
   getUserStatus() {
@@ -65,5 +63,22 @@ export class EvaluationHrDetailComponent implements OnInit {
         }
       );
     }
+  }
+
+  handleAction(users: User[]) {
+    this.loading = true;
+    this.hrService
+      .generateEvaluationFile(this.evaluationFile.id, users)
+      .subscribe(
+        next => {
+          this.loading = false;
+          this.alertify.success('La fiche d\'évaluation a été générée avec succèes');
+          this.getEvaluationFileInstances();
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
   }
 }
