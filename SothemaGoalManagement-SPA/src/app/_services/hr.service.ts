@@ -172,4 +172,8 @@ export class HrService {
   updateAxisInstance(userId: number, axisInstanceId: number, userWeight: number) {
     return this.http.put(`${this.baseUrl}hr/evaluationfile/axisInstance/edit/${userId}/${axisInstanceId}/${userWeight}`, {})
   }
+
+  deleteEvaluationFileInstance(id: number, userId: number) {
+    return this.http.put(`${this.baseUrl}hr/evaluationFile/evaluationFileInstance/${id}/delete/${userId}`, {});
+  }
 }

@@ -81,7 +81,7 @@
           <tab heading="Fiche d'évaluation">
             <div class="container">
               <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList" [userStatusList]="userStatusList"
-                (actionEvent)="handleAction($event)"></app-evaluation-file-instance-hr-list>
+                (actionEvent)="handleAction($event)" (deleteEvaluationFileInstanceEvent)="handleDeleteEvaluationFileInstance($event)"></app-evaluation-file-instance-hr-list>
             </div>
           </tab>
           <tab heading="Paramétrages">

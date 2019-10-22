@@ -13,6 +13,7 @@ export class EvaluationFileInstanceHrListComponent implements OnInit {
   @Input() evaluationFileInstanceList: EvaluationFileInstance[];
   @Input() userStatusList: UserStatus[];
   @Output() actionEvent = new EventEmitter<User[]>();
+  @Output() deleteEvaluationFileInstanceEvent = new EventEmitter<number>();
   actionLabel: string;
   filteredEvaluationFileInstances: EvaluationFileInstance[];
   values: string = '';
@@ -24,7 +25,6 @@ export class EvaluationFileInstanceHrListComponent implements OnInit {
   ngOnInit() {
     this.actionLabel = 'Générer une fiche d\'évaluation';
     this.filteredEvaluationFileInstances = this.evaluationFileInstanceList;
-    console.log('this.evaluationFileInstanceList:', this.evaluationFileInstanceList);
   }
 
   onKeyUp(event) {
@@ -35,4 +35,9 @@ export class EvaluationFileInstanceHrListComponent implements OnInit {
   handleAction(users: User[]) {
     this.actionEvent.emit(users);
   }
+
+  delete(id: number) {
+    this.deleteEvaluationFileInstanceEvent.emit(id);
+  }
+
 }

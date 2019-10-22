@@ -24,12 +24,18 @@
           <tr>
             <th style="width: 30%">Titre</th>
             <th style="width: 20%">Utilisateur</th>
-            <th style="width: 30%">Pole</th>
+            <th style="width: 25%">Pole</th>
+            <td style="width: 5%"></td>
           </tr>
           <tr *ngFor="let evaluationFileInsatnce of filteredEvaluationFileInstances">
             <td>{{ evaluationFileInsatnce.title }}</td>
             <td>{{ evaluationFileInsatnce.ownerName }}</td>
             <td>{{ evaluationFileInsatnce.axisInstances[0].poleName }}</td>
+            <td>
+              <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="delete(evaluationFileInsatnce.id)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
           </tr>
         </table>
       </div>

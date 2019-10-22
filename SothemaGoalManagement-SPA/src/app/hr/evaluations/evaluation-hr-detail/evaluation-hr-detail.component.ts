@@ -26,8 +26,9 @@ export class EvaluationHrDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      this.evaluationFile = data['evaluationFile'];
-      this.getEvaluationFileInstances();
+      const resolvedData = data['resolvedData'];
+      this.evaluationFile = resolvedData['evaluationFile'];
+      this.evaluationFileInstanceList = resolvedData['evaluationFileInstanceList'];
     });
 
     this.getUserStatus();
@@ -80,5 +81,30 @@ export class EvaluationHrDetailComponent implements OnInit {
           this.alertify.error(error);
         }
       );
+  }
+
+  handleDeleteEvaluationFileInstance(evaluationFileInstanceId) {
+    this.alertify.confirm(
+      'Etes-vous sur de vouloir supprimer cette Fiche d\'évaluation?',
+      () => {
+        this.loading = true;
+        this.hrService
+          .deleteEvaluationFileInstance(evaluationFileInstanceId, this.authService.decodedToken.nameid)
+          .subscribe(
+            () => {
+              this.loading = false;
+              this.evaluationFileInstanceList.splice(
+                this.evaluationFileInstanceList.findIndex(a => a.id === evaluationFileInstanceId),
+                1
+              );
+              this.alertify.success('Ld fiche d\'évaluation a été supprimée');
+            },
+            error => {
+              this.loading = false;
+              this.alertify.error('Impossible de supprimer la diche d\'évaluation');
+            }
+          );
+      }
+    );
   }
 }
