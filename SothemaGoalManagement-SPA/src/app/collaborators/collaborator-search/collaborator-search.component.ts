@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap';
 
 import { User } from '../../_models/user';
 import { AdminService } from '../../_services/admin.service';
@@ -21,8 +22,7 @@ export class CollaboratorSearchComponent implements OnInit {
   selectedAll: any;
   selectedUsers: User[] = [];
 
-  constructor(private adminService: AdminService,
-    private alertify: AlertifyService) { }
+  constructor(private adminService: AdminService, public bsModalRef: BsModalRef, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.searchTerm = { userToSearch: '', userStatusId: 0 };
@@ -76,7 +76,7 @@ export class CollaboratorSearchComponent implements OnInit {
       }
     }
     this.actionEvent.emit(this.selectedUsers);
-
+    this.bsModalRef.hide();
   }
 
   disableAction() {

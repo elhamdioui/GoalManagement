@@ -6,9 +6,11 @@
     <p class="text-muted">{{ evaluator.title }}</p>
     <p class="text-muted">{{ evaluator.departmentName }}</p>
     <p *ngIf="!editing" class="card-text text-center">
-      {{ evaluator.rank }}
+      Rang d'évaluateur:
+      <span class="badge badge-success">{{ evaluator.rank }}</span>
     </p>
     <div *ngIf="editing" class="mb-2">
+      <label>Rang d'évaluateur:</label>
       <input type="number" min="0" max="100" [value]="evaluator.rank" (input)="onRankChange(rank.value)" #rank>
     </div>
     <button class="btn btn-sm" [ngClass]="editing ? 'btn-success' : 'btn-info'" (click)="toggleEdit()">

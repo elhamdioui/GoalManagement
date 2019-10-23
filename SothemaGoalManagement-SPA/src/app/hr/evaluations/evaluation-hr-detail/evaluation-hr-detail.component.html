@@ -3,7 +3,7 @@
     <h1>Détail de modèle d'évaluation</h1>
   </div>
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
       <div class="card">
         <div class="card-body">
           <div>
@@ -34,13 +34,16 @@
         <div class="card-footer">
           <div class="btn-group d-fles">
             <button class="btn btn-success w-70 mr-1" [routerLink]="['/hr']" [queryParams]="{ tab: 2 }">
-              Retour au List
+              Retour
+            </button>
+            <button class="btn btn-secondary w-60 mr-1" (click)="openModal()" [disabled]="evaluationFile.status !== 'Publiée'">
+              Générer
             </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-9">
       <div class="tab-panel panel-body">
         <tabset class="strategy-tabset" #strategyTabs>
           <tab heading="Stratégie">
@@ -79,9 +82,11 @@
             </div>
           </tab>
           <tab heading="Fiche d'évaluation">
-            <div class="container">
-              <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList" [userStatusList]="userStatusList"
-                [isFirstOpen]="isFirstOpen" [isSecondOpen]="isSecondOpen" (actionEvent)="handleAction($event)" (deleteEvaluationFileInstanceEvent)="handleDeleteEvaluationFileInstance($event)"></app-evaluation-file-instance-hr-list>
+            <div class="container" *ngIf="evaluationFileInstanceList.length > 0">
+              <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList" (deleteEvaluationFileInstanceEvent)="handleDeleteEvaluationFileInstance($event)"></app-evaluation-file-instance-hr-list>
+            </div>
+            <div class="alert alert-danger mt-3" role="alert" *ngIf="evaluationFileInstanceList.length === 0">
+              Aucune fiche d'évaluateur n'a été générée!
             </div>
           </tab>
           <tab heading="Paramétrages">

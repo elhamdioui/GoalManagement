@@ -1,10 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { User } from '../../_models/user';
+import { UserStatus } from '../../_models/userStatus';
 import { AdminService } from '../../_services/admin.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { Evaluator } from '../../_models/evaluator';
-import { UserStatus } from '../../_models/userStatus';
+import { CollaboratorSearchComponent } from '../collaborator-search/collaborator-search.component';
 
 @Component({
   selector: 'app-evaluator-assignment',
@@ -14,19 +16,16 @@ import { UserStatus } from '../../_models/userStatus';
 export class EvaluatorAssignmentComponent implements OnInit {
   @Input() evaluated: User;
   evaluators: Evaluator[];
-  actionLabel: string;
   loading = false;
-  isFirstOpen = false;
-  isSecondOpen = true;
+  bsModalRef: BsModalRef;
   userStatusList: UserStatus[];
 
-  constructor(private adminService: AdminService,
+  constructor(private modalService: BsModalService, private adminService: AdminService,
     private alertify: AlertifyService) { }
 
   ngOnInit() {
-    this.actionLabel = 'Assigner comme évaluateur';
-    this.loadEvaluators();
     this.getUserStatus();
+    this.loadEvaluators();
   }
 
   getUserStatus() {
@@ -47,32 +46,28 @@ export class EvaluatorAssignmentComponent implements OnInit {
     }
   }
 
-  handleAction(users: User[]) {
-    this.loading = true;
-    let userIds = users.map(u => u.id);
-    this.adminService.addEvaluatorToUser(this.evaluated.id, userIds)
-      .subscribe(
-        () => {
-          this.loading = false;
-          this.evaluators = users.map(u => {
-            let evaluator: Evaluator = {
-              id: u.id,
-              fullName: u.firstName + ' ' + u.lastName,
-              rank: 1,
-              departmentName: u.department.name,
-              title: u.title
-            };
-            return evaluator;
-          });
-          this.isFirstOpen = false;
-          this.isSecondOpen = true;
-          this.alertify.success('Les évaluateurs ont été ajoutés avec succès');
-        },
-        error => {
-          this.loading = false;
-          this.alertify.error(error);
-        }
-      );
+  openModal(user: User) {
+    const initialState = {
+      userStatusList: this.userStatusList,
+      actionLabel: 'Assigner comme évaluateur'
+    };
+    this.bsModalRef = this.modalService.show(CollaboratorSearchComponent, { initialState, class: 'modal-lg' });
+    this.bsModalRef.content.actionEvent.subscribe((users) => {
+      this.loading = true;
+      let userIds = users.map(u => u.id);
+      this.adminService.addEvaluatorToUser(this.evaluated.id, userIds)
+        .subscribe(
+          () => {
+            this.loading = false;
+            this.loadEvaluators();
+            this.alertify.success('Les évaluateurs ont été ajoutés avec succès');
+          },
+          error => {
+            this.loading = false;
+            this.alertify.error(error);
+          }
+        );
+    });
   }
 
   handleUpdateRankOfEvaluator(event: Evaluator) {

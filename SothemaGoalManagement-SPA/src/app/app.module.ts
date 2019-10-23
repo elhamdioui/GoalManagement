@@ -198,7 +198,8 @@ export function tokenGetter() {
     AxisModalComponent,
     StrategyEditModalComponent,
     BehavioralSkillEditModalComponent,
-    EvaluationHrEditModalComponent
+    EvaluationHrEditModalComponent,
+    CollaboratorSearchComponent
   ],
   bootstrap: [AppComponent]
 })

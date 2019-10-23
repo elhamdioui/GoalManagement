@@ -109,15 +109,33 @@ namespace SothemaGoalManagement.API.Controllers
         public async Task<IActionResult> CreateEvaluationFileInstance(int evaluationFileId, IEnumerable<User> users)
         {
             // Escape users who already have an instance of file evaluation
-            IEnumerable<User> usersWithoutInstance = null;
+            var usersWithoutInstance = new List<User>();
             var userIds = new List<int>();
             foreach (var user in users)
             {
                 userIds.Add(user.Id);
             }
             var usersWithInstance = await _repo.GetUsersWithInstanceFileEvaluation(evaluationFileId, userIds);
-            if (usersWithInstance == null || usersWithInstance.Count() == 0) { usersWithoutInstance = users; }
-            else { usersWithoutInstance = users.Except(usersWithInstance); }
+            if (usersWithInstance == null || usersWithInstance.Count() == 0) { usersWithoutInstance = users.ToList(); }
+            else
+            {
+                foreach (var user in users)
+                {
+                    var alreadyHasAnInstance = false;
+                    foreach (var u in usersWithInstance)
+                    {
+                        if (user.Id == u.Id)
+                        {
+                            alreadyHasAnInstance = true;
+                            break;
+                        }
+                    }
+                    if (!alreadyHasAnInstance)
+                    {
+                        usersWithoutInstance.Add(user);
+                    }
+                }
+            }
 
             // Create behavioral skill instances if they don't exist
             var skillIds = await _repo.GetEvaluationFileBehavioralSkillIds(evaluationFileId);

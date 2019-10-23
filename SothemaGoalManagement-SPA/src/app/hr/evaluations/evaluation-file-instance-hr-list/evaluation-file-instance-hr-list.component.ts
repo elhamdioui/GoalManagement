@@ -11,10 +11,6 @@ import { User } from '../../../_models/user';
 })
 export class EvaluationFileInstanceHrListComponent implements OnInit {
   @Input() evaluationFileInstanceList: EvaluationFileInstance[];
-  @Input() userStatusList: UserStatus[];
-  @Input() isFirstOpen: boolean;
-  @Input() isSecondOpen: Boolean;
-  @Output() actionEvent = new EventEmitter<User[]>();
   @Output() deleteEvaluationFileInstanceEvent = new EventEmitter<number>();
   actionLabel: string;
   filteredEvaluationFileInstances: EvaluationFileInstance[];
@@ -31,10 +27,6 @@ export class EvaluationFileInstanceHrListComponent implements OnInit {
   onKeyUp(event) {
     this.values = event.target.value;
     this.filteredEvaluationFileInstances = this.evaluationFileInstanceList.filter(efi => efi.ownerName.toLowerCase().includes(this.values.toLowerCase()));
-  }
-
-  handleAction(users: User[]) {
-    this.actionEvent.emit(users);
   }
 
   delete(id: number) {

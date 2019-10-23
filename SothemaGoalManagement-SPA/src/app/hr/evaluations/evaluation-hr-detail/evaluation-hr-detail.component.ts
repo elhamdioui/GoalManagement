@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { EvaluationFile } from '../../../_models/evaluationFile';
 import { EvaluationFileInstance } from '../../../_models/evaluationFileInstance';
@@ -9,6 +10,7 @@ import { AuthService } from '../../../_services/auth.service';
 import { AlertifyService } from '../../../_services/alertify.service';
 import { UserStatus } from '../../../_models/userStatus';
 import { AdminService } from '../../../_services/admin.service';
+import { CollaboratorSearchComponent } from '../../../collaborators/collaborator-search/collaborator-search.component';
 
 @Component({
   selector: 'app-evaluation-hr-detail',
@@ -20,10 +22,9 @@ export class EvaluationHrDetailComponent implements OnInit {
   evaluationFileInstanceList: EvaluationFileInstance[] = [];
   loading: boolean;
   userStatusList: UserStatus[];
-  isFirstOpen: boolean = false;
-  isSecondOpen: boolean = true;
+  bsModalRef: BsModalRef;
 
-  constructor(private route: ActivatedRoute, private hrService: HrService, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
+  constructor(private modalService: BsModalService, private route: ActivatedRoute, private hrService: HrService, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.hrService.efiObservableList.subscribe(
@@ -57,25 +58,6 @@ export class EvaluationHrDetailComponent implements OnInit {
     }
   }
 
-  handleAction(users: User[]) {
-    this.loading = true;
-    this.hrService
-      .generateEvaluationFile(this.evaluationFile.id, users)
-      .subscribe(
-        next => {
-          this.loading = false;
-          this.alertify.success('La fiche d\'évaluation a été générée avec succèes');
-          this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe();
-          this.isFirstOpen = false;
-          this.isSecondOpen = true;
-        },
-        error => {
-          this.loading = false;
-          this.alertify.error(error);
-        }
-      );
-  }
-
   handleDeleteEvaluationFileInstance(evaluationFileInstanceId) {
     this.alertify.confirm(
       'Etes-vous sur de vouloir supprimer cette Fiche d\'évaluation?',
@@ -90,6 +72,7 @@ export class EvaluationHrDetailComponent implements OnInit {
               //   this.evaluationFileInstanceList.findIndex(a => a.id === evaluationFileInstanceId),
               //   1
               // );
+              this.evaluationFileInstanceList = [];
               this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe();
               this.alertify.success('La fiche d\'évaluation a été supprimée');
             },
@@ -100,5 +83,30 @@ export class EvaluationHrDetailComponent implements OnInit {
           );
       }
     );
+  }
+
+  openModal(user: User) {
+    const initialState = {
+      userStatusList: this.userStatusList,
+      actionLabel: 'Générer une fiche d\'évaluation'
+    };
+    this.bsModalRef = this.modalService.show(CollaboratorSearchComponent, { initialState, class: 'modal-lg' });
+    this.bsModalRef.content.actionEvent.subscribe((users) => {
+      this.loading = true;
+      this.hrService
+        .generateEvaluationFile(this.evaluationFile.id, users)
+        .subscribe(
+          next => {
+            this.loading = false;
+            this.alertify.success('La fiche d\'évaluation a été générée avec succèes');
+            this.evaluationFileInstanceList = [];
+            this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe();
+          },
+          error => {
+            this.loading = false;
+            this.alertify.error(error);
+          }
+        );
+    });
   }
 }

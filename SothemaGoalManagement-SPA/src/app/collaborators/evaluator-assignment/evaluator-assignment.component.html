@@ -1,26 +1,19 @@
-<accordion class="panel-body">
-  <accordion-group heading="Rechercher des évaluateurs" [(isOpen)]="isFirstOpen">
-    <app-collaborator-search [userStatusList]="userStatusList" [actionLabel]="actionLabel" (actionEvent)="handleAction($event)"></app-collaborator-search>
+<button class="btn btn-secondary w-60 mr-1" (click)="openModal()">
+  Assigner évaluateurs
+</button>
+<div class="alert alert-danger mt-3" role="alert" *ngIf="evaluators?.length === 0">
+  Aucun évaluateur n'a été affecté à {{evaluated.firstName}} {{evaluated.lastName}}!
+</div>
 
-  </accordion-group>
-  <accordion-group heading="Évaluateurs assignés" [(isOpen)]="isSecondOpen">
-
-    <div class="alert alert-danger mt-3" role="alert" *ngIf="evaluators?.length === 0">
-      Aucun évaluateur n'a été affecté à {{evaluated.firstName}} {{evaluated.lastName}}!
-    </div>
-
-    <div class="card mt-3" *ngIf="evaluators?.length > 0">
-      <div class="card-header">
-        Les évaluateurs assignés à {{evaluated.firstName}} {{evaluated.lastName}}:
-      </div>
-      <div class="card-body">
-        <ul>
-          <li class="list-inline-item" *ngFor="let evaluator of evaluators">
-            <app-evaluator [evaluator]="evaluator" (deleteEvaluatorEvent)="handleDeleteEvaluator($event)" (updateRankOfEvaluatorEvent)="handleUpdateRankOfEvaluator($event)"></app-evaluator>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-  </accordion-group>
-</accordion>
+<div class="card mt-3" *ngIf="evaluators?.length > 0">
+  <div class="card-header">
+    Les évaluateurs assignés à {{evaluated.firstName}} {{evaluated.lastName}}:
+  </div>
+  <div class="card-body">
+    <ul>
+      <li class="list-inline-item" *ngFor="let evaluator of evaluators">
+        <app-evaluator [evaluator]="evaluator" (deleteEvaluatorEvent)="handleDeleteEvaluator($event)" (updateRankOfEvaluatorEvent)="handleUpdateRankOfEvaluator($event)"></app-evaluator>
+      </li>
+    </ul>
+  </div>
+</div>
