@@ -1,7 +1,7 @@
 import { BehavioralSkill } from './../_models/behavioralSkill';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { PaginatedResult } from './../_models/pagination';
@@ -165,8 +165,16 @@ export class HrService {
     return this.http.post(`${this.baseUrl}hr/evaluationfile/generate/${evaluationFileId}`, users);
   }
 
+  efiBSList = new BehaviorSubject<EvaluationFileInstance[]>([]);
+  efiObservableList = this.efiBSList.asObservable();
+  changeEfiList(efilist: EvaluationFileInstance[]) {
+    this.efiBSList.next(efilist);
+  }
   getEvaluationFileInstancesByEvaluationFileId(evaluationFileId: number) {
-    return this.http.get<EvaluationFileInstance[]>(`${this.baseUrl}hr/evaluationFile/evaluationFileInstances/${evaluationFileId}`);
+    return this.http.get<EvaluationFileInstance[]>(`${this.baseUrl}hr/evaluationFile/evaluationFileInstances/${evaluationFileId}`)
+      .pipe(map((result: EvaluationFileInstance[]) => {
+        this.changeEfiList(result);
+      }));
   }
 
   updateAxisInstance(userId: number, axisInstanceId: number, userWeight: number) {

@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -18,35 +17,26 @@ import { AdminService } from '../../../_services/admin.service';
 })
 export class EvaluationHrDetailComponent implements OnInit {
   evaluationFile: EvaluationFile;
-  efiObservable$: Observable<EvaluationFileInstance[]>;
   evaluationFileInstanceList: EvaluationFileInstance[] = [];
   loading: boolean;
   userStatusList: UserStatus[];
+  isFirstOpen: boolean = false;
+  isSecondOpen: boolean = true;
 
   constructor(private route: ActivatedRoute, private hrService: HrService, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
+    this.hrService.efiObservableList.subscribe(
+      efiList => {
+        (this.evaluationFileInstanceList = efiList)
+      }
+    );
     this.route.data.subscribe(data => {
       this.evaluationFile = data['evaluationFile'];
-      this.efiObservable$ = this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id);
+      this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe();
     });
 
     this.getUserStatus();
-    this.getEvaluationFileInstances();
-  }
-
-  getEvaluationFileInstances() {
-    this.loading = true;
-    this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe(
-      (result: EvaluationFileInstance[]) => {
-        this.loading = false;
-        this.evaluationFileInstanceList = result
-      },
-      error => {
-        this.loading = false;
-        this.alertify.error(error);
-      }
-    );
   }
 
   getUserStatus() {
@@ -68,7 +58,6 @@ export class EvaluationHrDetailComponent implements OnInit {
   }
 
   handleAction(users: User[]) {
-    console.log('users:', users);
     this.loading = true;
     this.hrService
       .generateEvaluationFile(this.evaluationFile.id, users)
@@ -76,7 +65,10 @@ export class EvaluationHrDetailComponent implements OnInit {
         next => {
           this.loading = false;
           this.alertify.success('La fiche d\'évaluation a été générée avec succèes');
-          this.getEvaluationFileInstances();
+          this.evaluationFileInstanceList = [];
+          this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe();
+          this.isFirstOpen = false;
+          this.isSecondOpen = true;
         },
         error => {
           this.loading = false;
@@ -95,10 +87,12 @@ export class EvaluationHrDetailComponent implements OnInit {
           .subscribe(
             () => {
               this.loading = false;
-              this.evaluationFileInstanceList.splice(
-                this.evaluationFileInstanceList.findIndex(a => a.id === evaluationFileInstanceId),
-                1
-              );
+              // this.evaluationFileInstanceList.splice(
+              //   this.evaluationFileInstanceList.findIndex(a => a.id === evaluationFileInstanceId),
+              //   1
+              // );
+              this.evaluationFileInstanceList = [];
+              this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe();
               this.alertify.success('Ld fiche d\'évaluation a été supprimée');
             },
             error => {

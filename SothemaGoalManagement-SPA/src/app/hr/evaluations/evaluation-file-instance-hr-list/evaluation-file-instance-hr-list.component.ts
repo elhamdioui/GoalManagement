@@ -12,13 +12,14 @@ import { User } from '../../../_models/user';
 export class EvaluationFileInstanceHrListComponent implements OnInit {
   @Input() evaluationFileInstanceList: EvaluationFileInstance[];
   @Input() userStatusList: UserStatus[];
+  @Input() isFirstOpen: boolean;
+  @Input() isSecondOpen: Boolean;
   @Output() actionEvent = new EventEmitter<User[]>();
   @Output() deleteEvaluationFileInstanceEvent = new EventEmitter<number>();
   actionLabel: string;
   filteredEvaluationFileInstances: EvaluationFileInstance[];
   values: string = '';
-  isFirstOpen = false;
-  isSecondOpen = true;
+
 
   constructor() { }
 

@@ -79,13 +79,10 @@
             </div>
           </tab>
           <tab heading="Fiche d'évaluation">
-            <div class="container" *ngIf="(efiObservable$ | async) as evaluationFileInstanceList; else loading">
+            <div class="container">
               <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList" [userStatusList]="userStatusList"
-                (actionEvent)="handleAction($event)" (deleteEvaluationFileInstanceEvent)="handleDeleteEvaluationFileInstance($event)"></app-evaluation-file-instance-hr-list>
+                [isFirstOpen]="isFirstOpen" [isSecondOpen]="isSecondOpen" (actionEvent)="handleAction($event)" (deleteEvaluationFileInstanceEvent)="handleDeleteEvaluationFileInstance($event)"></app-evaluation-file-instance-hr-list>
             </div>
-            <ng-template #loading>
-              Loading stuff...
-            </ng-template>
           </tab>
           <tab heading="Paramétrages">
             Paramétrage
