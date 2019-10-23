@@ -127,13 +127,13 @@ export class AdminService {
     return this.http.get(`${this.baseUrl}admin/employeeNumberAlreadyExists?employeeNumber=${employeeNumber}`);
   }
 
-  searchEvaluators(searchTerm: { userToSearch: string, userStatusId: number }): Observable<User[]> {
+  searchUsers(searchTerm: { userToSearch: string, userStatusId: number }): Observable<User[]> {
     let params = new HttpParams();
 
     params = params.append('userToSearch', searchTerm.userToSearch);
     params = params.append('userStatusId', searchTerm.userStatusId.toString());
 
-    return this.http.get<User[]>(this.baseUrl + 'admin/searchEvaluators', { params });
+    return this.http.get<User[]>(this.baseUrl + 'admin/searchUsers', { params });
   }
 
   addEvaluatorToUser(evaluatedId: number, evaluatorIds: number[]) {

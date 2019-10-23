@@ -52,7 +52,7 @@ export class CollaboratorSearchComponent implements OnInit {
 
   searchUsers() {
     this.loading = true;
-    this.adminService.searchEvaluators(this.searchTerm).subscribe(users => {
+    this.adminService.searchUsers(this.searchTerm).subscribe(users => {
       this.users = users;
       this.loading = false;
       if (this.users.length === 0) {

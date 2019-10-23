@@ -223,8 +223,8 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpGet("searchEvaluators")]
-        public async Task<IActionResult> SearchEvaluators([FromQuery]UserParams searchParams)
+        [HttpGet("searchUsers")]
+        public async Task<IActionResult> searchUsers([FromQuery]UserParams searchParams)
         {
             var usersFromRepo = await _repo.SerachForUsers(searchParams.UserToSearch, searchParams.UserStatusId);
 
