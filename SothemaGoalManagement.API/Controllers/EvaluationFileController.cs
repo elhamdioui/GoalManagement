@@ -110,8 +110,13 @@ namespace SothemaGoalManagement.API.Controllers
         {
             // Escape users who already have an instance of file evaluation
             IEnumerable<User> usersWithoutInstance = null;
-            var usersWithInstance = await _repo.GetUsersWithInstanceFileEvaluation(evaluationFileId, users.Select(u => u.Id));
-            if (usersWithInstance == null) { usersWithoutInstance = usersWithInstance; }
+            var userIds = new List<int>();
+            foreach (var user in users)
+            {
+                userIds.Add(user.Id);
+            }
+            var usersWithInstance = await _repo.GetUsersWithInstanceFileEvaluation(evaluationFileId, userIds);
+            if (usersWithInstance == null || usersWithInstance.Count() == 0) { usersWithoutInstance = users; }
             else { usersWithoutInstance = users.Except(usersWithInstance); }
 
             // Create behavioral skill instances if they don't exist
@@ -170,7 +175,8 @@ namespace SothemaGoalManagement.API.Controllers
                 var evaluationFileInstances = await _repo.GetEvaluationFileInstancesByEvaluationFileId(evaluationFileId);
                 var axisFromRepo = await _repo.GetAxisListDetailed(evaluationFileFromRepo.StrategyId);
 
-                foreach (var efi in evaluationFileInstances.Where(efi => efi.AxisInstances.Count() == 0))
+                var evaluationFileInstancesToProcess = evaluationFileInstances.Where(efi => efi.AxisInstances.Count() == 0).ToList();
+                foreach (var efi in evaluationFileInstancesToProcess)
                 {
                     foreach (var axis in axisFromRepo)
                     {
@@ -199,7 +205,7 @@ namespace SothemaGoalManagement.API.Controllers
                 {
                     // Add behavioral skill instances to each evaluation file instance which doesn't have them yet
                     behavioralSkillInstancesFromRepo = await _repo.GetBehavioralSkillInstancesByBSIds(skillIds);
-                    foreach (var efi in evaluationFileInstances.Where(efi => efi.BehavioralSkillInstances.Count() == 0))
+                    foreach (var efi in evaluationFileInstancesToProcess)
                     {
                         foreach (var bsi in behavioralSkillInstancesFromRepo)
                         {

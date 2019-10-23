@@ -162,6 +162,7 @@ export class HrService {
   }
 
   generateEvaluationFile(evaluationFileId: number, users: User[]) {
+    console.log('users: ', users);
     return this.http.post(`${this.baseUrl}hr/evaluationfile/generate/${evaluationFileId}`, users);
   }
 

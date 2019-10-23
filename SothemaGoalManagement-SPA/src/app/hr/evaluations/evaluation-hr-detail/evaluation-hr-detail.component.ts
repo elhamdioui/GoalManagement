@@ -65,7 +65,6 @@ export class EvaluationHrDetailComponent implements OnInit {
         next => {
           this.loading = false;
           this.alertify.success('La fiche d\'évaluation a été générée avec succèes');
-          this.evaluationFileInstanceList = [];
           this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe();
           this.isFirstOpen = false;
           this.isSecondOpen = true;
@@ -91,9 +90,8 @@ export class EvaluationHrDetailComponent implements OnInit {
               //   this.evaluationFileInstanceList.findIndex(a => a.id === evaluationFileInstanceId),
               //   1
               // );
-              this.evaluationFileInstanceList = [];
               this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe();
-              this.alertify.success('Ld fiche d\'évaluation a été supprimée');
+              this.alertify.success('La fiche d\'évaluation a été supprimée');
             },
             error => {
               this.loading = false;

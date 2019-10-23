@@ -67,6 +67,7 @@ export class CollaboratorSearchComponent implements OnInit {
   }
 
   executeAction() {
+    this.selectedUsers = [];
     let selectedUser = {} as User;
     for (var i = 0; i < this.users.length; i++) {
       if (this.users[i].selected) {
