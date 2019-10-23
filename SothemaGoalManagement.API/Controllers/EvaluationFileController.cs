@@ -203,7 +203,7 @@ namespace SothemaGoalManagement.API.Controllers
                     {
                         foreach (var bsi in behavioralSkillInstancesFromRepo)
                         {
-                            efi.BehavioralSkillInstances.Add(new EvaluationFileInstanceBehavioralSkillInstance { BehavioralSkillInstance = bsi });
+                            _repo.Add(new EvaluationFileInstanceBehavioralSkillInstance { BehavioralSkillInstance = bsi, EvaluationFileInstance = efi });
                         }
                     }
                     if (!await _repo.SaveAll())

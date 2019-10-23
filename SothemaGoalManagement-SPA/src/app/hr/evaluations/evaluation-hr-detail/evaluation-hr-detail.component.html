@@ -1,6 +1,6 @@
 <div class="container mt-4">
   <div class="row">
-    <h1>Modèle d'évaluation détail</h1>
+    <h1>Détail de modèle d'évaluation</h1>
   </div>
   <div class="row">
     <div class="col-sm-4">
@@ -79,10 +79,13 @@
             </div>
           </tab>
           <tab heading="Fiche d'évaluation">
-            <div class="container">
+            <div class="container" *ngIf="(efiObservable$ | async) as evaluationFileInstanceList; else loading">
               <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList" [userStatusList]="userStatusList"
                 (actionEvent)="handleAction($event)" (deleteEvaluationFileInstanceEvent)="handleDeleteEvaluationFileInstance($event)"></app-evaluation-file-instance-hr-list>
             </div>
+            <ng-template #loading>
+              Loading stuff...
+            </ng-template>
           </tab>
           <tab heading="Paramétrages">
             Paramétrage

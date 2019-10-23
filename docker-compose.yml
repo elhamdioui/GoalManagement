@@ -22,7 +22,7 @@ services:
     ports:
      - "5000:5000"
     environment:
-      DB_CONNECTION_STRING: "host=postgres_image;port=5432;database=blogdb;username=bloguser;password=bloguser"
+      DB_CONNECTION_STRING:  "Server=domain\\server;Database=gmDB;User Id=gm; Password=P@ssw0rd;"
     networks:
       - app-network
   

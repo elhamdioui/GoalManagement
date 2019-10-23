@@ -1,6 +1,6 @@
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 
 import { EvaluationFile } from '../../../_models/evaluationFile';
 import { EvaluationFileInstance } from '../../../_models/evaluationFileInstance';
@@ -18,7 +18,8 @@ import { AdminService } from '../../../_services/admin.service';
 })
 export class EvaluationHrDetailComponent implements OnInit {
   evaluationFile: EvaluationFile;
-  evaluationFileInstanceList: EvaluationFileInstance[];
+  efiObservable$: Observable<EvaluationFileInstance[]>;
+  evaluationFileInstanceList: EvaluationFileInstance[] = [];
   loading: boolean;
   userStatusList: UserStatus[];
 
@@ -26,12 +27,12 @@ export class EvaluationHrDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      const resolvedData = data['resolvedData'];
-      this.evaluationFile = resolvedData['evaluationFile'];
-      this.evaluationFileInstanceList = resolvedData['evaluationFileInstanceList'];
+      this.evaluationFile = data['evaluationFile'];
+      this.efiObservable$ = this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id);
     });
 
     this.getUserStatus();
+    this.getEvaluationFileInstances();
   }
 
   getEvaluationFileInstances() {
@@ -39,7 +40,7 @@ export class EvaluationHrDetailComponent implements OnInit {
     this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe(
       (result: EvaluationFileInstance[]) => {
         this.loading = false;
-        this.evaluationFileInstanceList = result;
+        this.evaluationFileInstanceList = result
       },
       error => {
         this.loading = false;
@@ -67,6 +68,7 @@ export class EvaluationHrDetailComponent implements OnInit {
   }
 
   handleAction(users: User[]) {
+    console.log('users:', users);
     this.loading = true;
     this.hrService
       .generateEvaluationFile(this.evaluationFile.id, users)
