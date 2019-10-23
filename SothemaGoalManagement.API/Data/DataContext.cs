@@ -131,13 +131,13 @@ namespace SothemaGoalManagement.API.Data
 
                 evaluationFileInstanceBehavioralSkillInstance.HasOne(bsi => bsi.BehavioralSkillInstance)
                                             .WithMany(efi => efi.EvaluationFileInstances)
-                                            .OnDelete(DeleteBehavior.Restrict)
+                                            .OnDelete(DeleteBehavior.Cascade)
                                             .HasForeignKey(bsi => bsi.BehavioralSkillInstanceId)
                                             .IsRequired();
 
                 evaluationFileInstanceBehavioralSkillInstance.HasOne(efi => efi.EvaluationFileInstance)
                                             .WithMany(bsi => bsi.BehavioralSkillInstances)
-                                            .OnDelete(DeleteBehavior.Restrict)
+                                            .OnDelete(DeleteBehavior.Cascade)
                                             .HasForeignKey(efi => efi.EvaluationFileInstanceId)
                                             .IsRequired();
             });
@@ -167,7 +167,7 @@ namespace SothemaGoalManagement.API.Data
                 ai.HasOne<EvaluationFileInstance>(u => u.EvaluationFileInstance)
                     .WithMany(o => o.AxisInstances)
                     .HasForeignKey(u => u.EvaluationFileInstanceId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
             });
 

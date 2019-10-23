@@ -557,7 +557,7 @@ namespace SothemaGoalManagement.API.Migrations
                         column: x => x.EvaluationFileInstanceId,
                         principalTable: "EvaluationFileInstances",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AxisInstances_Poles_PoleId",
                         column: x => x.PoleId,
@@ -581,13 +581,13 @@ namespace SothemaGoalManagement.API.Migrations
                         column: x => x.BehavioralSkillInstanceId,
                         principalTable: "BehavioralSkillInstances",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EvaluationFileInstanceBehavioralSkillInstances_EvaluationFileInstances_EvaluationFileInstanceId",
                         column: x => x.EvaluationFileInstanceId,
                         principalTable: "EvaluationFileInstances",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

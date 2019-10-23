@@ -56,16 +56,15 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpPut("evaluationFileInstance/{id}/delete/{userId}")]
+        [HttpDelete("evaluationFileInstance/{id}/delete/{userId}")]
         public async Task<IActionResult> DeleteEvaluationFileInstance(int id, int userId)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
 
             var evaluationFileInstanceFromRepo = await _repo.GetEvaluationFileInstance(id);
-
             if (evaluationFileInstanceFromRepo == null) return NotFound();
-            evaluationFileInstanceFromRepo.Status = Constants.ARCHIVED;
 
+            _repo.Delete(evaluationFileInstanceFromRepo);
             if (await _repo.SaveAll()) return Ok();
             return BadRequest("Échoué de supprimer la fiche d'evaluation");
         }

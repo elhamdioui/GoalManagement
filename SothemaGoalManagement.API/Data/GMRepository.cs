@@ -465,15 +465,14 @@ namespace SothemaGoalManagement.API.Data
                                                         .Include(efi => efi.Owner)
                                                         .ThenInclude(u => u.Department)
                                                         .ThenInclude(d => d.Pole)
-                                                        .Where(efi => efi.EvaluationFileId == evaluationFileId && efi.Status != Constants.ARCHIVED).ToListAsync();
+                                                        .Where(efi => efi.EvaluationFileId == evaluationFileId).ToListAsync();
         }
 
         public async Task<IEnumerable<User>> GetUsersWithInstanceFileEvaluation(int evaluationFileId, IEnumerable<int> userIds)
         {
             return await _context.EvaluationFileInstances.Include(efi => efi.Owner)
                                                          .Where(efi => efi.EvaluationFileId == evaluationFileId &&
-                                                                        userIds.Contains(efi.OwnerId) &&
-                                                                        efi.Status != Constants.ARCHIVED)
+                                                                        userIds.Contains(efi.OwnerId))
                                                          .Select(efi => efi.Owner)
                                                          .ToListAsync();
         }

@@ -174,6 +174,6 @@ export class HrService {
   }
 
   deleteEvaluationFileInstance(id: number, userId: number) {
-    return this.http.put(`${this.baseUrl}hr/evaluationFile/evaluationFileInstance/${id}/delete/${userId}`, {});
+    return this.http.delete(`${this.baseUrl}hr/evaluationFile/evaluationFileInstance/${id}/delete/${userId}`);
   }
 }
