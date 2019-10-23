@@ -42,6 +42,9 @@ export class BehavioralSkillDetailComponent implements OnInit {
         error => {
           this.loading = false;
           this.alertify.error(error);
+        },
+        () => {
+          this.router.navigate(['/hr'], { queryParams: { tab: 1 } });
         }
       );
   }

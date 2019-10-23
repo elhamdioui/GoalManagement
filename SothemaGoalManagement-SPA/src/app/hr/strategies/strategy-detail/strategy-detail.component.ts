@@ -79,6 +79,9 @@ export class StrategyDetailComponent implements OnInit {
         error => {
           this.loading = false;
           this.alertify.error(error);
+        },
+        () => {
+          this.router.navigate(['/hr']);
         }
       );
   }
