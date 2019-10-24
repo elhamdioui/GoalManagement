@@ -85,7 +85,7 @@ export class EvaluationHrDetailComponent implements OnInit {
     );
   }
 
-  openModal(user: User) {
+  openModal() {
     const initialState = {
       userStatusList: this.userStatusList,
       actionLabel: 'Générer une fiche d\'évaluation'

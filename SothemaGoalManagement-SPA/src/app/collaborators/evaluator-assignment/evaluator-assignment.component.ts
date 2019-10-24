@@ -46,7 +46,7 @@ export class EvaluatorAssignmentComponent implements OnInit {
     }
   }
 
-  openModal(user: User) {
+  openModal() {
     const initialState = {
       userStatusList: this.userStatusList,
       actionLabel: 'Assigner comme évaluateur'
