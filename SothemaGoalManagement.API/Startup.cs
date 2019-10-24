@@ -42,6 +42,10 @@ namespace SothemaGoalManagement.API
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                connectionString = Configuration.GetConnectionString("DefaultConnection");
+            }
             services.AddDbContext<DataContext>(x => x.UseSqlServer(connectionString).ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.IncludeIgnoredWarning)));
 
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
