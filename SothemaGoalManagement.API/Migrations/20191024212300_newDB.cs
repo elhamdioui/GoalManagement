@@ -545,7 +545,7 @@ namespace SothemaGoalManagement.API.Migrations
                     Description = table.Column<string>(nullable: true),
                     EvaluationFileInstanceId = table.Column<int>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
-                    PoleId = table.Column<int>(nullable: false),
+                    PoleName = table.Column<string>(nullable: true),
                     PoleWeight = table.Column<int>(nullable: false),
                     UserWeight = table.Column<int>(nullable: false)
                 },
@@ -556,12 +556,6 @@ namespace SothemaGoalManagement.API.Migrations
                         name: "FK_AxisInstances_EvaluationFileInstances_EvaluationFileInstanceId",
                         column: x => x.EvaluationFileInstanceId,
                         principalTable: "EvaluationFileInstances",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AxisInstances_Poles_PoleId",
-                        column: x => x.PoleId,
-                        principalTable: "Poles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -646,11 +640,6 @@ namespace SothemaGoalManagement.API.Migrations
                 name: "IX_AxisInstances_EvaluationFileInstanceId",
                 table: "AxisInstances",
                 column: "EvaluationFileInstanceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AxisInstances_PoleId",
-                table: "AxisInstances",
-                column: "PoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AxisPoles_PoleId",

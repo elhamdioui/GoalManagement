@@ -119,7 +119,7 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<int>("EvaluationFileInstanceId");
 
-                    b.Property<int>("PoleId");
+                    b.Property<string>("PoleName");
 
                     b.Property<int>("PoleWeight");
 
@@ -130,8 +130,6 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EvaluationFileInstanceId");
-
-                    b.HasIndex("PoleId");
 
                     b.ToTable("AxisInstances");
                 });
@@ -632,11 +630,6 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.EvaluationFileInstance", "EvaluationFileInstance")
                         .WithMany("AxisInstances")
                         .HasForeignKey("EvaluationFileInstanceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("SothemaGoalManagement.API.Models.Pole", "Pole")
-                        .WithMany()
-                        .HasForeignKey("PoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
