@@ -10,6 +10,8 @@ namespace SothemaGoalManagement.API.Dtos
 
         public string Title { get; set; }
 
+        public string LastEvaluationFile { get; set; }
+
         public DepartmentToReturnDto Department { get; set; }
 
         public UserStatusToReturnDto UserStatus { get; set; }

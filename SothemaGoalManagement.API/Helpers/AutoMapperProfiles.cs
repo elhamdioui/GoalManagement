@@ -14,7 +14,10 @@ namespace SothemaGoalManagement.API.Helpers
                 opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url);
             });
 
-            CreateMap<User, UserForSearchResultDto>();
+            CreateMap<User, UserForSearchResultDto>().ForMember(dest => dest.LastEvaluationFile, opt =>
+            {
+                opt.MapFrom(src => src.EvaluationFileInstances.OrderByDescending(efi => efi.Year).FirstOrDefault().Title);
+            });
 
             CreateMap<User, UserForDetailDto>().ForMember(dest => dest.PhotoUrl, opt =>
             {
@@ -88,10 +91,7 @@ namespace SothemaGoalManagement.API.Helpers
             CreateMap<EvaluationFileForUpdateDto, EvaluationFile>().ForMember(x => x.BehavioralSkills, opt => opt.Ignore()); ;
 
 
-            CreateMap<AxisInstance, AxisInstanceToReturnDto>().ForMember(dest => dest.PoleName, opt =>
-            {
-                opt.ResolveUsing(u => u.Pole.Name);
-            });
+            CreateMap<AxisInstance, AxisInstanceToReturnDto>();
 
             CreateMap<EvaluationFileInstance, EvaluationFileInstanceHrToReturnDto>().ForMember(dest => dest.AxisInstances, opt =>
             {

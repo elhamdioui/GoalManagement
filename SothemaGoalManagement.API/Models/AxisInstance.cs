@@ -16,9 +16,7 @@ namespace SothemaGoalManagement.API.Models
 
         public DateTime Created { get; set; }
 
-        public int PoleId { get; set; }
-
-        public Pole Pole { get; set; }
+        public string PoleName { get; set; }
 
         public int PoleWeight { get; set; }
 

@@ -10,6 +10,7 @@ export interface User {
   firstName: string;
   lastName: string;
   title: string;
+  lastEvaluationFile: string;
   department: Department;
   userStatus: UserStatus;
   recruitmentDate: Date;

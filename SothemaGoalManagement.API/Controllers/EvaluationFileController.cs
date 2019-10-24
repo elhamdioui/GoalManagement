@@ -207,7 +207,7 @@ namespace SothemaGoalManagement.API.Controllers
                                     Title = axis.Title,
                                     Description = axis.Description,
                                     EvaluationFileInstanceId = efi.Id,
-                                    PoleId = ap.PoleId,
+                                    PoleName = ap.Pole.Name,
                                     PoleWeight = ap.Weight,
                                     UserWeight = ap.Weight,
                                     Created = DateTime.Now

@@ -290,7 +290,7 @@ namespace SothemaGoalManagement.API.Data
 
         public async Task<IEnumerable<User>> SerachForUsers(string userToSearch, int userStatusId)
         {
-            var query = _context.Users.Include(u => u.Department).Include(u => u.UserStatus).AsQueryable();
+            var query = _context.Users.Include(u => u.Department).Include(u => u.UserStatus).Include(u => u.EvaluationFileInstances).AsQueryable();
             if (!string.IsNullOrEmpty(userToSearch))
             {
                 query = query.Where(u => u.FirstName.ToLower().Contains(userToSearch.ToLower()) || u.LastName.ToLower().Contains(userToSearch.ToLower()));
