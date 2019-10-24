@@ -140,6 +140,10 @@ export class AdminService {
     return this.http.post(`${this.baseUrl}admin/addEvaluatorToUser/${evaluatedId}`, evaluatorIds);
   }
 
+  addEvaluateeToUser(evaluatorId: number, evaluateeIds: number[]) {
+    return this.http.post(`${this.baseUrl}admin/addEvaluateeToUser/${evaluatorId}`, evaluateeIds);
+  }
+
   updateRankOfEvaluator(evaluatedId: number, evaluatorId: number, rank: number) {
     return this.http.put(`${this.baseUrl}admin/updateRankOfEvaluator/${evaluatedId}/${evaluatorId}/${rank}`, {});
   }
@@ -148,7 +152,11 @@ export class AdminService {
     return this.http.get<Evaluator[]>(`${this.baseUrl}admin/loadEvaluators/${evaluatedId}`);
   }
 
-  deleteEvaluator(evaluatedId: number, evaluatorId: number) {
-    return this.http.delete(`${this.baseUrl}admin/deleteEvaluator/${evaluatedId}/${evaluatorId}`);
+  loadEvaluatees(evaluatorId: number) {
+    return this.http.get<Evaluator[]>(`${this.baseUrl}admin/loadEvaluatees/${evaluatorId}`);
+  }
+
+  deleteEvaluatorEvaluatee(evaluatedId: number, evaluatorId: number) {
+    return this.http.delete(`${this.baseUrl}admin/deleteEvaluatorEvaluatee/${evaluatedId}/${evaluatorId}`);
   }
 }

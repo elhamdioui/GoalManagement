@@ -16,6 +16,7 @@ import { CollaboratorSearchComponent } from '../collaborator-search/collaborator
 export class EvaluatorAssignmentComponent implements OnInit {
   @Input() evaluated: User;
   evaluators: Evaluator[];
+  evaluatees: Evaluator[];
   loading = false;
   bsModalRef: BsModalRef;
   userStatusList: UserStatus[];
@@ -26,6 +27,7 @@ export class EvaluatorAssignmentComponent implements OnInit {
   ngOnInit() {
     this.getUserStatus();
     this.loadEvaluators();
+    this.loadEvaluatees();
   }
 
   getUserStatus() {
@@ -46,7 +48,7 @@ export class EvaluatorAssignmentComponent implements OnInit {
     }
   }
 
-  openModal() {
+  openModalForEvaluators() {
     const initialState = {
       userStatusList: this.userStatusList,
       actionLabel: 'Assigner comme évaluateur'
@@ -61,6 +63,30 @@ export class EvaluatorAssignmentComponent implements OnInit {
             this.loading = false;
             this.loadEvaluators();
             this.alertify.success('Les évaluateurs ont été ajoutés avec succès');
+          },
+          error => {
+            this.loading = false;
+            this.alertify.error(error);
+          }
+        );
+    });
+  }
+
+  openModalForEvaluatees() {
+    const initialState = {
+      userStatusList: this.userStatusList,
+      actionLabel: 'Assigner comme évalué'
+    };
+    this.bsModalRef = this.modalService.show(CollaboratorSearchComponent, { initialState, class: 'modal-lg' });
+    this.bsModalRef.content.actionEvent.subscribe((users) => {
+      this.loading = true;
+      let userIds = users.map(u => u.id);
+      this.adminService.addEvaluateeToUser(this.evaluated.id, userIds)
+        .subscribe(
+          () => {
+            this.loading = false;
+            this.loadEvaluatees();
+            this.alertify.success('Les évalués ont été ajoutés avec succès');
           },
           error => {
             this.loading = false;
@@ -100,22 +126,59 @@ export class EvaluatorAssignmentComponent implements OnInit {
       );
   }
 
+  loadEvaluatees() {
+    this.loading = true;
+    this.adminService.loadEvaluatees(this.evaluated.id)
+      .subscribe(
+        (evaluatees: Evaluator[]) => {
+          this.loading = false;
+          this.evaluatees = evaluatees;
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
+  }
+
   handleDeleteEvaluator(event: Evaluator) {
     this.alertify.confirm(
-      `Etes-vous sûr de vouloir supprimer l'evaluateur ${event.fullName}?`,
+      `Etes-vous sûr de vouloir supprimer l'évaluateur ${event.fullName}?`,
       () => {
         this.loading = true;
         this.adminService
-          .deleteEvaluator(this.evaluated.id, event.id)
+          .deleteEvaluatorEvaluatee(this.evaluated.id, event.id)
           .subscribe(
             () => {
               this.loading = false;
               this.loadEvaluators();
-              this.alertify.success('L\'evaluateur a été supprimé.');
+              this.alertify.success('L\'évaluateur a été supprimé.');
             },
             error => {
               this.loading = false;
-              this.alertify.error('Échec de la suppression d\'evaluateur.');
+              this.alertify.error('Échec de la suppression d\'évaluateur.');
+            }
+          );
+      }
+    );
+  }
+
+  deleteEvaluatee(evaluatee: Evaluator) {
+    this.alertify.confirm(
+      `Etes-vous sûr de vouloir supprimer l'évalué ${evaluatee.fullName}?`,
+      () => {
+        this.loading = true;
+        this.adminService
+          .deleteEvaluatorEvaluatee(this.evaluated.id, evaluatee.id)
+          .subscribe(
+            () => {
+              this.loading = false;
+              this.loadEvaluatees();
+              this.alertify.success('L\'évalué a été supprimé.');
+            },
+            error => {
+              this.loading = false;
+              this.alertify.error('Échec de la suppression d\'évalué.');
             }
           );
       }

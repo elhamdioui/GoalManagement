@@ -55,6 +55,8 @@ namespace SothemaGoalManagement.API.Data
 
         Task<IEnumerable<object>> LoadEvaluators(int evaluatedId);
 
+        Task<IEnumerable<object>> LoadEvaluatees(int evaluatorId);
+
         Task<EvaluatedEvaluator> GetEvaluatedEvaluator(int evaluatedId, int evaluatorId);
 
         Task<IEnumerable<BehavioralSkill>> GetBehavioralSkillsByIds(IEnumerable<int> ids);

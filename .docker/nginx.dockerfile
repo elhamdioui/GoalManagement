@@ -1,4 +1,5 @@
-FROM nginx:alpine
+#FROM nginx:alpine
+FROM nginx:latest
 
 LABEL author="Elmehdi Aitbrahim"
 

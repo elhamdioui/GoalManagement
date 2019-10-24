@@ -241,6 +241,14 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpGet("loadEvaluatees/{evaluatorId}")]
+        public async Task<IActionResult> LoadEvaluatees(int evaluatorId)
+        {
+            var evaluateesFromRepo = await _repo.LoadEvaluatees(evaluatorId);
+            return Ok(evaluateesFromRepo);
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpPost("addEvaluatorToUser/{evaluatedId}")]
         public async Task<IActionResult> AddEvaluatorToUser(int evaluatedId, IEnumerable<int> evaluatorIds)
         {
@@ -271,6 +279,36 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpPost("addEvaluateeToUser/{evaluatorId}")]
+        public async Task<IActionResult> AddEvaluateeToUser(int evaluatorId, IEnumerable<int> evaluateeIds)
+        {
+            foreach (var evaluateeId in evaluateeIds)
+            {
+                var evaluatedEvaluator = new EvaluatedEvaluator()
+                {
+                    EvaluatedId = evaluateeId,
+                    EvaluatorId = evaluatorId,
+                    Rank = 1
+                };
+
+                var evaluatedEvaluatorFromRepo = _repo.GetEvaluatedEvaluator(evaluateeId, evaluatorId).Result;
+                if (evaluatedEvaluatorFromRepo == null)
+                {
+                    _repo.Add<EvaluatedEvaluator>(evaluatedEvaluator);
+                }
+            }
+
+            if (await _repo.SaveAll())
+            {
+                return Ok();
+            }
+
+            return BadRequest("Échec de l'ajout d'évaluateurs");
+
+            throw new Exception("La mise à jour de l'evaluateur a échoué lors de la sauvegarde");
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpPut("updateRankOfEvaluator/{evaluatedId}/{evaluatorId}/{rank}")]
         public async Task<IActionResult> UpdateRankOfEvaluator(int evaluatedId, int evaluatorId, int rank)
         {
@@ -284,8 +322,8 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpDelete("deleteEvaluator/{evaluatedId}/{evaluatorId}")]
-        public async Task<IActionResult> DeleteEvaluator(int evaluatedId, int evaluatorId)
+        [HttpDelete("deleteEvaluatorEvaluatee/{evaluatedId}/{evaluatorId}")]
+        public async Task<IActionResult> DeleteEvaluatorEvaluatee(int evaluatedId, int evaluatorId)
         {
             var evaluatedEvaluatorFromRepo = await _repo.GetEvaluatedEvaluator(evaluatedId, evaluatorId);
 

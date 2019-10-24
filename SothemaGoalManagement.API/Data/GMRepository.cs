@@ -313,6 +313,25 @@ namespace SothemaGoalManagement.API.Data
                                     {
                                         Id = u.Id,
                                         FullName = u.FirstName + " " + u.LastName,
+                                        Title = u.Title,
+                                        DepartmentName = u.Department.Name,
+                                        Rank = e.Rank
+                                    }).ToListAsync();
+
+            return evaluators;
+        }
+
+        public async Task<IEnumerable<object>> LoadEvaluatees(int evaluatorId)
+        {
+            var evaluators = await (from u in _context.Users.Include(u => u.Department)
+                                    join e in _context.EvaluatedEvaluators
+                                    on u.Id equals e.EvaluatedId
+                                    where e.EvaluatorId == evaluatorId
+                                    select new
+                                    {
+                                        Id = u.Id,
+                                        FullName = u.FirstName + " " + u.LastName,
+                                        Title = u.Title,
                                         DepartmentName = u.Department.Name,
                                         Rank = e.Rank
                                     }).ToListAsync();
