@@ -87,6 +87,7 @@ import { EvaluationFileInstanceHrItemComponent } from './hr/evaluations/evaluati
 import { EvaluationFileInstanceHrCardComponent } from './hr/evaluations/evaluation-file-instance-hr-card/evaluation-file-instance-hr-card.component';
 import { EvaluatorAssignmentComponent } from './collaborators/evaluator-assignment/evaluator-assignment.component';
 import { EvaluationFileInstanceHrNewComponent } from './hr/evaluations/evaluation-file-instance-hr-new/evaluation-file-instance-hr-new.component';
+import { SheetsPanelComponent } from './sheets/sheets-panel/sheets-panel.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -145,7 +146,8 @@ export function tokenGetter() {
     EvaluationFileInstanceHrCardComponent,
     EvaluationFileInstanceHrItemComponent,
     EvaluatorAssignmentComponent,
-    EvaluationFileInstanceHrNewComponent
+    EvaluationFileInstanceHrNewComponent,
+    SheetsPanelComponent
   ],
   imports: [
     BrowserModule,
