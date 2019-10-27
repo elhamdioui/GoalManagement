@@ -3,6 +3,24 @@
     <h2 class="ext-primary">Création d'un modèle d'évaluation</h2>
     <hr />
     <div class="form-group row">
+      <label for="year" class="col-sm-2 col-form-label">Année: </label>
+      <div class="col-sm-5">
+        <input [ngClass]="{
+                          'is-invalid':
+                            newForm.get('year').errors &&
+                            newForm.get('year').touched
+                        }" class="form-control mb-1" placeholder="Année" type="number" min="2019" max="2100" formControlName="year"
+        />
+      </div>
+      <div class="col-sm-5 invalid-feedback" *ngIf="
+                          newForm.get('year').touched &&
+                          newForm.get('year').hasError('required')
+                        ">
+        L'année est requise
+      </div>
+    </div>
+
+    <div class="form-group row">
       <label for="title" class="col-sm-2 col-form-label">Titre: </label>
       <div class="col-sm-5">
         <input [ngClass]="{
@@ -16,24 +34,6 @@
                         newForm.get('title').hasError('required')
                       ">
         Le titre est requis
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="year" class="col-sm-2 col-form-label">Année: </label>
-      <div class="col-sm-5">
-        <input [ngClass]="{
-                        'is-invalid':
-                          newForm.get('year').errors &&
-                          newForm.get('year').touched
-                      }" class="form-control mb-1" placeholder="Année" type="number" min="2019" max="2100" formControlName="year"
-        />
-      </div>
-      <div class="col-sm-5 invalid-feedback" *ngIf="
-                        newForm.get('year').touched &&
-                        newForm.get('year').hasError('required')
-                      ">
-        L'année est requise
       </div>
     </div>
 

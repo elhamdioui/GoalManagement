@@ -13,7 +13,7 @@ import { HrService } from '../../../_services/hr.service';
 })
 export class StrategyDocumentationComponent implements OnInit {
   @Input() strategy: Strategy;
-  @Input() isReadOnly: boolean; 
+  @Input() isReadOnly: boolean;
   @Output() getMemberPhotoChange = new EventEmitter<string>();
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
@@ -30,9 +30,8 @@ export class StrategyDocumentationComponent implements OnInit {
     this.uploader = new FileUploader({
       url:
         this.baseUrl +
-        'hr/strategies/edit/' +
-        this.strategy.id +
-        '/documentation',
+        'hr/strategy/documentation/' +
+        this.strategy.id,
       authToken: 'Bearer ' + localStorage.getItem('token'),
       isHTML5: true,
       allowedFileType: ['pdf'],
@@ -46,6 +45,10 @@ export class StrategyDocumentationComponent implements OnInit {
     };
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
+      console.log('item:', item);
+      console.log('response:', response);
+      console.log('status:', status);
+      console.log('headers:', headers);
       if (response) {
         const res: Strategy = JSON.parse(response);
         this.strategy.documentationUrl = res.documentationUrl;

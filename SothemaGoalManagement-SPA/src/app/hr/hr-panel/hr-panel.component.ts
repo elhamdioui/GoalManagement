@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 
 import { Pagination, PaginatedResult } from '../../_models/pagination';
 import { HrService } from '../../_services/hr.service';
-import { UserService } from '../../_services/user.service';
 import { AuthService } from '../../_services/auth.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { BehavioralSkill } from '../../_models/behavioralSkill';
@@ -30,7 +29,6 @@ export class HrPanelComponent implements OnInit {
   loading = false;
 
   constructor(private route: ActivatedRoute, private hrService: HrService,
-    private userService: UserService,
     private authService: AuthService,
     private alertify: AlertifyService,
     private router: Router) { }
@@ -156,7 +154,7 @@ export class HrPanelComponent implements OnInit {
 
   handleLoadPublishedStratgeies() {
     this.loading = true;
-    this.userService.getPublishedStrategies().subscribe(
+    this.hrService.getPublishedStrategies().subscribe(
       (result: Strategy[]) => {
         this.loading = false;
         this.strategyList = result;
@@ -170,7 +168,7 @@ export class HrPanelComponent implements OnInit {
 
   handleLoadPublishedBehavioralSkills() {
     this.loading = true;
-    this.userService.getPublishedBehavioralSkills().subscribe(
+    this.hrService.getPublishedBehavioralSkills().subscribe(
       (result: BehavioralSkill[]) => {
         this.loading = false;
         this.skillList = result;

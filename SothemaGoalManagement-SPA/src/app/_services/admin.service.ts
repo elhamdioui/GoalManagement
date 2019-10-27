@@ -156,7 +156,11 @@ export class AdminService {
     return this.http.get<Evaluator[]>(`${this.baseUrl}admin/loadEvaluatees/${evaluatorId}`);
   }
 
-  deleteEvaluatorEvaluatee(evaluatedId: number, evaluatorId: number) {
-    return this.http.delete(`${this.baseUrl}admin/deleteEvaluatorEvaluatee/${evaluatedId}/${evaluatorId}`);
+  deleteEvaluator(evaluatorId: number, evaluatedId: number) {
+    return this.http.delete(`${this.baseUrl}admin/deleteEvaluator/${evaluatorId}/${evaluatedId}`);
+  }
+
+  deleteEvaluatee(evaluatedId: number, evaluatorId: number) {
+    return this.http.delete(`${this.baseUrl}admin/deleteEvaluatee/${evaluatedId}/${evaluatorId}`);
   }
 }

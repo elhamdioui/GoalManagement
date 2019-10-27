@@ -17,7 +17,6 @@ import { AuthService } from '../../../_services/auth.service';
 import { EvaluationFile } from '../../../_models/evaluationFile';
 import { Strategy } from '../../../_models/strategy';
 import { BehavioralSkill } from '../../../_models/behavioralSkill';
-import { UserService } from '../../../_services/user.service';
 import { AlertifyService } from '../../../_services/alertify.service';
 
 @Component({
@@ -33,7 +32,7 @@ export class EvaluationHrNewComponent implements OnInit {
   strategyList: Strategy[];
   skillsData: BehavioralSkill[];
 
-  constructor(private fb: FormBuilder, private userService: UserService, private hrService: HrService, private authService: AuthService, private alertify: AlertifyService) {
+  constructor(private fb: FormBuilder, private hrService: HrService, private authService: AuthService, private alertify: AlertifyService) {
   }
 
   ngOnInit() {
@@ -44,7 +43,7 @@ export class EvaluationHrNewComponent implements OnInit {
 
   loadPublishedStratgeies() {
     this.loading = true;
-    this.userService.getPublishedStrategies().subscribe(
+    this.hrService.getPublishedStrategies().subscribe(
       (result: Strategy[]) => {
         this.loading = false;
         this.strategyList = result.filter(r => r.sealed === false);
@@ -58,7 +57,7 @@ export class EvaluationHrNewComponent implements OnInit {
 
   loadPublishedBehavioralSkills() {
     this.loading = true;
-    of(this.userService.getPublishedBehavioralSkills().subscribe(
+    of(this.hrService.getPublishedBehavioralSkills().subscribe(
       (result: BehavioralSkill[]) => {
         this.loading = false;
         this.skillsData = result.filter(r => r.sealed === false);;

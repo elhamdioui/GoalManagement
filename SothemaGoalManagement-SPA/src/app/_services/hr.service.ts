@@ -24,7 +24,7 @@ export class HrService {
   getStrategy(id: number, ownerId) {
     let params = new HttpParams();
     params = params.append('ownerId', ownerId);
-    return this.http.get<Strategy>(`${this.baseUrl}hr/${id}`, { params });
+    return this.http.get<Strategy>(`${this.baseUrl}hr/strategy/${id}`, { params });
   }
 
   getStrategies(
@@ -49,7 +49,7 @@ export class HrService {
     }
 
     return this.http
-      .get<Strategy[]>(this.baseUrl + 'hr/strategies', { observe: 'response', params })
+      .get<Strategy[]>(this.baseUrl + 'hr/strategy', { observe: 'response', params })
       .pipe(
         map(response => {
           paginatedResult.result = response.body;
@@ -63,50 +63,58 @@ export class HrService {
       );
   }
 
+  getPublishedStrategies() {
+    return this.http.get<Strategy[]>(`${this.baseUrl}hr/strategy/publishedStrategies`);
+  }
+
+  getPublishedBehavioralSkills() {
+    return this.http.get<BehavioralSkill[]>(`${this.baseUrl}hr/behavioralSkill/publishedBehavioralSkills`);
+  }
+
   createStrategy(ownerId: number, strategy: Strategy) {
-    return this.http.post(`${this.baseUrl}hr/strategies/new/${ownerId}`, strategy);
+    return this.http.post(`${this.baseUrl}hr/strategy/new/${ownerId}`, strategy);
   }
 
   cloneStrategy(ownerId: number, strategyId: number) {
-    return this.http.post(`${this.baseUrl}hr/strategies/clone/${ownerId}/${strategyId}`, {});
+    return this.http.post(`${this.baseUrl}hr/strategy/clone/${ownerId}/${strategyId}`, {});
   }
 
   deleteStrategy(id: number) {
-    return this.http.delete(`${this.baseUrl}hr/strategies/delete/${id}`);
+    return this.http.delete(`${this.baseUrl}hr/strategy/delete/${id}`);
+  }
+
+  deleteStrategyDocument(id: number) {
+    return this.http.post(this.baseUrl + 'hr/strategy/documentation/delete/' + id, {});
   }
 
   updateStrategy(ownerId: number, strategy: Strategy) {
-    return this.http.put(`${this.baseUrl}hr/strategies/edit/${ownerId}`, strategy);
+    return this.http.put(`${this.baseUrl}hr/strategy/edit/${ownerId}`, strategy);
   }
 
   getAxisList(strategyId: number) {
     return this.http.get<Axis[]>(
-      this.baseUrl + 'hr/axisList/' + strategyId);
+      this.baseUrl + 'hr/axis/axisList/' + strategyId);
   }
 
   getAxisPoleList(axisId: number) {
     return this.http.get<AxisPole[]>(
-      this.baseUrl + 'hr/axisPoleList/' + axisId);
+      this.baseUrl + 'hr/axis/axisPoleList/' + axisId);
   }
 
   addAxis(axis: Axis) {
-    return this.http.post(this.baseUrl + 'hr/addAxis', axis);
+    return this.http.post(this.baseUrl + 'hr/axis/addAxis', axis);
   }
 
   updateAxis(id: number, axis: Axis) {
-    return this.http.put(this.baseUrl + 'hr/updateAxis/' + id, axis);
+    return this.http.put(this.baseUrl + 'hr/axis/updateAxis/' + id, axis);
   }
 
   deleteAxis(id: number, userId: number) {
-    return this.http.delete(`${this.baseUrl}hr/axis/${id}/delete/${userId}`);
+    return this.http.delete(`${this.baseUrl}hr/axis/axis/${id}/delete/${userId}`);
   }
 
   updateAxisPoleWeigth(axisId: number, poleId: number, weight: number) {
-    return this.http.put(`${this.baseUrl}hr/updateAxisPole/${axisId}/${poleId}/${weight}`, {});
-  }
-
-  deleteStrategyDocument(id: number) {
-    return this.http.post(this.baseUrl + 'hr/strategies/edit/' + id + '/documentation/delete', {});
+    return this.http.put(`${this.baseUrl}hr/axis/updateAxisPole/${axisId}/${poleId}/${weight}`, {});
   }
 
   getBehavioralSkills(createdById, filters?) {

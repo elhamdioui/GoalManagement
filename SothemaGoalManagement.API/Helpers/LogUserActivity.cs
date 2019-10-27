@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using SothemaGoalManagement.API.Data;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using SothemaGoalManagement.API.Interfaces;
 
 namespace SothemaGoalManagement.API.Helpers
 {
@@ -13,10 +14,11 @@ namespace SothemaGoalManagement.API.Helpers
         {
             var resultContext = await next();
             var userId = int.Parse(resultContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var repo = resultContext.HttpContext.RequestServices.GetService<IGMRepository>();
-            var user = await repo.GetUser(userId, true);
+            var repo = resultContext.HttpContext.RequestServices.GetService<IRepositoryWrapper>();
+            var user = await repo.User.GetUser(userId, true);
             user.LastActive = DateTime.Now;
-            await repo.SaveAll();
+            repo.User.UpdateUser(user);
+            await repo.User.SaveAllAsync();
         }
 
     }

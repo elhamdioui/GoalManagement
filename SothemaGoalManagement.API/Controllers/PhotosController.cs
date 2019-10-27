@@ -11,6 +11,8 @@ using SothemaGoalManagement.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using SothemaGoalManagement.API.Interfaces;
+using System;
 
 namespace SothemaGoalManagement.API.Controllers
 {
@@ -18,13 +20,15 @@ namespace SothemaGoalManagement.API.Controllers
     [ApiController]
     public class PhotosController : ControllerBase
     {
+        private ILoggerManager _logger;
         private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
         private readonly IMapper _mapper;
-        private readonly IGMRepository _repo;
+        private IRepositoryWrapper _repo;
 
         private Cloudinary _cloudinary;
-        public PhotosController(IGMRepository repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig)
+        public PhotosController(ILoggerManager logger, IRepositoryWrapper repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig)
         {
+            _logger = logger;
             _repo = repo;
             _mapper = mapper;
             _cloudinaryConfig = cloudinaryConfig;
@@ -41,102 +45,135 @@ namespace SothemaGoalManagement.API.Controllers
         [HttpGet("{id}", Name = "GetPhoto")]
         public async Task<IActionResult> GetPhoto(int id)
         {
-            var photoFromRepo = await _repo.GetPhoto(id);
-            var photo = _mapper.Map<PhotoForReturnDto>(photoFromRepo);
-            return Ok(photo);
+            try
+            {
+                var photoFromRepo = await _repo.Photo.GetPhoto(id);
+                var photo = _mapper.Map<PhotoForReturnDto>(photoFromRepo);
+                return Ok(photo);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetPhoto enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
 
         [HttpPost]
         public async Task<IActionResult> AddPhotoForUser(int userId, [FromForm]PhotoForCreationDto photoForCreationDto)
         {
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
-            var userFromRepo = await _repo.GetUser(userId, true);
-
-            // Users can have only 2 photos
-            if (userFromRepo.Photos.Count >= 2)
+            try
             {
-                return BadRequest("Vous ne pouvez télécharger que 2 photos.");
-            }
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var userFromRepo = await _repo.User.GetUser(userId, true);
 
-            var file = photoForCreationDto.File;
-            var uploadResult = new ImageUploadResult();
-            if (file.Length > 0)
-            {
-                using (var stream = file.OpenReadStream())
+                // Users can have only 2 photos
+                if (userFromRepo.Photos.Count >= 2)
                 {
-                    var uploadParams = new ImageUploadParams()
-                    {
-                        File = new FileDescription(file.Name, stream),
-                        Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
-                    };
-                    uploadResult = _cloudinary.Upload(uploadParams);
+                    return BadRequest("Vous ne pouvez télécharger que 2 photos.");
                 }
-            }
 
-            photoForCreationDto.Url = uploadResult.Uri.ToString();
-            photoForCreationDto.PublicId = uploadResult.PublicId;
+                var file = photoForCreationDto.File;
+                var uploadResult = new ImageUploadResult();
+                if (file.Length > 0)
+                {
+                    using (var stream = file.OpenReadStream())
+                    {
+                        var uploadParams = new ImageUploadParams()
+                        {
+                            File = new FileDescription(file.Name, stream),
+                            Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
+                        };
+                        uploadResult = _cloudinary.Upload(uploadParams);
+                    }
+                }
 
-            var photo = _mapper.Map<Photo>(photoForCreationDto);
-            if (!userFromRepo.Photos.Any(u => u.IsMain)) photo.IsMain = true;
+                photoForCreationDto.Url = uploadResult.Uri.ToString();
+                photoForCreationDto.PublicId = uploadResult.PublicId;
 
-            userFromRepo.Photos.Add(photo);
+                var photo = _mapper.Map<Photo>(photoForCreationDto);
+                if (!userFromRepo.Photos.Any(u => u.IsMain)) photo.IsMain = true;
 
-            if (await _repo.SaveAll())
-            {
+                userFromRepo.Photos.Add(photo);
+                _repo.User.UpdateUser(userFromRepo);
+
+                await _repo.User.SaveAllAsync();
+
                 var photoToReturn = _mapper.Map<PhotoForReturnDto>(photo);
                 return CreatedAtRoute("GetPhoto", new { id = photo.Id }, photoToReturn);
             }
-
-            return BadRequest("Impossible d'ajouter la photo.");
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside AddPhotoForUser enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost("{id}/setMain")]
         public async Task<IActionResult> SetMainPhoto(int userId, int id)
         {
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
-            var userFromRepo = await _repo.GetUser(userId, true);
+            try
+            {
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var userFromRepo = await _repo.User.GetUser(userId, true);
 
-            if (!userFromRepo.Photos.Any(p => p.Id == id)) return Unauthorized();
+                if (!userFromRepo.Photos.Any(p => p.Id == id)) return Unauthorized();
 
-            var photoFromRepo = await _repo.GetPhoto(id);
-            if (photoFromRepo.IsMain) return BadRequest("This is already the main photo");
+                var photoFromRepo = await _repo.Photo.GetPhoto(id);
+                if (photoFromRepo.IsMain) return BadRequest("This is already the main photo");
 
-            var currentMainPhoto = await _repo.GetMainPhotoForUser(userId);
-            currentMainPhoto.IsMain = false;
+                var currentMainPhoto = await _repo.Photo.GetMainPhotoForUser(userId);
+                currentMainPhoto.IsMain = false;
+                photoFromRepo.IsMain = true;
+                _repo.Photo.UpdatePhoto(currentMainPhoto);
+                _repo.Photo.UpdatePhoto(photoFromRepo);
 
-            photoFromRepo.IsMain = true;
-
-            if (await _repo.SaveAll()) return NoContent();
-
-            return BadRequest("Could not set photo to main");
+                await _repo.Photo.SaveAllAsync();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside SetMainPhoto enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeltePhoto(int userId, int id)
         {
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
-            var userFromRepo = await _repo.GetUser(userId, true);
-
-            if (!userFromRepo.Photos.Any(p => p.Id == id)) return Unauthorized();
-
-            var photoFromRepo = await _repo.GetPhoto(id);
-            if (photoFromRepo.IsMain) return BadRequest("You cannot delete your main photo");
-
-            if (photoFromRepo.PublicId != null)
+            try
             {
-                var deleteParams = new DeletionParams(photoFromRepo.PublicId);
-                var result = _cloudinary.Destroy(deleteParams);
-                if (result.Result == "ok") _repo.Delete(photoFromRepo);
-            }
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var userFromRepo = await _repo.User.GetUser(userId, true);
 
-            if (photoFromRepo.PublicId == null)
+                if (!userFromRepo.Photos.Any(p => p.Id == id)) return Unauthorized();
+
+                var photoFromRepo = await _repo.Photo.GetPhoto(id);
+                if (photoFromRepo.IsMain) return BadRequest("You cannot delete your main photo");
+
+                if (photoFromRepo.PublicId != null)
+                {
+                    var deleteParams = new DeletionParams(photoFromRepo.PublicId);
+                    var result = _cloudinary.Destroy(deleteParams);
+                    if (result.Result == "ok")
+                    {
+                        _repo.Photo.DeletePhoto(photoFromRepo);
+                    }
+                }
+
+                if (photoFromRepo.PublicId == null)
+                {
+                    _repo.Photo.DeletePhoto(photoFromRepo);
+                }
+
+                await _repo.Photo.SaveAllAsync();
+                return Ok();
+            }
+            catch (Exception ex)
             {
-                _repo.Delete(photoFromRepo);
+                _logger.LogError($"Something went wrong inside DeltePhoto enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
             }
-
-            if (await _repo.SaveAll()) return Ok();
-            return BadRequest("Échoué de supprimer la photo");
         }
     }
 }

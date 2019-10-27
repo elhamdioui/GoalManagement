@@ -25,6 +25,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using SothemaGoalManagement.API.Interfaces;
+using SothemaGoalManagement.API.Repositories;
+using NLog;
+using System.IO;
 
 namespace SothemaGoalManagement.API
 {
@@ -32,6 +36,7 @@ namespace SothemaGoalManagement.API
     {
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
 
@@ -95,7 +100,8 @@ namespace SothemaGoalManagement.API
             Mapper.Reset();
             services.AddAutoMapper();
             services.AddTransient<Seed>();
-            services.AddScoped<IGMRepository, GMRepository>();
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddSingleton<ILoggerManager, LoggerManager>();
             services.AddScoped<LogUserActivity>();
         }
 
@@ -150,7 +156,8 @@ namespace SothemaGoalManagement.API
             Mapper.Reset();
             services.AddAutoMapper();
             services.AddTransient<Seed>();
-            services.AddScoped<IGMRepository, GMRepository>();
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddSingleton<ILoggerManager, LoggerManager>();
             services.AddScoped<LogUserActivity>();
         }
 

@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SothemaGoalManagement.API.Helpers;
+using SothemaGoalManagement.API.Interfaces;
 
 namespace SothemaGoalManagement.API.Controllers
 {
@@ -24,11 +25,13 @@ namespace SothemaGoalManagement.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private ILoggerManager _logger;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public AuthController(IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthController(ILoggerManager logger, IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
         {
+            _logger = logger;
             _signInManager = signInManager;
             _userManager = userManager;
             _mapper = mapper;
@@ -38,44 +41,60 @@ namespace SothemaGoalManagement.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            var user = await _userManager.FindByNameAsync(userForLoginDto.Username);
-            var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
-
-            if (result.Succeeded)
+            try
             {
-                var appUser = await _userManager.Users.Include(p => p.Photos)
-                                                      .Include(d => d.Department)
-                                                      .FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.Username.ToUpper());
-                var userToReturn = _mapper.Map<UserForDetailDto>(appUser);
-                return Ok(new
+                var user = await _userManager.FindByNameAsync(userForLoginDto.Username);
+                var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
+
+                if (result.Succeeded)
                 {
-                    token = GenerateJwtToken(appUser).Result,
-                    user = userToReturn
-                });
+                    var appUser = await _userManager.Users.Include(p => p.Photos)
+                                                          .Include(d => d.Department)
+                                                          .FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.Username.ToUpper());
+                    var userToReturn = _mapper.Map<UserForDetailDto>(appUser);
+                    return Ok(new
+                    {
+                        token = GenerateJwtToken(appUser).Result,
+                        user = userToReturn
+                    });
+                }
+                return Unauthorized();
             }
-            return Unauthorized();
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside Login enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost("resetPassword")]
         public async Task<IActionResult> ResetPassword(UserForResetPasswordDto userForResetPasswordDto)
         {
-            var user = await _userManager.FindByNameAsync(userForResetPasswordDto.Email);
-            if (user == null)
-            {
-                return BadRequest("Email n'existe plus dans l'application!");
-            }
             try
             {
-                var result = await _userManager.ResetPasswordAsync(user, userForResetPasswordDto.Token, userForResetPasswordDto.NewPassword);
-                if (result.Succeeded)
+                var user = await _userManager.FindByNameAsync(userForResetPasswordDto.Email);
+                if (user == null)
                 {
-                    return Ok();
+                    return BadRequest("Email n'existe plus dans l'application!");
                 }
-                return BadRequest(result.Errors);
+                try
+                {
+                    var result = await _userManager.ResetPasswordAsync(user, userForResetPasswordDto.Token, userForResetPasswordDto.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return Ok();
+                    }
+                    return BadRequest(result.Errors);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError($"Something went wrong inside ResetPassword enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
             }
         }
 
@@ -99,7 +118,8 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError($"Something went wrong inside GeneratePasswordResetToken enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
             }
         }
 

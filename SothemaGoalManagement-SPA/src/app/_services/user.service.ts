@@ -102,40 +102,4 @@ export class UserService {
       )
       .subscribe();
   }
-
-  getStrategies(id: number,
-    page?,
-    itemsPerPage?): Observable<PaginatedResult<Strategy[]>> {
-    const paginatedResult: PaginatedResult<Strategy[]> = new PaginatedResult<
-      Strategy[]
-      >();
-    let params = new HttpParams();
-
-    if (page != null && itemsPerPage != null) {
-      params = params.append('pageNumber', page);
-      params = params.append('pageSize', itemsPerPage);
-    }
-
-    return this.http
-      .get<Strategy[]>(this.baseUrl + 'users', { observe: 'response', params })
-      .pipe(
-        map(response => {
-          paginatedResult.result = response.body;
-          if (response.headers.get('Pagination') != null) {
-            paginatedResult.pagination = JSON.parse(
-              response.headers.get('Pagination')
-            );
-          }
-          return paginatedResult;
-        })
-      );
-  }
-
-  getPublishedStrategies() {
-    return this.http.get<Strategy[]>(`${this.baseUrl}users/publishedStrategies`);
-  }
-
-  getPublishedBehavioralSkills() {
-    return this.http.get<BehavioralSkill[]>(`${this.baseUrl}users/publishedBehavioralSkills`);
-  }
 }

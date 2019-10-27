@@ -3,7 +3,7 @@ import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
 
-import { UserService } from './../_services/user.service';
+import { HrService } from './../_services/hr.service';
 import { AlertifyService } from './../_services/alertify.service';
 import { Strategy } from '../_models/strategy';
 
@@ -11,13 +11,13 @@ import { Strategy } from '../_models/strategy';
 export class StrategiesResolver implements Resolve<Strategy[]> {
 
   constructor(
-    private userService: UserService,
+    private hrService: HrService,
     private router: Router,
     private alertify: AlertifyService
   ) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<Strategy[]> {
-    return this.userService
+    return this.hrService
       .getPublishedStrategies()
       .pipe(
         catchError(error => {

@@ -39,7 +39,7 @@
             <button class="btn btn-secondary w-60 mr-1" (click)="clone()">
               Coloner
             </button>
-            <button class="btn btn-danger" (click)="delete()">
+            <button class="btn btn-danger" (click)="delete()" *ngIf="!isReadOnly">
               <i class="fa fa-trash"></i>
             </button>
           </div>

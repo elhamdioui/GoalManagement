@@ -15,6 +15,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using System;
 using Microsoft.Extensions.Configuration;
+using SothemaGoalManagement.API.Interfaces;
 
 namespace SothemaGoalManagement.API.Controllers
 {
@@ -27,10 +28,12 @@ namespace SothemaGoalManagement.API.Controllers
         private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
         private Cloudinary _cloudinary;
         private readonly IMapper _mapper;
-        private readonly IGMRepository _repo;
+        private ILoggerManager _logger;
+        private IRepositoryWrapper _repo;
+
         private readonly IConfiguration _config;
 
-        public AdminController(IConfiguration config, DataContext context, IGMRepository repo, IMapper mapper, UserManager<User> userManager, IOptions<CloudinarySettings> cloudinaryConfig)
+        public AdminController(IConfiguration config, DataContext context, IRepositoryWrapper repo, IMapper mapper, UserManager<User> userManager, IOptions<CloudinarySettings> cloudinaryConfig)
         {
             _config = config;
             _repo = repo;
@@ -48,290 +51,445 @@ namespace SothemaGoalManagement.API.Controllers
         [HttpGet("emailAlreadyExists")]
         public async Task<IActionResult> EmailAlreadyExists(string email)
         {
-            var result = await _userManager.FindByNameAsync(email) ?? await _userManager.FindByEmailAsync(email);
+            try
+            {
+                var result = await _userManager.FindByNameAsync(email) ?? await _userManager.FindByEmailAsync(email);
 
-            return Ok(result != null);
+                return Ok(result != null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside EmailAlreadyExists enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpGet("employeeNumberAlreadyExists")]
         public async Task<IActionResult> EmployeeNumberAlreadyExists(string employeeNumber)
         {
-            var result = await _repo.EmployeeNumberAlreadyExists(employeeNumber);
+            try
+            {
+                var result = await _repo.User.EmployeeNumberAlreadyExists(employeeNumber);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside EmployeeNumberAlreadyExists enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpPost("register/{notifyUser}")]
         public async Task<IActionResult> Register(bool notifyUser, [FromBody]UserForRegisterDto userForRegisterDto)
         {
-            // Make sure employee number and emails are unique
-            var checkEmployeeNumber = await _repo.EmployeeNumberAlreadyExists(userForRegisterDto.EmployeeNumber);
-            if (checkEmployeeNumber) return BadRequest("Matricule existe déjà.");
-
-            var checkEmail = await _userManager.FindByNameAsync(userForRegisterDto.Email) ?? await _userManager.FindByEmailAsync(userForRegisterDto.Email);
-            if (checkEmail != null) return BadRequest("Email existe déjà");
-
-            var userToCreate = _mapper.Map<User>(userForRegisterDto);
-            userToCreate.UserName = userForRegisterDto.Email;
-            userToCreate.EmployeeNumber = userForRegisterDto.EmployeeNumber.ToLower();
-            IdentityResult result = null;
-            result = _userManager.CreateAsync(userToCreate, "Password123").Result;
-            if (result.Succeeded)
+            try
             {
-                await _userManager.AddToRoleAsync(userToCreate, "Collaborator");
-                var userToReturn = _mapper.Map<UserForDetailDto>(userToCreate);
+                // Make sure employee number and emails are unique
+                var checkEmployeeNumber = await _repo.User.EmployeeNumberAlreadyExists(userForRegisterDto.EmployeeNumber);
+                if (checkEmployeeNumber) return BadRequest("Matricule existe déjà.");
 
+                var checkEmail = await _userManager.FindByNameAsync(userForRegisterDto.Email) ?? await _userManager.FindByEmailAsync(userForRegisterDto.Email);
+                if (checkEmail != null) return BadRequest("Email existe déjà");
+
+                var userToCreate = _mapper.Map<User>(userForRegisterDto);
+                userToCreate.UserName = userForRegisterDto.Email;
+                userToCreate.EmployeeNumber = userForRegisterDto.EmployeeNumber.ToLower();
+                IdentityResult result = null;
+                result = _userManager.CreateAsync(userToCreate, "Password123").Result;
                 if (result.Succeeded)
                 {
-                    if (notifyUser)
+                    await _userManager.AddToRoleAsync(userToCreate, "Collaborator");
+                    var userToReturn = _mapper.Map<UserForDetailDto>(userToCreate);
+
+                    if (result.Succeeded)
                     {
-                        // Notify user by email to change his default password
-                        var generatedToken = await _userManager.GeneratePasswordResetTokenAsync(userToCreate);
-                        generatedToken = System.Web.HttpUtility.UrlEncode(generatedToken);
-                        var content = $"{userToCreate.FirstName},<br><p>Votre nouveau compte pour l'application Goal management a été créé.</p><p></p><p>Veuillez réinitialiser votre mot de passe, en suivant ce lien(ou bien collez - le dans votre navigateur) dans les 90 prochaines minutes:<br>{this.Request.Scheme}://{this.Request.Host}/resetPassword?token={generatedToken}&email={userToCreate.Email}</p>";
-                        await new Mailer(_config).SendEmail(userToCreate.Email, generatedToken, "Bienvenue à l'application Goal Management", content);
+                        if (notifyUser)
+                        {
+                            // Notify user by email to change his default password
+                            var generatedToken = await _userManager.GeneratePasswordResetTokenAsync(userToCreate);
+                            generatedToken = System.Web.HttpUtility.UrlEncode(generatedToken);
+                            var content = $"{userToCreate.FirstName},<br><p>Votre nouveau compte pour l'application Goal management a été créé.</p><p></p><p>Veuillez réinitialiser votre mot de passe, en suivant ce lien(ou bien collez - le dans votre navigateur) dans les 90 prochaines minutes:<br>{this.Request.Scheme}://{this.Request.Host}/resetPassword?token={generatedToken}&email={userToCreate.Email}</p>";
+                            await new Mailer(_config).SendEmail(userToCreate.Email, generatedToken, "Bienvenue à l'application Goal Management", content);
+                        }
+                        return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
                     }
-                    return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
+
                 }
 
+                return BadRequest(result.Errors);
             }
-
-            return BadRequest(result.Errors);
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside Register enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpGet("usersWithRoles")]
         public async Task<IActionResult> GetUsersWithRoles([FromQuery]UserParams userParams)
         {
-            var users = await _repo.GetUsersWithRoles(userParams);
-            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+            try
+            {
+                var users = await _repo.User.GetUsersWithRoles(userParams);
+                Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
-            return Ok(users);
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetUsersWithRoles enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpGet("departments")]
         public async Task<IActionResult> GetDepartments()
         {
-            var departmentList = await _repo.GetDepartments();
-            var departmentsToReturn = _mapper.Map<IEnumerable<DepartmentToReturnDto>>(departmentList);
+            try
+            {
+                var departmentList = await _repo.Department.GetDepartments();
+                var departmentsToReturn = _mapper.Map<IEnumerable<DepartmentToReturnDto>>(departmentList);
 
-            return Ok(departmentsToReturn);
+                return Ok(departmentsToReturn);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetDepartments enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpGet("userStatus")]
         public async Task<IActionResult> GetUserStatus()
         {
-            var userStatusList = await _repo.GetUserStatus();
-            var userStatusToReturn = _mapper.Map<IEnumerable<UserStatusToReturnDto>>(userStatusList);
+            try
+            {
+                var userStatusList = await _repo.UserStatus.GetUserStatus();
+                var userStatusToReturn = _mapper.Map<IEnumerable<UserStatusToReturnDto>>(userStatusList);
 
-            return Ok(userStatusToReturn);
+                return Ok(userStatusToReturn);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetUserStatus enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpPost("editRoles/{userId}")]
         public async Task<IActionResult> EditRoles(string userId, RoleEditDto roleEditDto)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            var userRoles = await _userManager.GetRolesAsync(user);
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                var userRoles = await _userManager.GetRolesAsync(user);
 
-            var selectedRoles = roleEditDto.RoleNames;
-            selectedRoles = selectedRoles ?? new string[] { };
-            var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
+                var selectedRoles = roleEditDto.RoleNames;
+                selectedRoles = selectedRoles ?? new string[] { };
+                var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
 
-            if (!result.Succeeded) return BadRequest("Failed to add to roles");
+                if (!result.Succeeded) return BadRequest("Failed to add to roles");
 
-            result = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles));
+                result = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles));
 
-            if (!result.Succeeded) return BadRequest("Failed to remove the roles");
+                if (!result.Succeeded) return BadRequest("Failed to remove the roles");
 
-            return Ok(await _userManager.GetRolesAsync(user));
+                return Ok(await _userManager.GetRolesAsync(user));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside EditRoles enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpGet("photosForModeration")]
         public async Task<IActionResult> GetPhotosForModeration()
         {
-            var photos = await _context.Photos.Include(u => u.User).IgnoreQueryFilters().Where(p => p.IsApproved == false).Select(u => new
+            try
             {
-                Id = u.Id,
-                UserName = u.User.UserName,
-                Url = u.Url,
-                IsApproved = u.IsApproved
-            }).ToListAsync();
+                var photos = await _context.Photos.Include(u => u.User).IgnoreQueryFilters().Where(p => p.IsApproved == false).Select(u => new
+                {
+                    Id = u.Id,
+                    UserName = u.User.UserName,
+                    Url = u.Url,
+                    IsApproved = u.IsApproved
+                }).ToListAsync();
 
-            return Ok(photos);
+                return Ok(photos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetPhotosForModeration enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpPost("approvePhoto/{photoId}")]
         public async Task<IActionResult> ApprovePhoto(int photoId)
         {
-            var photo = await _context.Photos.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == photoId);
-            photo.IsApproved = true;
-            await _context.SaveChangesAsync();
+            try
+            {
+                var photo = await _context.Photos.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == photoId);
+                photo.IsApproved = true;
+                await _context.SaveChangesAsync();
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside ApprovePhoto enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireAdminHRRoles")]
         [HttpPost("rejectPhoto/{photoId}")]
         public async Task<IActionResult> RejectPhoto(int photoId)
         {
-            var photo = await _context.Photos.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == photoId);
-
-            if (photo.IsMain) return BadRequest("You cannot reject the main photo");
-
-            if (photo.PublicId != null)
+            try
             {
-                var deleteParams = new DeletionParams(photo.PublicId);
-                var result = _cloudinary.Destroy(deleteParams);
-                if (result.Result == "ok") _context.Photos.Remove(photo);
+                var photo = await _context.Photos.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == photoId);
+
+                if (photo.IsMain) return BadRequest("You cannot reject the main photo");
+
+                if (photo.PublicId != null)
+                {
+                    var deleteParams = new DeletionParams(photo.PublicId);
+                    var result = _cloudinary.Destroy(deleteParams);
+                    if (result.Result == "ok") _context.Photos.Remove(photo);
+                }
+
+                if (photo.PublicId == null) _context.Photos.Remove(photo);
+
+                await _context.SaveChangesAsync();
+                return Ok();
             }
-
-            if (photo.PublicId == null) _context.Photos.Remove(photo);
-
-            await _context.SaveChangesAsync();
-            return Ok();
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside RejectPhoto enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut()]
         public async Task<IActionResult> UpdateUser(UserForUpdateDto userForUpdateDto)
         {
-            // Double check duplicate employee numbers
-            var checkEmployeeNumber = await _repo.EmployeeNumberAlreadyExists(userForUpdateDto.EmployeeNumber, userForUpdateDto.Id);
-            if (checkEmployeeNumber) return BadRequest("Matricule existe déjà.");
-
-            // double check dupkicate emails
-            var userFoundWithEmail = await _userManager.FindByNameAsync(userForUpdateDto.Email) ?? await _userManager.FindByEmailAsync(userForUpdateDto.Email);
-            if (userFoundWithEmail != null && userFoundWithEmail.Id != userForUpdateDto.Id)
+            try
             {
-                return BadRequest("Email existe déjà.");
+                // Double check duplicate employee numbers
+                var checkEmployeeNumber = await _repo.User.EmployeeNumberAlreadyExists(userForUpdateDto.EmployeeNumber, userForUpdateDto.Id);
+                if (checkEmployeeNumber) return BadRequest("Matricule existe déjà.");
+
+                // double check dupkicate emails
+                var userFoundWithEmail = await _userManager.FindByNameAsync(userForUpdateDto.Email) ?? await _userManager.FindByEmailAsync(userForUpdateDto.Email);
+                if (userFoundWithEmail != null && userFoundWithEmail.Id != userForUpdateDto.Id)
+                {
+                    return BadRequest("Email existe déjà.");
+                }
+
+                // proceed with update
+                var userFromRepo = await _repo.User.GetUser(userForUpdateDto.Id, true);
+                userFromRepo.UserName = userForUpdateDto.Email;
+                _mapper.Map(userForUpdateDto, userFromRepo);
+                _repo.User.UpdateUser(userFromRepo);
+                await _repo.User.SaveAllAsync();
+                return NoContent();
             }
-
-            // proceed with update
-            var userFromRepo = await _repo.GetUser(userForUpdateDto.Id, true);
-            userFromRepo.UserName = userForUpdateDto.Email;
-            _mapper.Map(userForUpdateDto, userFromRepo);
-
-            if (await _repo.SaveAll()) return NoContent();
-
-            throw new Exception("La mise à jour de l'utilisateur a échoué lors de l'enregistrement.");
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside UpdateUser enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpGet("searchUsers")]
         public async Task<IActionResult> searchUsers([FromQuery]UserParams searchParams)
         {
-            var usersFromRepo = await _repo.SerachForUsers(searchParams.UserToSearch, searchParams.UserStatusId);
+            try
+            {
+                var usersFromRepo = await _repo.User.SerachForUsers(searchParams.UserToSearch, searchParams.UserStatusId);
 
-            var usersToReturn = _mapper.Map<IEnumerable<UserForSearchResultDto>>(usersFromRepo);
-            return Ok(usersToReturn);
+                var usersToReturn = _mapper.Map<IEnumerable<UserForSearchResultDto>>(usersFromRepo);
+                return Ok(usersToReturn);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside searchUsers enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpGet("loadEvaluators/{evaluatedId}")]
         public async Task<IActionResult> LoadEvaluators(int evaluatedId)
         {
-            var evaluatorsFromRepo = await _repo.LoadEvaluators(evaluatedId);
-            return Ok(evaluatorsFromRepo);
+            try
+            {
+                var evaluatorsFromRepo = await _repo.User.LoadEvaluators(evaluatedId);
+                return Ok(evaluatorsFromRepo);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside LoadEvaluators enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpGet("loadEvaluatees/{evaluatorId}")]
         public async Task<IActionResult> LoadEvaluatees(int evaluatorId)
         {
-            var evaluateesFromRepo = await _repo.LoadEvaluatees(evaluatorId);
-            return Ok(evaluateesFromRepo);
+            try
+            {
+                var evaluateesFromRepo = await _repo.User.LoadEvaluatees(evaluatorId);
+                return Ok(evaluateesFromRepo);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside LoadEvaluatees enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpPost("addEvaluatorToUser/{evaluatedId}")]
         public async Task<IActionResult> AddEvaluatorToUser(int evaluatedId, IEnumerable<int> evaluatorIds)
         {
-            foreach (var evaluatorId in evaluatorIds)
+            try
             {
-                var evaluatedEvaluator = new EvaluatedEvaluator()
+                foreach (var evaluatorId in evaluatorIds)
                 {
-                    EvaluatedId = evaluatedId,
-                    EvaluatorId = evaluatorId,
-                    Rank = 1
-                };
+                    var evaluatedEvaluator = new EvaluatedEvaluator()
+                    {
+                        EvaluatedId = evaluatedId,
+                        EvaluatorId = evaluatorId,
+                        Rank = 1
+                    };
 
-                var evaluatedEvaluatorFromRepo = _repo.GetEvaluatedEvaluator(evaluatedId, evaluatorId).Result;
-                if (evaluatedEvaluatorFromRepo == null)
-                {
-                    _repo.Add<EvaluatedEvaluator>(evaluatedEvaluator);
+                    var evaluatedEvaluatorFromRepo = _context.EvaluatedEvaluators.SingleOrDefaultAsync(ee => ee.EvaluatedId == evaluatedId && ee.EvaluatorId == evaluatorId).Result;
+
+                    if (evaluatedEvaluatorFromRepo == null)
+                    {
+                        _context.EvaluatedEvaluators.Add(evaluatedEvaluator);
+                    }
                 }
-            }
 
-            if (await _repo.SaveAll())
-            {
+                await _context.SaveChangesAsync();
+
                 return Ok();
             }
-
-            return BadRequest("Échec de l'ajout d'évaluateurs");
-
-            throw new Exception("La mise à jour de l'evaluateur a échoué lors de la sauvegarde");
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside AddEvaluatorToUser enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpPost("addEvaluateeToUser/{evaluatorId}")]
         public async Task<IActionResult> AddEvaluateeToUser(int evaluatorId, IEnumerable<int> evaluateeIds)
         {
-            foreach (var evaluateeId in evaluateeIds)
+            try
             {
-                var evaluatedEvaluator = new EvaluatedEvaluator()
+                var evaluatorFromRepo = await _repo.User.GetUser(evaluatorId, false);
+                foreach (var evaluateeId in evaluateeIds)
                 {
-                    EvaluatedId = evaluateeId,
-                    EvaluatorId = evaluatorId,
-                    Rank = 1
-                };
+                    var evaluatedEvaluator = new EvaluatedEvaluator()
+                    {
+                        EvaluatedId = evaluateeId,
+                        EvaluatorId = evaluatorId,
+                        Rank = 1
+                    };
+                    var evaluatedEvaluatorFromRepo = _context.EvaluatedEvaluators.SingleOrDefaultAsync(ee => ee.EvaluatedId == evaluateeId && ee.EvaluatorId == evaluatorId).Result;
 
-                var evaluatedEvaluatorFromRepo = _repo.GetEvaluatedEvaluator(evaluateeId, evaluatorId).Result;
-                if (evaluatedEvaluatorFromRepo == null)
-                {
-                    _repo.Add<EvaluatedEvaluator>(evaluatedEvaluator);
+                    if (evaluatedEvaluatorFromRepo == null)
+                    {
+                        _context.EvaluatedEvaluators.Add(evaluatedEvaluator);
+                    }
                 }
-            }
 
-            if (await _repo.SaveAll())
-            {
+                await _context.SaveChangesAsync();
+
                 return Ok();
             }
-
-            return BadRequest("Échec de l'ajout d'évaluateurs");
-
-            throw new Exception("La mise à jour de l'evaluateur a échoué lors de la sauvegarde");
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside AddEvaluateeToUser enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpPut("updateRankOfEvaluator/{evaluatedId}/{evaluatorId}/{rank}")]
         public async Task<IActionResult> UpdateRankOfEvaluator(int evaluatedId, int evaluatorId, int rank)
         {
-            var evaluatedEvaluatorFromRepo = await _repo.GetEvaluatedEvaluator(evaluatedId, evaluatorId);
-            if (evaluatedEvaluatorFromRepo == null) return NotFound();
-            evaluatedEvaluatorFromRepo.Rank = rank;
-
-            if (await _repo.SaveAll()) return NoContent();
-
-            throw new Exception("La mise à jour du rang del'évaliateur a échoué lors de l'enregistrement.");
+            try
+            {
+                var evaluatedEvaluatorFromRepo = await _context.EvaluatedEvaluators.SingleOrDefaultAsync(ee => ee.EvaluatedId == evaluatedId && ee.EvaluatorId == evaluatorId);
+                if (evaluatedEvaluatorFromRepo == null) return NotFound();
+                evaluatedEvaluatorFromRepo.Rank = rank;
+                _context.EvaluatedEvaluators.Update(evaluatedEvaluatorFromRepo);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside UpdateRankOfEvaluator enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpDelete("deleteEvaluatorEvaluatee/{evaluatedId}/{evaluatorId}")]
+        [HttpDelete("deleteEvaluator/{evaluatorId}/{evaluatedId}")]
+        public async Task<IActionResult> DeleteEvaluator(int evaluatorId, int evaluatedId)
+        {
+            try
+            {
+                var evaluatedEvaluatorFromRepo = await _context.EvaluatedEvaluators.SingleOrDefaultAsync(ee => ee.EvaluatedId == evaluatedId && ee.EvaluatorId == evaluatorId);
+
+                if (evaluatedEvaluatorFromRepo == null) return NotFound();
+
+                _context.EvaluatedEvaluators.Remove(evaluatedEvaluatorFromRepo);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside DeleteEvaluatorEvaluatee enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [Authorize(Policy = "RequireHRHRDRoles")]
+        [HttpDelete("deleteEvaluatee/{evaluatedId}/{evaluatorId}")]
         public async Task<IActionResult> DeleteEvaluatorEvaluatee(int evaluatedId, int evaluatorId)
         {
-            var evaluatedEvaluatorFromRepo = await _repo.GetEvaluatedEvaluator(evaluatedId, evaluatorId);
+            try
+            {
+                var evaluatedEvaluatorFromRepo = await _context.EvaluatedEvaluators.SingleOrDefaultAsync(ee => ee.EvaluatedId == evaluatedId && ee.EvaluatorId == evaluatorId);
 
-            if (evaluatedEvaluatorFromRepo == null) return NotFound();
+                if (evaluatedEvaluatorFromRepo == null) return NotFound();
 
-            _repo.Delete(evaluatedEvaluatorFromRepo);
-            if (await _repo.SaveAll()) return Ok();
-            return BadRequest("Échoué de supprimer l'evaluateur");
+                _context.EvaluatedEvaluators.Remove(evaluatedEvaluatorFromRepo);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside DeleteEvaluatorEvaluatee enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

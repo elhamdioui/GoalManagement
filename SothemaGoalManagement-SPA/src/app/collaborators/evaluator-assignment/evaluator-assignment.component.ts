@@ -147,7 +147,7 @@ export class EvaluatorAssignmentComponent implements OnInit {
       () => {
         this.loading = true;
         this.adminService
-          .deleteEvaluatorEvaluatee(this.evaluated.id, event.id)
+          .deleteEvaluator(event.id, this.evaluated.id)
           .subscribe(
             () => {
               this.loading = false;
@@ -169,7 +169,7 @@ export class EvaluatorAssignmentComponent implements OnInit {
       () => {
         this.loading = true;
         this.adminService
-          .deleteEvaluatorEvaluatee(this.evaluated.id, evaluatee.id)
+          .deleteEvaluatee(evaluatee.id, this.evaluated.id)
           .subscribe(
             () => {
               this.loading = false;
