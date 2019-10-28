@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SothemaGoalManagement.API.Data;
+using SothemaGoalManagement.API.Helpers;
 using SothemaGoalManagement.API.Interfaces;
 using SothemaGoalManagement.API.Models;
 
@@ -35,6 +36,13 @@ namespace SothemaGoalManagement.API.Repositories
         public async Task<EvaluationFileInstance> GetEvaluationFileInstance(int id)
         {
             return await FindByCondition(efi => efi.Id == id).SingleOrDefaultAsync();
+        }
+
+        public async Task<PagedList<EvaluationFileInstance>> GetEvaluationFileInstancesForUser(CommunParams communParams)
+        {
+            var sheets = FindByCondition(s => s.OwnerId == communParams.OwnerId).Include(s => s.Owner).AsQueryable();
+            sheets = sheets.OrderByDescending(d => d.Year);
+            return await PagedList<EvaluationFileInstance>.CreateAsync(sheets, communParams.PageNumber, communParams.PageSize);
         }
 
         public void AddEvaluationFileInstance(EvaluationFileInstance evaluationFileInstance)

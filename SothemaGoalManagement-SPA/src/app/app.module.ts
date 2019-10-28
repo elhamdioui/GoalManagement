@@ -88,6 +88,7 @@ import { EvaluationFileInstanceHrCardComponent } from './hr/evaluations/evaluati
 import { EvaluatorAssignmentComponent } from './collaborators/evaluator-assignment/evaluator-assignment.component';
 import { EvaluationFileInstanceHrNewComponent } from './hr/evaluations/evaluation-file-instance-hr-new/evaluation-file-instance-hr-new.component';
 import { SheetsPanelComponent } from './sheets/sheets-panel/sheets-panel.component';
+import { SheetsResolver } from './_resolvers/sheets.resolver';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -193,7 +194,8 @@ export function tokenGetter() {
     EvaluationHrDetailResolver,
     AdminService,
     HrService,
-    LayoutService
+    LayoutService,
+    SheetsResolver
   ],
   entryComponents: [
     RolesModalComponent,

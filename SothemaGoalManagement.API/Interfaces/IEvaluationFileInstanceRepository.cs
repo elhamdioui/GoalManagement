@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SothemaGoalManagement.API.Helpers;
 using SothemaGoalManagement.API.Models;
 
 namespace SothemaGoalManagement.API.Interfaces
@@ -12,6 +13,7 @@ namespace SothemaGoalManagement.API.Interfaces
 
         Task<EvaluationFileInstance> GetEvaluationFileInstance(int id);
 
+        Task<PagedList<EvaluationFileInstance>> GetEvaluationFileInstancesForUser(CommunParams communParams);
         void AddEvaluationFileInstance(EvaluationFileInstance evaluationFileInstance);
 
         void UpdateEvaluationFileInstance(EvaluationFileInstance dbEvaluationFileInstance);

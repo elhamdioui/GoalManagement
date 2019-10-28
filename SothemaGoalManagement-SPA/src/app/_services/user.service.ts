@@ -10,6 +10,7 @@ import { PaginatedResult } from './../_models/pagination';
 import { Message } from '../_models/message';
 import { Goal } from '../_models/goal';
 import { Strategy } from '../_models/strategy';
+import { EvaluationFileInstance } from '../_models/evaluationFileInstance';
 
 @Injectable({
   providedIn: 'root'
@@ -101,5 +102,32 @@ export class UserService {
         {}
       )
       .subscribe();
+  }
+
+  getMySheets(id: number, page?, itemsPerPage?): Observable<PaginatedResult<EvaluationFileInstance[]>> {
+    const paginatedResult: PaginatedResult<EvaluationFileInstance[]> = new PaginatedResult<EvaluationFileInstance[]>();
+    let params = new HttpParams();
+
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+
+    return this.http
+      .get<EvaluationFileInstance[]>(this.baseUrl + 'users/' + id + '/objectives', {
+        observe: 'response',
+        params
+      })
+      .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination')
+            );
+          }
+          return paginatedResult;
+        })
+      );
   }
 }

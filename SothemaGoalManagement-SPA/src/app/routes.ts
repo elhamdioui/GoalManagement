@@ -25,6 +25,8 @@ import { BehavioralSkillDetailComponent } from './hr/behavioral-skills/behaviora
 import { BehavioralSkillDetailResolver } from './_resolvers/behavioral-skill-detail.resolver.';
 import { EvaluationHrDetailComponent } from './hr/evaluations/evaluation-hr-detail/evaluation-hr-detail.component';
 import { EvaluationHrDetailResolver } from './_resolvers/evaluation-hr-detail.resolver';
+import { SheetsPanelComponent } from './sheets/sheets-panel/sheets-panel.component';
+import { SheetsResolver } from './_resolvers/sheets.resolver';
 
 
 export const appRoutes: Routes = [
@@ -50,6 +52,11 @@ export const appRoutes: Routes = [
         component: ProfileEditComponent,
         resolve: { user: ProfileEditResolver },
         canDeactivate: [PreventUnsavedChanges]
+      },
+      {
+        path: 'sheets',
+        component: SheetsPanelComponent,
+        resolve: { sheets: SheetsResolver }
       },
       {
         path: 'strategies',
