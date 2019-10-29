@@ -4,22 +4,24 @@
     <tabset class="member-tabset">
       <tab heading="Mes fiches d'évaluation">
         <div class="row">
-          <table *ngIf="sheets?.length > 0" class="table table-hover  mt-2" style="cursor: pointer">
-            <tr>
-              <th style="width: 30%">Titre</th>
-              <th style="width: 10%">Année</th>
-              <th style="width: 25%">Stratégie</th>
-              <td style="width: 15%">Créé</td>
-            </tr>
-            <tr *ngFor="let evaluationFileInsatnce of sheets">
-              <td>{{ evaluationFileInsatnce.title }}</td>
-              <td>{{ evaluationFileInsatnce.year }}</td>
-              <td>{{ evaluationFileInsatnce.strategy }}</td>
-              <td>
-                {{ evaluationFileInsatnce.created | date: 'mediumDate' }}
-              </td>
-            </tr>
-          </table>
+          <div class="container">
+            <table *ngIf="sheets?.length > 0" class="table table-hover  mt-2" style="cursor: pointer">
+              <tr>
+                <th style="width: 30%">Titre</th>
+                <th style="width: 10%">Année</th>
+                <th style="width: 25%">Stratégie</th>
+                <td style="width: 15%">Créé</td>
+              </tr>
+              <tr *ngFor="let evaluationFileInsatnce of sheets">
+                <td>{{ evaluationFileInsatnce.title }}</td>
+                <td>{{ evaluationFileInsatnce.year }}</td>
+                <td>{{ evaluationFileInsatnce.strategyTitle }}</td>
+                <td>
+                  {{ evaluationFileInsatnce.created | date: 'mediumDate' }}
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
       </tab>
 

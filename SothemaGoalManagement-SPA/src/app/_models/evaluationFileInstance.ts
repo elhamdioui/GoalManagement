@@ -5,7 +5,7 @@ export interface EvaluationFileInstance {
   id: number;
   title: string;
   year: number;
-  strategy: string;
+  strategyTitle: string;
   behavioralSkills: BehavioralSkillInstance[];
   axisInstances: AxisInstance[];
   ownerName: string;
