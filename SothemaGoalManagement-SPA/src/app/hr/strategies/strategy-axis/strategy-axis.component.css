@@ -18,3 +18,8 @@
   overflow-y: scroll;
   height: 400px;
 }
+
+.form-group.required .control-label:after {
+  content: "*";
+  color: red;
+}
