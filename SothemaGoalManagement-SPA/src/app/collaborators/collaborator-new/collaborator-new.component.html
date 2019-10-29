@@ -1,8 +1,8 @@
 <form [formGroup]="newUserForm" class="form-inline" (ngSubmit)="createUser()">
   <h2 class="text-center text-primary">Création d'utilisateur</h2>
   <hr />
-  <div class="form-group">
-    <label for="employeeNumber">Matricule: </label>
+  <div class="form-group required">
+    <label class='control-label' for="employeeNumber">Matricule: </label>
     <input [ngClass]="{
             'is-invalid':
               (newUserForm.get('employeeNumber')?.errors &&
@@ -22,8 +22,8 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="email">Email: </label>
+  <div class="form-group required">
+    <label class='control-label' for="email">Email: </label>
     <input [ngClass]="{
             'is-invalid':
             (newUserForm.get('email')?.errors &&
@@ -41,8 +41,8 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="firstName">Prénom: </label>
+  <div class="form-group required">
+    <label class='control-label' for="firstName">Prénom: </label>
     <input [ngClass]="{
           'is-invalid':
             newUserForm.get('firstName')?.errors &&
@@ -56,8 +56,8 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="lastName">Nom: </label>
+  <div class="form-group required">
+    <label class='control-label' for="lastName">Nom: </label>
     <input [ngClass]="{
             'is-invalid':
               newUserForm.get('lastName')?.errors &&
@@ -71,8 +71,8 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="title">Fonction: </label>
+  <div class="form-group required">
+    <label class='control-label' for="title">Fonction: </label>
     <input [ngClass]="{
               'is-invalid':
                 newUserForm.get('title')?.errors &&
@@ -86,8 +86,8 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="userStatusId">Statut: </label>
+  <div class="form-group required">
+    <label class='control-label' for="userStatusId">Statut: </label>
     <select class="form-control mb-1" style="width: 200px" id="userStatusId" formControlName="userStatusId">
       <option [ngValue]="null" disabled>Choisissez un statut</option>
       <option *ngFor="let us of userStatusList" [ngValue]="us.id">
@@ -96,8 +96,8 @@
     </select>
   </div>
 
-  <div class="form-group">
-    <label for="departmentId">Direction: </label>
+  <div class="form-group required">
+    <label class='control-label' for="departmentId">Direction: </label>
     <select class="form-control mb-1" style="width: 200px" id="departmentId" formControlName="departmentId">
       <option [ngValue]="null" disabled>Choisissez une direction</option>
       <option *ngFor="let dpt of departmentList" [ngValue]="dpt.id">
@@ -106,8 +106,8 @@
     </select>
   </div>
 
-  <div class="form-group">
-    <label for="recruitmentDate">Date de recrutement: </label>
+  <div class="form-group required">
+    <label class='control-label' for="recruitmentDate">Date de recrutement: </label>
     <input [ngClass]="{
             'is-invalid':
               newUserForm.get('recruitmentDate')?.errors &&

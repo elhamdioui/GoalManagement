@@ -1,5 +1,10 @@
 .form-group>label {
   display: inline-block;
   vertical-align: middle;
-  width: 12em;
+  width: 15em;
+}
+
+.form-group.required .control-label:after {
+  content: "*";
+  color: red;
 }

@@ -4,8 +4,8 @@
       <h2 class="ext-primary">Création d'une compétence comportementale</h2>
       <hr />
 
-      <div class="form-group">
-        <label for="skill">Compétence: </label>
+      <div class="form-group required">
+        <label class='control-label' for="skill">Compétence: </label>
         <input [ngClass]="{
                         'is-invalid':
                           newForm.get('skill').errors &&
@@ -19,8 +19,8 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="definition">Définition: </label>
+      <div class="form-group required">
+        <label class='control-label' for="definition">Définition: </label>
         <textarea formControlName="definition" rows="4" cols="50" [ngClass]="{
                               'is-invalid':
                                 newForm.get('definition').errors &&
@@ -51,8 +51,8 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="levelOneGrade">Note de Niveau 1: </label>
+      <div class="form-group required">
+        <label class='control-label' for="levelOneGrade">Note de Niveau 1: </label>
         <input type="number" [ngClass]="{
                               'is-invalid':
                                 newForm.get('levelOneGrade').errors &&
@@ -89,8 +89,8 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="levelTwoGrade">Note de Niveau 2: </label>
+      <div class="form-group required">
+        <label class='control-label' for="levelTwoGrade">Note de Niveau 2: </label>
         <input type="number" [ngClass]="{
                                 'is-invalid':
                                   newForm.get('levelTwoGrade').errors &&
@@ -126,8 +126,8 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="levelThreeGrade">Note de Niveau 3: </label>
+      <div class="form-group required">
+        <label class='control-label' for="levelThreeGrade">Note de Niveau 3: </label>
         <input type="number" [ngClass]="{
                                 'is-invalid':
                                   newForm.get('levelThreeGrade').errors &&
@@ -163,8 +163,8 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="levelFourGrade">Note de Niveau 4: </label>
+      <div class="form-group required">
+        <label class='control-label' for="levelFourGrade">Note de Niveau 4: </label>
         <input type="number" [ngClass]="{
                                 'is-invalid':
                                   newForm.get('levelFourGrade').errors &&

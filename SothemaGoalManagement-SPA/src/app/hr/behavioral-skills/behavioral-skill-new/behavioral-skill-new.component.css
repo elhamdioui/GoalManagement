@@ -3,3 +3,8 @@
   vertical-align: middle;
   width: 12em;
 }
+
+.form-group.required .control-label:after {
+  content: "*";
+  color: red;
+}

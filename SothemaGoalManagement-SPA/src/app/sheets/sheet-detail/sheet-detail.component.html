@@ -45,7 +45,7 @@
               <p>{{sheetDetail.strategyDescription}}</p>
               <h4>Axes:</h4>
               <accordion>
-                <accordion-group *ngFor="let axis of sheetDetail.axisInstances" [heading]="axis.title + ': ' + axis.description">
+                <accordion-group *ngFor="let axis of sheetDetail.axisInstances" [heading]="axis.title">
                   <div class=" card-body ">
                     <p>{{axis.poleName}}
                       <span class="badge badge-pill badge-danger ">

@@ -2,8 +2,8 @@
   <form [formGroup]="newForm" (ngSubmit)="create()">
     <h2 class="ext-primary">Création d'un modèle d'évaluation</h2>
     <hr />
-    <div class="form-group row">
-      <label for="year" class="col-sm-2 col-form-label">Année: </label>
+    <div class="form-group row required">
+      <label for="year" class="col-sm-2 col-form-label control-label">Année: </label>
       <div class="col-sm-5">
         <input [ngClass]="{
                           'is-invalid':
@@ -20,8 +20,8 @@
       </div>
     </div>
 
-    <div class="form-group row">
-      <label for="title" class="col-sm-2 col-form-label">Titre: </label>
+    <div class="form-group row required">
+      <label for="title" class="col-sm-2 col-form-label control-label">Titre: </label>
       <div class="col-sm-5">
         <input [ngClass]="{
                         'is-invalid':
@@ -37,8 +37,8 @@
       </div>
     </div>
 
-    <div class="form-group row">
-      <label for="strategy" class="col-sm-2 col-form-label">Stratégie: </label>
+    <div class="form-group row required">
+      <label for="strategy" class="col-sm-2 col-form-label control-label">Stratégie: </label>
       <div class="col-sm-10">
         <select class="form-control mb-1" id="strategy" formControlName="strategy">
           <option *ngFor="let strategy of strategyList" [ngValue]="strategy">
@@ -48,8 +48,8 @@
       </div>
     </div>
 
-    <div class="form-group row">
-      <label for="behavioralSkillId" class="col-sm-12 col-form-label">Compétence comportementale: </label>
+    <div class="form-group row required">
+      <label for="behavioralSkillId" class="col-sm-12 col-form-label control-label">Compétence comportementale: </label>
     </div>
     <div class="form-group row">
       <label class="ml-3" formArrayName="skills" *ngFor="let skill of newForm.get('skills')['controls']; let i = index">
