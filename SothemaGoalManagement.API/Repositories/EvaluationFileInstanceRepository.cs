@@ -35,7 +35,7 @@ namespace SothemaGoalManagement.API.Repositories
 
         public async Task<EvaluationFileInstance> GetEvaluationFileInstance(int id)
         {
-            return await FindByCondition(efi => efi.Id == id).SingleOrDefaultAsync();
+            return await FindByCondition(efi => efi.Id == id).Include(efi => efi.Owner).Include(efi => efi.AxisInstances).SingleOrDefaultAsync();
         }
 
         public async Task<PagedList<EvaluationFileInstance>> GetEvaluationFileInstancesForUser(CommunParams communParams)

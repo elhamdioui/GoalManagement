@@ -13,6 +13,7 @@ namespace SothemaGoalManagement.API.Dtos
         public int Year { get; set; }
 
         public string StrategyTitle { get; set; }
+        public string StrategyDescription { get; set; }
 
         public string OwnerName { get; set; }
 

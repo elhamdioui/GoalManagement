@@ -12,7 +12,7 @@
                 <th style="width: 25%">Stratégie</th>
                 <td style="width: 15%">Créé</td>
               </tr>
-              <tr *ngFor="let evaluationFileInsatnce of sheets">
+              <tr *ngFor="let evaluationFileInsatnce of sheets" [routerLink]="['/sheets/', evaluationFileInsatnce.id]">
                 <td>{{ evaluationFileInsatnce.title }}</td>
                 <td>{{ evaluationFileInsatnce.year }}</td>
                 <td>{{ evaluationFileInsatnce.strategyTitle }}</td>

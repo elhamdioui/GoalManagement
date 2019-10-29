@@ -104,7 +104,7 @@ export class UserService {
       .subscribe();
   }
 
-  getMySheets(id: number, page?, itemsPerPage?): Observable<PaginatedResult<EvaluationFileInstance[]>> {
+  getMySheets(userId: number, page?, itemsPerPage?): Observable<PaginatedResult<EvaluationFileInstance[]>> {
     const paginatedResult: PaginatedResult<EvaluationFileInstance[]> = new PaginatedResult<EvaluationFileInstance[]>();
     let params = new HttpParams();
 
@@ -114,7 +114,7 @@ export class UserService {
     }
 
     return this.http
-      .get<EvaluationFileInstance[]>(this.baseUrl + 'users/' + id + '/objectives', {
+      .get<EvaluationFileInstance[]>(this.baseUrl + 'users/' + userId + '/objectives', {
         observe: 'response',
         params
       })
@@ -129,5 +129,9 @@ export class UserService {
           return paginatedResult;
         })
       );
+  }
+
+  getMySheet(id: number, userId: number) {
+    return this.http.get<EvaluationFileInstance>(this.baseUrl + 'users/' + userId + '/objectives/' + id);
   }
 }

@@ -27,6 +27,8 @@ import { EvaluationHrDetailComponent } from './hr/evaluations/evaluation-hr-deta
 import { EvaluationHrDetailResolver } from './_resolvers/evaluation-hr-detail.resolver';
 import { SheetsPanelComponent } from './sheets/sheets-panel/sheets-panel.component';
 import { SheetsResolver } from './_resolvers/sheets.resolver';
+import { SheetDetailComponent } from './sheets/sheet-detail/sheet-detail.component';
+import { SheetDetailResolver } from './_resolvers/sheet-detail.resolver';
 
 
 export const appRoutes: Routes = [
@@ -57,6 +59,10 @@ export const appRoutes: Routes = [
         path: 'sheets',
         component: SheetsPanelComponent,
         resolve: { sheets: SheetsResolver }
+      }, {
+        path: 'sheets/:id',
+        component: SheetDetailComponent,
+        resolve: { sheetDetail: SheetDetailResolver }
       },
       {
         path: 'strategies',

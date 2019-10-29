@@ -1,0 +1,84 @@
+<div class="container mt-4">
+  <div class="row">
+    <h1>Fiche d'évaluation</h1>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="card">
+        <div class="card-body">
+          <div>
+            <strong>Titre:</strong>
+            <p>{{ sheetDetail.title }}</p>
+          </div>
+          <div>
+            <strong>Année:</strong>
+            <p>{{ sheetDetail.year }}</p>
+          </div>
+          <div>
+            <strong>Statut:</strong>
+            <p>{{ sheetDetail.status }}</p>
+          </div>
+          <div>
+            <strong>Nom de l'employé:</strong>
+            <p>{{ sheetDetail.ownerName }}</p>
+          </div>
+          <div>
+            <strong>Créé:</strong>
+            <p>{{ sheetDetail.created | date: 'mediumDate' }}</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="btn-group d-fles">
+            <button class="btn btn-success w-70 mr-1" [routerLink]="['/sheets']">
+              Retour au List
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-9">
+      <div class="tab-panel panel-body">
+        <tabset class="strategy-tabset" #strategyTabs>
+          <tab heading="Stratégie">
+            <div class="container">
+              <h4> {{sheetDetail.strategyTitle}}</h4>
+              <p>{{sheetDetail.strategyDescription}}</p>
+              <h4>Axes:</h4>
+              <accordion>
+                <accordion-group *ngFor="let axis of sheetDetail.axisInstances" [heading]="axis.title + ': ' + axis.description">
+                  <div class=" card-body ">
+                    <p>{{axis.poleName}}
+                      <span class="badge badge-pill badge-danger ">
+                        {{axis.poleWeight}} %
+                      </span>
+                    </p>
+                    <p>Poids affecté à l'utilisateur
+                      <span class="badge badge-pill badge-danger ">
+                        {{axis.userWeight}} %
+                      </span>
+                    </p>
+                  </div>
+                </accordion-group>
+              </accordion>
+            </div>
+          </tab>
+          <!-- <tab heading="Compétence comportementale ">
+            <div class="container ">
+              <ul>
+                <li *ngFor="let bs of sheet.behavioralSkillInstances ">
+                  {{bs.skill}}
+                  <ol>
+                    <li>{{bs.levelOne}}</li>
+                    <li>{{bs.levelTwo}}</li>
+                    <li>{{bs.levelThree}}</li>
+                    <li>{{bs.levelFour}}</li>
+                  </ol>
+                </li>
+              </ul>
+            </div>
+          </tab> -->
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>

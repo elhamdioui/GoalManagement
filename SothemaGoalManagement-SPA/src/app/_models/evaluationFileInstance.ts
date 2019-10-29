@@ -6,7 +6,7 @@ export interface EvaluationFileInstance {
   title: string;
   year: number;
   strategyTitle: string;
-  behavioralSkills: BehavioralSkillInstance[];
+  strategyDescription: string;
   axisInstances: AxisInstance[];
   ownerName: string;
   ownerId: number;

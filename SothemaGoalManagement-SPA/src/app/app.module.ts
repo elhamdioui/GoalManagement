@@ -89,6 +89,8 @@ import { EvaluatorAssignmentComponent } from './collaborators/evaluator-assignme
 import { EvaluationFileInstanceHrNewComponent } from './hr/evaluations/evaluation-file-instance-hr-new/evaluation-file-instance-hr-new.component';
 import { SheetsPanelComponent } from './sheets/sheets-panel/sheets-panel.component';
 import { SheetsResolver } from './_resolvers/sheets.resolver';
+import { SheetDetailComponent } from './sheets/sheet-detail/sheet-detail.component';
+import { SheetDetailResolver } from './_resolvers/sheet-detail.resolver';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -148,7 +150,8 @@ export function tokenGetter() {
     EvaluationFileInstanceHrItemComponent,
     EvaluatorAssignmentComponent,
     EvaluationFileInstanceHrNewComponent,
-    SheetsPanelComponent
+    SheetsPanelComponent,
+    SheetDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -195,7 +198,8 @@ export function tokenGetter() {
     AdminService,
     HrService,
     LayoutService,
-    SheetsResolver
+    SheetsResolver,
+    SheetDetailResolver
   ],
   entryComponents: [
     RolesModalComponent,

@@ -26,7 +26,7 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetObjectivesForUser(int userId, [FromQuery]CommunParams communParams)
+        public async Task<IActionResult> GetMySheetsForUser(int userId, [FromQuery]CommunParams communParams)
         {
             try
             {
@@ -42,6 +42,24 @@ namespace SothemaGoalManagement.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside GetObjectivesForUser endpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetMySheetDetailForUser(int userId, int id)
+        {
+            try
+            {
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var evaluationFileInstanceFromRepo = await _repo.EvaluationFileInstance.GetEvaluationFileInstance(id);
+                var evaluationFileInstanceToReturn = _mapper.Map<EvaluationFileInstanceHrToReturnDto>(evaluationFileInstanceFromRepo);
+
+                return Ok(evaluationFileInstanceToReturn);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetEvaluationFileInstanceList enfpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
