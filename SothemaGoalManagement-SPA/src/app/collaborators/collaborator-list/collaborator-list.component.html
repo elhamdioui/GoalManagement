@@ -1,28 +1,7 @@
 <div class="container mt-3">
-  <div *ngIf="!creationMode">
-    <app-admin-filter-actions [departmentList]="departmentList" [userStatusList]="userStatusList" (loadDataEvent)="handleLoadUsers($event)"
-      (creationModeEvent)="handleCreationMode($event)"></app-admin-filter-actions>
-    <br />
-
-    <div class="row">
-      <div *ngFor="let user of users" class="col-lg-2 col-md-3 col-sm-6">
-        <app-collaborator-card [user]="user"></app-collaborator-card>
-      </div>
-    </div>
-
-    <div class="d-flex justify-content-center">
-      <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
-        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
-      </pagination>
-    </div>
-  </div>
-
-  <div *ngIf="creationMode" class="container">
-    <div class="row justify-content-center">
-      <div class="col-4">
-        <app-collaborator-new [departmentList]="departmentList" [userStatusList]="userStatusList" (cancelRegister)="cancelRegisterMode($event)"
-          (switchOffRegister)="switchOffRegisterMode($event)"></app-collaborator-new>
-      </div>
+  <div class="row" style="width:50vw;">
+    <div *ngFor="let user of users" class="col-lg-3 col-md-6 col-sm-12">
+      <app-collaborator-card [user]="user"></app-collaborator-card>
     </div>
   </div>
 </div>

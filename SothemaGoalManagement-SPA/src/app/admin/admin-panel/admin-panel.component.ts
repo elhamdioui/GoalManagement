@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TabsetComponent } from 'ngx-bootstrap';
 
 import { AdminService } from '../../_services/admin.service';
 import { AlertifyService } from '../../_services/alertify.service';
@@ -14,11 +15,15 @@ import { User } from '../../_models/user';
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
+  @ViewChild('adminTabs') adminTabs: TabsetComponent;
   departmentList: Department[];
   userStatusList: UserStatus[];
   users: User[];
   pagination: Pagination;
   public loading = false;
+  creationMode = false;
+  filters: any = {};
+  isPhotosManagementSelected: boolean;
 
   constructor(private route: ActivatedRoute, private adminService: AdminService, private alertify: AlertifyService) { }
 
@@ -34,30 +39,14 @@ export class AdminPanelComponent implements OnInit {
 
   handleLoadUsers(filters) {
     this.loading = true;
+    this.filters = filters;
     this.adminService
       .getUsersWithRoles(
         this.pagination.currentPage,
         this.pagination.itemsPerPage,
-        filters
+        this.filters
       )
       .subscribe(
-        (res: PaginatedResult<User[]>) => {
-          this.users = res.result;
-          this.pagination = res.pagination;
-          this.loading = false;
-        },
-        error => {
-          this.alertify.error(error);
-          this.loading = false;
-        }
-      );
-  }
-
-  handleLoadUsersWithRoles(filters) {
-    this.loading = true;
-    this.adminService.getUsersWithRoles(this.pagination.currentPage,
-      this.pagination.itemsPerPage,
-      filters).subscribe(
         (res: PaginatedResult<User[]>) => {
           this.users = res.result;
           this.pagination = res.pagination;
@@ -74,15 +63,40 @@ export class AdminPanelComponent implements OnInit {
     this.loading = true;
     this.adminService.updateUserRoles(event.user, event.rolesToUpdate).subscribe(() => {
       this.alertify.success('Les rôles ont été mis à jour.');
-      this.handleLoadUsersWithRoles(event.filters);
+      this.handleLoadUsers(event.filters);
       this.loading = false;
     }, error => {
       this.alertify.error(error);
       this.loading = false;
     })
   }
-  handlePageChanged(event: any): void {
-    this.pagination.currentPage = event.currentPage;
-    this.handleLoadUsers(event.filters);;
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.handleLoadUsers(this.filters);
+  }
+
+  cancelRegisterMode(creationMode: boolean) {
+    this.creationMode = creationMode;
+  }
+
+  switchOffRegisterMode(reload: boolean) {
+    this.creationMode = false;
+    if (reload) {
+      this.handleLoadUsers
+        (this.filters);
+    }
+  }
+
+  handleCreationMode(event: boolean) {
+    this.creationMode = event;
+  }
+
+  onSelect($event) {
+    if (this.adminTabs.tabs[2].active) {
+      this.isPhotosManagementSelected = true;
+    } else {
+      this.isPhotosManagementSelected = false;
+    }
   }
 }

@@ -3,9 +3,6 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { User } from '../../_models/user';
 import { RolesModalComponent } from '../roles-modal/roles-modal.component';
-import { Pagination, PaginatedResult } from './../../_models/pagination';
-import { UserStatus } from '../../_models/userStatus';
-import { Department } from '../../_models/department';
 
 @Component({
   selector: 'app-user-roles-management',
@@ -14,43 +11,16 @@ import { Department } from '../../_models/department';
 })
 export class UserRolesManagementComponent implements OnInit {
   @Input() users: User[];
-  @Input() pagination: Pagination;
-  @Input() departmentList: Department[];
-  @Input() userStatusList: UserStatus[];
   @Output() loadUsersWithRolesEvent = new EventEmitter<any>();
-  @Output() pageChangedEvent = new EventEmitter<any>();
   @Output() editUserRoleEvent = new EventEmitter<any>();
-  creationMode = false;
-  filters: any = {};
   bsModalRef: BsModalRef;
 
   constructor(private modalService: BsModalService) { }
 
   ngOnInit() { }
 
-  pageChanged(event: any): void {
-    let pageParams = { currentPage: event.page, filters: this.filters }
-    this.pageChangedEvent.emit(pageParams);;
-  }
-
-  cancelRegisterMode(creationMode: boolean) {
-    this.creationMode = creationMode;
-  }
-
-  switchOffRegisterMode(reload: boolean) {
-    this.creationMode = false;
-    if (reload) {
-      this.loadUsersWithRolesEvent.emit(this.filters);
-    }
-  }
-
   handleLoadUsers(event: any) {
-    this.filters = event;
-    this.loadUsersWithRolesEvent.emit(this.filters);
-  }
-
-  handleCreationMode(event: boolean) {
-    this.creationMode = event;
+    this.loadUsersWithRolesEvent.emit(event);
   }
 
   editRolesModal(user: User) {
@@ -64,7 +34,7 @@ export class UserRolesManagementComponent implements OnInit {
         roleNames: [...values.filter(el => el.checked === true).map(el => el.name)]
       };
       if (rolesToUpdate) {
-        let updateParams = { user, rolesToUpdate, filters: this.filters }
+        let updateParams = { user, rolesToUpdate }
         this.editUserRoleEvent.emit(updateParams);
       }
     });

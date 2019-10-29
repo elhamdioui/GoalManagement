@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="container" *ngIf="photos?.length === 0">
+<div class="container">
+  <div class="alert alert-info mt-3" role="alert" *ngIf="photos?.length === 0">
     <p>Aucune photo d'utilisateur n'a encore été soumise pour approbation.</p>
   </div>
   <div class="col-sm-2" *ngFor="let photo of photos">

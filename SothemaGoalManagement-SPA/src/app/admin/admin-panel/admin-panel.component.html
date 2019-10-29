@@ -1,18 +1,19 @@
 <div class="container mt-5">
   <h2>Panneau d'administration</h2>
-  <div class="tab-panel">
-    <tabset class="member-tabset">
+  <div class="tab-panel" *ngIf="!creationMode">
+    <app-admin-filter-actions *ngIf="!isPhotosManagementSelected" [departmentList]="departmentList" [userStatusList]="userStatusList"
+      (loadDataEvent)="handleLoadUsers($event)" (creationModeEvent)="handleCreationMode($event)"></app-admin-filter-actions>
+    <br />
+    <tabset class="member-tabset" (click)="onSelect($event)" #adminTabs>
       <tab heading="Gestion des utilisateurs" *appHasRole="['Admin', 'HR']">
         <div class="row">
-          <app-collaborator-list [departmentList]="departmentList" [userStatusList]="userStatusList" [users]="users" [pagination]="pagination"
-            (pageChangedEvent)="(handlePageChanged($event))" (loadUsersEvent)="handleLoadUsers($event)"></app-collaborator-list>
+          <app-collaborator-list [users]="users" (loadUsersEvent)="handleLoadUsers($event)"></app-collaborator-list>
         </div>
       </tab>
 
       <tab heading="Gestion des roles" *appHasRole="['Admin', 'HR']">
         <div class="container">
-          <app-user-roles-management [departmentList]="departmentList" [userStatusList]="userStatusList" [users]="users" [pagination]="pagination"
-            (pageChangedEvent)="(handlePageChanged($event))" (loadUsersWithRolesEvent)="handleLoadUsersWithRoles($event)" (editUserRoleEvent)="handleEditUserRoles($event)"></app-user-roles-management>
+          <app-user-roles-management [users]="users" (loadUsersWithRolesEvent)="handleLoadUsers($event)" (editUserRoleEvent)="handleEditUserRoles($event)"></app-user-roles-management>
         </div>
       </tab>
 
@@ -20,5 +21,20 @@
         <app-photo-management></app-photo-management>
       </tab>
     </tabset>
+
+    <div class="d-flex justify-content-center" *ngIf="!isPhotosManagementSelected">
+      <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
+        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
+      </pagination>
+    </div>
+  </div>
+
+  <div *ngIf="creationMode" class="container">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <app-collaborator-new [departmentList]="departmentList" [userStatusList]="userStatusList" (cancelRegister)="cancelRegisterMode($event)"
+          (switchOffRegister)="switchOffRegisterMode($event)"></app-collaborator-new>
+      </div>
+    </div>
   </div>
 </div>

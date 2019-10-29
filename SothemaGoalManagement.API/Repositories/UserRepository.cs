@@ -20,7 +20,7 @@ namespace SothemaGoalManagement.API.Repositories
                                 .ThenInclude(p => p.Pole)
                                 .Include(p => p.Photos)
                                 .Include(s => s.UserStatus)
-                                .OrderByDescending(u => u.LastActive)
+                                .OrderByDescending(u => u.Created)
                                 .AsQueryable();
 
             if (userParams.DepartmentId > 0)
@@ -39,18 +39,18 @@ namespace SothemaGoalManagement.API.Repositories
                                     || u.LastName.ToLower().Contains(userParams.UserToSearch.ToLower()));
             }
 
-            if (!string.IsNullOrEmpty(userParams.OrderBy))
-            {
-                switch (userParams.OrderBy)
-                {
-                    case "created":
-                        users = users.OrderByDescending(u => u.Created);
-                        break;
-                    default:
-                        users = users.OrderByDescending(u => u.LastActive);
-                        break;
-                }
-            }
+            // if (!string.IsNullOrEmpty(userParams.OrderBy))
+            // {
+            //     switch (userParams.OrderBy)
+            //     {
+            //         case "created":
+            //             users = users.OrderByDescending(u => u.Created);
+            //             break;
+            //         default:
+            //             users = users.OrderByDescending(u => u.LastActive);
+            //             break;
+            //     }
+            // }
 
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
@@ -92,18 +92,18 @@ namespace SothemaGoalManagement.API.Repositories
                                     || u.LastName.ToLower().Contains(userParams.UserToSearch.ToLower()));
             }
 
-            if (!string.IsNullOrEmpty(userParams.OrderBy))
-            {
-                switch (userParams.OrderBy)
-                {
-                    case "created":
-                        usersWithRoles = usersWithRoles.OrderByDescending(u => u.Created);
-                        break;
-                    default:
-                        usersWithRoles = usersWithRoles.OrderByDescending(u => u.LastActive);
-                        break;
-                }
-            }
+            // if (!string.IsNullOrEmpty(userParams.OrderBy))
+            // {
+            //     switch (userParams.OrderBy)
+            //     {
+            //         case "created":
+            //             usersWithRoles = usersWithRoles.OrderByDescending(u => u.Created);
+            //             break;
+            //         default:
+            //             usersWithRoles = usersWithRoles.OrderByDescending(u => u.LastActive);
+            //             break;
+            //     }
+            // }
 
             return await PagedList<object>.CreateAsync(usersWithRoles, userParams.PageNumber, userParams.PageSize);
         }

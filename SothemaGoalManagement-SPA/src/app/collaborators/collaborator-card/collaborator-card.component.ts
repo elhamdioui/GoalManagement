@@ -12,6 +12,5 @@ export class CollaboratorCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('user:', this.user);
   }
 }

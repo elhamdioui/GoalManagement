@@ -45,10 +45,6 @@ export class StrategyDocumentationComponent implements OnInit {
     };
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
-      console.log('item:', item);
-      console.log('response:', response);
-      console.log('status:', status);
-      console.log('headers:', headers);
       if (response) {
         const res: Strategy = JSON.parse(response);
         this.strategy.documentationUrl = res.documentationUrl;

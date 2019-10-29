@@ -1,8 +1,5 @@
 <div class="container mt-3">
-  <div *ngIf="!creationMode">
-    <app-admin-filter-actions [departmentList]="departmentList" [userStatusList]="userStatusList" (loadDataEvent)="handleLoadUsers($event)"
-      (creationModeEvent)="handleCreationMode($event)"></app-admin-filter-actions>
-    <br />
+  <div>
     <div class="row">
       <table class="table table-hover" style="cursor: pointer">
         <tr>
@@ -21,22 +18,6 @@
           </td>
         </tr>
       </table>
-    </div>
-
-    <div class="d-flex justify-content-center">
-      <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
-        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
-      </pagination>
-    </div>
-
-  </div>
-</div>
-
-<div *ngIf="creationMode" class="container">
-  <div class="row justify-content-center">
-    <div class="col-4">
-      <app-collaborator-new [departmentList]="departmentList" [userStatusList]="userStatusList" (cancelRegister)="cancelRegisterMode($event)"
-        (switchOffRegister)="switchOffRegisterMode($event)"></app-collaborator-new>
     </div>
   </div>
 </div>
