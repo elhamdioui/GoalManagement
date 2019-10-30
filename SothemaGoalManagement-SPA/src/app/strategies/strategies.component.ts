@@ -6,7 +6,7 @@ import { Strategy } from '../_models/strategy';
 @Component({
   selector: 'app-strategies',
   templateUrl: './strategies.component.html',
-  styleUrls: ['./strategies.component.css']
+  styles: ['./strategies.component.css']
 })
 export class StrategiesComponent implements OnInit {
   strategies: Strategy[];

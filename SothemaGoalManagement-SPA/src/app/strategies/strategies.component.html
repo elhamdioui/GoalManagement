@@ -19,9 +19,7 @@
         <p class="card-text">{{strategy.description}}</p>
       </div>
 
-
-
-      <div class="card-body">
+      <div class="card-body" [ngStyle]="{'background-color':viewMode ? 'white' : 'grey' }">
         <carousel *ngIf="!viewMode">
           <slide *ngFor="let axis of strategy.axisList">
             <div class="text-center py-5">
