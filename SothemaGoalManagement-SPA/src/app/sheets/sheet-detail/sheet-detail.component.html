@@ -19,8 +19,20 @@
             <p>{{ sheetDetail.status }}</p>
           </div>
           <div>
+            <strong>Matricule:</strong>
+            <p>{{ sheetDetail.employeeNumber }}</p>
+          </div>
+          <div>
             <strong>Nom de l'employé:</strong>
             <p>{{ sheetDetail.ownerName }}</p>
+          </div>
+          <div>
+            <strong>Fonction:</strong>
+            <p>{{ sheetDetail.ownerTitle }}</p>
+          </div>
+          <div>
+            <strong>Pôle/entité:</strong>
+            <p>{{ sheetDetail.axisInstances[0].poleName }}</p>
           </div>
           <div>
             <strong>Créé:</strong>
@@ -38,45 +50,43 @@
     </div>
     <div class="col-sm-9">
       <div class="tab-panel panel-body">
-        <tabset class="strategy-tabset" #strategyTabs>
+        <tabset class="strategy-tabset">
           <tab heading="Stratégie">
-            <div class="container">
+            <div class="container mt-2">
               <h4> {{sheetDetail.strategyTitle}}</h4>
               <p>{{sheetDetail.strategyDescription}}</p>
               <h4>Axes:</h4>
-              <accordion>
-                <accordion-group *ngFor="let axis of sheetDetail.axisInstances" [heading]="axis.title">
-                  <div class=" card-body ">
-                    <p>{{axis.poleName}}
-                      <span class="badge badge-pill badge-danger ">
-                        {{axis.poleWeight}} %
-                      </span>
-                    </p>
-                    <p>Poids affecté à l'utilisateur
-                      <span class="badge badge-pill badge-danger ">
-                        {{axis.userWeight}} %
-                      </span>
-                    </p>
-                  </div>
-                </accordion-group>
-              </accordion>
+              <table class="table table-hover">
+                <tr>
+                  <th style="width: 40%">Titre</th>
+                  <th style="width: 50%">Description</th>
+                  <th style="width: 10%">Pondération</th>
+                </tr>
+                <tr *ngFor="let axis of sheetDetail.axisInstances">
+                  <td>{{ axis.title }}</td>
+                  <td>{{ axis.description }}</td>
+                  <td>
+                    <span class="badge badge-pill badge-danger">{{axis.userWeight}} %</span>
+                  </td>
+                </tr>
+              </table>
             </div>
           </tab>
-          <!-- <tab heading="Compétence comportementale ">
+          <tab heading="Définition des Objectifs">
             <div class="container ">
-              <ul>
-                <li *ngFor="let bs of sheet.behavioralSkillInstances ">
-                  {{bs.skill}}
-                  <ol>
-                    <li>{{bs.levelOne}}</li>
-                    <li>{{bs.levelTwo}}</li>
-                    <li>{{bs.levelThree}}</li>
-                    <li>{{bs.levelFour}}</li>
-                  </ol>
-                </li>
-              </ul>
+
             </div>
-          </tab> -->
+          </tab>
+          <tab heading="Évaluation des objectifs">
+            <div class="container ">
+
+            </div>
+          </tab>
+          <tab heading="Évaluation des Compétences">
+            <div class="container ">
+
+            </div>
+          </tab>
         </tabset>
       </div>
     </div>

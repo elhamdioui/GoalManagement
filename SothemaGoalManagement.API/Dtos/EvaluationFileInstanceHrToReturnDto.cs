@@ -12,10 +12,14 @@ namespace SothemaGoalManagement.API.Dtos
 
         public int Year { get; set; }
 
+        public string Status { get; set; }
+
         public string StrategyTitle { get; set; }
         public string StrategyDescription { get; set; }
 
         public string OwnerName { get; set; }
+        public string OwnerTitle { get; set; }
+        public string EmployeeNumber { get; set; }
 
         public DateTime Created { get; set; }
 

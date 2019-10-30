@@ -9,6 +9,8 @@ export interface EvaluationFileInstance {
   strategyDescription: string;
   axisInstances: AxisInstance[];
   ownerName: string;
+  ownerTitle: string;
+  employeeNumber: string;
   ownerId: number;
   status: string;
   created: Date;

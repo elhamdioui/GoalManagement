@@ -99,6 +99,12 @@ namespace SothemaGoalManagement.API.Helpers
             }).ForMember(dest => dest.OwnerName, opt =>
             {
                 opt.ResolveUsing(u => u.Owner.FirstName.FullName(u.Owner.LastName));
+            }).ForMember(dest => dest.OwnerTitle, opt =>
+            {
+                opt.ResolveUsing(u => u.Owner.Title);
+            }).ForMember(dest => dest.EmployeeNumber, opt =>
+            {
+                opt.ResolveUsing(u => u.Owner.EmployeeNumber);
             });
         }
     }
