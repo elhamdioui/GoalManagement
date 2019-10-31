@@ -30,5 +30,9 @@ namespace SothemaGoalManagement.API.Interfaces
 
         IDepartmentRepository Department { get; }
 
+        IGoalTypeRepository GoalType { get; }
+
+        IGoalRepository Goal { get; }
+
     }
 }

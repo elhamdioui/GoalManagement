@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -41,7 +42,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetObjectivesForUser endpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetMySheetsForUser endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -59,7 +60,43 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetEvaluationFileInstanceList enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetMySheetDetailForUser enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> GetGoalsForAxis(int userId, IEnumerable<int> axisInstanceIds)
+        {
+            try
+            {
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var goalsFromRepo = await _repo.Goal.GetGoalsByAxisInstanceIds(axisInstanceIds);
+                var goalsToReturn = _mapper.Map<IEnumerable<GoalToReturnDto>>(goalsFromRepo);
+
+                return Ok(goalsToReturn);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetGoals enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("goalTypes")]
+        public async Task<IActionResult> GetGoalTypes(int userId)
+        {
+            try
+            {
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var goalTypeList = await _repo.GoalType.GetGoalType();
+                var goalTypeToReturn = _mapper.Map<IEnumerable<GoalTypeToReturnDto>>(goalTypeList);
+
+                return Ok(goalTypeToReturn);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetGoalType enfpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }

@@ -43,6 +43,10 @@ namespace SothemaGoalManagement.API.Data
 
         public DbSet<EvaluationFileInstanceBehavioralSkillInstance> EvaluationFileInstanceBehavioralSkillInstances { get; set; }
 
+        public DbSet<GoalType> GoalTypes { get; set; }
+
+        public DbSet<Goal> Goals { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -171,6 +175,18 @@ namespace SothemaGoalManagement.API.Data
 
             });
 
+            builder.Entity<Goal>(g =>
+            {
+                g.HasOne<AxisInstance>(o => o.AxisInstance)
+                    .WithMany(ai => ai.Goals)
+                    .HasForeignKey(ai => ai.AxisInstanceId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                g.HasOne<GoalType>(o => o.GoalType)
+                    .WithMany(ai => ai.Goals)
+                    .HasForeignKey(ai => ai.GoalTypeId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
         }
     }
 }

@@ -91,6 +91,10 @@ import { SheetsPanelComponent } from './sheets/sheets-panel/sheets-panel.compone
 import { SheetsResolver } from './_resolvers/sheets.resolver';
 import { SheetDetailComponent } from './sheets/sheet-detail/sheet-detail.component';
 import { SheetDetailResolver } from './_resolvers/sheet-detail.resolver';
+import { GoalsComponent } from './sheets/goals/goals.component';
+import { GoalEditModalComponent } from './sheets/goal-edit-modal/goal-edit-modal.component';
+import { AxisUserComponent } from './sheets/axis-user/axis-user.component';
+import { GoalNewComponent } from './sheets/goal-new/goal-new.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -151,7 +155,11 @@ export function tokenGetter() {
     EvaluatorAssignmentComponent,
     EvaluationFileInstanceHrNewComponent,
     SheetsPanelComponent,
-    SheetDetailComponent
+    SheetDetailComponent,
+    GoalsComponent,
+    GoalEditModalComponent,
+    AxisUserComponent,
+    GoalNewComponent
   ],
   imports: [
     BrowserModule,
@@ -207,7 +215,8 @@ export function tokenGetter() {
     StrategyEditModalComponent,
     BehavioralSkillEditModalComponent,
     EvaluationHrEditModalComponent,
-    CollaboratorSearchComponent
+    CollaboratorSearchComponent,
+    GoalEditModalComponent
   ],
   bootstrap: [AppComponent]
 })

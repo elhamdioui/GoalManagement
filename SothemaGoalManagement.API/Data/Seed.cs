@@ -21,6 +21,18 @@ namespace SothemaGoalManagement.API.Data
 
         public void SeedData()
         {
+            if (!_context.GoalTypes.Any())
+            {
+                var goalTypeData = System.IO.File.ReadAllText("Data/GoalTypeSeedData.json");
+                var goalTypeList = JsonConvert.DeserializeObject<List<GoalType>>(goalTypeData);
+
+                foreach (var gt in goalTypeList)
+                {
+                    _context.GoalTypes.Add(gt);
+                }
+                _context.SaveChangesAsync().Wait();
+            }
+
             if (!_context.UserStatus.Any())
             {
                 var userStatusData = System.IO.File.ReadAllText("Data/UserStatusSeedData.json");

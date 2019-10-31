@@ -26,7 +26,7 @@ export class CollaboratorListResolver implements Resolve<any> {
     let userStatusList = localStorage.getItem('userStatusList');
 
     if (departmentList && userStatusList) {
-      this.adminService.getUsers(this.pageNumber, this.pageSize)
+      this.adminService.getUsersWithRoles(this.pageNumber, this.pageSize)
         .pipe(map(result => {
           return {
             departmentList: JSON.parse(departmentList),

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SothemaGoalManagement.API.Models
 {
@@ -21,6 +23,13 @@ namespace SothemaGoalManagement.API.Models
         public int PoleWeight { get; set; }
 
         public int UserWeight { get; set; }
+
+        public ICollection<Goal> Goals { get; set; }
+
+        public AxisInstance()
+        {
+            Goals = new Collection<Goal>();
+        }
 
     }
 }

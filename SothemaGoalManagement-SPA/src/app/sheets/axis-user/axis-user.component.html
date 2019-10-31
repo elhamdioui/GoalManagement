@@ -1,0 +1,19 @@
+<div class="container mt-2">
+  <h4> {{strategyTitle}}</h4>
+  <p>{{strategyDescription}}</p>
+  <h4>Axes:</h4>
+  <table class="table table-hover">
+    <tr>
+      <th style="width: 40%">Titre</th>
+      <th style="width: 50%">Description</th>
+      <th style="width: 10%">Pondération</th>
+    </tr>
+    <tr *ngFor="let axis of axisInstances">
+      <td>{{ axis.title }}</td>
+      <td>{{ axis.description }}</td>
+      <td>
+        <span class="badge badge-pill badge-danger">{{axis.userWeight}} %</span>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -106,6 +106,14 @@ namespace SothemaGoalManagement.API.Helpers
             {
                 opt.ResolveUsing(u => u.Owner.EmployeeNumber);
             });
+
+            CreateMap<GoalType, GoalTypeToReturnDto>();
+
+            CreateMap<GoalForCreationDto, Goal>();
+
+            CreateMap<GoalForUpdateDto, Goal>();
+
+            CreateMap<Goal, GoalToReturnDto>();
         }
     }
 }

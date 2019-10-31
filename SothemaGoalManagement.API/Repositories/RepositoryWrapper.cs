@@ -20,6 +20,8 @@ namespace SothemaGoalManagement.API.Repositories
         private IUserStatusRepository _userStatus;
         private IPoleRepository _pole;
         private IDepartmentRepository _department;
+        private IGoalTypeRepository _goalType;
+        private IGoalRepository _goal;
 
         public IAxisInstanceRepository AxisInstance
         {
@@ -186,6 +188,30 @@ namespace SothemaGoalManagement.API.Repositories
                     _pole = new PoleRepository(_repoContext);
                 }
                 return _pole;
+            }
+        }
+
+        public IGoalTypeRepository GoalType
+        {
+            get
+            {
+                if (_goalType == null)
+                {
+                    _goalType = new GoalTypeRepository(_repoContext);
+                }
+                return _goalType;
+            }
+        }
+
+        public IGoalRepository Goal
+        {
+            get
+            {
+                if (_goal == null)
+                {
+                    _goal = new GoalRepository(_repoContext);
+                }
+                return _goal;
             }
         }
 

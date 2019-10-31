@@ -62,7 +62,7 @@ export const appRoutes: Routes = [
       }, {
         path: 'sheets/:id',
         component: SheetDetailComponent,
-        resolve: { sheetDetail: SheetDetailResolver }
+        resolve: { resolvedData: SheetDetailResolver }
       },
       {
         path: 'strategies',

@@ -1,0 +1,38 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Modifier Objectif</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form #goalForm="ngForm" id="goalForm">
+
+    <h4>Axe:</h4>
+    <select class="form-control mb-1" style="width: 200px" id="axis" name="axis" [(ngModel)]="goal.axis" required >
+      <option *ngFor="let axis of axisList" [ngValue]="axis">
+        {{ axis }}
+      </option>
+    </select>
+
+    <h4>Objectif:</h4>
+    <input [(ngModel)]="goal.goal" name="goal" required type="text" class="form-control input-sm" placeholder="Ajouter un objectif"
+    />
+
+
+    <h4>Type d'objectif:</h4>
+    <select class="form-control mb-1" style="width: 200px" id="goalType" name="goalType" [(ngModel)]="goal.goalType" required>
+      <option *ngFor="let goalType of goalTypeList" [ngValue]="goalType">
+        {{ goalType }}
+      </option>
+    </select>
+
+    <h4>Pondération:</h4>
+    <input [(ngModel)]="goal.goalWeight" name="goalWeight" required type="number" class="form-control input-sm"/>
+
+
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="bsModalRef.hide()">Annuler</button>
+  <button type="button" class="btn btn-success" (click)="updateGoal()" form="goalForm" [disabled]="!goalForm.valid || !goalForm.dirty">Mettre à jour</button>
+</div>

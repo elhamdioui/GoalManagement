@@ -134,4 +134,24 @@ export class UserService {
   getMySheet(id: number, userId: number) {
     return this.http.get<EvaluationFileInstance>(this.baseUrl + 'users/' + userId + '/objectives/' + id);
   }
+
+  getGoalsForAxis(userId: number, axisInstanceIds: number[]) {
+    return this.http.post(`${this.baseUrl}users/${userId}/objectives`, axisInstanceIds);
+  }
+
+  addGoal(userId: number, goal: Goal) {
+    return this.http.post(`${this.baseUrl}users/${userId}/objectives/addGoal`, goal);
+  }
+
+  updateGoal(id: number, userId: number, goal: Goal) {
+    return this.http.put(`${this.baseUrl}users/${userId}/objectives/updateGoal/${id}`, goal);
+  }
+
+  deleteGoal(id: number, userId: number) {
+    return this.http.delete(`${this.baseUrl}users/${userId}/objectives/${id}/delete`);
+  }
+
+  getGoalTypes(userId) {
+    return this.http.get(`${this.baseUrl}users/${userId}/objectives/goalTypes`);
+  }
 }

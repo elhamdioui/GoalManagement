@@ -1,3 +1,6 @@
+
+using System;
+
 namespace SothemaGoalManagement.API.Models
 {
     public class Goal
@@ -7,10 +10,17 @@ namespace SothemaGoalManagement.API.Models
 
         public string Status { get; set; }
 
-        public double Percentage { get; set; }
+        public int Weight { get; set; }
 
-        public double Weight { get; set; }
+        public GoalType GoalType { get; set; }
 
+        public int GoalTypeId { get; set; }
+
+        public AxisInstance AxisInstance { get; set; }
+
+        public int AxisInstanceId { get; set; }
+
+        public DateTime Created { get; set; }
 
     }
 }
