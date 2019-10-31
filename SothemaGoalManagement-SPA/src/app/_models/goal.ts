@@ -8,4 +8,5 @@ export interface Goal {
   created: Date;
   goalType: GoalType;
   axisInstance: AxisInstance;
+  status: string;
 }

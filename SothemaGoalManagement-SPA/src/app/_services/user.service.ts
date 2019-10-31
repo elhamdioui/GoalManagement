@@ -132,23 +132,23 @@ export class UserService {
   }
 
   getMySheet(id: number, userId: number) {
-    return this.http.get<EvaluationFileInstance>(this.baseUrl + 'users/' + userId + '/objectives/' + id);
+    return this.http.get<EvaluationFileInstance>(this.baseUrl + 'users/' + userId + '/objectives/mysheet/' + id);
   }
 
   getGoalsForAxis(userId: number, axisInstanceIds: number[]) {
     return this.http.post(`${this.baseUrl}users/${userId}/objectives`, axisInstanceIds);
   }
 
-  addGoal(userId: number, goal: Goal) {
-    return this.http.post(`${this.baseUrl}users/${userId}/objectives/addGoal`, goal);
+  createGoal(userId: number, goal: any) {
+    return this.http.post(`${this.baseUrl}users/${userId}/objectives/createGoal`, goal);
   }
 
   updateGoal(id: number, userId: number, goal: Goal) {
-    return this.http.put(`${this.baseUrl}users/${userId}/objectives/updateGoal/${id}`, goal);
+    return this.http.put(`${this.baseUrl}users/${userId}/objectives/editGoal/${id}`, goal);
   }
 
   deleteGoal(id: number, userId: number) {
-    return this.http.delete(`${this.baseUrl}users/${userId}/objectives/${id}/delete`);
+    return this.http.delete(`${this.baseUrl}users/${userId}/objectives/deleteGoal/${id}`);
   }
 
   getGoalTypes(userId) {

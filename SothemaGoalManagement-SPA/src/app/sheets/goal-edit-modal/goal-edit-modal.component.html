@@ -8,26 +8,29 @@
   <form #goalForm="ngForm" id="goalForm">
 
     <h4>Axe:</h4>
-    <select class="form-control mb-1" style="width: 200px" id="axis" name="axis" [(ngModel)]="goal.axis" required >
-      <option *ngFor="let axis of axisList" [ngValue]="axis">
-        {{ axis }}
+    <select class="form-control mb-1" style="width: 200px" id="axis" name="axis" [(ngModel)]="updatedGoal.axisInstanceId" required>
+      <option *ngFor="let axis of axisList" [ngValue]="axis.id">
+        {{ axis.title }}
       </option>
     </select>
 
     <h4>Objectif:</h4>
-    <input [(ngModel)]="goal.goal" name="goal" required type="text" class="form-control input-sm" placeholder="Ajouter un objectif"
+    <input [(ngModel)]="updatedGoal.description" name="goal" required type="text" class="form-control input-sm" placeholder="Ajouter un objectif"
     />
 
 
     <h4>Type d'objectif:</h4>
-    <select class="form-control mb-1" style="width: 200px" id="goalType" name="goalType" [(ngModel)]="goal.goalType" required>
-      <option *ngFor="let goalType of goalTypeList" [ngValue]="goalType">
-        {{ goalType }}
+    <select class="form-control mb-1" style="width: 200px" id="goalType" name="goalType" [(ngModel)]="updatedGoal.goalTypeId" required>
+      <option *ngFor="let goalType of goalTypeList" [ngValue]="goalType.id">
+        {{ goalType.name }}
       </option>
     </select>
 
     <h4>Pondération:</h4>
-    <input [(ngModel)]="goal.goalWeight" name="goalWeight" required type="number" class="form-control input-sm"/>
+    <input [(ngModel)]="updatedGoal.weight" name="goalWeight" required type="number" class="form-control input-sm" />
+
+    <h4>Statut:</h4>
+    {{updatedGoal.status}}
 
 
   </form>

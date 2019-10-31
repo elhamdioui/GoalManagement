@@ -55,8 +55,9 @@
             <app-axis-user [strategyTitle]="sheetDetail.strategyTitle" [strategyDescription]="sheetDetail.strategyDescription" [axisInstances]="sheetDetail.axisInstances"></app-axis-user>
           </tab>
           <tab heading="Définition des Objectifs">
-            <div *ngIf="goalList.length >= 0">
-              <app-goals [goalList]="goalList" [axisInstances]="sheetDetail.axisInstances" [goalTypeList]="goalTypeList"></app-goals>
+            <div *ngIf="goalList">
+              <app-goals [goalList]="goalList" [axisInstances]="sheetDetail.axisInstances" [goalTypeList]="goalTypeList" (createGoalEvent)="handleCreateGoal($event)"
+                (editGoalEvent)="handleEditGoal($event)" (deleteGoalEvent)="handleDeleteGoal($event)"></app-goals>
             </div>
           </tab>
           <tab heading="Évaluation des objectifs">

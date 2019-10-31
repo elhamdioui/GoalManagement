@@ -78,7 +78,7 @@ export class EvaluationHrDetailComponent implements OnInit {
             },
             error => {
               this.loading = false;
-              this.alertify.error('Impossible de supprimer la diche d\'évaluation');
+              this.alertify.error('Impossible de supprimer la fiche d\'évaluation');
             }
           );
       }

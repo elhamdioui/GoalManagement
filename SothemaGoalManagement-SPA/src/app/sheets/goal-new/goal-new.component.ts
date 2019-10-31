@@ -13,7 +13,7 @@ export class GoalNewComponent implements OnInit {
   @Input() axisInstances: AxisInstance[];
   @Input() goalList: Goal[];
   @Input() goalTypeList: GoalType[];
-  @Output() addGoalEvent = new EventEmitter<Goal>();
+  @Output() createGoalEvent = new EventEmitter<any>();
   newGoal: any = {};
 
   constructor() { }
@@ -21,10 +21,12 @@ export class GoalNewComponent implements OnInit {
   ngOnInit() {
   }
 
-  addGoal() {
-    this.addGoalEvent.emit(this.newGoal);
-    this.newGoal.goal = '';
-    this.newGoal.goalWeight = '';
+  createGoal() {
+    this.createGoalEvent.emit(this.newGoal);
+    this.newGoal.description = '';
+    this.newGoal.weight = '';
+    this.newGoal.axisInstanceId = '';
+    this.newGoal.goalTypeId = '';
   }
 
 

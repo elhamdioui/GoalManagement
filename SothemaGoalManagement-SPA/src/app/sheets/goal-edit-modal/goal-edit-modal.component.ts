@@ -11,18 +11,28 @@ import { Axis } from '../../_models/axis';
   styleUrls: ['./goal-edit-modal.component.css']
 })
 export class GoalEditModalComponent implements OnInit {
-  @Output() updateGoalEvent = new EventEmitter();
+  @Output() editGoalEvent = new EventEmitter<any>();
   goal: Goal;
   axisList: Axis[];
   goalTypeList: GoalType[];
+  updatedGoal: any = {};
 
   constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
+    this.updatedGoal = {
+      'id': this.goal.id,
+      'description': this.goal.description,
+      'axisInstanceId': this.goal.axisInstance.id,
+      'goalTypeId': this.goal.goalType.id,
+      'weight': this.goal.weight,
+      'status': this.goal.status
+    }
   }
 
   updateGoal() {
-    this.updateGoalEvent.emit(this.goal);
+
+    this.editGoalEvent.emit(this.updatedGoal);
     this.bsModalRef.hide();
   }
 }

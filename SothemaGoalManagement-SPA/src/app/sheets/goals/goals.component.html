@@ -7,7 +7,7 @@
 
   <div class="card">
     <div class="card-header" *ngIf="isCollapsed">
-      <app-goal-new [goalList]="goalList" [axisInstances]="axisInstances" [goalTypeList]="goalTypeList"></app-goal-new>
+      <app-goal-new [goalList]="goalList" [axisInstances]="axisInstances" [goalTypeList]="goalTypeList" (createGoalEvent)="handleCreateGoal($event)"></app-goal-new>
     </div>
 
     <div class="card-body">

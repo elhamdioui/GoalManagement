@@ -1,8 +1,8 @@
-<form #goalForm="ngForm" (ngSubmit)="goalForm.valid && addGoal()">
+<form #goalForm="ngForm" (ngSubmit)="goalForm.valid && createGoal()">
   <div class="row">
     <div class="col form-group required">
       <label class='control-label'>Axe:</label>
-      <select class="form-control mb-1" style="width: 200px" id="axisId" name="axisId">
+      <select class="form-control mb-1" style="width: 200px" id="axisId" name="axisId" [(ngModel)]="newGoal.axisInstanceId">
         <option *ngFor="let axis of axisInstances" [ngValue]="axis.id">
           {{ axis.title }}
         </option>
@@ -11,7 +11,7 @@
 
     <div class="col form-group required">
       <label class='control-label'>Type d'objectif:</label>
-      <select class="form-control mb-1" style="width: 200px" id="objectifTypeId" name="goalTypeId">
+      <select class="form-control mb-1" style="width: 200px" id="objectifTypeId" name="goalTypeId" [(ngModel)]="newGoal.goalTypeId">
         <option *ngFor="let goalType of goalTypeList" [ngValue]="goalType.id">
           {{ goalType.name }}
         </option>
@@ -20,7 +20,7 @@
 
     <div class="col form-group required">
       <label class='control-label'>Poid d'objectif:</label>
-      <input [(ngModel)]="newGoal.goalWeight" name="goalWeight" required type="number" min="1" max="100" class="form-control input-sm"
+      <input [(ngModel)]="newGoal.weight" name="goalWeight" required type="number" min="1" max="100" class="form-control input-sm"
         placeholder="Poid d'objectif" />
     </div>
   </div>

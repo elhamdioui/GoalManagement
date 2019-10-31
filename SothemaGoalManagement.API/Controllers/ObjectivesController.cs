@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using SothemaGoalManagement.API.Dtos;
 using SothemaGoalManagement.API.Helpers;
 using SothemaGoalManagement.API.Interfaces;
+using SothemaGoalManagement.API.Models;
 
 namespace SothemaGoalManagement.API.Controllers
 {
@@ -47,7 +48,26 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetGoal")]
+        public async Task<IActionResult> GetGoal(int userId, int id)
+        {
+            try
+            {
+                var goalFromRepo = await _repo.Goal.GetGoal(id);
+
+                if (goalFromRepo == null) return NotFound();
+                var goalToReturn = _mapper.Map<GoalToReturnDto>(goalFromRepo);
+
+                return Ok(goalToReturn);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetGoal enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("mySheet/{id}")]
         public async Task<IActionResult> GetMySheetDetailForUser(int userId, int id)
         {
             try
@@ -97,6 +117,73 @@ namespace SothemaGoalManagement.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside GetGoalType enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost("createGoal")]
+        public async Task<IActionResult> CreateGoal(int userId, GoalForCreationDto goalCreationDto)
+        {
+            try
+            {
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+
+                var goal = _mapper.Map<Goal>(goalCreationDto);
+
+                _repo.Goal.AddGoal(goal);
+
+                await _repo.Goal.SaveAllAsync();
+
+                return CreatedAtRoute("GetGoal", new { id = goal.Id }, goal);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside CreateEvaluationFile enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPut("editGoal/{id}")]
+        public async Task<IActionResult> UpdateEvaluationFile(int userId, int id, GoalForUpdateDto goalForUpdateDto)
+        {
+            try
+            {
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+
+                var goalFromRepo = await _repo.Goal.GetGoal(id);
+                if (goalFromRepo == null) return BadRequest("La fiche d'évaluation n'existe pas!");
+
+                _mapper.Map(goalForUpdateDto, goalFromRepo);
+                _repo.Goal.UpdateGoal(goalFromRepo);
+
+                await _repo.Goal.SaveAllAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside UpdateEvaluationFile enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpDelete("deleteGoal/{id}")]
+        public async Task<IActionResult> DeleteGoal(int userId, int id)
+        {
+            try
+            {
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+
+                var goalFromRepo = await _repo.Goal.GetGoal(id);
+                if (goalFromRepo == null) return NotFound();
+
+                _repo.Goal.DeleteGoal(goalFromRepo);
+                await _repo.Goal.SaveAllAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside DeleteGoal enfpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }

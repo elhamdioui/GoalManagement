@@ -40,12 +40,60 @@ export class SheetDetailComponent implements OnInit {
         (result: Goal[]) => {
           this.loading = false;
           this.goalList = result;
-          console.log('this.goalList:', this.goalList);
         },
         error => {
           this.loading = false;
           this.alertify.error('Impossible d\'avoir les objectifs');
         }
       );
+  }
+
+  handleCreateGoal(newGoal: any) {
+    this.loading = true;
+    this.userService.createGoal(this.authService.decodedToken.nameid, newGoal).subscribe(
+      () => {
+        this.loading = false;
+        this.getGoalsForAxis();
+        this.alertify.success('Objectif est créé avec succèes');
+      },
+      error => {
+        this.loading = false;
+        this.alertify.error(error);
+      }
+    );
+  }
+
+  handleEditGoal(goal: Goal) {
+    this.loading = true;
+    this.userService.updateGoal(goal.id, this.authService.decodedToken.nameid, goal).subscribe(() => {
+      this.loading = false;
+      this.alertify.success('Objectif a été mis à jour.');
+      this.getGoalsForAxis();
+    }, error => {
+      this.loading = false;
+      this.alertify.error(error);
+    })
+  }
+
+  handleDeleteGoal(id: number) {
+    this.alertify.confirm(
+      'Etes-vous sur de vouloir supprimer cet objectif?',
+      () => {
+        this.loading = true;
+        this.userService
+          .deleteGoal(id, this.authService.decodedToken.nameid)
+          .subscribe(
+            () => {
+              this.loading = false;
+              this.getGoalsForAxis();
+              this.alertify.success('L\'objectif a été supprimée');
+            },
+            error => {
+              this.loading = false;
+              this.alertify.error('Impossible de supprimer l\'objectif');
+            }
+          );
+      }
+    );
   }
 }
