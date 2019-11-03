@@ -83,8 +83,6 @@ import { AdminFilterActionsComponent } from './admin/admin-filter-actions/admin-
 import { LayoutService } from './_services/layout.service';
 import { EvaluationHrDetailResolver } from './_resolvers/evaluation-hr-detail.resolver';
 import { EvaluationFileInstanceHrListComponent } from './hr/evaluations/evaluation-file-instance-hr-list/evaluation-file-instance-hr-list.component';
-import { EvaluationFileInstanceHrItemComponent } from './hr/evaluations/evaluation-file-instance-hr-item/evaluation-file-instance-hr-item.component';
-import { EvaluationFileInstanceHrCardComponent } from './hr/evaluations/evaluation-file-instance-hr-card/evaluation-file-instance-hr-card.component';
 import { EvaluatorAssignmentComponent } from './collaborators/evaluator-assignment/evaluator-assignment.component';
 import { EvaluationFileInstanceHrNewComponent } from './hr/evaluations/evaluation-file-instance-hr-new/evaluation-file-instance-hr-new.component';
 import { SheetsPanelComponent } from './sheets/sheets-panel/sheets-panel.component';
@@ -151,8 +149,6 @@ export function tokenGetter() {
     HrFilterCreateActionsComponent,
     AdminFilterActionsComponent,
     EvaluationFileInstanceHrListComponent,
-    EvaluationFileInstanceHrCardComponent,
-    EvaluationFileInstanceHrItemComponent,
     EvaluatorAssignmentComponent,
     EvaluationFileInstanceHrNewComponent,
     SheetsPanelComponent,
