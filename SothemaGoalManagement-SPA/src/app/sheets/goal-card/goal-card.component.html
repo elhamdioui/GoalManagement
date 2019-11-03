@@ -1,5 +1,11 @@
 <div class="card mt-2 mb-2">
   <div class="card-header">
+    <div class="toggle">
+      <button type="button" (click)="isCollapsed = !isCollapsed" title="Réduire / Agrandir">
+        <i *ngIf="!isCollapsed" class="fa fa-caret-down"></i>
+        <i *ngIf="isCollapsed" class="fa fa-caret-up"></i>
+      </button>
+    </div>
     <div class="row">
       <div class="col-md-8">
         {{goalsByAxisInstance.title}}
@@ -25,7 +31,7 @@
     </div>
   </div>
 
-  <div class="card-body">
+  <div class="card-body" *ngIf="isCollapsed">
     <div class="alert alert-danger mt-3" role="alert" *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length === 0">
       <p>Aucun objectif n'a encore été ajouté...</p>
     </div>

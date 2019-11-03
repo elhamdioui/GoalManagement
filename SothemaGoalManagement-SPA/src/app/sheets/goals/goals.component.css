@@ -7,17 +7,3 @@
   position: relative;
   float: right;
 }
-
-.btn-Toggle {
-  position: absolute;
-  top: .5rem;
-  right: .5rem;
-  z-index: 10;
-  display: block;
-  padding: .25rem .5rem;
-  font-size: 75%;
-  color: #818a91;
-  background-color: transparent;
-  border: 0;
-  border-radius: .25rem;
-}
