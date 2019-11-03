@@ -42,7 +42,7 @@ namespace SothemaGoalManagement.API.Controllers
             _cloudinary = new Cloudinary(acc);
         }
 
-        [HttpGet("{id}", Name = "GetPhoto")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetPhoto(int id)
         {
             try

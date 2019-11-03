@@ -28,7 +28,7 @@ namespace SothemaGoalManagement.API.Controllers
             _repo = repo;
         }
 
-        [HttpGet("{id}", Name = "GetMessage")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetMessage(int userId, int id)
         {
             try

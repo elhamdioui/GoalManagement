@@ -29,7 +29,7 @@ namespace SothemaGoalManagement.API.Controllers
             _repo = repo;
         }
 
-        [HttpGet("{id}", Name = "GetEvaluationFile")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetEvaluationFile(int id)
         {
             try
@@ -63,7 +63,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
-        [HttpGet("evaluationFileInstances/{evaluationFileId}", Name = "GetEvaluationFileInstanceList")]
+        [HttpGet("evaluationFileInstances/{evaluationFileId}")]
         public async Task<IActionResult> GetEvaluationFileInstanceList(int evaluationFileId)
         {
             try

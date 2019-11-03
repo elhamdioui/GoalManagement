@@ -67,7 +67,7 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpGet("axis/{id}", Name = "GetAxis")]
+        [HttpGet("axis/{id}")]
         public async Task<IActionResult> GetAxis(int id)
         {
             try
@@ -87,7 +87,7 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpGet("axisList/{strategyId}", Name = "GetAxisList")]
+        [HttpGet("axisList/{strategyId}")]
         public async Task<IActionResult> GetAxisList(int strategyId)
         {
             try
@@ -150,7 +150,7 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpGet("axisPoleList/{axisId}", Name = "GetAxisPoleList")]
+        [HttpGet("axisPoleList/{axisId}")]
         public async Task<IActionResult> GetAxisPoleList(int axisId)
         {
             try
