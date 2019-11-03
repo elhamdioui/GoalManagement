@@ -25,12 +25,16 @@ export class GoalEditModalComponent implements OnInit {
       'description': this.goal.description,
       'axisInstanceId': this.goal.axisInstance.id,
       'goalTypeId': this.goal.goalType.id,
+      'projectName': this.goal.projectName,
       'weight': this.goal.weight,
       'status': this.goal.status
     }
   }
 
   updateGoal() {
+    if (this.updatedGoal.goalTypeId !== 3) {
+      this.updatedGoal.projectName = '';
+    }
 
     this.editGoalEvent.emit(this.updatedGoal);
     this.bsModalRef.hide();

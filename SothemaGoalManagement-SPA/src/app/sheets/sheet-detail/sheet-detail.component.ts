@@ -8,6 +8,7 @@ import { GoalType } from '../../_models/goalType';
 import { UserService } from '../../_services/user.service';
 import { AuthService } from '../../_services/auth.service';
 import { AlertifyService } from '../../_services/alertify.service';
+import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 
 @Component({
   selector: 'app-sheet-detail',
@@ -16,9 +17,11 @@ import { AlertifyService } from '../../_services/alertify.service';
 })
 export class SheetDetailComponent implements OnInit {
   sheetDetail: EvaluationFileInstance;
-  goalList: Goal[];
+  goalsByAxisInstanceList: GoalByAxisInstance[];
   goalTypeList: GoalType[];
   loading = false;
+  goalsGroupedByAxis = {};
+  keys: string[];
 
   constructor(private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -37,9 +40,9 @@ export class SheetDetailComponent implements OnInit {
     this.userService
       .getGoalsForAxis(this.authService.decodedToken.nameid, axisInstanceIds)
       .subscribe(
-        (result: Goal[]) => {
+        (result: GoalByAxisInstance[]) => {
           this.loading = false;
-          this.goalList = result;
+          this.goalsByAxisInstanceList = result;
         },
         error => {
           this.loading = false;
@@ -75,13 +78,13 @@ export class SheetDetailComponent implements OnInit {
     })
   }
 
-  handleDeleteGoal(id: number) {
+  handleDeleteGoal(goal: Goal) {
     this.alertify.confirm(
-      'Etes-vous sur de vouloir supprimer cet objectif?',
+      `Etes-vous sur de vouloir supprimer l'objectif: ${goal.description}?`,
       () => {
         this.loading = true;
         this.userService
-          .deleteGoal(id, this.authService.decodedToken.nameid)
+          .deleteGoal(goal.id, this.authService.decodedToken.nameid)
           .subscribe(
             () => {
               this.loading = false;

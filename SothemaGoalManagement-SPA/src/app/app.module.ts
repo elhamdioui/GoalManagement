@@ -95,6 +95,7 @@ import { GoalsComponent } from './sheets/goals/goals.component';
 import { GoalEditModalComponent } from './sheets/goal-edit-modal/goal-edit-modal.component';
 import { AxisUserComponent } from './sheets/axis-user/axis-user.component';
 import { GoalNewComponent } from './sheets/goal-new/goal-new.component';
+import { GoalCardComponent } from './sheets/goal-card/goal-card.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -159,7 +160,8 @@ export function tokenGetter() {
     GoalsComponent,
     GoalEditModalComponent,
     AxisUserComponent,
-    GoalNewComponent
+    GoalNewComponent,
+    GoalCardComponent
   ],
   imports: [
     BrowserModule,

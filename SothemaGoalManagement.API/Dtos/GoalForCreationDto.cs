@@ -18,6 +18,7 @@ namespace SothemaGoalManagement.API.Dtos
         [Required]
         public int GoalTypeId { get; set; }
 
+        public string ProjectName { get; set; }
         public string Status { get; set; }
 
         public DateTime Created { get; set; }

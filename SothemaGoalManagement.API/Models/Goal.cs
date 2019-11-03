@@ -16,6 +16,8 @@ namespace SothemaGoalManagement.API.Models
 
         public int GoalTypeId { get; set; }
 
+        public string ProjectName { get; set; }
+
         public AxisInstance AxisInstance { get; set; }
 
         public int AxisInstanceId { get; set; }

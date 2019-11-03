@@ -1,10 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { AxisInstance } from '../../_models/axisInstance';
+import { GoalByAxisInstance } from './../../_models/goalsByAxisInstance';
 import { Goal } from '../../_models/goal';
 import { GoalType } from '../../_models/goalType';
-import { GoalEditModalComponent } from '../goal-edit-modal/goal-edit-modal.component';
 
 @Component({
   selector: 'app-goals',
@@ -13,15 +12,14 @@ import { GoalEditModalComponent } from '../goal-edit-modal/goal-edit-modal.compo
 })
 export class GoalsComponent implements OnInit {
   @Input() axisInstances: AxisInstance[];
-  @Input() goalList: Goal[];
+  @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Input() goalTypeList: GoalType[];
   @Output() createGoalEvent = new EventEmitter<any>();
   @Output() editGoalEvent = new EventEmitter<Goal>();
-  @Output() deleteGoalEvent = new EventEmitter<number>();
+  @Output() deleteGoalEvent = new EventEmitter<Goal>();
   isCollapsed = true;
-  bsModalRef: BsModalRef;
 
-  constructor(private modalService: BsModalService) { }
+  constructor() { }
 
   ngOnInit() {
   }
@@ -30,20 +28,11 @@ export class GoalsComponent implements OnInit {
     this.createGoalEvent.emit(newGoal);
   }
 
-  editGoalModal(goal: Goal) {
-    const initialState = {
-      goal,
-      goalTypeList: this.goalTypeList,
-      axisList: this.axisInstances
-    };
-
-    this.bsModalRef = this.modalService.show(GoalEditModalComponent, { initialState });
-    this.bsModalRef.content.editGoalEvent.subscribe((updatedGoal) => {
-      this.editGoalEvent.emit(updatedGoal);
-    });
+  handleEditGoal(goal: Goal) {
+    this.editGoalEvent.emit(goal);
   }
 
-  deleteGoal(id: number) {
-    this.deleteGoalEvent.emit(id);
+  handleDeleteGoal(goal: Goal) {
+    this.deleteGoalEvent.emit(goal);
   }
 }

@@ -11,7 +11,6 @@ import { GoalType } from '../../_models/goalType';
 })
 export class GoalNewComponent implements OnInit {
   @Input() axisInstances: AxisInstance[];
-  @Input() goalList: Goal[];
   @Input() goalTypeList: GoalType[];
   @Output() createGoalEvent = new EventEmitter<any>();
   newGoal: any = {};
@@ -22,11 +21,17 @@ export class GoalNewComponent implements OnInit {
   }
 
   createGoal() {
+
+    if (this.newGoal.goalTypeId != 3) {
+      this.newGoal.projectName = '';
+    }
+
     this.createGoalEvent.emit(this.newGoal);
     this.newGoal.description = '';
     this.newGoal.weight = '';
     this.newGoal.axisInstanceId = '';
     this.newGoal.goalTypeId = '';
+    this.newGoal.projectName = '';
   }
 
 

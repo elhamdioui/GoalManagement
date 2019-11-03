@@ -15,18 +15,23 @@
     </select>
 
     <h4>Objectif:</h4>
-    <input [(ngModel)]="updatedGoal.description" name="goal" required type="text" class="form-control input-sm" placeholder="Ajouter un objectif"
-    />
-
+    <textarea rows="2" [(ngModel)]="updatedGoal.description" name="goal" required type="text" class="form-control input-sm" placeholder="Ajouter un objectif"></textarea>
 
     <h4>Type d'objectif:</h4>
-    <select class="form-control mb-1" style="width: 200px" id="goalType" name="goalType" [(ngModel)]="updatedGoal.goalTypeId" required>
+    <select class="form-control mb-1" style="width: 200px" id="goalType" name="goalType" [(ngModel)]="updatedGoal.goalTypeId"
+      required>
       <option *ngFor="let goalType of goalTypeList" [ngValue]="goalType.id">
         {{ goalType.name }}
       </option>
     </select>
 
-    <h4>Pondération:</h4>
+    <div *ngIf="updatedGoal.goalTypeId === 3">
+      <h4>Nom de projet:</h4>
+      <input [(ngModel)]="updatedGoal.projectName" name="projectName" type="text" class="form-control input-sm" placeholder="Nom de projet"
+      />
+    </div>
+
+    <h4>Poids d'objectif:</h4>
     <input [(ngModel)]="updatedGoal.weight" name="goalWeight" required type="number" class="form-control input-sm" />
 
     <h4>Statut:</h4>

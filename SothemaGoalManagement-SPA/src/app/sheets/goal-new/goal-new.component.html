@@ -1,34 +1,44 @@
 <form #goalForm="ngForm" (ngSubmit)="goalForm.valid && createGoal()">
   <div class="row">
-    <div class="col form-group required">
+    <div class="col-md-5 form-group required">
       <label class='control-label'>Axe:</label>
-      <select class="form-control mb-1" style="width: 200px" id="axisId" name="axisId" [(ngModel)]="newGoal.axisInstanceId">
+      <select class="form-control mb-1" id="axisId" name="axisId" [(ngModel)]="newGoal.axisInstanceId">
         <option *ngFor="let axis of axisInstances" [ngValue]="axis.id">
           {{ axis.title }}
         </option>
       </select>
     </div>
 
-    <div class="col form-group required">
+    <div class="col-md-4 form-group required">
       <label class='control-label'>Type d'objectif:</label>
-      <select class="form-control mb-1" style="width: 200px" id="objectifTypeId" name="goalTypeId" [(ngModel)]="newGoal.goalTypeId">
+      <select class="form-control mb-1" id="objectifTypeId" name="goalTypeId" [(ngModel)]="newGoal.goalTypeId">
         <option *ngFor="let goalType of goalTypeList" [ngValue]="goalType.id">
           {{ goalType.name }}
         </option>
       </select>
     </div>
 
-    <div class="col form-group required">
+    <div class="col-md-3 form-group required">
       <label class='control-label'>Poid d'objectif:</label>
       <input [(ngModel)]="newGoal.weight" name="goalWeight" required type="number" min="1" max="100" class="form-control input-sm"
         placeholder="Poid d'objectif" />
     </div>
   </div>
+
+  <div class="row" *ngIf="newGoal.goalTypeId === 3">
+    <div class="col form-group">
+      <label class='control-label'>Nom de projet:</label>
+      <input [(ngModel)]="newGoal.projectName" name="projectName" type="text" class="form-control input-sm" placeholder="Nom de projet"
+      />
+    </div>
+  </div>
+
   <div class="row">
     <div class="col form-group required">
       <label class='control-label'>Objectif:</label>
-      <input [(ngModel)]="newGoal.description" name="description" required type="text" class="form-control input-sm" placeholder="Objectif"
-      />
+      <textarea rows="2" [(ngModel)]="newGoal.description" name="description" required type="text" class="form-control input-sm"
+        placeholder="Objectif"></textarea>
+
     </div>
   </div>
 

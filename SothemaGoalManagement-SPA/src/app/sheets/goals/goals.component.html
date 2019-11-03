@@ -7,40 +7,16 @@
 
   <div class="card">
     <div class="card-header" *ngIf="isCollapsed">
-      <app-goal-new [goalList]="goalList" [axisInstances]="axisInstances" [goalTypeList]="goalTypeList" (createGoalEvent)="handleCreateGoal($event)"></app-goal-new>
+      <app-goal-new [axisInstances]="axisInstances" [goalTypeList]="goalTypeList" (createGoalEvent)="handleCreateGoal($event)"></app-goal-new>
     </div>
 
     <div class="card-body">
-      <div class="alert alert-danger mt-3" role="alert" *ngIf="goalList.length === 0">
-        <p>Aucun objectif n'a encore été ajouté...</p>
+      <div *ngIf="goalsByAxisInstanceList">
+        <div *ngFor="let goalsByAxisInstance of goalsByAxisInstanceList">
+          <app-goal-card [axisInstances]="axisInstances" [goalTypeList]="goalTypeList" [goalsByAxisInstance]="goalsByAxisInstance"
+            (editGoalEvent)="handleEditGoal($event)" (deleteGoalEvent)="handleDeleteGoal($event)"></app-goal-card>
+        </div>
       </div>
-
-      <table *ngIf="goalList.length > 0" class="table table-hover">
-        <tr>
-          <th style="width: 30%">Axe</th>
-          <th style="width: 30%">Objectif</th>
-          <th style="width: 20%">Type d'objectif</th>
-          <th style="width: 10%">Poid d'objectif</th>
-          <th style="width: 5%"></th>
-          <th style="width: 5%"></th>
-        </tr>
-        <tr *ngFor="let goal of goalList">
-          <td>{{ goal.axisInstance.title }}</td>
-          <td>{{ goal.description }}</td>
-          <td>{{ goal.goalType.name }}</td>
-          <td>{{ goal.weight }}</td>
-          <td *ngIf="!isReadOnly">
-            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editGoalModal(goal)">
-              <i class="fa fa-edit"></i>
-            </button>
-          </td>
-          <td *ngIf="!isReadOnly">
-            <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteGoal(goal.id)">
-              <i class="fa fa-trash"></i>
-            </button>
-          </td>
-        </tr>
-      </table>
     </div>
   </div>
 </div>

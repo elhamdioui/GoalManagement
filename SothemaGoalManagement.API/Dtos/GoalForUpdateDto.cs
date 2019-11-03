@@ -20,6 +20,8 @@ namespace SothemaGoalManagement.API.Dtos
 
         public int AxisInstanceId { get; set; }
 
+        public string ProjectName { get; set; }
+
         [Required]
 
         public string Status { get; set; }

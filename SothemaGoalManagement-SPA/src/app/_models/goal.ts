@@ -7,6 +7,7 @@ export interface Goal {
   weight: number;
   created: Date;
   goalType: GoalType;
+  projectName: string
   axisInstance: AxisInstance;
   status: string;
 }
