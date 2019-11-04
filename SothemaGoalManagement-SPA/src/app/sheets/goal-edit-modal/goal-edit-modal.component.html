@@ -32,11 +32,12 @@
     </div>
 
     <h4>Poids d'objectif:</h4>
-    <input [(ngModel)]="updatedGoal.weight" name="goalWeight" required type="number" class="form-control input-sm" />
+    <input [(ngModel)]="updatedGoal.weight" (ngModelChange)="onChange($event)" name="goalWeight" required type="number" class="form-control input-sm" />
 
     <h4>Statut:</h4>
     {{updatedGoal.status}}
 
+    <div class="alert alert-danger mt-3" role="alert" *ngIf="showError">Le poids total des objectives est supérieur à 100 %</div>
 
   </form>
 </div>

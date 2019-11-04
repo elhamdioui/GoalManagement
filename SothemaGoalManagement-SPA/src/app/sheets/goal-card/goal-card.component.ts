@@ -35,7 +35,8 @@ export class GoalCardComponent implements OnInit {
     const initialState = {
       goal,
       goalTypeList: this.goalTypeList,
-      axisList: this.axisInstances
+      axisList: this.axisInstances,
+      goalsByAxisInstance: this.goalsByAxisInstance 
     };
 
     this.bsModalRef = this.modalService.show(GoalEditModalComponent, { initialState });

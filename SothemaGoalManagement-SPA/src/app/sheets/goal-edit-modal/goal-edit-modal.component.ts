@@ -12,10 +12,12 @@ import { Axis } from '../../_models/axis';
 })
 export class GoalEditModalComponent implements OnInit {
   @Output() editGoalEvent = new EventEmitter<any>();
+  goalsByAxisInstance: GoalByAxisInstance;
   goal: Goal;
   axisList: Axis[];
   goalTypeList: GoalType[];
   updatedGoal: any = {};
+  showError: boolean = false;
 
   constructor(public bsModalRef: BsModalRef) { }
 
@@ -32,11 +34,32 @@ export class GoalEditModalComponent implements OnInit {
   }
 
   updateGoal() {
+    if (this.isTotalWeightValid()) {
     if (this.updatedGoal.goalTypeId !== 3) {
       this.updatedGoal.projectName = '';
     }
 
     this.editGoalEvent.emit(this.updatedGoal);
     this.bsModalRef.hide();
+  } else {
+    this.showError = true;
   }
+}
+
+isTotalWeightValid() {
+  let totalWeight = this.updatedGoal.weight;
+  this.goalsByAxisInstance.goals.forEach(goal => {
+    if(this.updatedGoal.id != goal.id){
+      totalWeight = totalWeight + goal.weight;
+    }
+  }
+  if (totalWeight > 100) {
+    return false;
+  }
+  return true;
+}
+
+onChange($event){
+  this.showError = false;
+}
 }
