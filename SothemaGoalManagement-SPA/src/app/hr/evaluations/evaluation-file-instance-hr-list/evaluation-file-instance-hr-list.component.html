@@ -17,7 +17,7 @@
         <td>{{ evaluationFileInsatnce.axisInstances[0].poleName }}</td>
         <td>
           <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="delete(evaluationFileInsatnce.id)">
-            <i class="fa fa-trash"></i>
+            <fa-icon [icon]="faTrash"></fa-icon>
           </button>
         </td>
       </tr>

@@ -38,13 +38,13 @@
 
         <div class="dropdown-menu mt-3" *dropdownMenu>
           <a class="dropdown-item" [routerLink]="['/profile/edit']">
-            <i class="fa fa-user"></i>Editer le profil</a>
+            <fa-icon [icon]="faUser"></fa-icon>Editer le profil</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" [routerLink]="['/requestResetPassword']">
-            <i class="fa fa-key fa-fw"></i>Changer password</a>
+            <fa-icon [icon]="faKey"></fa-icon>Changer password</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" (click)="logout()">
-            <i class="fa fa-sign-out"></i>Déconnecter</a>
+            <fa-icon [icon]="faSignOutAlt"></fa-icon>Déconnecter</a>
         </div>
       </div>
     </div>

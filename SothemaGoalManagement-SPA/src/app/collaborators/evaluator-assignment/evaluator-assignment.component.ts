@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { User } from '../../_models/user';
 import { UserStatus } from '../../_models/userStatus';
@@ -20,6 +21,7 @@ export class EvaluatorAssignmentComponent implements OnInit {
   loading = false;
   bsModalRef: BsModalRef;
   userStatusList: UserStatus[];
+  faTrash = faTrash;
 
   constructor(private modalService: BsModalService, private adminService: AdminService,
     private alertify: AlertifyService) { }

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 import { Axis } from './../../../_models/axis';
 import { HrService } from '../../../_services/hr.service';
@@ -14,11 +15,13 @@ import { AxisModalComponent } from '../axis-modal/axis-modal.component';
 })
 export class StrategyAxisComponent implements OnInit {
   @Input() axisList: Axis[];
-  @Input() isReadOnly: boolean; 
+  @Input() isReadOnly: boolean;
   @Output() addAxisEvent = new EventEmitter<Axis>();
   newAxis: any = {};
   bsModalRef: BsModalRef;
   loading = false;
+  faTrash = faTrash;
+  faEdit = faEdit;
 
   constructor(private hrService: HrService, private authService: AuthService, private alertify: AlertifyService, private modalService: BsModalService) { }
 

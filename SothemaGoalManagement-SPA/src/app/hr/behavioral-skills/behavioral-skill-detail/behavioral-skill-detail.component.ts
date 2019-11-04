@@ -7,6 +7,7 @@ import {
   NgxGalleryAnimation
 } from 'ngx-gallery';
 import { TabsetComponent } from 'ngx-bootstrap';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { BehavioralSkill } from '../../../_models/behavioralSkill';
 import { HrService } from '../../../_services/hr.service';
@@ -21,6 +22,7 @@ import { AuthService } from '../../../_services/auth.service';
 export class BehavioralSkillDetailComponent implements OnInit {
   behavioralSkill: BehavioralSkill;
   loading: boolean = false;
+  faTrash = faTrash;
 
   constructor(private hrService: HrService, private authService: AuthService, private alertify: AlertifyService, private route: ActivatedRoute, private router: Router) { }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { Strategy } from '../../../_models/strategy';
 import { AlertifyService } from '../../../_services/alertify.service';
@@ -19,6 +20,7 @@ export class StrategyDocumentationComponent implements OnInit {
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
   loading = false;
+  faTrash = faTrash;
 
   constructor(private alertifyService: AlertifyService, private hrService: HrService, ) { }
 

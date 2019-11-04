@@ -34,12 +34,12 @@
         <td>{{ axis.description }}</td>
         <td *ngIf="!isReadOnly">
           <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editAxisModal(axis)">
-            <i class="fa fa-edit"></i>
+            <fa-icon [icon]="faEdit"></fa-icon>
           </button>
         </td>
         <td *ngIf="!isReadOnly">
           <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteAxis(axis.id)">
-            <i class="fa fa-trash"></i>
+            <fa-icon [icon]="faTrash"></fa-icon>
           </button>
         </td>
       </tr>

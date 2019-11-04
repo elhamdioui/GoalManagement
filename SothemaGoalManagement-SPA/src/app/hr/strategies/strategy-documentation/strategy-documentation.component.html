@@ -7,7 +7,7 @@
     <div class="card-body">
       <h5 class="card-title">Documentation détaillée sur la stratégie</h5>
       <button *ngIf="!isReadOnly" type="button" class="btn btn-sm btn-danger" (click)="deleteDocumentation(strategy.id)">
-        <i class="fa fa-trash-o"></i> Supprimer doucmentation
+        <fa-icon [icon]="faTrash"></fa-icon> Supprimer doucmentation
       </button>
     </div>
   </div>

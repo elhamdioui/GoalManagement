@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
+import { faTrash, faHome } from '@fortawesome/free-solid-svg-icons';
+
 import { Photo } from '../../_models/photo';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../_services/auth.service';
@@ -19,6 +21,8 @@ export class PhotoEditorComponent implements OnInit {
   baseUrl = environment.apiUrl;
   currentMain: Photo;
   loading = false;
+  faTrash = faTrash;
+  faHome = faHome;
 
   constructor(
     private authService: AuthService,

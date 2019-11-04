@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { faUser, faKey, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+
 import { AlertifyService } from './../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
 
@@ -10,6 +12,9 @@ import { AuthService } from '../_services/auth.service';
 })
 export class NavComponent implements OnInit {
   photoUrl: string;
+  faSignOutAlt = faSignOutAlt;
+  faKey = faKey;
+  faUser = faUser;
 
   constructor(
     private authService: AuthService,

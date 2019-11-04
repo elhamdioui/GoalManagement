@@ -113,7 +113,7 @@
             <div class="input-group mb-3">
               <div class="input-group-append">
                 <span class="input-group-text">
-                  <i class="fa fa-user"></i>
+                  <fa-icon [icon]="faUser"></fa-icon>
                 </span>
               </div>
               <input class="form-control input_user" type="text" placeholder="Adresse Email" [(ngModel)]="model.username" required name="username">
@@ -121,7 +121,7 @@
             <div class="input-group mb-2">
               <div class="input-group-append">
                 <span class="input-group-text">
-                  <i class="fa fa-key"></i>
+                  <fa-icon [icon]="faKey"></fa-icon>
                 </span>
               </div>
               <input class="form-control input_pass" type="password" placeholder="Mot de Passe" [(ngModel)]="model.password" required name="password">

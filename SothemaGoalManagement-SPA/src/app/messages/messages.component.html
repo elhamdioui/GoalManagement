@@ -2,13 +2,13 @@
   <div class="row">
     <div class="btn-group">
       <button class="btn btn-primary" [(ngModel)]="messageContainer" btnRadio="Unread" (click)="loadMessages()">
-        <i class="fa fa-envelope"></i> No lu
+        <fa-icon [icon]="faEnvelope"></fa-icon> No lu
       </button>
       <button class="btn btn-primary" [(ngModel)]="messageContainer" btnRadio="Inbox" (click)="loadMessages()">
-        <i class="fa fa-envelope-open"></i> Boîte de réception
+        <fa-icon [icon]="faEnvelopeOpen"></fa-icon> Boîte de réception
       </button>
       <button class="btn btn-primary" [(ngModel)]="messageContainer" btnRadio="Outbox" (click)="loadMessages()">
-        <i class="fa fa-paper-plane"></i> Boîte d'envoi
+        <fa-icon [icon]="faPaperPlane"></fa-icon>Boîte d'envoi
       </button>
     </div>
   </div>

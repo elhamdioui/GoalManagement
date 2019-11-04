@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+
 import { Evaluator } from '../../_models/evaluator';
 
 @Component({
@@ -11,6 +13,7 @@ export class EvaluatorComponent implements OnInit {
   @Output() updateRankOfEvaluatorEvent = new EventEmitter<Evaluator>()
   @Output() deleteEvaluatorEvent = new EventEmitter<Evaluator>()
   editing: boolean = false;
+  faTrash = faTrash;
 
   constructor() { }
 

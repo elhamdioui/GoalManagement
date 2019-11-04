@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { EvaluationFileInstance } from '../../../_models/evaluationFileInstance';
 import { UserStatus } from '../../../_models/userStatus';
@@ -15,7 +16,7 @@ export class EvaluationFileInstanceHrListComponent implements OnInit {
   actionLabel: string;
   filteredEvaluationFileInstances: EvaluationFileInstance[];
   values: string = '';
-
+  faTrash = faTrash;
 
   constructor() { }
 

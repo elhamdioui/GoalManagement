@@ -7,6 +7,7 @@ import {
   NgxGalleryAnimation
 } from 'ngx-gallery';
 import { TabsetComponent } from 'ngx-bootstrap';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { Strategy } from '../../../_models/strategy';
 import { Axis } from './../../../_models/axis';
@@ -24,6 +25,7 @@ export class StrategyDetailComponent implements OnInit {
   axisList: Axis[];
   loading: boolean = false;
   isReadOnly: boolean;
+  faTrash = faTrash;
 
   constructor(private hrService: HrService, private authService: AuthService, private alertify: AlertifyService, private route: ActivatedRoute, private router: Router) { }
 

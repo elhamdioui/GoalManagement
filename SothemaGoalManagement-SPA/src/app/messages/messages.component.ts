@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { faEnvelope, faEnvelopeOpen, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 import { Message } from '../_models/message';
 import { Pagination, PaginatedResult } from '../_models/pagination';
@@ -17,6 +18,9 @@ export class MessagesComponent implements OnInit {
   pagination: Pagination;
   messageContainer = 'Unread';
   loading = false;
+  faEnvelope = faEnvelope;
+  faEnvelopeOpen = faEnvelopeOpen;
+  faPaperPlane = faPaperPlane;
 
   constructor(
     private userService: UserService,

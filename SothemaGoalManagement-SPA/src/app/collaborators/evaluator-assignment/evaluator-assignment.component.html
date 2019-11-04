@@ -46,7 +46,7 @@
             <td>{{ evaluatee.departmentName }}</td>
             <td>
               <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteEvaluatee(evaluatee)">
-                <i class="fa fa-trash"></i>
+                <fa-icon [icon]="faTrash"></fa-icon>
               </button>
             </td>
           </tr>

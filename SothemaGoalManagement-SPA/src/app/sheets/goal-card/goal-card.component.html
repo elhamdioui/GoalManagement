@@ -52,12 +52,12 @@
         <td>{{ goal.weight }}</td>
         <td *ngIf="!isReadOnly">
           <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editGoalModal(goal)">
-            <i class="fa fa-edit"></i>
+            <fa-icon [icon]="faEdit"></fa-icon>
           </button>
         </td>
         <td>
           <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteGoal(goal)">
-            <i class="fa fa-trash"></i>
+            <fa-icon [icon]="faTrash"></fa-icon>
           </button>
         </td>
       </tr>
