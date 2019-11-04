@@ -1,9 +1,15 @@
 <div class="card mt-2 mb-2">
   <div class="card-header">
+    <div class="toggle">
+      <button type="button" (click)="isCollapsed = !isCollapsed" title="Réduire / Agrandir">
+        <fa-icon [icon]="faCaretDown" *ngIf="!isCollapsed"></fa-icon>
+        <fa-icon [icon]="faCaretUp" *ngIf="isCollapsed"></fa-icon>
+      </button>
+    </div>
     {{axis.title}}
   </div>
 
-  <div class="card-body">
+  <div class="card-body" *ngIf="isCollapsed">
     <ul class="list-inline member-icons animate text-center">
       <li class="list-inline-item" *ngFor="let ap of axisPoleList">
         <app-axis-pole-weight-item [isReadOnly]="isReadOnly" [axisPole]="ap" (updateWeightEvent)="handleUpdateAxisPole($event)"></app-axis-pole-weight-item>

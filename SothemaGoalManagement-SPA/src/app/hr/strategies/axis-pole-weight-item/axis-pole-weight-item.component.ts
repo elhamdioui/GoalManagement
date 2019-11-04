@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
+
 import { AxisPole } from './../../../_models/axisPole';
 
 
@@ -12,6 +14,8 @@ export class AxisPoleWeightItemComponent implements OnInit {
   @Input() isReadOnly: boolean;
   @Output() updateWeightEvent = new EventEmitter<AxisPole>();
   editing: boolean = false;
+  faEdit = faEdit;
+  faSave = faSave;
 
   constructor() { }
 

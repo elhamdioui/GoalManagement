@@ -1,0 +1,24 @@
+<div class="row" *ngIf="sheets?.length > 0">
+  <table class="table table-hover  mt-2" style="cursor: pointer">
+    <tr>
+      <th style="width: 30%">Titre</th>
+      <th style="width: 10%">Année</th>
+      <th style="width: 25%">Stratégie</th>
+      <td style="width: 15%">Créé</td>
+    </tr>
+    <tr *ngFor="let evaluationFileInsatnce of sheets" [routerLink]="['/sheets/', evaluationFileInsatnce.id]">
+      <td>{{ evaluationFileInsatnce.title }}</td>
+      <td>{{ evaluationFileInsatnce.year }}</td>
+      <td>{{ evaluationFileInsatnce.strategyTitle }}</td>
+      <td>
+        {{ evaluationFileInsatnce.created | date: 'mediumDate' }}
+      </td>
+    </tr>
+  </table>
+
+  <div class="d-flex justify-content-center">
+    <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
+      previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
+    </pagination>
+  </div>
+</div>

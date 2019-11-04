@@ -3,31 +3,19 @@
   <div class="tab-panel">
     <tabset class="member-tabset">
       <tab heading="Mes fiches d'évaluation">
-        <div class="row">
-          <div class="container">
-            <table *ngIf="sheets?.length > 0" class="table table-hover  mt-2" style="cursor: pointer">
-              <tr>
-                <th style="width: 30%">Titre</th>
-                <th style="width: 10%">Année</th>
-                <th style="width: 25%">Stratégie</th>
-                <td style="width: 15%">Créé</td>
-              </tr>
-              <tr *ngFor="let evaluationFileInsatnce of sheets" [routerLink]="['/sheets/', evaluationFileInsatnce.id]">
-                <td>{{ evaluationFileInsatnce.title }}</td>
-                <td>{{ evaluationFileInsatnce.year }}</td>
-                <td>{{ evaluationFileInsatnce.strategyTitle }}</td>
-                <td>
-                  {{ evaluationFileInsatnce.created | date: 'mediumDate' }}
-                </td>
-              </tr>
-            </table>
+        <div class="container">
+          <div class="alert alert-info mt-3" role="info" *ngIf="sheets && sheets.length === 0">
+            <p>Aucune fiche d'évaluation n'a encore été générée pour vous...</p>
           </div>
+          <app-my-sheets-list [sheets]="sheets" [pagination]="pagination"></app-my-sheets-list>
         </div>
       </tab>
 
       <tab heading="Fiches d'évaluation de mes collaborateurs">
         <div class="container">
-          les fiches de mes collaborateurs
+          <div class="alert alert-info mt-3" role="info">
+            Aucune fiche d'évaluation ne vous a été attribuée pour validation...
+          </div>
         </div>
       </tab>
     </tabset>

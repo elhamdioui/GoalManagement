@@ -31,6 +31,27 @@ export class SheetsPanelComponent implements OnInit {
     });
   }
 
+  loadSheets() {
+    this.loading = true;
+    this.userService
+      .getMySheets(
+        this.authService.decodedToken.nameid,
+        this.pagination.currentPage,
+        this.pagination.itemsPerPage
+      )
+      .subscribe(
+        (res: PaginatedResult<EvaluationFileInstance[]>) => {
+          this.loading = false;
+          this.sheets = res.result;
+          this.pagination = res.pagination;
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
+  }
+
   handleDeleteGoal(id: number) {
     this.alertify.confirm(
       'Etes-vous sur de vouloir supprimer cet objectif?',
@@ -73,5 +94,10 @@ export class SheetsPanelComponent implements OnInit {
       })
 
     });
+  }
+
+  handlePageChanged(event: any): void {
+    this.pagination.currentPage = event.currentPage;
+    this.loadSheets();
   }
 }

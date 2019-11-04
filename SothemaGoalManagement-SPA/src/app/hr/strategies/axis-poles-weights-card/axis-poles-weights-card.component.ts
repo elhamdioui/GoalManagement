@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 import { HrService } from '../../../_services/hr.service';
 import { AlertifyService } from '../../../_services/alertify.service';
@@ -13,9 +14,12 @@ import { Axis } from '../../../_models/axis';
 })
 export class AxisPolesWeightsCardComponent implements OnInit {
   @Input() axis: Axis;
-  @Input() isReadOnly: boolean; 
+  @Input() isReadOnly: boolean;
   axisPoleList: AxisPole[];
   loading = false;
+  isCollapsed: boolean = false;
+  faCaretDown = faCaretDown;
+  faCaretUp = faCaretUp;
 
   constructor(private hrService: HrService, private alertify: AlertifyService) { }
 

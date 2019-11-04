@@ -1,1 +1,4 @@
-
+.toggle {
+  position: relative;
+  float: right;
+}

@@ -87,6 +87,7 @@ import { EvaluationFileInstanceHrListComponent } from './hr/evaluations/evaluati
 import { EvaluatorAssignmentComponent } from './collaborators/evaluator-assignment/evaluator-assignment.component';
 import { EvaluationFileInstanceHrNewComponent } from './hr/evaluations/evaluation-file-instance-hr-new/evaluation-file-instance-hr-new.component';
 import { SheetsPanelComponent } from './sheets/sheets-panel/sheets-panel.component';
+import { MySheetsListComponent } from './sheets/my-sheets-list/my-sheets-list.component';
 import { SheetsResolver } from './_resolvers/sheets.resolver';
 import { SheetDetailComponent } from './sheets/sheet-detail/sheet-detail.component';
 import { SheetDetailResolver } from './_resolvers/sheet-detail.resolver';
@@ -153,6 +154,7 @@ export function tokenGetter() {
     EvaluatorAssignmentComponent,
     EvaluationFileInstanceHrNewComponent,
     SheetsPanelComponent,
+    MySheetsListComponent,
     SheetDetailComponent,
     GoalsComponent,
     GoalEditModalComponent,

@@ -149,7 +149,7 @@ export class HrPanelComponent implements OnInit {
 
   handlePageChanged(event: any): void {
     this.pagination.currentPage = event.currentPage;
-    this.handleLoadStrategies(event.filters);;
+    this.handleLoadStrategies(event.filters);
   }
 
   handleLoadPublishedStratgeies() {

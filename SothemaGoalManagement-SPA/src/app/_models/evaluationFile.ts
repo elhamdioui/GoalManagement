@@ -9,8 +9,8 @@ export interface EvaluationFile {
   strategy: Strategy;
   behavioralSkills: BehavioralSkill[];
   axisList: Axis[];
-  ownerName: string;
-  ownerId: number;
+  createdByName: string;
+  createdByNameId: number;
   status: string;
   created: Date;
   sealed?: boolean;

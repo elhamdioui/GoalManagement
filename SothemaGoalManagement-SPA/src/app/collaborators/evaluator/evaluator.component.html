@@ -13,9 +13,12 @@
       <label>Rang d'évaluateur:</label>
       <input type="number" min="0" max="100" [value]="evaluator.rank" (input)="onRankChange(rank.value)" #rank>
     </div>
-    <button class="btn btn-sm" [ngClass]="editing ? 'btn-success' : 'btn-info'" (click)="toggleEdit()">
-      <i *ngIf="editing" class="fa fa-save"></i>
-      <i *ngIf="!editing" class="fa fa-edit"></i>
+
+    <button class="btn" [ngClass]="editing ? 'btn-success' : 'btn-info'" (click)="toggleEdit()">
+      <span *ngIf="editing">
+        <fa-icon [icon]="faSave"></fa-icon>Sauvegarder</span>
+      <span *ngIf="!editing">
+        <fa-icon [icon]="faEdit"></fa-icon> Editer</span>
     </button>
   </div>
   <div class="card-footer">
