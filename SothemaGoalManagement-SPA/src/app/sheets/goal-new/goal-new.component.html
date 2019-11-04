@@ -20,8 +20,8 @@
 
     <div class="col-md-3 form-group required">
       <label class='control-label'>Poid d'objectif:</label>
-      <input [(ngModel)]="newGoal.weight" name="goalWeight" required type="number" min="1" max="100" class="form-control input-sm"
-        placeholder="Poid d'objectif" />
+      <input [(ngModel)]="newGoal.weight" (ngModelChange)="onChange($event)" name="goalWeight" required type="number" min="1" max="100" class="form-control input-sm"
+        placeholder="Poids d'objectif" />
     </div>
   </div>
 
@@ -45,4 +45,5 @@
   <button class="btn btn-primary" [disabled]="!goalForm.valid">
     Ajouter
   </button>
+  <div class="alert alert-danger mt-3" role="alert" *ngIf="showError">Le poids total des objectives est supérieur à 100 %</div>
 </form>

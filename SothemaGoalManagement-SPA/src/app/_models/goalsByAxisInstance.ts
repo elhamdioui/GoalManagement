@@ -1,7 +1,7 @@
 import { Goal } from "./goal";
 
 export interface GoalByAxisInstance {
-  id: number;
+  axisInstanceId: number;
   title: string;
   description: string;
   poleName: string;
