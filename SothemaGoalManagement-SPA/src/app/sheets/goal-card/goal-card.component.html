@@ -7,18 +7,24 @@
       </button>
     </div>
     <div class="row">
-      <div class="col-md-8">
-        {{goalsByAxisInstance.title}}
-      </div>
-      <div class="col-md-4">
-        <span class="badge badge-pill badge-danger float-right" title="Pondération d'axe">
+      <div class="col-md-1">
+        <span class="badge badge-pill badge-danger" title="Pondération d'axe">
           {{goalsByAxisInstance.userWeight}} %
         </span>
       </div>
+      <div class="col-md-4">
+        {{goalsByAxisInstance.title}}
+      </div>
     </div>
+
     <div class="row">
-      <div class="col-md-6">
-        <div class="well">Nombre d'objectifs: {{goalsByAxisInstance.totalGoals}}</div>
+      <div class="col-md-1">
+        <span class="badge badge-pill badge-success">
+          {{goalsByAxisInstance.totalGoals}}
+        </span>
+      </div>
+      <div class="col-md-4">
+        <div class="well">Objectifs: </div>
       </div>
       <div class="col-md-6">
         <div class="well">

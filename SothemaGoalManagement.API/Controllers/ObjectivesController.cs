@@ -92,8 +92,8 @@ namespace SothemaGoalManagement.API.Controllers
             try
             {
                 if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
-                var goalsFromRepo = await _repo.Goal.GetGoalsByAxisInstanceIds(axisInstanceIds);
-                var goalsGroupedByAxisInstanceList = GetAxisInstancesWithGoals(goalsFromRepo);
+
+                var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
 
                 return Ok(goalsGroupedByAxisInstanceList);
             }
@@ -130,7 +130,7 @@ namespace SothemaGoalManagement.API.Controllers
                 if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
                 // Validate the total weights of the objectives within an axis instance
                 var axisInstanceIds = new List<int> { goalCreationDto.AxisInstanceId };
-                if (await IsTotalWeoghtOfObjectivesOver100(axisInstanceIds, goalCreationDto.Weight))
+                if (await IsTotalWeightOfObjectivesOver100(axisInstanceIds, goalCreationDto.Weight))
                 {
                     return BadRequest("Le poids total de vos objectifs est supérieur à 100%!");
                 }
@@ -157,7 +157,7 @@ namespace SothemaGoalManagement.API.Controllers
                 if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
                 // Validate the total weights of the objectives within an axis instance
                 var axisInstanceIds = new List<int> { goalForUpdateDto.AxisInstanceId };
-                if (await IsTotalWeoghtOfObjectivesOver100(axisInstanceIds, goalForUpdateDto.Weight, id))
+                if (await IsTotalWeightOfObjectivesOver100(axisInstanceIds, goalForUpdateDto.Weight, id))
                 {
                     return BadRequest("Le poids total de vos objectifs est supérieur à 100%!");
                 }
@@ -200,9 +200,27 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
-        private List<AxisInstanceWithGoalsToReturnDto> GetAxisInstancesWithGoals(IEnumerable<Goal> goalsFromRepo)
+        private async Task<List<AxisInstanceWithGoalsToReturnDto>> GetAxisInstancesWithGoals(IEnumerable<int> axisInstanceIds)
         {
             var goalsGroupedByAxisInstanceList = new List<AxisInstanceWithGoalsToReturnDto>();
+            // Add Axis Instances
+            var axisInstanceList = await _repo.AxisInstance.GetAxisInstancesByIds(axisInstanceIds);
+            foreach (var axisInstance in axisInstanceList)
+            {
+                var axisInstanceWithGoalsToReturnDto = new AxisInstanceWithGoalsToReturnDto()
+                {
+                    axisInstanceId = axisInstance.Id,
+                    Title = axisInstance.Title,
+                    Description = axisInstance.Description,
+                    PoleName = axisInstance.PoleName,
+                    PoleWeight = axisInstance.PoleWeight,
+                    UserWeight = axisInstance.UserWeight
+                };
+                goalsGroupedByAxisInstanceList.Add(axisInstanceWithGoalsToReturnDto);
+            }
+
+            // Add goals for each axis instance
+            var goalsFromRepo = await _repo.Goal.GetGoalsByAxisInstanceIds(axisInstanceIds);
             foreach (var goal in goalsFromRepo)
             {
                 var goalToReturn = _mapper.Map<GoalToReturnDto>(goal);
@@ -210,48 +228,47 @@ namespace SothemaGoalManagement.API.Controllers
                 {
                     goalsGroupedByAxisInstanceList.Find(a => a.axisInstanceId == goal.AxisInstanceId).Goals.Add(goalToReturn);
                 }
-                else
-                {
-                    var axisInstanceWithGoalsToReturnDto = new AxisInstanceWithGoalsToReturnDto()
-                    {
-                        axisInstanceId = goal.AxisInstanceId,
-                        Title = goal.AxisInstance.Title,
-                        Description = goal.AxisInstance.Description,
-                        PoleName = goal.AxisInstance.PoleName,
-                        PoleWeight = goal.AxisInstance.PoleWeight,
-                        UserWeight = goal.AxisInstance.UserWeight
-                    };
-
-                    axisInstanceWithGoalsToReturnDto.Goals.Add(goalToReturn);
-                    goalsGroupedByAxisInstanceList.Add(axisInstanceWithGoalsToReturnDto);
-                }
             }
 
+            // Count and summup goals
             foreach (var el in goalsGroupedByAxisInstanceList)
             {
                 el.TotalGoals = el.Goals.Count;
-                el.TotalGoalWeight = el.Goals.Sum(g => g.Weight);
+                el.TotalGoalWeight = el.Goals.Count == 0 ? 0 : el.Goals.Sum(g => g.Weight);
             }
 
             return goalsGroupedByAxisInstanceList;
         }
 
-        private async Task<bool> IsTotalWeoghtOfObjectivesOver100(IEnumerable<int> axisInstanceIds, int weight, int goalId = 0)
+        private async Task<bool> IsTotalWeightOfObjectivesOver100(IEnumerable<int> axisInstanceIds, int weight, int goalId = 0)
         {
-            var goalsFromRepo = await _repo.Goal.GetGoalsByAxisInstanceIds(axisInstanceIds);
-            var goalsToProcess = new List<Goal>();
-            foreach (var goal in goalsFromRepo)
+            var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
+
+            // Creation case
+            if (goalId == 0)
             {
-                if (goal.Id != goalId)
+                if (goalsGroupedByAxisInstanceList[0].TotalGoalWeight + weight > 100)
                 {
-                    goalsToProcess.Add(goal);
+                    return true;
                 }
             }
-            var goalsGroupedByAxisInstanceList = GetAxisInstancesWithGoals(goalsToProcess);
-            if (goalsGroupedByAxisInstanceList.Count == 1 && (goalsGroupedByAxisInstanceList[0].TotalGoalWeight + weight > 100))
+            else // update case
             {
-                return true;
+                var totalWeight = weight;
+                foreach (var goal in goalsGroupedByAxisInstanceList[0].Goals)
+                {
+                    if (goal.Id != goalId)
+                    {
+                        totalWeight = totalWeight + goal.Weight;
+                    }
+                }
+                if (totalWeight > 100)
+                {
+                    return true;
+                }
             }
+
+
             return false;
         }
     }

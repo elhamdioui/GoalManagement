@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SothemaGoalManagement.API.Data;
@@ -16,6 +18,11 @@ namespace SothemaGoalManagement.API.Repositories
         public async Task<AxisInstance> GetAxisInstance(int id)
         {
             return await FindByCondition(a => a.Id == id).SingleOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<AxisInstance>> GetAxisInstancesByIds(IEnumerable<int> axisInstanceIds)
+        {
+            return await FindByCondition(u => axisInstanceIds.Contains(u.Id)).ToListAsync();
         }
 
         public void AddAxisInstance(AxisInstance axisInstance)

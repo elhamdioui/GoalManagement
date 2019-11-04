@@ -20,7 +20,7 @@ export class GoalCardComponent implements OnInit {
   @Output() editGoalEvent = new EventEmitter<Goal>();
   @Output() deleteGoalEvent = new EventEmitter<Goal>();
   bsModalRef: BsModalRef;
-  isCollapsed = true;
+  isCollapsed = false;
   faEdit = faEdit;
   faTrash = faTrash;
   faCaretDown = faCaretDown;
