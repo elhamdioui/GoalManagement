@@ -67,7 +67,7 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpGet("axis/{id}")]
+        [HttpGet("axis/{id}", Name = "GetAxis")]
         public async Task<IActionResult> GetAxis(int id)
         {
             try

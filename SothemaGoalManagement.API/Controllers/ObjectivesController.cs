@@ -49,7 +49,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetGoal")]
         public async Task<IActionResult> GetGoal(int userId, int id)
         {
             try

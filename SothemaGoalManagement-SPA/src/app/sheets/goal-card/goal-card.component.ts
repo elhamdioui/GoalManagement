@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 import { GoalByAxisInstance } from './../../_models/goalsByAxisInstance';
 import { Goal } from '../../_models/goal';
@@ -23,6 +23,8 @@ export class GoalCardComponent implements OnInit {
   isCollapsed = true;
   faEdit = faEdit;
   faTrash = faTrash;
+  faCaretDown = faCaretDown;
+  faCaretUp = faCaretUp;
 
   constructor(private modalService: BsModalService) { }
 

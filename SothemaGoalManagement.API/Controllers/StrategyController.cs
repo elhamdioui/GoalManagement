@@ -66,7 +66,7 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetStrategy")]
         public async Task<IActionResult> GetStrategy(int ownerId, int id)
         {
             try

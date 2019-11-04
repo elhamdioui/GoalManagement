@@ -29,7 +29,7 @@ namespace SothemaGoalManagement.API.Controllers
             _repo = repo;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetEvaluationFile")]
         public async Task<IActionResult> GetEvaluationFile(int id)
         {
             try

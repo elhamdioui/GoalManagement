@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 import { AxisInstance } from '../../_models/axisInstance';
 import { GoalByAxisInstance } from './../../_models/goalsByAxisInstance';
@@ -18,6 +19,8 @@ export class GoalsComponent implements OnInit {
   @Output() editGoalEvent = new EventEmitter<Goal>();
   @Output() deleteGoalEvent = new EventEmitter<Goal>();
   isCollapsed = true;
+  faCaretDown = faCaretDown;
+  faCaretUp = faCaretUp;
 
   constructor() { }
 

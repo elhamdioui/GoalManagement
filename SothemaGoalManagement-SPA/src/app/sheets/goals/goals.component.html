@@ -1,8 +1,8 @@
 <div class="container mt-2">
   <div class="toggle">
     <button type="button" (click)="isCollapsed = !isCollapsed" title="Réduire / Agrandir">
-      <i *ngIf="!isCollapsed" class="fa fa-caret-down"></i>
-      <i *ngIf="isCollapsed" class="fa fa-caret-up"></i>
+      <fa-icon [icon]="faCaretDown" *ngIf="!isCollapsed"></fa-icon>
+      <fa-icon [icon]="faCaretUp" *ngIf="isCollapsed"></fa-icon>
     </button>
   </div>
 

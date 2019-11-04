@@ -27,7 +27,7 @@ namespace SothemaGoalManagement.API.Controllers
             _repo = repo;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetBehavioralSkill")]
         public async Task<IActionResult> GetBehavioralSkill(int id)
         {
             try
