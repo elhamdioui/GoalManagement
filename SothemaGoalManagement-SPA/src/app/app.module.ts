@@ -19,6 +19,7 @@ import { NgxGalleryModule } from 'ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -177,6 +178,7 @@ export function tokenGetter() {
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
     FileUploadModule,
+    AngularFontAwesomeModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
