@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
+import { AxisInstance } from '../../_models/axisInstance';
 
 @Component({
   selector: 'app-my-collaborators-sheets',
@@ -8,9 +10,14 @@ import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
 })
 export class MyCollaboratorsSheetsComponent implements OnInit {
   @Input() sheetsToValidate: EvaluationFileInstance[];
+  @Output() updateUserWeightEvent = new EventEmitter<AxisInstance>();
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  handleUpdateUserWeight(axisInstance: AxisInstance) {
+    this.updateUserWeightEvent.emit(axisInstance);
+  }
 }

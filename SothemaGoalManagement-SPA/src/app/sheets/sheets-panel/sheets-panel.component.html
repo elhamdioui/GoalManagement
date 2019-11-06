@@ -16,7 +16,7 @@
           <div class="alert alert-info mt-3" role="info" *ngIf="sheetsToValidate && sheetsToValidate.length === 0">
             Aucune fiche d'évaluation ne vous a été attribuée pour validation...
           </div>
-          <app-my-collaborators-sheets [sheetsToValidate]="sheetsToValidate"></app-my-collaborators-sheets>
+          <app-my-collaborators-sheets [sheetsToValidate]="sheetsToValidate" (updateUserWeightEvent)="handleUpdateUserWeight($event)"></app-my-collaborators-sheets>
         </div>
       </tab>
     </tabset>

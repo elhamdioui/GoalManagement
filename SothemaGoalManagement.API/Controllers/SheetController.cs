@@ -91,7 +91,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
-        [HttpPut("axisInstance/edit/{axisInstanceId}/{userWeight}")]
+        [HttpPut("{axisInstanceId}/{userWeight}")]
         public async Task<IActionResult> UpdateAxisInstance(int userId, int axisInstanceId, int userWeight)
         {
             try

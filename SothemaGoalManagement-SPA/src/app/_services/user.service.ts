@@ -160,7 +160,7 @@ export class UserService {
   }
 
   updateAxisInstance(userId: number, axisInstanceId: number, userWeight: number) {
-    return this.http.put(`${this.baseUrl}users/axisInstance/edit/${userId}/${axisInstanceId}/${userWeight}`, {})
+    return this.http.put(`${this.baseUrl}users/${userId}/sheet/${axisInstanceId}/${userWeight}`, {})
   }
 
   validateGoals(userId: number, goals: any[]) {

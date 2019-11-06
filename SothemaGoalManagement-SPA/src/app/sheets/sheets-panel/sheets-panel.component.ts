@@ -9,6 +9,7 @@ import { AuthService } from '../../_services/auth.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { Goal } from '../../_models/goal';
 import { GoalEditModalComponent } from '../goal-edit-modal/goal-edit-modal.component';
+import { AxisInstance } from '../../_models/axisInstance';
 
 @Component({
   selector: 'app-sheets-panel',
@@ -102,5 +103,25 @@ export class SheetsPanelComponent implements OnInit {
   handlePageChanged(event: any): void {
     this.pagination.currentPage = event.currentPage;
     this.loadSheets();
+  }
+
+  handleUpdateUserWeight(axisInstance: AxisInstance) {
+    this.loading = true;
+    this.userService
+      .updateAxisInstance(
+        this.authService.decodedToken.nameid,
+        axisInstance.id,
+        axisInstance.userWeight
+      )
+      .subscribe(
+        () => {
+          this.loading = false;
+          this.alertify.success('La pondération de l\'employée est modifié avec succès.');
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
   }
 }
