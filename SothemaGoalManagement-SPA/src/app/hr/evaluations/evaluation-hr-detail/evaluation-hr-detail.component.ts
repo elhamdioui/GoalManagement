@@ -25,6 +25,7 @@ export class EvaluationHrDetailComponent implements OnInit {
   userStatusList: UserStatus[];
   bsModalRef: BsModalRef;
   faTrash = faTrash
+  isReadOnly: boolean;
 
   constructor(private modalService: BsModalService, private route: ActivatedRoute, private router: Router, private hrService: HrService, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -37,6 +38,7 @@ export class EvaluationHrDetailComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.evaluationFile = data['evaluationFile'];
       this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe();
+      this.isReadOnly = this.evaluationFile.status == 'Publiée' || this.evaluationFile.status == 'Archivée';
     });
 
     this.getUserStatus();
@@ -124,7 +126,7 @@ export class EvaluationHrDetailComponent implements OnInit {
               this.alertify.error(error);
             },
             () => {
-              this.router.navigate(['/hr']);
+              this.router.navigate(['/hr'], { queryParams: { tab: 2 } });
             }
           );
       }

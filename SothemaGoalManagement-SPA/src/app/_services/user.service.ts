@@ -147,7 +147,7 @@ export class UserService {
     return this.http.post(`${this.baseUrl}users/${userId}/goal/createGoal`, goal);
   }
 
-  updateGoal(id: number, userId: number, goal: Goal) {
+  updateGoal(id: number, userId: number, goal: any) {
     return this.http.put(`${this.baseUrl}users/${userId}/goal/editGoal/${id}`, goal);
   }
 
@@ -161,5 +161,9 @@ export class UserService {
 
   updateAxisInstance(userId: number, axisInstanceId: number, userWeight: number) {
     return this.http.put(`${this.baseUrl}users/axisInstance/edit/${userId}/${axisInstanceId}/${userWeight}`, {})
+  }
+
+  validateGoals(userId: number, goals: any[]) {
+    return this.http.put(`${this.baseUrl}users/${userId}/goal/validateGoals`, goals);
   }
 }

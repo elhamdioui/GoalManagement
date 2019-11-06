@@ -13,6 +13,7 @@ import { GoalType } from '../../_models/goalType';
 })
 export class GoalsComponent implements OnInit {
   @Input() axisInstances: AxisInstance[];
+  @Input() areGoalsReadOnly: boolean;
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Input() goalTypeList: GoalType[];
   @Output() createGoalEvent = new EventEmitter<any>();
@@ -31,7 +32,7 @@ export class GoalsComponent implements OnInit {
     this.createGoalEvent.emit(newGoal);
   }
 
-  handleEditGoal(goal: Goal) {
+  handleEditGoal(goal: any) {
     this.editGoalEvent.emit(goal);
   }
 

@@ -741,7 +741,7 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.Strategy", "Strategy")
                         .WithMany("EvaluationFiles")
                         .HasForeignKey("StrategyId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFileBehavioralSkill", b =>
@@ -754,7 +754,7 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.EvaluationFile", "EvaluationFile")
                         .WithMany("BehavioralSkills")
                         .HasForeignKey("EvaluationFileId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFileInstance", b =>

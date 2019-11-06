@@ -59,7 +59,7 @@ namespace SothemaGoalManagement.API.Controllers
 
                 if (evaluationFileInstanceFromRepo.Status == Constants.PUBLISHED || evaluationFileInstanceFromRepo.Status == Constants.ARCHIVED)
                 {
-                    BadRequest("Vous ne pouvez pas supprimer cette fiche d\'evaluation car elle est publiée ou bien archivée.");
+                    return BadRequest("Vous ne pouvez pas supprimer cette fiche d\'evaluation car elle est publiée ou bien archivée.");
                 }
 
                 _repo.EvaluationFileInstance.DeleteEvaluationFileInstance(evaluationFileInstanceFromRepo);

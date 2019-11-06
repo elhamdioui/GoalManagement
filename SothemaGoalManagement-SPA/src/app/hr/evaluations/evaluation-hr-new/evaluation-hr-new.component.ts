@@ -36,9 +36,9 @@ export class EvaluationHrNewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.createForm();
     this.loadPublishedStratgeies();
     this.loadPublishedBehavioralSkills();
+    this.createForm();
   }
 
   loadPublishedStratgeies() {
@@ -46,7 +46,9 @@ export class EvaluationHrNewComponent implements OnInit {
     this.hrService.getPublishedStrategies().subscribe(
       (result: Strategy[]) => {
         this.loading = false;
+        console.log('result:', result);
         this.strategyList = result.filter(r => r.sealed === false);
+        console.log('this.strategyList:', this.strategyList);
       },
       error => {
         this.loading = false;

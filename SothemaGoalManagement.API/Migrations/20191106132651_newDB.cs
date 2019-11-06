@@ -477,7 +477,7 @@ namespace SothemaGoalManagement.API.Migrations
                         column: x => x.StrategyId,
                         principalTable: "Strategies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -528,7 +528,7 @@ namespace SothemaGoalManagement.API.Migrations
                         column: x => x.EvaluationFileId,
                         principalTable: "EvaluationFiles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

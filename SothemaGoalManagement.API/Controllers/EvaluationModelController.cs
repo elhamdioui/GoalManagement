@@ -89,7 +89,7 @@ namespace SothemaGoalManagement.API.Controllers
                     _repo.EvaluationFile.UpdateEvaluationFile(evaluationFile);
                 }
                 await _repo.EvaluationFile.SaveAllAsync();
-                return CreatedAtRoute("GetEvaluationFile", new { id = evaluationFile.Id }, evaluationFile);
+                return CreatedAtRoute("GetEvaluationModel", new { id = evaluationFile.Id }, evaluationFile);
             }
             catch (Exception ex)
             {
@@ -111,7 +111,7 @@ namespace SothemaGoalManagement.API.Controllers
                 if (evaluationFileFromRepo == null) return NotFound();
                 if (evaluationFileFromRepo.Status == Constants.PUBLISHED || evaluationFileFromRepo.Status == Constants.ARCHIVED)
                 {
-                    BadRequest("Vous ne pouvez pas supprimer ce modele d\'evaluation car il est publié ou bien archivé.");
+                    return BadRequest("Vous ne pouvez pas supprimer ce modele d\'evaluation car il est publié ou bien archivé.");
                 }
 
                 _repo.EvaluationFile.DeleteEvaluationFile(evaluationFileFromRepo);

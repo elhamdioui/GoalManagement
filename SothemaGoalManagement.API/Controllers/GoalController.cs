@@ -91,7 +91,8 @@ namespace SothemaGoalManagement.API.Controllers
                 if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
                 // Validate the total weights of the objectives within an axis instance
                 var axisInstanceIds = new List<int> { goalCreationDto.AxisInstanceId };
-                if (await IsTotalWeightOfObjectivesOver100(axisInstanceIds, goalCreationDto.Weight))
+                var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
+                if (IsTotalWeightOfObjectivesOver100(goalsGroupedByAxisInstanceList, goalCreationDto.Weight))
                 {
                     return BadRequest("Le poids total de vos objectifs est supérieur à 100%!");
                 }
@@ -118,7 +119,8 @@ namespace SothemaGoalManagement.API.Controllers
                 if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
                 // Validate the total weights of the objectives within an axis instance
                 var axisInstanceIds = new List<int> { goalForUpdateDto.AxisInstanceId };
-                if (await IsTotalWeightOfObjectivesOver100(axisInstanceIds, goalForUpdateDto.Weight, id))
+                var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
+                if (IsTotalWeightOfObjectivesOver100(goalsGroupedByAxisInstanceList, goalForUpdateDto.Weight, id))
                 {
                     return BadRequest("Le poids total de vos objectifs est supérieur à 100%!");
                 }
@@ -130,6 +132,53 @@ namespace SothemaGoalManagement.API.Controllers
                 _repo.Goal.UpdateGoal(goalFromRepo);
 
                 await _repo.Goal.SaveAllAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside UpdateEvaluationFile enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPut("validateGoals")]
+        public async Task<IActionResult> ValidateGoals(int userId, IEnumerable<GoalForUpdateDto> goalsToUpdateDto)
+        {
+            try
+            {
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                // Validate the total weights of the objectives within an axis instance
+                var axisInstanceIds = new List<int>();
+                foreach (var goalToUpdateDto in goalsToUpdateDto)
+                {
+                    axisInstanceIds.Add(goalToUpdateDto.AxisInstanceId);
+                }
+                var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
+                foreach (var goalToUpdateDto in goalsToUpdateDto)
+                {
+                    if (goalToUpdateDto.Weight != 100)
+                    {
+                        return BadRequest("Le poids total de vos objectifs est différent de 100%!");
+                    }
+                }
+
+                // Set Status of goals to review
+                var goalIds = new List<int>();
+                foreach (var goalToUpdateDto in goalsToUpdateDto)
+                {
+                    goalIds.Add(goalToUpdateDto.Id);
+                }
+                var goalsFromRepo = await _repo.Goal.GetGoalsByIds(goalIds);
+                if (goalsFromRepo != null)
+                {
+                    foreach (var goal in goalsFromRepo)
+                    {
+                        goal.Status = Constants.REVIEW;
+                        _repo.Goal.UpdateGoal(goal);
+                    }
+                    await _repo.Goal.SaveAllAsync();
+                }
 
                 return NoContent();
             }
@@ -196,15 +245,14 @@ namespace SothemaGoalManagement.API.Controllers
             {
                 el.TotalGoals = el.Goals.Count;
                 el.TotalGoalWeight = el.Goals.Count == 0 ? 0 : el.Goals.Sum(g => g.Weight);
+                el.GoalsStatus = el.Goals.Count == 0 ? "Pas encore créé" : el.Goals.First().Status;
             }
 
             return goalsGroupedByAxisInstanceList;
         }
 
-        private async Task<bool> IsTotalWeightOfObjectivesOver100(IEnumerable<int> axisInstanceIds, int weight, int goalId = 0)
+        private bool IsTotalWeightOfObjectivesOver100(List<AxisInstanceWithGoalsToReturnDto> goalsGroupedByAxisInstanceList, int weight, int goalId = 0)
         {
-            var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
-
             // Creation case
             if (goalId == 0)
             {

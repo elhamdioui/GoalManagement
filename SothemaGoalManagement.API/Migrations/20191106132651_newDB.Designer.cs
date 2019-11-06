@@ -9,7 +9,7 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191105221228_newDB")]
+    [Migration("20191106132651_newDB")]
     partial class newDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -743,7 +743,7 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.Strategy", "Strategy")
                         .WithMany("EvaluationFiles")
                         .HasForeignKey("StrategyId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFileBehavioralSkill", b =>
@@ -756,7 +756,7 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.EvaluationFile", "EvaluationFile")
                         .WithMany("BehavioralSkills")
                         .HasForeignKey("EvaluationFileId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFileInstance", b =>

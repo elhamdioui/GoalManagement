@@ -1,76 +1,86 @@
 <div class="container mt-4">
-  <div class="row">
-    <h1>Fiche d'évaluation</h1>
-  </div>
-  <div class="row">
-    <div class="col-sm-3">
-      <div class="card">
-        <div class="card-body">
-          <div>
-            <strong>Titre:</strong>
-            <p>{{ sheetDetail.title }}</p>
-          </div>
-          <div>
-            <strong>Année:</strong>
-            <p>{{ sheetDetail.year }}</p>
-          </div>
-          <div>
-            <strong>Statut:</strong>
-            <p>{{ sheetDetail.status }}</p>
-          </div>
-          <div>
-            <strong>Matricule:</strong>
-            <p>{{ sheetDetail.employeeNumber }}</p>
-          </div>
-          <div>
-            <strong>Nom de l'employé:</strong>
-            <p>{{ sheetDetail.ownerName }}</p>
-          </div>
-          <div>
-            <strong>Fonction:</strong>
-            <p>{{ sheetDetail.ownerTitle }}</p>
-          </div>
-          <div>
-            <strong>Pôle/entité:</strong>
-            <p>{{ sheetDetail.axisInstances[0].poleName }}</p>
-          </div>
-          <div>
-            <strong>Créé:</strong>
-            <p>{{ sheetDetail.created | date: 'mediumDate' }}</p>
-          </div>
-        </div>
-        <div class="card-footer">
-          <div class="btn-group d-fles">
-            <button class="btn btn-success w-70 mr-1" [routerLink]="['/sheets']">
-              Retour au List
-            </button>
-          </div>
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-header">
+      <h1>Fiche d'évaluation</h1>
     </div>
-    <div class="col-sm-9">
-      <div class="tab-panel panel-body">
-        <tabset class="strategy-tabset">
-          <tab heading="Stratégie">
-            <app-axis-user [strategyTitle]="sheetDetail.strategyTitle" [strategyDescription]="sheetDetail.strategyDescription" [axisInstances]="sheetDetail.axisInstances"></app-axis-user>
-          </tab>
-          <tab heading="Définition des Objectifs">
-            <div *ngIf="goalsByAxisInstanceList">
-              <app-goals [goalsByAxisInstanceList]="goalsByAxisInstanceList" [axisInstances]="sheetDetail.axisInstances" [goalTypeList]="goalTypeList"
-                (createGoalEvent)="handleCreateGoal($event)" (editGoalEvent)="handleEditGoal($event)" (deleteGoalEvent)="handleDeleteGoal($event)"></app-goals>
+    <div class="card-body">
+      <tabset class="strategy-tabset">
+        <tab heading="Détail">
+          <div class="container mt-2">
+            <div class="row">
+              <div class="col-md-4">
+                <strong>Titre:</strong>
+                <p>{{ sheetDetail.title }}</p>
+              </div>
+              <div class="col-md-4">
+                <strong>Année:</strong>
+                <p>{{ sheetDetail.year }}</p>
+              </div>
+              <div class="col-md-4">
+                <strong>Statut:</strong>
+                <p>{{ sheetDetail.status }}</p>
+              </div>
             </div>
-          </tab>
-          <tab heading="Évaluation des objectifs">
-            <div class="container ">
 
+            <div class="row">
+              <div class="col-md-4">
+                <strong>Matricule:</strong>
+                <p>{{ sheetDetail.employeeNumber }}</p>
+              </div>
+              <div class="col-md-4">
+                <strong>Nom de l'employé:</strong>
+                <p>{{ sheetDetail.ownerName }}</p>
+              </div>
+              <div class="col-md-4">
+                <strong>Fonction:</strong>
+                <p>{{ sheetDetail.ownerTitle }}</p>
+              </div>
             </div>
-          </tab>
-          <tab heading="Évaluation des Compétences">
-            <div class="container ">
 
+            <div class="row">
+              <div class="col-md-4">
+                <strong>Pôle/entité:</strong>
+                <p>{{ sheetDetail.axisInstances[0].poleName }}</p>
+              </div>
+              <div class="col-md-4">
+                <strong>Créé:</strong>
+                <p>{{ sheetDetail.created | date: 'mediumDate' }}</p>
+              </div>
             </div>
-          </tab>
-        </tabset>
+          </div>
+        </tab>
+        <tab heading="Stratégie">
+          <app-axis-user [strategyTitle]="sheetDetail.strategyTitle" [strategyDescription]="sheetDetail.strategyDescription" [axisInstances]="sheetDetail.axisInstances"></app-axis-user>
+        </tab>
+        <tab heading="Définition des objectifs">
+          <div *ngIf="goalsByAxisInstanceList">
+            <app-goals [areGoalsReadOnly]="areGoalsReadOnly" [goalsByAxisInstanceList]="goalsByAxisInstanceList" [axisInstances]="sheetDetail.axisInstances"
+              [goalTypeList]="goalTypeList" (createGoalEvent)="handleCreateGoal($event)" (editGoalEvent)="handleEditGoal($event)"
+              (deleteGoalEvent)="handleDeleteGoal($event)"></app-goals>
+          </div>
+        </tab>
+        <tab heading="Évaluation des objectifs">
+          <div class="container ">
+
+          </div>
+        </tab>
+        <tab heading="Évaluation des Compétences">
+          <div class="container ">
+
+          </div>
+        </tab>
+      </tabset>
+    </div>
+
+    <div class="card-footer">
+      <div class="btn-group d-flex">
+        <button class="btn btn-success w-70 mr-1" [routerLink]="['/sheets']">
+          Retour au List
+        </button>
+
+        <button class="btn btn-primary w-70 mr-1" [disabled]="!areGoalsCompleted" (click)="validateGoals()" *ngIf="!areGoalsReadOnly">
+          Valider les objectifs
+        </button>
       </div>
     </div>
   </div>

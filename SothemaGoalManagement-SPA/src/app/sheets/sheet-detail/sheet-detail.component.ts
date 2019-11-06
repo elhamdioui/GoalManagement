@@ -20,8 +20,8 @@ export class SheetDetailComponent implements OnInit {
   goalsByAxisInstanceList: GoalByAxisInstance[];
   goalTypeList: GoalType[];
   loading = false;
-  goalsGroupedByAxis = {};
-  keys: string[];
+  areGoalsCompleted: boolean;
+  areGoalsReadOnly: boolean;
 
   constructor(private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -43,12 +43,24 @@ export class SheetDetailComponent implements OnInit {
         (result: GoalByAxisInstance[]) => {
           this.loading = false;
           this.goalsByAxisInstanceList = result;
+          this.CanGoalsBeValidated();
+          this.CheckReadOnly();
+          console.log('this.areGoalsReadOnly:', this.areGoalsReadOnly);
         },
         error => {
           this.loading = false;
           this.alertify.error('Impossible d\'avoir les objectifs');
         }
       );
+  }
+
+  CheckReadOnly() {
+    if (this.goalsByAxisInstanceList.filter(g => g.goalsStatus === 'Pas encore créé' || g.goalsStatus == 'Rédaction').length == 0) {
+      this.areGoalsReadOnly = true;
+    } else {
+      this.areGoalsReadOnly = false;
+    }
+    return this.areGoalsReadOnly;
   }
 
   handleCreateGoal(newGoal: any) {
@@ -66,7 +78,7 @@ export class SheetDetailComponent implements OnInit {
     );
   }
 
-  handleEditGoal(goal: Goal) {
+  handleEditGoal(goal: any) {
     this.loading = true;
     this.userService.updateGoal(goal.id, this.authService.decodedToken.nameid, goal).subscribe(() => {
       this.loading = false;
@@ -98,5 +110,45 @@ export class SheetDetailComponent implements OnInit {
           );
       }
     );
+  }
+
+  CanGoalsBeValidated() {
+    if (this.goalsByAxisInstanceList.filter(g => g.totalGoalWeight != 100).length == 0) {
+      this.areGoalsCompleted = true;
+    } else {
+      this.areGoalsCompleted = false;
+    }
+    return this.areGoalsCompleted;
+  }
+
+  validateGoals() {
+    this.loading = true;
+
+    var goals: any[] = [];
+    this.goalsByAxisInstanceList.forEach(a => {
+      a.goals.forEach(g => goals.push({
+        id: g.id,
+        description: g.description,
+        goalTypeId: g.goalType.id,
+        axisInstanceId: g.axisInstance.id,
+        status: g.status,
+        weight: g.weight
+      }));
+    });
+
+    this.userService
+      .validateGoals(this.authService.decodedToken.nameid, goals)
+      .subscribe(
+        () => {
+          this.loading = false;
+          this.areGoalsReadOnly = true;
+          this.getGoalsForAxis();
+          this.alertify.success('Les objectives ont été envoyées pour validation');
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error('Impossible de valider les objectives');
+        }
+      );
   }
 }

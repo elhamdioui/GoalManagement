@@ -15,9 +15,10 @@ import { GoalEditModalComponent } from '../goal-edit-modal/goal-edit-modal.compo
 })
 export class GoalCardComponent implements OnInit {
   @Input() goalsByAxisInstance: GoalByAxisInstance;
+  @Input() areGoalsReadOnly: boolean;
   @Input() axisInstances: AxisInstance[];
   @Input() goalTypeList: GoalType[];
-  @Output() editGoalEvent = new EventEmitter<Goal>();
+  @Output() editGoalEvent = new EventEmitter<any>();
   @Output() deleteGoalEvent = new EventEmitter<Goal>();
   bsModalRef: BsModalRef;
   isCollapsed = false;
@@ -36,7 +37,7 @@ export class GoalCardComponent implements OnInit {
       goal,
       goalTypeList: this.goalTypeList,
       axisList: this.axisInstances,
-      goalsByAxisInstance: this.goalsByAxisInstance 
+      goalsByAxisInstance: this.goalsByAxisInstance
     };
 
     this.bsModalRef = this.modalService.show(GoalEditModalComponent, { initialState });

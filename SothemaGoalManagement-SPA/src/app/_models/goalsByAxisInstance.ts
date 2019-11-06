@@ -7,6 +7,7 @@ export interface GoalByAxisInstance {
   poleName: string;
   poleWeight: number;
   userWeight: number;
+  goalsStatus: string;
   goals: Goal[];
   totalGoals: number;
   totalGoalWeight: number;

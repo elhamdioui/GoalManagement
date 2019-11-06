@@ -3,13 +3,13 @@
     <tr>
       <th style="width: 30%">Titre</th>
       <th style="width: 10%">Année</th>
-      <th style="width: 25%">Stratégie</th>
+      <th style="width: 25%">Statut</th>
       <td style="width: 15%">Créé</td>
     </tr>
     <tr *ngFor="let evaluationFileInsatnce of sheets" [routerLink]="['/sheets/', evaluationFileInsatnce.id]">
       <td>{{ evaluationFileInsatnce.title }}</td>
       <td>{{ evaluationFileInsatnce.year }}</td>
-      <td>{{ evaluationFileInsatnce.strategyTitle }}</td>
+      <td>{{ evaluationFileInsatnce.status }}</td>
       <td>
         {{ evaluationFileInsatnce.created | date: 'mediumDate' }}
       </td>
