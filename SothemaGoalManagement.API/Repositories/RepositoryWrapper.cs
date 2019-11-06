@@ -22,6 +22,7 @@ namespace SothemaGoalManagement.API.Repositories
         private IDepartmentRepository _department;
         private IGoalTypeRepository _goalType;
         private IGoalRepository _goal;
+        private IEvaluationFileInstanceLogRepository _evaluationFileInstanceLog;
 
         public IAxisInstanceRepository AxisInstance
         {
@@ -212,6 +213,18 @@ namespace SothemaGoalManagement.API.Repositories
                     _goal = new GoalRepository(_repoContext);
                 }
                 return _goal;
+            }
+        }
+
+        public IEvaluationFileInstanceLogRepository EvaluationFileInstanceLog
+        {
+            get
+            {
+                if (_evaluationFileInstanceLog == null)
+                {
+                    _evaluationFileInstanceLog = new EvaluationFileInstanceLogRepository(_repoContext);
+                }
+                return _evaluationFileInstanceLog;
             }
         }
 

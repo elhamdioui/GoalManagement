@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
@@ -9,7 +9,7 @@ import { AuthService } from './../_services/auth.service';
 import { EvaluationFileInstance } from './../_models/evaluationFileInstance';
 
 @Injectable()
-export class SheetsResolver implements Resolve<EvaluationFileInstance> {
+export class SheetsResolver implements Resolve<any> {
   pageNumber = 1;
   pageSize = 10;
   constructor(
@@ -19,16 +19,27 @@ export class SheetsResolver implements Resolve<EvaluationFileInstance> {
     private alertify: AlertifyService
   ) { }
 
-  resolve(route: ActivatedRouteSnapshot): Observable<EvaluationFileInstance> {
-    return this.userService
-      .getMySheets(
-        this.authService.decodedToken.nameid,
-        this.pageNumber,
-        this.pageSize).pipe(
+  resolve(route: ActivatedRouteSnapshot): Observable<any> {
+    return forkJoin(
+      [
+        this.userService.getMyCollaboratorsSheets(this.authService.decodedToken.nameid).pipe(
           catchError(error => {
             this.alertify.error('Problème lors de la récupération des données de votre fiches d\'évaluation');
-            this.router.navigate(['/hr']);
+            this.router.navigate(['/']);
             return of(null);
-          }));
+          })),
+
+        this.userService.getMySheets(this.authService.decodedToken.nameid, this.pageNumber, this.pageSize).pipe(
+          catchError(error => {
+            this.alertify.error('Problème lors de la récupération des données de votre fiches d\'évaluation');
+            this.router.navigate(['/']);
+            return of(null);
+          }))
+      ]).pipe(map(result => {
+        return {
+          sheetsToValidate: result[0],
+          sheets: result[1]
+        };
+      }));
   }
 }

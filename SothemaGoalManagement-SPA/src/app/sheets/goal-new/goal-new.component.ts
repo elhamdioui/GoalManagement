@@ -35,6 +35,7 @@ export class GoalNewComponent implements OnInit {
       this.newGoal.axisInstanceId = '';
       this.newGoal.goalTypeId = '';
       this.newGoal.projectName = '';
+      this.showError = false;
     } else {
       this.showError = true;
     }
@@ -48,7 +49,7 @@ export class GoalNewComponent implements OnInit {
     return true;
   }
 
-  onChange($event){
+  onChange($event) {
     this.showError = false;
   }
 }

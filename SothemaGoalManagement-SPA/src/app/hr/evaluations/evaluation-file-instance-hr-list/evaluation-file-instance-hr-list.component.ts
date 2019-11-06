@@ -12,7 +12,7 @@ import { User } from '../../../_models/user';
 })
 export class EvaluationFileInstanceHrListComponent implements OnInit {
   @Input() evaluationFileInstanceList: EvaluationFileInstance[];
-  @Output() deleteEvaluationFileInstanceEvent = new EventEmitter<number>();
+  @Output() deleteEvaluationFileInstanceEvent = new EventEmitter<EvaluationFileInstance>();
   actionLabel: string;
   filteredEvaluationFileInstances: EvaluationFileInstance[];
   values: string = '';
@@ -30,8 +30,8 @@ export class EvaluationFileInstanceHrListComponent implements OnInit {
     this.filteredEvaluationFileInstances = this.evaluationFileInstanceList.filter(efi => efi.ownerName.toLowerCase().includes(this.values.toLowerCase()));
   }
 
-  delete(id: number) {
-    this.deleteEvaluationFileInstanceEvent.emit(id);
+  delete(efi: EvaluationFileInstance) {
+    this.deleteEvaluationFileInstanceEvent.emit(efi);
   }
 
 }

@@ -16,7 +16,7 @@ using System;
 
 namespace SothemaGoalManagement.API.Controllers
 {
-    [Route("api/users/{userId}/photos")]
+    [Route("api/users/{userId}/[controller]")]
     [ApiController]
     public class PhotosController : ControllerBase
     {

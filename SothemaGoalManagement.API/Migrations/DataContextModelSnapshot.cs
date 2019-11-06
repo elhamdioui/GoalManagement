@@ -365,6 +365,22 @@ namespace SothemaGoalManagement.API.Migrations
                     b.ToTable("EvaluationFileInstanceBehavioralSkillInstances");
                 });
 
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFileInstanceLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("Log");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EvaluationFileInstanceLogs");
+                });
+
             modelBuilder.Entity("SothemaGoalManagement.API.Models.Goal", b =>
                 {
                     b.Property<int>("Id")

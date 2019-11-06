@@ -9,8 +9,8 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191103215650_ProjectNameAdded")]
-    partial class ProjectNameAdded
+    [Migration("20191105221228_newDB")]
+    partial class newDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -365,6 +365,22 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasIndex("BehavioralSkillInstanceId");
 
                     b.ToTable("EvaluationFileInstanceBehavioralSkillInstances");
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFileInstanceLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("Log");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EvaluationFileInstanceLogs");
                 });
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.Goal", b =>

@@ -1,7 +1,7 @@
 <div class="container">
 
-  <div class="row" *ngIf="strategies.length == 0">
-    <h3>Pas de strategies</h3>
+  <div class="alert alert-info mt-3" role="info" *ngIf="strategies && strategies.length === 0">
+    Aucune stratégie n'a encore été publiée.
   </div>
 
   <div *ngIf="strategies.length > 0">

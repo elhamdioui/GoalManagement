@@ -98,7 +98,7 @@ export class HrService {
 
   getAxisPoleList(axisId: number) {
     return this.http.get<AxisPole[]>(
-      this.baseUrl + 'hr/axis/axisPoleList/' + axisId);
+      this.baseUrl + 'hr/axisPole/axisPoleList/' + axisId);
   }
 
   addAxis(axis: Axis) {
@@ -110,11 +110,11 @@ export class HrService {
   }
 
   deleteAxis(id: number, userId: number) {
-    return this.http.delete(`${this.baseUrl}hr/axis/axis/${id}/delete/${userId}`);
+    return this.http.delete(`${this.baseUrl}hr/axis/${id}/delete/${userId}`);
   }
 
   updateAxisPoleWeigth(axisId: number, poleId: number, weight: number) {
-    return this.http.put(`${this.baseUrl}hr/axis/updateAxisPole/${axisId}/${poleId}/${weight}`, {});
+    return this.http.put(`${this.baseUrl}hr/axisPole/updateAxisPole/${axisId}/${poleId}/${weight}`, {});
   }
 
   getBehavioralSkills(createdById, filters?) {
@@ -154,23 +154,27 @@ export class HrService {
       params = params.append('status', filters.status);
       params = params.append('orderBy', filters.orderBy);
     }
-    return this.http.get<EvaluationFile[]>(`${this.baseUrl}hr/evaluationfile`, { params });
+    return this.http.get<EvaluationFile[]>(`${this.baseUrl}hr/evaluationModel`, { params });
   }
 
   updateEvaluationFile(ownerId: number, evaluationFile: any) {
-    return this.http.put(`${this.baseUrl}hr/evaluationfile/edit/${ownerId}`, evaluationFile)
+    return this.http.put(`${this.baseUrl}hr/evaluationModel/edit/${ownerId}`, evaluationFile)
   }
 
   getEvaluationFile(id: number) {
-    return this.http.get<EvaluationFile>(`${this.baseUrl}hr/evaluationfile/${id}`);
+    return this.http.get<EvaluationFile>(`${this.baseUrl}hr/evaluationModel/${id}`);
   }
 
   createEvaluationFile(ownerId: number, newEvaluationFile: any) {
-    return this.http.post(`${this.baseUrl}hr/evaluationfile/new/${ownerId}`, newEvaluationFile);
+    return this.http.post(`${this.baseUrl}hr/evaluationModel/new/${ownerId}`, newEvaluationFile);
+  }
+
+  deleteEvaluationFile(id: number, userId: number) {
+    return this.http.delete(`${this.baseUrl}hr/evaluationModel/${id}/delete/${userId}`);
   }
 
   generateEvaluationFile(evaluationFileId: number, users: User[]) {
-    return this.http.post(`${this.baseUrl}hr/evaluationfile/generate/${evaluationFileId}`, users);
+    return this.http.post(`${this.baseUrl}hr/evaluationSheet/generate/${evaluationFileId}`, users);
   }
 
   efiBSList = new BehaviorSubject<EvaluationFileInstance[]>([]);
@@ -179,17 +183,13 @@ export class HrService {
     this.efiBSList.next(efilist);
   }
   getEvaluationFileInstancesByEvaluationFileId(evaluationFileId: number) {
-    return this.http.get<EvaluationFileInstance[]>(`${this.baseUrl}hr/evaluationFile/evaluationFileInstances/${evaluationFileId}`)
+    return this.http.get<EvaluationFileInstance[]>(`${this.baseUrl}hr/evaluationSheet/${evaluationFileId}`)
       .pipe(map((result: EvaluationFileInstance[]) => {
         this.changeEfiList(result);
       }));
   }
 
-  updateAxisInstance(userId: number, axisInstanceId: number, userWeight: number) {
-    return this.http.put(`${this.baseUrl}hr/evaluationfile/axisInstance/edit/${userId}/${axisInstanceId}/${userWeight}`, {})
-  }
-
   deleteEvaluationFileInstance(id: number, userId: number) {
-    return this.http.delete(`${this.baseUrl}hr/evaluationFile/evaluationFileInstance/${id}/delete/${userId}`);
+    return this.http.delete(`${this.baseUrl}hr/evaluationSheet/${id}/delete/${userId}`);
   }
 }

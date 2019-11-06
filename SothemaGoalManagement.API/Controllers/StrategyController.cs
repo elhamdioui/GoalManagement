@@ -238,6 +238,23 @@ namespace SothemaGoalManagement.API.Controllers
                 var strategyFromRepo = await _repo.Strategy.GetStrategy(strategyForUpdateDto.Id);
                 if (strategyFromRepo == null) return BadRequest("La stratégie n'existe pas!");
                 if (strategyFromRepo.Sealed) return BadRequest("La stratégie est scellée!");
+                if (strategyForUpdateDto.Status == Constants.PUBLISHED)
+                {
+                    if (strategyFromRepo.AxisList.Count == 0)
+                    {
+                        return BadRequest("Vous ne pouvez pas publier cette stratégie car elle n'a aucun axe.");
+                    }
+                    foreach (var axis in strategyFromRepo.AxisList)
+                    {
+                        foreach (var ap in axis.AxisPoles)
+                        {
+                            if (ap.Weight == 0)
+                            {
+                                return BadRequest("Vous ne pouvez pas publier cette stratégie car une pondération de pôle égale 0%.");
+                            }
+                        }
+                    }
+                }
 
                 _mapper.Map(strategyForUpdateDto, strategyFromRepo);
                 _repo.Strategy.UpdateStrategy(strategyFromRepo);

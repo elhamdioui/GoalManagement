@@ -58,7 +58,7 @@ export const appRoutes: Routes = [
       {
         path: 'sheets',
         component: SheetsPanelComponent,
-        resolve: { sheets: SheetsResolver }
+        resolve: { resolvedData: SheetsResolver }
       }, {
         path: 'sheets/:id',
         component: SheetDetailComponent,

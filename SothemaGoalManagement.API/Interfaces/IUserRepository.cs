@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SothemaGoalManagement.API.Dtos;
 using SothemaGoalManagement.API.Helpers;
 using SothemaGoalManagement.API.Models;
 
@@ -21,7 +22,7 @@ namespace SothemaGoalManagement.API.Interfaces
 
         Task<IEnumerable<object>> LoadEvaluators(int evaluatedId);
 
-        Task<IEnumerable<object>> LoadEvaluatees(int evaluatorId);
+        Task<IEnumerable<EvaluateeToReturnDto>> LoadEvaluatees(int evaluatorId);
 
         Task<EvaluatedEvaluator> GetEvaluatedEvaluator(int evaluatedId, int evaluatorId);
 

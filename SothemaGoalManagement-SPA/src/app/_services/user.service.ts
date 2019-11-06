@@ -114,7 +114,7 @@ export class UserService {
     }
 
     return this.http
-      .get<EvaluationFileInstance[]>(this.baseUrl + 'users/' + userId + '/objectives', {
+      .get<EvaluationFileInstance[]>(this.baseUrl + 'users/' + userId + '/sheet', {
         observe: 'response',
         params
       })
@@ -131,27 +131,35 @@ export class UserService {
       );
   }
 
+  getMyCollaboratorsSheets(userId: number) {
+    return this.http.get<EvaluationFileInstance[]>(this.baseUrl + 'users/' + userId + '/sheet/myCollaboratorsSheets');
+  }
+
   getMySheet(id: number, userId: number) {
-    return this.http.get<EvaluationFileInstance>(this.baseUrl + 'users/' + userId + '/objectives/mysheet/' + id);
+    return this.http.get<EvaluationFileInstance>(this.baseUrl + 'users/' + userId + '/sheet/mysheet/' + id);
   }
 
   getGoalsForAxis(userId: number, axisInstanceIds: number[]) {
-    return this.http.post(`${this.baseUrl}users/${userId}/objectives`, axisInstanceIds);
+    return this.http.post(`${this.baseUrl}users/${userId}/goal`, axisInstanceIds);
   }
 
   createGoal(userId: number, goal: any) {
-    return this.http.post(`${this.baseUrl}users/${userId}/objectives/createGoal`, goal);
+    return this.http.post(`${this.baseUrl}users/${userId}/goal/createGoal`, goal);
   }
 
   updateGoal(id: number, userId: number, goal: Goal) {
-    return this.http.put(`${this.baseUrl}users/${userId}/objectives/editGoal/${id}`, goal);
+    return this.http.put(`${this.baseUrl}users/${userId}/goal/editGoal/${id}`, goal);
   }
 
   deleteGoal(id: number, userId: number) {
-    return this.http.delete(`${this.baseUrl}users/${userId}/objectives/deleteGoal/${id}`);
+    return this.http.delete(`${this.baseUrl}users/${userId}/goal/deleteGoal/${id}`);
   }
 
   getGoalTypes(userId) {
-    return this.http.get(`${this.baseUrl}users/${userId}/objectives/goalTypes`);
+    return this.http.get(`${this.baseUrl}users/${userId}/goal/goalTypes`);
+  }
+
+  updateAxisInstance(userId: number, axisInstanceId: number, userWeight: number) {
+    return this.http.put(`${this.baseUrl}users/axisInstance/edit/${userId}/${axisInstanceId}/${userWeight}`, {})
   }
 }

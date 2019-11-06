@@ -18,6 +18,7 @@ import { GoalEditModalComponent } from '../goal-edit-modal/goal-edit-modal.compo
 export class SheetsPanelComponent implements OnInit {
   pagination: Pagination;
   sheets: EvaluationFileInstance[];
+  sheetsToValidate: EvaluationFileInstance[];
   loading = false;
   goalList: Goal[];
   bsModalRef: BsModalRef;
@@ -26,8 +27,10 @@ export class SheetsPanelComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      this.sheets = data['sheets'].result;
-      this.pagination = data['sheets'].pagination;
+      const resolvedData = data['resolvedData'];
+      this.sheetsToValidate = resolvedData['sheetsToValidate'];
+      this.sheets = resolvedData['sheets'].result;
+      this.pagination = resolvedData['sheets'].pagination;
     });
   }
 

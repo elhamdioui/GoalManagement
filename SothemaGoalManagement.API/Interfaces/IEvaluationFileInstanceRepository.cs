@@ -11,6 +11,8 @@ namespace SothemaGoalManagement.API.Interfaces
 
         Task<IEnumerable<User>> GetUsersWithInstanceFileEvaluation(int evaluationFileId, IEnumerable<int> userIds);
 
+        Task<IEnumerable<EvaluationFileInstance>> GetEvaluationFileInstancesToValidate(IEnumerable<int> evaluateeIds);
+
         Task<EvaluationFileInstance> GetEvaluationFileInstance(int id);
 
         Task<PagedList<EvaluationFileInstance>> GetEvaluationFileInstancesForUser(CommunParams communParams);

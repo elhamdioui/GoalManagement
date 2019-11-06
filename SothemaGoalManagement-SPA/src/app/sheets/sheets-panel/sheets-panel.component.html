@@ -13,9 +13,10 @@
 
       <tab heading="Fiches d'évaluation de mes collaborateurs">
         <div class="container">
-          <div class="alert alert-info mt-3" role="info">
+          <div class="alert alert-info mt-3" role="info" *ngIf="sheetsToValidate && sheetsToValidate.length === 0">
             Aucune fiche d'évaluation ne vous a été attribuée pour validation...
           </div>
+          <app-my-collaborators-sheets [sheetsToValidate]="sheetsToValidate"></app-my-collaborators-sheets>
         </div>
       </tab>
     </tabset>

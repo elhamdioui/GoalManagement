@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { EvaluationFile } from '../../../_models/evaluationFile';
 import { EvaluationFileInstance } from '../../../_models/evaluationFileInstance';
@@ -23,8 +24,9 @@ export class EvaluationHrDetailComponent implements OnInit {
   loading: boolean;
   userStatusList: UserStatus[];
   bsModalRef: BsModalRef;
+  faTrash = faTrash
 
-  constructor(private modalService: BsModalService, private route: ActivatedRoute, private hrService: HrService, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
+  constructor(private modalService: BsModalService, private route: ActivatedRoute, private router: Router, private hrService: HrService, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.hrService.efiObservableList.subscribe(
@@ -58,20 +60,16 @@ export class EvaluationHrDetailComponent implements OnInit {
     }
   }
 
-  handleDeleteEvaluationFileInstance(evaluationFileInstanceId) {
+  handleDeleteEvaluationFileInstance(evaluationFileInstance: EvaluationFileInstance) {
     this.alertify.confirm(
-      'Etes-vous sur de vouloir supprimer cette Fiche d\'évaluation?',
+      `Etes-vous sur de vouloir supprimer la Fiche d\'évaluation: ${evaluationFileInstance.title}?`,
       () => {
         this.loading = true;
         this.hrService
-          .deleteEvaluationFileInstance(evaluationFileInstanceId, this.authService.decodedToken.nameid)
+          .deleteEvaluationFileInstance(evaluationFileInstance.id, this.authService.decodedToken.nameid)
           .subscribe(
             () => {
               this.loading = false;
-              // this.evaluationFileInstanceList.splice(
-              //   this.evaluationFileInstanceList.findIndex(a => a.id === evaluationFileInstanceId),
-              //   1
-              // );
               this.evaluationFileInstanceList = [];
               this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe();
               this.alertify.success('La fiche d\'évaluation a été supprimée');
@@ -108,5 +106,28 @@ export class EvaluationHrDetailComponent implements OnInit {
           }
         );
     });
+  }
+
+  delete() {
+    this.alertify.confirm(
+      'Etes-vous sur de vouloir supprimer ce modele?',
+      () => {
+        this.loading = true;
+        this.hrService.deleteEvaluationFile(this.evaluationFile.id, this.authService.decodedToken.nameid)
+          .subscribe(
+            () => {
+              this.loading = false;
+              this.alertify.success('Le modele a été supprimé');
+            },
+            error => {
+              this.loading = false;
+              this.alertify.error(error);
+            },
+            () => {
+              this.router.navigate(['/hr']);
+            }
+          );
+      }
+    );
   }
 }

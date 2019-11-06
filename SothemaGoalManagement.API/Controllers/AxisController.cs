@@ -67,7 +67,7 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpGet("axis/{id}", Name = "GetAxis")]
+        [HttpGet("{id}", Name = "GetAxis")]
         public async Task<IActionResult> GetAxis(int id)
         {
             try
@@ -126,7 +126,7 @@ namespace SothemaGoalManagement.API.Controllers
         }
 
         [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpDelete("axis/{id}/delete/{userId}")]
+        [HttpDelete("{id}/delete/{userId}")]
         public async Task<IActionResult> DeleteAxis(int id, int userId)
         {
             try
@@ -145,46 +145,6 @@ namespace SothemaGoalManagement.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside DeleteAxis enfpoint: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpGet("axisPoleList/{axisId}")]
-        public async Task<IActionResult> GetAxisPoleList(int axisId)
-        {
-            try
-            {
-                var axisListPoleFromRepo = await _repo.AxisPole.GetAxisPoleList(axisId);
-
-                var axisPoleListToReturn = _mapper.Map<IEnumerable<AxisPoleToReturnDto>>(axisListPoleFromRepo);
-                return Ok(axisPoleListToReturn);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong inside GetAxisPoleList enfpoint: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        [Authorize(Policy = "RequireHRHRDRoles")]
-        [HttpPut("updateAxisPole/{axisId}/{poleId}/{weight}")]
-        public async Task<IActionResult> updateAxisPole(int axisId, int poleId, int weight)
-        {
-            try
-            {
-                var axisPoleFromRepo = await _repo.AxisPole.GetAxisPole(axisId, poleId);
-                if (axisPoleFromRepo == null) return BadRequest("La pondération n'existe pas!");
-                if (axisPoleFromRepo.Sealed) return BadRequest("La pondération est scellée!");
-
-                axisPoleFromRepo.Weight = weight;
-                _repo.AxisPole.UpdateAxisPole(axisPoleFromRepo);
-                await _repo.AxisPole.SaveAllAsync();
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong inside updateAxisPole enfpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }

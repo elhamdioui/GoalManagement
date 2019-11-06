@@ -53,6 +53,8 @@ export class EvaluationHrListComponent implements OnInit {
     this.creationMode = false;
     if (reload) {
       this.loadEvaluationFilesEvent.emit(this.filters);
+      this.loadPublishedBehavioralSkillsEvent.emit();
+      this.loadPublishedStratgeiesEvent.emit();
     }
   }
 

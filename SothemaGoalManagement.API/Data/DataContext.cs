@@ -39,7 +39,10 @@ namespace SothemaGoalManagement.API.Data
 
         public DbSet<EvaluationFileInstance> EvaluationFileInstances { get; set; }
 
+        public DbSet<EvaluationFileInstanceLog> EvaluationFileInstanceLogs { get; set; }
+
         public DbSet<EvaluationFileBehavioralSkill> EvaluationFileBehavioralSkills { get; set; }
+
 
         public DbSet<EvaluationFileInstanceBehavioralSkillInstance> EvaluationFileInstanceBehavioralSkillInstances { get; set; }
 
@@ -148,9 +151,6 @@ namespace SothemaGoalManagement.API.Data
 
             builder.Entity<EvaluationFile>().HasOne<Strategy>(ef => ef.Strategy)
                        .WithMany(e => e.EvaluationFiles).HasForeignKey(ef => ef.StrategyId);
-
-
-
 
             builder.Entity<Strategy>().HasMany<EvaluationFile>(s => s.EvaluationFiles)
                                            .WithOne(ef => ef.Strategy)

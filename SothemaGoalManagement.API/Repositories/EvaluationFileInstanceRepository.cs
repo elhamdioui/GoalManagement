@@ -45,6 +45,17 @@ namespace SothemaGoalManagement.API.Repositories
             return await PagedList<EvaluationFileInstance>.CreateAsync(sheets, communParams.PageNumber, communParams.PageSize);
         }
 
+        public async Task<IEnumerable<EvaluationFileInstance>> GetEvaluationFileInstancesToValidate(IEnumerable<int> evaluateeIds)
+        {
+            return await RepositoryContext.EvaluationFileInstances.Include(efi => efi.AxisInstances)
+                                                                .Include(efi => efi.Owner)
+                                                                .ThenInclude(u => u.Department)
+                                                                .ThenInclude(d => d.Pole)
+                                                                .Where(efi => evaluateeIds.Contains(efi.OwnerId)
+                                                                                && (efi.Status == Constants.DRAFT || efi.Status == Constants.REVIEW))
+                                                                .ToListAsync();
+        }
+
         public void AddEvaluationFileInstance(EvaluationFileInstance evaluationFileInstance)
         {
             Add(evaluationFileInstance);

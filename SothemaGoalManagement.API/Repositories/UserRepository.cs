@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SothemaGoalManagement.API.Data;
+using SothemaGoalManagement.API.Dtos;
 using SothemaGoalManagement.API.Helpers;
 using SothemaGoalManagement.API.Interfaces;
 using SothemaGoalManagement.API.Models;
@@ -174,13 +175,13 @@ namespace SothemaGoalManagement.API.Repositories
             return evaluators;
         }
 
-        public async Task<IEnumerable<object>> LoadEvaluatees(int evaluatorId)
+        public async Task<IEnumerable<EvaluateeToReturnDto>> LoadEvaluatees(int evaluatorId)
         {
             var evaluators = await (from u in RepositoryContext.Users.Include(u => u.Department)
                                     join e in RepositoryContext.EvaluatedEvaluators
                                     on u.Id equals e.EvaluatedId
                                     where e.EvaluatorId == evaluatorId
-                                    select new
+                                    select new EvaluateeToReturnDto
                                     {
                                         Id = u.Id,
                                         FullName = u.FirstName + " " + u.LastName,

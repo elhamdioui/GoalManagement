@@ -1,9 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
+
 import { Goal } from '../../_models/goal';
 import { GoalType } from '../../_models/goalType';
 import { Axis } from '../../_models/axis';
-
+import { GoalByAxisInstance } from './../../_models/goalsByAxisInstance';
 
 @Component({
   selector: 'app-goal-edit-modal',
@@ -52,7 +53,8 @@ isTotalWeightValid() {
     if(this.updatedGoal.id != goal.id){
       totalWeight = totalWeight + goal.weight;
     }
-  }
+  });
+
   if (totalWeight > 100) {
     return false;
   }
