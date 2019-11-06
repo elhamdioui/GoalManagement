@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faHistory, faList } from '@fortawesome/free-solid-svg-icons';
 
 import { EvaluationFileInstance } from '../../../_models/evaluationFileInstance';
 import { UserStatus } from '../../../_models/userStatus';
 import { User } from '../../../_models/user';
+import { EvaluationFileInstanceLog } from '../../../_models/evaluationFileInstanceLog';
 
 @Component({
   selector: 'app-evaluation-file-instance-hr-list',
@@ -12,11 +13,16 @@ import { User } from '../../../_models/user';
 })
 export class EvaluationFileInstanceHrListComponent implements OnInit {
   @Input() evaluationFileInstanceList: EvaluationFileInstance[];
+  @Input() evaluationFileInstanceLogs: EvaluationFileInstanceLog[];
   @Output() deleteEvaluationFileInstanceEvent = new EventEmitter<EvaluationFileInstance>();
+  @Output() loadLogsEvent = new EventEmitter();
   actionLabel: string;
   filteredEvaluationFileInstances: EvaluationFileInstance[];
   values: string = '';
   faTrash = faTrash;
+  faHistory = faHistory;
+  faList = faList;
+  showLogs: boolean;
 
   constructor() { }
 
@@ -34,4 +40,10 @@ export class EvaluationFileInstanceHrListComponent implements OnInit {
     this.deleteEvaluationFileInstanceEvent.emit(efi);
   }
 
+  toggleLogs() {
+    this.showLogs = !this.showLogs;
+    if (this.showLogs) {
+      this.loadLogsEvent.emit();
+    }
+  }
 }

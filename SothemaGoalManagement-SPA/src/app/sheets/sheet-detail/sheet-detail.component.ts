@@ -128,7 +128,7 @@ export class SheetDetailComponent implements OnInit {
     this.goalsByAxisInstanceList.forEach(a => {
       a.goals.forEach(g => goals.push({
         id: g.id,
-        description: g.description,
+        description: this.sheetDetail.title,
         goalTypeId: g.goalType.id,
         axisInstanceId: g.axisInstance.id,
         status: g.status,

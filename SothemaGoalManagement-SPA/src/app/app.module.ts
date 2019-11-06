@@ -98,6 +98,7 @@ import { AxisUserComponent } from './sheets/axis-user/axis-user.component';
 import { GoalNewComponent } from './sheets/goal-new/goal-new.component';
 import { GoalCardComponent } from './sheets/goal-card/goal-card.component';
 import { SheetCardComponent } from './sheets/sheet-card/sheet-card.component';
+import { EvaluationFileInstanceLogsComponent } from './hr/evaluations/evaluation-file-instance-logs/evaluation-file-instance-logs.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -155,6 +156,7 @@ export function tokenGetter() {
     EvaluationFileInstanceHrListComponent,
     EvaluatorAssignmentComponent,
     EvaluationFileInstanceHrNewComponent,
+    EvaluationFileInstanceLogsComponent,
     SheetsPanelComponent,
     MySheetsListComponent,
     MyCollaboratorsSheetsComponent,

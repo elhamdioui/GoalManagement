@@ -46,6 +46,22 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
+        [HttpGet("logs")]
+        public async Task<IActionResult> GetEvaluationSheetlogs([FromQuery]string sheetTitle)
+        {
+            try
+            {
+                var logs = await _repo.EvaluationFileInstanceLog.GetEvaluationFileInstanceLogs(sheetTitle);
+
+                return Ok(logs);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetEvaluationSheetList enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpDelete("{id}/delete/{userId}")]
         public async Task<IActionResult> DeleteEvaluationSheet(int id, int userId)
@@ -70,7 +86,7 @@ namespace SothemaGoalManagement.API.Controllers
                 {
                     Title = evaluationFileInstanceFromRepo.Title,
                     Created = DateTime.Now,
-                    Log = $"{evaluationFileInstanceFromRepo.Title} has been deleted by user with Id: ${userId}."
+                    Log = $"{evaluationFileInstanceFromRepo.Title} a été supprimé par l'utilisateur avec l'identifiant: ${userId}."
                 };
                 _repo.EvaluationFileInstanceLog.AddEvaluationFileInstanceLog(efil);
                 await _repo.EvaluationFileInstanceLog.SaveAllAsync();
@@ -179,7 +195,7 @@ namespace SothemaGoalManagement.API.Controllers
                     {
                         Title = efi.Title,
                         Created = DateTime.Now,
-                        Log = $"{efi.Title} has been geberated for ${efi.Owner.FirstName} ${efi.Owner.LastName}."
+                        Log = $"{efi.Title} a été générée pour {efi.Owner.FirstName} {efi.Owner.LastName}."
                     };
                     _repo.EvaluationFileInstanceLog.AddEvaluationFileInstanceLog(efil);
                 }

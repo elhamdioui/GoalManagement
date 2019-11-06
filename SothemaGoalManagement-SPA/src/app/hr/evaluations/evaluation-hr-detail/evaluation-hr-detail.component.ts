@@ -12,6 +12,7 @@ import { AlertifyService } from '../../../_services/alertify.service';
 import { UserStatus } from '../../../_models/userStatus';
 import { AdminService } from '../../../_services/admin.service';
 import { CollaboratorSearchComponent } from '../../../collaborators/collaborator-search/collaborator-search.component';
+import { EvaluationFileInstanceLog } from '../../../_models/evaluationFileInstanceLog';
 
 @Component({
   selector: 'app-evaluation-hr-detail',
@@ -26,6 +27,7 @@ export class EvaluationHrDetailComponent implements OnInit {
   bsModalRef: BsModalRef;
   faTrash = faTrash
   isReadOnly: boolean;
+  evaluationFileInstanceLogs: EvaluationFileInstanceLog[];
 
   constructor(private modalService: BsModalService, private route: ActivatedRoute, private router: Router, private hrService: HrService, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -52,7 +54,7 @@ export class EvaluationHrDetailComponent implements OnInit {
       this.adminService.getUserStatus().subscribe(
         (result: UserStatus[]) => {
           this.loading = false;
-          this.userStatusList = result
+          this.userStatusList = result;
         },
         error => {
           this.loading = false;
@@ -129,6 +131,20 @@ export class EvaluationHrDetailComponent implements OnInit {
               this.router.navigate(['/hr'], { queryParams: { tab: 2 } });
             }
           );
+      }
+    );
+  }
+
+  handleLoadLogs(event) {
+    this.loading = true;
+    this.hrService.getEvaluationSheetLogs().subscribe(
+      (result: EvaluationFileInstanceLog[]) => {
+        this.loading = false;
+        this.evaluationFileInstanceLogs = result;
+      },
+      error => {
+        this.loading = false;
+        this.alertify.error(error);
       }
     );
   }

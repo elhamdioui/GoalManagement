@@ -17,7 +17,7 @@ namespace SothemaGoalManagement.API.Repositories
 
         public async Task<AxisInstance> GetAxisInstance(int id)
         {
-            return await FindByCondition(a => a.Id == id).SingleOrDefaultAsync();
+            return await FindByCondition(a => a.Id == id).Include(a => a.EvaluationFileInstance).SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<AxisInstance>> GetAxisInstancesByIds(IEnumerable<int> axisInstanceIds)

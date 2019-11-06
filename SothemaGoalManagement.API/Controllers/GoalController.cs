@@ -148,16 +148,19 @@ namespace SothemaGoalManagement.API.Controllers
             try
             {
                 if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+
                 // Validate the total weights of the objectives within an axis instance
                 var axisInstanceIds = new List<int>();
+                var evaluationSheetTitle = "";
                 foreach (var goalToUpdateDto in goalsToUpdateDto)
                 {
+                    evaluationSheetTitle = goalToUpdateDto.Description;
                     axisInstanceIds.Add(goalToUpdateDto.AxisInstanceId);
                 }
                 var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
-                foreach (var goalToUpdateDto in goalsToUpdateDto)
+                foreach (var goalsGroupedByAxisInstance in goalsGroupedByAxisInstanceList)
                 {
-                    if (goalToUpdateDto.Weight != 100)
+                    if (goalsGroupedByAxisInstance.TotalGoalWeight != 100)
                     {
                         return BadRequest("Le poids total de vos objectifs est différent de 100%!");
                     }
@@ -178,6 +181,16 @@ namespace SothemaGoalManagement.API.Controllers
                         _repo.Goal.UpdateGoal(goal);
                     }
                     await _repo.Goal.SaveAllAsync();
+
+                    // Log deletion
+                    var efil = new EvaluationFileInstanceLog
+                    {
+                        Title = evaluationSheetTitle,
+                        Created = DateTime.Now,
+                        Log = $"Les objectives de la fiche: {evaluationSheetTitle} ont été soumises pour validation."
+                    };
+                    _repo.EvaluationFileInstanceLog.AddEvaluationFileInstanceLog(efil);
+                    await _repo.EvaluationFileInstanceLog.SaveAllAsync();
                 }
 
                 return NoContent();

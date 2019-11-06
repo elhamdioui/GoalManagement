@@ -102,9 +102,20 @@ namespace SothemaGoalManagement.API.Controllers
                 var axisIntsnaceFromRepo = await _repo.AxisInstance.GetAxisInstance(axisInstanceId);
                 if (axisIntsnaceFromRepo != null)
                 {
+                    var oldUserWeight = axisIntsnaceFromRepo.UserWeight;
                     axisIntsnaceFromRepo.UserWeight = userWeight;
                     _repo.AxisInstance.UpdateAxisInstance(axisIntsnaceFromRepo);
                     await _repo.AxisInstance.SaveAllAsync();
+
+                    // Log deletion
+                    var efil = new EvaluationFileInstanceLog
+                    {
+                        Title = axisIntsnaceFromRepo.EvaluationFileInstance.Title,
+                        Created = DateTime.Now,
+                        Log = $"La pondération de l\'employée est modifié de {oldUserWeight} à {userWeight} pour {axisIntsnaceFromRepo.EvaluationFileInstance.Title} par l'utilisateur avec l'identifiant: {userId}."
+                    };
+                    _repo.EvaluationFileInstanceLog.AddEvaluationFileInstanceLog(efil);
+                    await _repo.EvaluationFileInstanceLog.SaveAllAsync();
                 }
                 return NoContent();
             }

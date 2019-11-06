@@ -19,7 +19,7 @@ namespace SothemaGoalManagement.API.Repositories
         public async Task<IEnumerable<EvaluationFileInstanceLog>> GetEvaluationFileInstanceLogs(string evaluationFileInstanceTitle = "")
         {
             return string.IsNullOrEmpty(evaluationFileInstanceTitle) ? await FindAll().ToListAsync() :
-                            await FindByCondition(efil => efil.Title.Equals(evaluationFileInstanceTitle)).ToListAsync();
+                            await FindByCondition(efil => efil.Title.Contains(evaluationFileInstanceTitle)).ToListAsync();
         }
 
         public void AddEvaluationFileInstanceLog(EvaluationFileInstanceLog evaluationFileInstanceLog)

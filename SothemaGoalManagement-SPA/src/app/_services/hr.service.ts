@@ -13,6 +13,7 @@ import { User } from '../_models/user';
 import { EvaluationFile } from '../_models/evaluationFile';
 import { EvaluationFileInstance } from '../_models/evaluationFileInstance';
 import { AxisInstance } from '../_models/axisInstance';
+import { EvaluationFileInstanceLog } from '../_models/evaluationFileInstanceLog';
 
 @Injectable({
   providedIn: 'root'
@@ -155,6 +156,14 @@ export class HrService {
       params = params.append('orderBy', filters.orderBy);
     }
     return this.http.get<EvaluationFile[]>(`${this.baseUrl}hr/evaluationModel`, { params });
+  }
+
+  getEvaluationSheetLogs(sheetName?) {
+    let params = new HttpParams();
+    if (sheetName != null) {
+      params = params.append('sheetName', sheetName);
+    }
+    return this.http.get<EvaluationFileInstanceLog[]>(`${this.baseUrl}hr/evaluationSheet/logs`, { params });
   }
 
   updateEvaluationFile(ownerId: number, evaluationFile: any) {

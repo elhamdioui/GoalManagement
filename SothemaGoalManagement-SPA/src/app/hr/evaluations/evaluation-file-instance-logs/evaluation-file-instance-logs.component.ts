@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { EvaluationFileInstanceLog } from '../../../_models/evaluationFileInstanceLog';
 
 @Component({
   selector: 'app-evaluation-file-instance-logs',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./evaluation-file-instance-logs.component.css']
 })
 export class EvaluationFileInstanceLogsComponent implements OnInit {
-
+  @Input() evaluationFileInstanceLogs: EvaluationFileInstanceLog[];
   constructor() { }
 
   ngOnInit() {

@@ -1,3 +1,12 @@
-<p>
-  evaluation-file-instance-logs works!
-</p>
+<table class="table table-hover  mt-2">
+  <tr>
+    <th style="width: 25%">Date heure</th>
+    <th style="width: 30%">Titre</th>
+    <th style="width: 45%">Log</th>
+  </tr>
+  <tr *ngFor="let evaluationFileInstanceLog of evaluationFileInstanceLogs">
+    <td>{{ evaluationFileInstanceLog.created | date :'short'}}</td>
+    <td>{{ evaluationFileInstanceLog.title }}</td>
+    <td>{{ evaluationFileInstanceLog.log }}</td>
+  </tr>
+</table>
