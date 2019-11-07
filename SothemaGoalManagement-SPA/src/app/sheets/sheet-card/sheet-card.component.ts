@@ -17,6 +17,7 @@ export class SheetCardComponent implements OnInit {
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
   editing: boolean = false;
+  isCollapsed = false;
 
   constructor() { }
 
