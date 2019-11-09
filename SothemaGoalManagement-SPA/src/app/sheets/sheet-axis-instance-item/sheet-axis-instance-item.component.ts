@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { faSave, faEdit, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faEdit, faUndo, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
 import { AxisInstance } from '../../_models/axisInstance';
 
@@ -14,7 +14,9 @@ export class SheetAxisInstanceItemComponent implements OnInit {
   faSave = faSave;
   faEdit = faEdit;
   faUndo = faUndo;
+  faCheckSquare = faCheckSquare;
   editing: boolean = false;
+  validateGoals: boolean = true;
 
   constructor() { }
 

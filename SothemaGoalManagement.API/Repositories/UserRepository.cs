@@ -157,13 +157,13 @@ namespace SothemaGoalManagement.API.Repositories
             return true;
         }
 
-        public async Task<IEnumerable<object>> LoadEvaluators(int evaluatedId)
+        public async Task<IEnumerable<EvaluateeToReturnDto>> LoadEvaluators(int evaluatedId)
         {
             var evaluators = await (from u in RepositoryContext.Users.Include(u => u.Department)
                                     join e in RepositoryContext.EvaluatedEvaluators
                                     on u.Id equals e.EvaluatorId
                                     where e.EvaluatedId == evaluatedId
-                                    select new
+                                    select new EvaluateeToReturnDto
                                     {
                                         Id = u.Id,
                                         FullName = u.FirstName + " " + u.LastName,

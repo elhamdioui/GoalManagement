@@ -107,7 +107,7 @@ namespace SothemaGoalManagement.API.Controllers
                     _repo.AxisInstance.UpdateAxisInstance(axisIntsnaceFromRepo);
                     await _repo.AxisInstance.SaveAllAsync();
 
-                    // Log deletion
+                    // Log the update of user's weight
                     var efil = new EvaluationFileInstanceLog
                     {
                         Title = axisIntsnaceFromRepo.EvaluationFileInstance.Title,

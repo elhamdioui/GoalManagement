@@ -1,4 +1,12 @@
 <div class="card" style="width: 20rem;">
+  <div class="card-header">
+    <button *ngIf="validateGoals" class="btn btn-success ml-1" (click)="cancel()">
+      <span>
+        <fa-icon [icon]="faCheckSquare"></fa-icon>Valider les Objectives</span>
+    </button>
+    <p *ngIf="!validateGoals">Pas encore d'objectif à valider</p>
+  </div>
+
   <div class="card-body">
     <ul>
       <li>
@@ -34,13 +42,13 @@
 
 
   <div class="card-footer">
-    <button class="btn" [ngClass]="editing ? 'btn-success' : 'btn-info'" (click)="toggleEdit(axisInstance)" (click)="$event.stopPropagation()">
+    <button class="btn" [ngClass]="editing ? 'btn-success' : 'btn-info'" (click)="toggleEdit(axisInstance)">
       <span *ngIf="editing">
         <fa-icon [icon]="faSave"></fa-icon>Sauvegarder</span>
       <span *ngIf="!editing">
-        <fa-icon [icon]="faEdit"></fa-icon> Editer</span>
+        <fa-icon [icon]="faEdit"></fa-icon> Editer Pondération d'utilisateur</span>
     </button>
-    <button *ngIf="editing" class="btn btn-danger ml-1" (click)="cancel()" (click)="$event.stopPropagation()">
+    <button *ngIf="editing" class="btn btn-danger ml-1" (click)="cancel()">
       <span>
         <fa-icon [icon]="faUndo"></fa-icon>Annuler</span>
     </button>

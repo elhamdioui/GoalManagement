@@ -20,7 +20,7 @@ namespace SothemaGoalManagement.API.Interfaces
 
         Task<bool> EmployeeNumberAlreadyExists(string employeNumber, int? employeeId = null);
 
-        Task<IEnumerable<object>> LoadEvaluators(int evaluatedId);
+        Task<IEnumerable<EvaluateeToReturnDto>> LoadEvaluators(int evaluatedId);
 
         Task<IEnumerable<EvaluateeToReturnDto>> LoadEvaluatees(int evaluatorId);
 

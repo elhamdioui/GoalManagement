@@ -182,7 +182,7 @@ namespace SothemaGoalManagement.API.Controllers
                     }
                     await _repo.Goal.SaveAllAsync();
 
-                    // Log deletion
+                    // Log objectifs have been submitted for validation
                     var efil = new EvaluationFileInstanceLog
                     {
                         Title = evaluationSheetTitle,
@@ -191,6 +191,21 @@ namespace SothemaGoalManagement.API.Controllers
                     };
                     _repo.EvaluationFileInstanceLog.AddEvaluationFileInstanceLog(efil);
                     await _repo.EvaluationFileInstanceLog.SaveAllAsync();
+
+                    // Notify evaluators
+                    var evaluators = await _repo.User.LoadEvaluators(userId);
+                    foreach (var evaluator in evaluators)
+                    {
+                        var messageForCreationDto = new MessageForCreationDto()
+                        {
+                            RecipientId = evaluator.Id,
+                            SenderId = userId,
+                            Content = $"S'il vous plaît valider lees objectives pour la fiche d'évaluation {efil.Title}."
+                        };
+                        var message = _mapper.Map<Message>(messageForCreationDto);
+                        _repo.Message.AddMessage(message);
+                    }
+                    await _repo.Message.SaveAllAsync();
                 }
 
                 return NoContent();
