@@ -92,6 +92,7 @@ import { MyCollaboratorsSheetsComponent } from './sheets/my-collaborators-sheets
 import { SheetsResolver } from './_resolvers/sheets.resolver';
 import { SheetDetailComponent } from './sheets/sheet-detail/sheet-detail.component';
 import { SheetDetailResolver } from './_resolvers/sheet-detail.resolver';
+import { SheetAxisInstanceItemComponent } from './sheets/sheet-axis-instance-item/sheet-axis-instance-item.component';
 import { GoalsComponent } from './sheets/goals/goals.component';
 import { GoalEditModalComponent } from './sheets/goal-edit-modal/goal-edit-modal.component';
 import { AxisUserComponent } from './sheets/axis-user/axis-user.component';
@@ -162,6 +163,7 @@ export function tokenGetter() {
     MyCollaboratorsSheetsComponent,
     SheetDetailComponent,
     SheetCardComponent,
+    SheetAxisInstanceItemComponent,
     GoalsComponent,
     GoalEditModalComponent,
     AxisUserComponent,

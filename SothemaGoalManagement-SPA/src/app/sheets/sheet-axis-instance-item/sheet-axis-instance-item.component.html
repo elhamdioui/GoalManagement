@@ -1,0 +1,48 @@
+<div class="card" style="width: 20rem;">
+  <div class="card-body">
+    <ul>
+      <li>
+        {{ axisInstance.title }}
+      </li>
+      <li>
+        {{ axisInstance.poleName }}
+      </li>
+      <li>
+        Pondérations:
+        <ul>
+          <li>
+            Pôle:
+            <span class="badge badge-pill badge-success float-right">
+              {{ axisInstance.poleWeight }} %
+            </span>
+          </li>
+          <li>
+            Utilisateur:
+            <span class="badge badge-pill badge-success float-right" *ngIf="!editing">
+              {{ axisInstance.userWeight }} %
+            </span>
+
+            <span *ngIf="editing" class="float-right">
+              <input type="number" min="0" max="100" [value]="axisInstance.userWeight" (input)="axisInstance.userWeight = weight.value"
+                #weight> %
+            </span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="card-footer">
+    <button class="btn" [ngClass]="editing ? 'btn-success' : 'btn-info'" (click)="toggleEdit(axisInstance)" (click)="$event.stopPropagation()">
+      <span *ngIf="editing">
+        <fa-icon [icon]="faSave"></fa-icon>Sauvegarder</span>
+      <span *ngIf="!editing">
+        <fa-icon [icon]="faEdit"></fa-icon> Editer</span>
+    </button>
+    <button *ngIf="editing" class="btn btn-danger ml-1" (click)="cancel()" (click)="$event.stopPropagation()">
+      <span>
+        <fa-icon [icon]="faUndo"></fa-icon>Annuler</span>
+    </button>
+  </div>
+</div>

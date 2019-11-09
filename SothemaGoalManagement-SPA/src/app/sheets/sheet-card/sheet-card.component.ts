@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { faSave, faEdit, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
 import { AxisInstance } from '../../_models/axisInstance';
@@ -12,22 +12,18 @@ import { AxisInstance } from '../../_models/axisInstance';
 export class SheetCardComponent implements OnInit {
   @Input() sheetToValidate: EvaluationFileInstance;
   @Output() updateUserWeightEvent = new EventEmitter<AxisInstance>();
-  faSave = faSave;
-  faEdit = faEdit;
+  axisInstanceList: AxisInstance[];
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
-  editing: boolean = false;
   isCollapsed = false;
 
   constructor() { }
 
   ngOnInit() {
+    this.axisInstanceList = this.sheetToValidate.axisInstances;
   }
 
-  toggleEdit(axisInstance: AxisInstance) {
-    if (this.editing) {
-      this.updateUserWeightEvent.emit(axisInstance);
-    }
-    this.editing = !this.editing;
+  handleUpdateUserWeight(axisInstance: AxisInstance) {
+    this.updateUserWeightEvent.emit(axisInstance);
   }
 }
