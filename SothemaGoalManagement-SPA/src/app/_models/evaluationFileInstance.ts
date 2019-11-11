@@ -10,6 +10,7 @@ export interface EvaluationFileInstance {
   axisInstances: AxisInstance[];
   ownerName: string;
   ownerTitle: string;
+  photoUrl: string;
   employeeNumber: string;
   ownerId: number;
   status: string;

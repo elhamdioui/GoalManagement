@@ -93,7 +93,7 @@ namespace SothemaGoalManagement.API.Helpers
 
             CreateMap<AxisInstance, AxisInstanceToReturnDto>();
 
-            CreateMap<EvaluationFileInstance, EvaluationFileInstanceHrToReturnDto>().ForMember(dest => dest.AxisInstances, opt =>
+            CreateMap<EvaluationFileInstance, EvaluationFileInstanceToReturnDto>().ForMember(dest => dest.AxisInstances, opt =>
             {
                 opt.ResolveUsing(u => u.AxisInstances);
             }).ForMember(dest => dest.OwnerName, opt =>
@@ -105,6 +105,9 @@ namespace SothemaGoalManagement.API.Helpers
             }).ForMember(dest => dest.EmployeeNumber, opt =>
             {
                 opt.ResolveUsing(u => u.Owner.EmployeeNumber);
+            }).ForMember(dest => dest.PhotoUrl, opt =>
+            {
+                opt.MapFrom(src => src.Owner.Photos.FirstOrDefault(p => p.IsMain).Url);
             });
 
             CreateMap<GoalType, GoalTypeToReturnDto>();

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace SothemaGoalManagement.API.Dtos
 {
-    public class EvaluationFileInstanceHrToReturnDto
+    public class EvaluationFileInstanceToReturnDto
     {
         public int Id { get; set; }
 
@@ -18,6 +18,8 @@ namespace SothemaGoalManagement.API.Dtos
         public string StrategyDescription { get; set; }
 
         public string OwnerName { get; set; }
+
+        public string PhotoUrl { get; set; }
         public string OwnerTitle { get; set; }
         public string EmployeeNumber { get; set; }
 
@@ -25,7 +27,7 @@ namespace SothemaGoalManagement.API.Dtos
 
         public ICollection<AxisInstanceToReturnDto> AxisInstances { get; set; }
 
-        public EvaluationFileInstanceHrToReturnDto()
+        public EvaluationFileInstanceToReturnDto()
         {
             AxisInstances = new Collection<AxisInstanceToReturnDto>();
         }

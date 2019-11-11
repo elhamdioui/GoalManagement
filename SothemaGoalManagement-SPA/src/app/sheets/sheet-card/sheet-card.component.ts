@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretUp, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
 import { AxisInstance } from '../../_models/axisInstance';
@@ -15,6 +15,7 @@ export class SheetCardComponent implements OnInit {
   axisInstanceList: AxisInstance[];
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
+  faCheckSquare = faCheckSquare;
   isCollapsed = false;
 
   constructor() { }
@@ -25,5 +26,9 @@ export class SheetCardComponent implements OnInit {
 
   handleUpdateUserWeight(axisInstance: AxisInstance) {
     this.updateUserWeightEvent.emit(axisInstance);
+  }
+
+  consultGoals(sheetToValidateId) {
+
   }
 }

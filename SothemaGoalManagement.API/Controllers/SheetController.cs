@@ -36,7 +36,7 @@ namespace SothemaGoalManagement.API.Controllers
                 if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
                 communParams.OwnerId = userId;
                 var sheetsFromRepo = await _repo.EvaluationFileInstance.GetEvaluationFileInstancesForUser(communParams);
-                var sheets = _mapper.Map<IEnumerable<EvaluationFileInstanceHrToReturnDto>>(sheetsFromRepo);
+                var sheets = _mapper.Map<IEnumerable<EvaluationFileInstanceToReturnDto>>(sheetsFromRepo);
 
                 Response.AddPagination(sheetsFromRepo.CurrentPage, sheetsFromRepo.PageSize, sheetsFromRepo.TotalCount, sheetsFromRepo.TotalPages);
 
@@ -56,7 +56,7 @@ namespace SothemaGoalManagement.API.Controllers
             {
                 if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
                 var evaluationFileInstanceFromRepo = await _repo.EvaluationFileInstance.GetEvaluationFileInstance(id);
-                var evaluationFileInstanceToReturn = _mapper.Map<EvaluationFileInstanceHrToReturnDto>(evaluationFileInstanceFromRepo);
+                var evaluationFileInstanceToReturn = _mapper.Map<EvaluationFileInstanceToReturnDto>(evaluationFileInstanceFromRepo);
 
                 return Ok(evaluationFileInstanceToReturn);
             }
@@ -80,7 +80,7 @@ namespace SothemaGoalManagement.API.Controllers
                     evaluateeIds.Add(evaluatee.Id);
                 }
                 var sheetsTovalidateFromRepo = await _repo.EvaluationFileInstance.GetEvaluationFileInstancesToValidate(evaluateeIds);
-                var sheetsToValidate = _mapper.Map<IEnumerable<EvaluationFileInstanceHrToReturnDto>>(sheetsTovalidateFromRepo);
+                var sheetsToValidate = _mapper.Map<IEnumerable<EvaluationFileInstanceToReturnDto>>(sheetsTovalidateFromRepo);
 
                 return Ok(sheetsToValidate);
             }

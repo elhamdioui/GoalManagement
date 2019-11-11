@@ -35,7 +35,7 @@ namespace SothemaGoalManagement.API.Controllers
             try
             {
                 var evaluationFilesInstanceFromRepo = await _repo.EvaluationFileInstance.GetEvaluationFileInstancesByEvaluationFileId(evaluationFileId);
-                var evaluationFileInstancesToReturn = _mapper.Map<IEnumerable<EvaluationFileInstanceHrToReturnDto>>(evaluationFilesInstanceFromRepo);
+                var evaluationFileInstancesToReturn = _mapper.Map<IEnumerable<EvaluationFileInstanceToReturnDto>>(evaluationFilesInstanceFromRepo);
 
                 return Ok(evaluationFileInstancesToReturn);
             }
