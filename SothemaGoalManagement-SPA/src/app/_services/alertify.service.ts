@@ -5,15 +5,14 @@ declare let alertify: any;
   providedIn: 'root'
 })
 export class AlertifyService {
-  constructor() {}
+  constructor() { }
 
-  confirm(message: string, okCallback: () => any) {
-    alertify.confirm(message, function(e) {
+  confirm(title, message: string, okCallback: () => any) {
+    alertify.confirm(message, function (e) {
       if (e) {
         okCallback();
-      } else {
-      }
-    });
+      } else { }
+    }, function () { });
   }
 
   success(message: string) {
@@ -30,5 +29,13 @@ export class AlertifyService {
 
   message(message: string) {
     alertify.message(message);
+  }
+
+  prompt(title: string, message: string, value: string, okCallBack: (value) => any) {
+    alertify.prompt(title, message, '', function (e, v) {
+      if (e) {
+        okCallBack(v);
+      } else { }
+    }, function () { }).set('modal', false).set('resizable', true).set('type', 'text');
   }
 }

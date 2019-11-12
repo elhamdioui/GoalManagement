@@ -330,7 +330,6 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
-        [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpGet("loadEvaluators/{evaluatedId}")]
         public async Task<IActionResult> LoadEvaluators(int evaluatedId)
         {
@@ -346,7 +345,6 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
-        [Authorize(Policy = "RequireHRHRDRoles")]
         [HttpGet("loadEvaluatees/{evaluatorId}")]
         public async Task<IActionResult> LoadEvaluatees(int evaluatorId)
         {

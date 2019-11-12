@@ -1,17 +1,3 @@
-<div class="container mt-2">
-  <div class="card">
-    <div class="card-header">
-      <span class="badge badge-pill badge-success">
-        {{sheetsToValidate.length}}
-      </span>
-      fiches d'évaluation à valider
-    </div>
-
-    <div class="card-body">
-      <div *ngFor="let sheetToValidate of sheetsToValidate">
-        <app-sheet-card [sheetToValidate]="sheetToValidate" (updateUserWeightEvent)="handleUpdateUserWeight($event)"></app-sheet-card>
-      </div>
-    </div>
-
-  </div>
+<div *ngFor="let sheetToValidate of sheetsToValidate">
+  <app-sheet-card [sheetToValidate]="sheetToValidate" (updateUserWeightEvent)="handleUpdateUserWeight($event)"></app-sheet-card>
 </div>

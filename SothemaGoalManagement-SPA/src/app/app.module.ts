@@ -36,7 +36,7 @@ import { CollaboratorCardComponent } from './collaborators/collaborator-card/col
 import { CollaboratorDetailComponent } from './collaborators/collaborator-detail/collaborator-detail.component';
 import { CollaboratorEditComponent } from './collaborators/collaborator-edit/collaborator-edit.component';
 import { CollaboratorListResolver } from './_resolvers/collaborator-list.resolver';
-import { CollaboratorDetailResolver } from './_resolvers/collaborator-detail.resolver.';
+import { CollaboratorDetailResolver } from './_resolvers/collaborator-detail.resolver';
 import { CollaboratorNewComponent } from './collaborators/collaborator-new/collaborator-new.component';
 import { PreventUnsavedChanges } from './_guards/prevent-unsave-changes-guards';
 import { PhotoEditorComponent } from './collaborators/photo-editor/photo-editor.component';
@@ -73,7 +73,7 @@ import { BehavioralSkillNewComponent } from './hr/behavioral-skills/behavioral-s
 import { BehavioralSkillDetailComponent } from './hr/behavioral-skills/behavioral-skill-detail/behavioral-skill-detail.component';
 import { BehavioralSkillListComponent } from './hr/behavioral-skills/behavioral-skill-list/behavioral-skill-list.component';
 import { BehavioralSkillEditModalComponent } from './hr/behavioral-skills/behavioral-skill-edit-modal/behavioral-skill-edit-modal.component';
-import { BehavioralSkillDetailResolver } from './_resolvers/behavioral-skill-detail.resolver.';
+import { BehavioralSkillDetailResolver } from './_resolvers/behavioral-skill-detail.resolver';
 import { EvaluatorComponent } from './collaborators/evaluator/evaluator.component';
 import { EvaluationHrListComponent } from './hr/evaluations/evaluation-hr-list/evaluation-hr-list.component';
 import { EvaluationHrEditModalComponent } from './hr/evaluations/evaluation-hr-edit-modal/evaluation-hr-edit-modal.component';
@@ -89,6 +89,7 @@ import { EvaluationFileInstanceHrNewComponent } from './hr/evaluations/evaluatio
 import { SheetsPanelComponent } from './sheets/sheets-panel/sheets-panel.component';
 import { MySheetsListComponent } from './sheets/my-sheets-list/my-sheets-list.component';
 import { MyCollaboratorsSheetsComponent } from './sheets/my-collaborators-sheets/my-collaborators-sheets.component';
+import { MyCollaboratorGoalsComponent } from './sheets/my-collaborator-goals/my-collaborator-goals.component';
 import { SheetsResolver } from './_resolvers/sheets.resolver';
 import { SheetDetailComponent } from './sheets/sheet-detail/sheet-detail.component';
 import { SheetDetailResolver } from './_resolvers/sheet-detail.resolver';
@@ -161,6 +162,7 @@ export function tokenGetter() {
     SheetsPanelComponent,
     MySheetsListComponent,
     MyCollaboratorsSheetsComponent,
+    MyCollaboratorGoalsComponent,
     SheetDetailComponent,
     SheetCardComponent,
     SheetAxisInstanceItemComponent,

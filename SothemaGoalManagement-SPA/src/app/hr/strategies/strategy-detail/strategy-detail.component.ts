@@ -88,7 +88,7 @@ export class StrategyDetailComponent implements OnInit {
   }
 
   delete() {
-    this.alertify.confirm(
+    this.alertify.confirm('Supprimer',
       'Etes-vous sur de vouloir supprimer cette stratégie?',
       () => {
         this.loading = true;

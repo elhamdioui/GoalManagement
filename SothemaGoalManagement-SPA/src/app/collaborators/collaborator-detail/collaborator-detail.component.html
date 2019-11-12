@@ -1,70 +1,81 @@
 <div class="container mt-4">
-  <div class="row">
-    <h1>Profile de {{ user.lastName }}</h1>
-  </div>
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="card">
-        <img class="card-img-top img-thumbnail" src="{{ user.photoUrl || '../../../assets/user.png' }}" alt="{{ user.lastName }}"
-        />
-        <div class="card-body">
-          <div>
-            <strong>Derniere visite:</strong>
-            <p>{{ user.lastActive | timeAgo }}</p>
-          </div>
-          <div>
-            <strong>Date de Création:</strong>
-            <p>{{ user.created | date: 'mediumDate' }}</p>
-          </div>
-        </div>
-        <div class="card-footer">
-          <div class="btn-group d-flex">
-            <button class="btn btn-primary w-140 mr-2" [routerLink]="['/admin']">Retour au List</button>
-            <button class="btn btn-success w-60 mr-2" (click)="selectTab(3)">
-              Message
-            </button>
-            <button class="btn btn-secondary w-60" [routerLink]="['/admin/collaborators/edit', user.id]">Editer</button>
-          </div>
-        </div>
-      </div>
+  <div *appHasRole="['Admin', 'HR', 'DHR']">
+    <div class="row">
+      <h1>Profile de {{ user.lastName }}</h1>
     </div>
-    <div class="col-sm-8">
-      <div class="tab-panel">
-        <tabset class="member-tabset" #memberTabs>
-          <tab heading="À propos {{ user.firstName }}">
-            <div class="row">
-              <div class="col-lg-4">
-                <h4>Nom Complet</h4>
-                <p>{{ user.firstName }} {{user.lastName}}</p>
-                <h4>Statut</h4>
-                <p>{{ user.userStatus.name }}</p>
-                <h4>Fonction</h4>
-                <p>{{ user.title }}</p>
-                <h4>Direction</h4>
-                <p>{{ user.department.name }}</p>
-              </div>
-              <div class="col-lg-6 offset-lg-1">
-                <h4>Matricule</h4>
-                <p>{{ user.employeeNumber }}</p>
-                <h4>Email</h4>
-                <p>{{ user.email }}</p>
-                <h4>Date de recrutement</h4>
-                <p>{{ user.recruitmentDate | date: 'mediumDate'}}</p>
-
-              </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <img class="card-img-top img-thumbnail" src="{{ user.photoUrl || '../../../assets/user.png' }}" alt="{{ user.lastName }}"
+          />
+          <div class="card-body">
+            <div>
+              <strong>Derniere visite:</strong>
+              <p>{{ user.lastActive | timeAgo }}</p>
             </div>
-          </tab>
-          <tab heading="Évaluateurs / Évalués">
-            <app-evaluator-assignment [evaluated]="user"></app-evaluator-assignment>
-          </tab>
-          <tab heading="Photos">
-            <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
-          </tab>
-          <tab heading="Messages">
-            <app-collaborator-messages [recipientId]="user.id"></app-collaborator-messages>
-          </tab>
-        </tabset>
+            <div>
+              <strong>Date de Création:</strong>
+              <p>{{ user.created | date: 'mediumDate' }}</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group d-flex">
+              <button class="btn btn-primary w-140 mr-2" [routerLink]="['/admin']">Retour au List</button>
+              <button class="btn btn-success w-60 mr-2" (click)="selectTab(3)">
+                Message
+              </button>
+              <button class="btn btn-secondary w-60" [routerLink]="['/admin/collaborators/edit', user.id]">Editer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="tab-panel">
+          <tabset class="member-tabset" #memberTabs>
+            <tab heading="À propos {{ user.firstName }}">
+              <div class="row">
+                <div class="col-lg-4">
+                  <h4>Nom Complet</h4>
+                  <p>{{ user.firstName }} {{user.lastName}}</p>
+                  <h4>Statut</h4>
+                  <p>{{ user.userStatus.name }}</p>
+                  <h4>Fonction</h4>
+                  <p>{{ user.title }}</p>
+                  <h4>Direction</h4>
+                  <p>{{ user.department.name }}</p>
+                </div>
+                <div class="col-lg-6 offset-lg-1">
+                  <h4>Matricule</h4>
+                  <p>{{ user.employeeNumber }}</p>
+                  <h4>Email</h4>
+                  <p>{{ user.email }}</p>
+                  <h4>Date de recrutement</h4>
+                  <p>{{ user.recruitmentDate | date: 'mediumDate'}}</p>
+
+                </div>
+              </div>
+            </tab>
+            <tab heading="Évaluateurs / Évalués">
+              <app-evaluator-assignment [evaluated]="user"></app-evaluator-assignment>
+            </tab>
+            <tab heading="Photos">
+              <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+            </tab>
+            <tab heading="Messages">
+              <app-collaborator-messages [recipientId]="user.id"></app-collaborator-messages>
+            </tab>
+          </tabset>
+        </div>
       </div>
     </div>
+  </div>
+
+  <div *appHasRole="['Collaborator']">
+    <div class="row">
+      <h1>Messages:</h1>
+    </div>
+
+    <app-collaborator-messages [recipientId]="user.id"></app-collaborator-messages>
+
   </div>
 </div>

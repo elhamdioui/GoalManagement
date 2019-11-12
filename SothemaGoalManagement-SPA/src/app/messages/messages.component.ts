@@ -59,7 +59,7 @@ export class MessagesComponent implements OnInit {
   }
 
   deleteMessage(id: number) {
-    this.alertify.confirm(
+    this.alertify.confirm('Supprimer',
       'Etes-vous sur de vouloir supprimer ce message',
       () => {
         this.loading = true;

@@ -1,11 +1,5 @@
 <div class="card mt-2 mb-2">
   <div class="card-header">
-    <div class="toggle">
-      <button type="button" (click)="isCollapsed = !isCollapsed" title="Réduire / Agrandir">
-        <fa-icon [icon]="faCaretDown" *ngIf="!isCollapsed"></fa-icon>
-        <fa-icon [icon]="faCaretUp" *ngIf="isCollapsed"></fa-icon>
-      </button>
-    </div>
     <div class="row">
       <div class="col-md-1">
         <span class="badge badge-pill badge-danger" title="Pondération d'axe">
@@ -19,7 +13,7 @@
 
     <div class="row">
       <div class="col-md-1">
-        <span class="badge badge-pill badge-success">
+        <span class="badge badge-pill badge-info">
           {{goalsByAxisInstance.totalGoals}}
         </span>
       </div>
@@ -30,18 +24,27 @@
       <div class="col-md-4">
         <div class="well">
           Statut des objectifs:
-          <span class="badge badge-pill badge-success">
+          <span class="badge badge-pill badge-info">
             {{goalsByAxisInstance.goalsStatus}}
           </span>
         </div>
       </div>
 
-      <div class="col-md-5">
+      <div class="col-md-4">
         <div class="well">
           Poids total des objectifs:
-          <span class="badge badge-pill badge-success float-right">
+          <span class="badge badge-pill badge-info">
             {{goalsByAxisInstance.totalGoalWeight}} %
           </span>
+        </div>
+      </div>
+
+      <div class="col-md-1">
+        <div class="toggle">
+          <button type="button" (click)="isCollapsed = !isCollapsed" title="Réduire / Agrandir">
+            <fa-icon [icon]="faCaretDown" *ngIf="!isCollapsed"></fa-icon>
+            <fa-icon [icon]="faCaretUp" *ngIf="isCollapsed"></fa-icon>
+          </button>
         </div>
       </div>
     </div>

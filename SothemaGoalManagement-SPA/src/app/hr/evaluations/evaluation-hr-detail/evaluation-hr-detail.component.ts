@@ -113,7 +113,7 @@ export class EvaluationHrDetailComponent implements OnInit {
   }
 
   delete() {
-    this.alertify.confirm(
+    this.alertify.confirm('Supprimer',
       'Etes-vous sur de vouloir supprimer ce modele?',
       () => {
         this.loading = true;

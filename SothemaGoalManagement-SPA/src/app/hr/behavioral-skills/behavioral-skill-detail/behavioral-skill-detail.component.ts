@@ -52,7 +52,7 @@ export class BehavioralSkillDetailComponent implements OnInit {
   }
 
   delete() {
-    this.alertify.confirm(
+    this.alertify.confirm('Supprimer',
       'Etes-vous sur de vouloir supprimer cette compétence?',
       () => {
         this.loading = true;

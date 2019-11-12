@@ -18,8 +18,8 @@ namespace SothemaGoalManagement.API.Repositories
 
         public async Task<IEnumerable<EvaluationFileInstanceLog>> GetEvaluationFileInstanceLogs(string evaluationFileInstanceTitle = "")
         {
-            return string.IsNullOrEmpty(evaluationFileInstanceTitle) ? await FindAll().ToListAsync() :
-                            await FindByCondition(efil => efil.Title.Contains(evaluationFileInstanceTitle)).ToListAsync();
+            return string.IsNullOrEmpty(evaluationFileInstanceTitle) ? await FindAll().OrderByDescending(l => l.Created).ToListAsync() :
+                            await FindByCondition(efil => efil.Title.Contains(evaluationFileInstanceTitle)).OrderByDescending(l => l.Created).ToListAsync();
         }
 
         public void AddEvaluationFileInstanceLog(EvaluationFileInstanceLog evaluationFileInstanceLog)

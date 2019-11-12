@@ -19,6 +19,8 @@ namespace SothemaGoalManagement.API.Dtos
 
         public string OwnerName { get; set; }
 
+        public int OwnerId { get; set; }
+
         public string PhotoUrl { get; set; }
         public string OwnerTitle { get; set; }
         public string EmployeeNumber { get; set; }

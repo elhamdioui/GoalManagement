@@ -144,7 +144,7 @@ export class EvaluatorAssignmentComponent implements OnInit {
   }
 
   handleDeleteEvaluator(event: Evaluator) {
-    this.alertify.confirm(
+    this.alertify.confirm('Supprimer',
       `Etes-vous sûr de vouloir supprimer l'évaluateur ${event.fullName}?`,
       () => {
         this.loading = true;
@@ -166,7 +166,7 @@ export class EvaluatorAssignmentComponent implements OnInit {
   }
 
   deleteEvaluatee(evaluatee: Evaluator) {
-    this.alertify.confirm(
+    this.alertify.confirm('Supprimer',
       `Etes-vous sûr de vouloir supprimer l'évalué ${evaluatee.fullName}?`,
       () => {
         this.loading = true;

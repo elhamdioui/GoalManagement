@@ -12,7 +12,7 @@ import { HrPanelComponent } from './hr/hr-panel/hr-panel.component';
 import { StrategiesComponent } from './strategies/strategies.component';
 import { StrategiesResolver } from './_resolvers/strategies.resolver';
 import { CollaboratorListResolver } from './_resolvers/collaborator-list.resolver';
-import { CollaboratorDetailResolver } from './_resolvers/collaborator-detail.resolver.';
+import { CollaboratorDetailResolver } from './_resolvers/collaborator-detail.resolver';
 import { CollaboratorDetailComponent } from './collaborators/collaborator-detail/collaborator-detail.component';
 import { StrategyListResolver } from './_resolvers/strategy-list.resolver';
 import { StrategyDetailComponent } from './hr/strategies/strategy-detail/strategy-detail.component';
@@ -22,13 +22,16 @@ import { ForgetPasswordComponent } from './collaborators/forget-password/forget-
 import { ProfileEditComponent } from './collaborators/profile-edit/profile-edit.component';
 import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
 import { BehavioralSkillDetailComponent } from './hr/behavioral-skills/behavioral-skill-detail/behavioral-skill-detail.component';
-import { BehavioralSkillDetailResolver } from './_resolvers/behavioral-skill-detail.resolver.';
+import { BehavioralSkillDetailResolver } from './_resolvers/behavioral-skill-detail.resolver';
 import { EvaluationHrDetailComponent } from './hr/evaluations/evaluation-hr-detail/evaluation-hr-detail.component';
 import { EvaluationHrDetailResolver } from './_resolvers/evaluation-hr-detail.resolver';
 import { SheetsPanelComponent } from './sheets/sheets-panel/sheets-panel.component';
 import { SheetsResolver } from './_resolvers/sheets.resolver';
 import { SheetDetailComponent } from './sheets/sheet-detail/sheet-detail.component';
 import { SheetDetailResolver } from './_resolvers/sheet-detail.resolver';
+import { MyCollaboratorGoalsComponent } from './sheets/my-collaborator-goals/my-collaborator-goals.component';
+import { MyCollaboratorGoalsResolver } from './_resolvers/my-collaborator-goals.resolver';
+import { CollaboratorMessagesComponent } from './collaborators/collaborator-messages/collaborator-messages.component';
 
 
 export const appRoutes: Routes = [

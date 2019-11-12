@@ -1,0 +1,39 @@
+<div class="container mt-1">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-4">
+          <strong>{{sheetToValidate.title}}</strong>
+        </div>
+        <div class="col-md-4">
+          <img src="{{ sheetToValidate.photoUrl }}" class="img-circle rounded-circle mr-1" /> {{sheetToValidate.ownerName}}
+        </div>
+        <div class="col-md-4">
+          Matricule: {{ sheetToValidate.employeeNumber }}
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div *ngFor="let goalsByAxisInstance of goalsByAxisInstanceList">
+        <app-goal-card [areGoalsReadOnly]="areGoalsReadOnly" [goalsByAxisInstance]="goalsByAxisInstance"></app-goal-card>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <div class="btn-group d-flex">
+        <button class="btn btn-success w-70 mr-1" (click)="acceptGoals()">
+          Valider les Objectives
+        </button>
+
+        <button class="btn btn-danger w-70 mr-1" (click)="rejectGoals()">
+          Rejeter les Objectives
+        </button>
+
+        <button class="btn btn-info w-70 mr-1" (click)="returnToSheets()">
+          Retour aux Fiches
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -91,7 +91,7 @@ export class SheetDetailComponent implements OnInit {
   }
 
   handleDeleteGoal(goal: Goal) {
-    this.alertify.confirm(
+    this.alertify.confirm('Supprimer',
       `Etes-vous sur de vouloir supprimer l'objectif: ${goal.description}?`,
       () => {
         this.loading = true;
@@ -128,11 +128,15 @@ export class SheetDetailComponent implements OnInit {
     this.goalsByAxisInstanceList.forEach(a => {
       a.goals.forEach(g => goals.push({
         id: g.id,
-        description: this.sheetDetail.title,
+        description: this.sheetDetail.title,//For logs
         goalTypeId: g.goalType.id,
         axisInstanceId: g.axisInstance.id,
-        status: g.status,
-        weight: g.weight
+        weight: g.weight,
+        status: 'En Revue',
+        sheetTitle: this.sheetDetail.title,
+        emailContent: `S'il vous plaît valider lees objectives pour la fiche d'évaluation ${this.sheetDetail.title}.`,
+        sheetOwnerId: this.sheetDetail.ownerId
+
       }));
     });
 

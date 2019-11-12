@@ -1,14 +1,12 @@
-<div class="card mt-2 mb-2">
+<div *ngIf="!goalsMode" class="card mt-2 mb-2">
   <div class="card-header">
     <div class="row">
       <div class="col-md-4">
-        {{sheetToValidate.title}}: ({{sheetToValidate.status}})
+        <strong>{{sheetToValidate.title}}</strong>
       </div>
       <div class="col-md-4">
-        <img src="{{ sheetToValidate.photoUrl }}" class="img-circle rounded-circle mr-1" />
-        <strong>{{sheetToValidate.ownerName}}</strong>
+        <img src="{{ sheetToValidate.photoUrl }}" class="img-circle rounded-circle mr-1" /> {{sheetToValidate.ownerName}}
       </div>
-
       <div class="col-md-4">
         <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed">
           <span *ngIf="!isCollapsed">
@@ -17,7 +15,7 @@
             <fa-icon [icon]="faCaretUp"></fa-icon>Réduire Axes</span>
         </button>
 
-        <button type="button" class="btn btn-secondary ml-1" (click)="consultGoals(sheetToValidate.id)">
+        <button type="button" class="btn btn-secondary ml-1" (click)="getGoals()">
           <fa-icon [icon]="faCheckSquare"></fa-icon>Voir Objectives
         </button>
       </div>
@@ -31,4 +29,9 @@
       </li>
     </ul>
   </div>
+</div>
+
+<div *ngIf="goalsMode" class="container">
+  <app-my-collaborator-goals [goalsByAxisInstanceList]="goalsByAxisInstanceList" [sheetToValidate]="sheetToValidate" (switchOffGoalsEvent)="switchOffGoalsMode($event)"
+    (rejectGoalsEvent)="handleRejectGoals($event)" (AcceptGoalsEvent)="handleAcceptGoals($event)"></app-my-collaborator-goals>
 </div>

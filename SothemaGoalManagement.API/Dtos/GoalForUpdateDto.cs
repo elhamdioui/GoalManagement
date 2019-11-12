@@ -28,5 +28,11 @@ namespace SothemaGoalManagement.API.Dtos
 
         [Required]
         public int Weight { get; set; }
+
+        public string SheetTitle { get; set; }
+
+        public string EmailContent { get; set; }
+
+        public int SheetOwnerId { get; set; }
     }
 }

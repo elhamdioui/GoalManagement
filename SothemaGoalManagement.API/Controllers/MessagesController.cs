@@ -153,7 +153,7 @@ namespace SothemaGoalManagement.API.Controllers
                 message.IsRead = true;
                 message.DateRead = DateTime.Now;
 
-                _repo.Message.AddMessage(message);
+                _repo.Message.UpdateMessage(message);
                 await _repo.Message.SaveAllAsync();
 
                 return NoContent();

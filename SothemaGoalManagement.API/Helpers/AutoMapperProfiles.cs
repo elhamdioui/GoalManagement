@@ -102,6 +102,9 @@ namespace SothemaGoalManagement.API.Helpers
             }).ForMember(dest => dest.OwnerTitle, opt =>
             {
                 opt.ResolveUsing(u => u.Owner.Title);
+            }).ForMember(dest => dest.OwnerId, opt =>
+            {
+                opt.ResolveUsing(u => u.Owner.Id);
             }).ForMember(dest => dest.EmployeeNumber, opt =>
             {
                 opt.ResolveUsing(u => u.Owner.EmployeeNumber);

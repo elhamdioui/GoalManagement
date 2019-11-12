@@ -33,6 +33,7 @@ namespace SothemaGoalManagement.API.Controllers
         {
             try
             {
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
                 var goalFromRepo = await _repo.Goal.GetGoal(id);
 
                 if (goalFromRepo == null) return NotFound();
@@ -43,6 +44,24 @@ namespace SothemaGoalManagement.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside GetGoal enfpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("goalTypes")]
+        public async Task<IActionResult> GetGoalTypes(int userId)
+        {
+            try
+            {
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var goalTypeList = await _repo.GoalType.GetGoalType();
+                var goalTypeToReturn = _mapper.Map<IEnumerable<GoalTypeToReturnDto>>(goalTypeList);
+
+                return Ok(goalTypeToReturn);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetGoalType enfpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -65,23 +84,6 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
-        [HttpGet("goalTypes")]
-        public async Task<IActionResult> GetGoalTypes(int userId)
-        {
-            try
-            {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
-                var goalTypeList = await _repo.GoalType.GetGoalType();
-                var goalTypeToReturn = _mapper.Map<IEnumerable<GoalTypeToReturnDto>>(goalTypeList);
-
-                return Ok(goalTypeToReturn);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong inside GetGoalType enfpoint: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
 
         [HttpPost("createGoal")]
         public async Task<IActionResult> CreateGoal(int userId, GoalForCreationDto goalCreationDto)
@@ -151,10 +153,8 @@ namespace SothemaGoalManagement.API.Controllers
 
                 // Validate the total weights of the objectives within an axis instance
                 var axisInstanceIds = new List<int>();
-                var evaluationSheetTitle = "";
                 foreach (var goalToUpdateDto in goalsToUpdateDto)
                 {
-                    evaluationSheetTitle = goalToUpdateDto.Description;
                     axisInstanceIds.Add(goalToUpdateDto.AxisInstanceId);
                 }
                 var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
@@ -166,18 +166,32 @@ namespace SothemaGoalManagement.API.Controllers
                     }
                 }
 
-                // Set Status of goals to review
+                // Set Status of goals
                 var goalIds = new List<int>();
                 foreach (var goalToUpdateDto in goalsToUpdateDto)
                 {
                     goalIds.Add(goalToUpdateDto.Id);
                 }
+
+                var goalsStatus = "";
+                var emailContent = "";
+                var sheetTitle = "";
+                var sheetOwnerId = 0;
+                foreach (var goalToUpdateDto in goalsToUpdateDto)
+                {
+                    goalsStatus = goalToUpdateDto.Status;
+                    emailContent = goalToUpdateDto.EmailContent;
+                    sheetTitle = goalToUpdateDto.SheetTitle;
+                    sheetOwnerId = goalToUpdateDto.SheetOwnerId;
+                    break;
+                }
+
                 var goalsFromRepo = await _repo.Goal.GetGoalsByIds(goalIds);
                 if (goalsFromRepo != null)
                 {
                     foreach (var goal in goalsFromRepo)
                     {
-                        goal.Status = Constants.REVIEW;
+                        goal.Status = goalsStatus;
                         _repo.Goal.UpdateGoal(goal);
                     }
                     await _repo.Goal.SaveAllAsync();
@@ -185,26 +199,41 @@ namespace SothemaGoalManagement.API.Controllers
                     // Log objectifs have been submitted for validation
                     var efil = new EvaluationFileInstanceLog
                     {
-                        Title = evaluationSheetTitle,
+                        Title = sheetTitle,
                         Created = DateTime.Now,
-                        Log = $"Les objectives de la fiche: {evaluationSheetTitle} ont été soumises pour validation."
+                        Log = $"Les objectives de la fiche: {sheetTitle} ont été mis au statut {goalsStatus}."
                     };
                     _repo.EvaluationFileInstanceLog.AddEvaluationFileInstanceLog(efil);
                     await _repo.EvaluationFileInstanceLog.SaveAllAsync();
 
-                    // Notify evaluators
-                    var evaluators = await _repo.User.LoadEvaluators(userId);
-                    foreach (var evaluator in evaluators)
+                    // Send Notification
+                    if (Constants.REVIEW == goalsStatus)
+                    {
+                        var evaluators = await _repo.User.LoadEvaluators(userId);
+                        foreach (var evaluator in evaluators)
+                        {
+                            var messageForCreationDto = new MessageForCreationDto()
+                            {
+                                RecipientId = evaluator.Id,
+                                SenderId = userId,
+                                Content = emailContent
+                            };
+                            var message = _mapper.Map<Message>(messageForCreationDto);
+                            _repo.Message.AddMessage(message);
+                        }
+                    }
+                    else
                     {
                         var messageForCreationDto = new MessageForCreationDto()
                         {
-                            RecipientId = evaluator.Id,
+                            RecipientId = sheetOwnerId,
                             SenderId = userId,
-                            Content = $"S'il vous plaît valider lees objectives pour la fiche d'évaluation {efil.Title}."
+                            Content = emailContent
                         };
                         var message = _mapper.Map<Message>(messageForCreationDto);
                         _repo.Message.AddMessage(message);
                     }
+
                     await _repo.Message.SaveAllAsync();
                 }
 
@@ -212,7 +241,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside UpdateEvaluationFile enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside ValidateGoals enfpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }

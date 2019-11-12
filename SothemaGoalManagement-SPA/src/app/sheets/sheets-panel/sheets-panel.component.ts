@@ -57,7 +57,7 @@ export class SheetsPanelComponent implements OnInit {
   }
 
   handleDeleteGoal(id: number) {
-    this.alertify.confirm(
+    this.alertify.confirm('Supprimer',
       'Etes-vous sur de vouloir supprimer cet objectif?',
       () => {
         this.loading = true;
