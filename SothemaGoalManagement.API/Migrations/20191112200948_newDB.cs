@@ -477,7 +477,7 @@ namespace SothemaGoalManagement.API.Migrations
                         column: x => x.StrategyId,
                         principalTable: "Strategies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -748,7 +748,8 @@ namespace SothemaGoalManagement.API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_EvaluationFiles_StrategyId",
                 table: "EvaluationFiles",
-                column: "StrategyId");
+                column: "StrategyId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Goals_AxisInstanceId",

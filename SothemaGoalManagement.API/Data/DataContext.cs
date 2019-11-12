@@ -115,6 +115,10 @@ namespace SothemaGoalManagement.API.Data
 
             builder.Entity<UserStatus>().Property(d => d.Name).IsRequired();
 
+            builder.Entity<Strategy>().HasOne(s => s.EvaluationFile).WithOne(ef => ef.Strategy)
+                                                       .HasForeignKey<EvaluationFile>(ef => ef.StrategyId)
+                                                       .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<EvaluationFileBehavioralSkill>(evaluationFileBehavioralSkill =>
             {
                 evaluationFileBehavioralSkill.HasKey(efbs => new { efbs.EvaluationFileId, efbs.BehavioralSkillId });
@@ -148,6 +152,7 @@ namespace SothemaGoalManagement.API.Data
                                             .HasForeignKey(efi => efi.EvaluationFileInstanceId)
                                             .IsRequired();
             });
+
 
             builder.Entity<EvaluationFileInstance>(efi =>
             {

@@ -9,7 +9,7 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191112091105_newDB")]
+    [Migration("20191112200948_newDB")]
     partial class newDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -306,7 +306,8 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.HasIndex("StrategyId");
+                    b.HasIndex("StrategyId")
+                        .IsUnique();
 
                     b.ToTable("EvaluationFiles");
                 });
@@ -741,9 +742,9 @@ namespace SothemaGoalManagement.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SothemaGoalManagement.API.Models.Strategy", "Strategy")
-                        .WithMany()
-                        .HasForeignKey("StrategyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithOne("EvaluationFile")
+                        .HasForeignKey("SothemaGoalManagement.API.Models.EvaluationFile", "StrategyId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.EvaluationFileBehavioralSkill", b =>

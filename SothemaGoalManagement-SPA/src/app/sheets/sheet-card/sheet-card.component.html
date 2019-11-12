@@ -1,33 +1,35 @@
-<div *ngIf="!goalsMode" class="card mt-2 mb-2">
-  <div class="card-header">
-    <div class="row">
-      <div class="col-md-4">
-        <strong>{{sheetToValidate.title}}</strong>
-      </div>
-      <div class="col-md-4">
-        <img src="{{ sheetToValidate.photoUrl }}" class="img-circle rounded-circle mr-1" /> {{sheetToValidate.ownerName}}
-      </div>
-      <div class="col-md-4">
-        <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed">
-          <span *ngIf="!isCollapsed">
-            <fa-icon [icon]="faCaretDown"></fa-icon>Voir Axes</span>
-          <span *ngIf="isCollapsed">
-            <fa-icon [icon]="faCaretUp"></fa-icon>Réduire Axes</span>
-        </button>
+<div *ngIf="!goalsMode" class="container">
+  <div class="card mt-2 mb-2">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-4">
+          <strong>{{sheetToValidate.title}}</strong>
+        </div>
+        <div class="col-md-4">
+          <img src="{{ sheetToValidate.photoUrl }}" class="img-circle rounded-circle mr-1" /> {{sheetToValidate.ownerName}}
+        </div>
+        <div class="col-md-4">
+          <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed">
+            <span *ngIf="!isCollapsed">
+              <fa-icon [icon]="faCaretDown"></fa-icon>Voir Axes</span>
+            <span *ngIf="isCollapsed">
+              <fa-icon [icon]="faCaretUp"></fa-icon>Réduire Axes</span>
+          </button>
 
-        <button type="button" class="btn btn-secondary ml-1" (click)="getGoals()">
-          <fa-icon [icon]="faCheckSquare"></fa-icon>Voir Objectives
-        </button>
+          <button type="button" class="btn btn-secondary ml-1" (click)="getGoals()">
+            <fa-icon [icon]="faCheckSquare"></fa-icon>Voir Objectives
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="card-body" *ngIf="isCollapsed">
-    <ul class="list-inline member-icons animate text-center">
-      <li class="list-inline-item" *ngFor="let axisInstance of axisInstanceList">
-        <app-sheet-axis-instance-item [axisInstance]="axisInstance" (updateUserWeightEvent)="handleUpdateUserWeight($event)"></app-sheet-axis-instance-item>
-      </li>
-    </ul>
+    <div class="card-body" *ngIf="isCollapsed">
+      <ul class="list-inline member-icons animate text-center">
+        <li class="list-inline-item" *ngFor="let axisInstance of axisInstanceList">
+          <app-sheet-axis-instance-item [axisInstance]="axisInstance" (updateUserWeightEvent)="handleUpdateUserWeight($event)"></app-sheet-axis-instance-item>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 
