@@ -10,6 +10,7 @@ import { AlertifyService } from '../../_services/alertify.service';
 import { Goal } from '../../_models/goal';
 import { GoalEditModalComponent } from '../goal-edit-modal/goal-edit-modal.component';
 import { AxisInstance } from '../../_models/axisInstance';
+import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 
 @Component({
   selector: 'app-sheets-panel',
@@ -19,10 +20,13 @@ import { AxisInstance } from '../../_models/axisInstance';
 export class SheetsPanelComponent implements OnInit {
   pagination: Pagination;
   sheets: EvaluationFileInstance[];
+  sheetToValidate: EvaluationFileInstance;
   sheetsToValidate: EvaluationFileInstance[];
   loading = false;
   goalList: Goal[];
   bsModalRef: BsModalRef;
+  goalsByAxisInstanceList: GoalByAxisInstance[];
+  goalsMode = false;
 
   constructor(private modalService: BsModalService, private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -123,5 +127,57 @@ export class SheetsPanelComponent implements OnInit {
           this.alertify.error(error);
         }
       );
+  }
+
+  handleRejectGoals(event: any) {
+    this.loading = true;
+    this.userService
+      .validateGoals(this.authService.decodedToken.nameid, event.goals)
+      .subscribe(
+        () => {
+          this.loading = false;
+          this.alertify.success('Les objectives ont été renvoyées');
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error('Impossible de valider les objectives');
+        }
+      );
+  }
+
+  handleAcceptGoals(acceptanceData: any) {
+    this.loading = true;
+    this.userService
+      .validateGoals(this.authService.decodedToken.nameid, acceptanceData.goals)
+      .subscribe(
+        () => {
+          this.loading = false;
+          this.alertify.success('Les objectives ont été rejetées');
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error('Impossible de valider les objectives');
+        }
+      );
+  }
+
+  handleLoadGoals(loadGoalsData: any) {
+    this.loading = true;
+    this.userService.getGoalsForAxis(this.authService.decodedToken.nameid, loadGoalsData.axisInstanceIds).subscribe(
+      (res: GoalByAxisInstance[]) => {
+        this.loading = false;
+        this.goalsByAxisInstanceList = res;
+        this.goalsMode = true;
+        this.sheetToValidate = loadGoalsData.sheetToValidate
+      },
+      error => {
+        this.loading = false;
+        this.alertify.error(error);
+      }
+    );
+  }
+
+  switchOffGoalsMode(event: boolean) {
+    this.goalsMode = event;
   }
 }

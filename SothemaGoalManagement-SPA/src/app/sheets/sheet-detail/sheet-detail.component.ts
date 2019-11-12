@@ -134,7 +134,7 @@ export class SheetDetailComponent implements OnInit {
         weight: g.weight,
         status: 'En Revue',
         sheetTitle: this.sheetDetail.title,
-        emailContent: `S'il vous plaît valider lees objectives pour la fiche d'évaluation ${this.sheetDetail.title}.`,
+        emailContent: `S'il vous plaît valider les objectives pour la fiche d'évaluation ${this.sheetDetail.title}.`,
         sheetOwnerId: this.sheetDetail.ownerId
 
       }));

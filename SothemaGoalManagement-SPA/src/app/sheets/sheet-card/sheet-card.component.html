@@ -1,4 +1,4 @@
-<div *ngIf="!goalsMode" class="container">
+<div class="container">
   <div class="card mt-2 mb-2">
     <div class="card-header">
       <div class="row">
@@ -31,9 +31,4 @@
       </ul>
     </div>
   </div>
-</div>
-
-<div *ngIf="goalsMode" class="container">
-  <app-my-collaborator-goals [goalsByAxisInstanceList]="goalsByAxisInstanceList" [sheetToValidate]="sheetToValidate" (switchOffGoalsEvent)="switchOffGoalsMode($event)"
-    (rejectGoalsEvent)="handleRejectGoals($event)" (AcceptGoalsEvent)="handleAcceptGoals($event)"></app-my-collaborator-goals>
 </div>

@@ -1,3 +1,10 @@
-<div *ngFor="let sheetToValidate of sheetsToValidate">
-  <app-sheet-card [sheetToValidate]="sheetToValidate" (updateUserWeightEvent)="handleUpdateUserWeight($event)"></app-sheet-card>
+<div *ngIf="!goalsMode" class="container">
+  <div *ngFor="let sheetToValidate of sheetsToValidate">
+    <app-sheet-card [sheetToValidate]="sheetToValidate" (updateUserWeightEvent)="handleUpdateUserWeight($event)" (loadGoalsEvent)="handleLoadGoals($event)"></app-sheet-card>
+  </div>
+</div>
+
+<div *ngIf="goalsMode" class="container">
+  <app-my-collaborator-goals [goalsByAxisInstanceList]="goalsByAxisInstanceList" [sheetToValidate]="sheetToValidate" (switchOffGoalsEvent)="switchOffGoalsMode($event)"
+    (rejectGoalsEvent)="handleRejectGoals($event)" (acceptGoalsEvent)="handleAcceptGoals($event)"></app-my-collaborator-goals>
 </div>

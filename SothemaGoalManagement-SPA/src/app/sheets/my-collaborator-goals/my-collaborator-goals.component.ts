@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AlertifyService } from '../../_services/alertify.service';
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
 
@@ -10,29 +11,66 @@ import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
 export class MyCollaboratorGoalsComponent implements OnInit {
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Input() sheetToValidate: EvaluationFileInstance;
-  @Output() switchOffGoalsEvent = new EventEmitter();
-  @Output() rejectGoalsEvent = new EventEmitter();
-  @Output() AcceptGoalsEvent = new EventEmitter();
+  @Output() switchOffGoalsEvent = new EventEmitter<boolean>();
+  @Output() rejectGoalsEvent = new EventEmitter<any>();
+  @Output() acceptGoalsEvent = new EventEmitter<any>();
   areGoalsReadOnly = true;
-  areGoalsPublished = false;
+  canGoalsBeValidated = false;
 
-  constructor() { }
+  constructor(private alertify: AlertifyService) { }
 
   ngOnInit() {
-    if (this.goalsByAxisInstanceList[0].goalsStatus === 'Publiée') {
-      this.areGoalsPublished = true;
+    if (this.goalsByAxisInstanceList[0].goalsStatus === 'En Revue') {
+      this.canGoalsBeValidated = true;
     }
   }
 
   returnToSheets() {
-    this.switchOffGoalsEvent.emit();
+    this.switchOffGoalsEvent.emit(false);
   }
 
   rejectGoals() {
-    this.rejectGoalsEvent.emit();
+    this.alertify.prompt('Rejeter', `Quelle est la raison de votre renvoi des objectifs de ${this.sheetToValidate.ownerName}?`, '', (v) => {
+
+      var goals: any[] = [];
+      this.goalsByAxisInstanceList.forEach(a => {
+        a.goals.forEach(g => goals.push({
+          id: g.id,
+          description: g.description,
+          goalTypeId: g.goalType.id,
+          axisInstanceId: g.axisInstance.id,
+          weight: g.weight,
+          status: 'Rédaction',
+          sheetTitle: this.sheetToValidate.title,
+          emailContent: `${v}`,
+          sheetOwnerId: this.sheetToValidate.ownerId
+        }));
+      });
+
+      var rejectionData = { goals: goals };
+      this.rejectGoalsEvent.emit(rejectionData);
+      this.switchOffGoalsEvent.emit(false);
+    })
   }
 
   acceptGoals() {
-    this.AcceptGoalsEvent.emit();
+    var goals: any[] = [];
+    this.goalsByAxisInstanceList.forEach(a => {
+      a.goals.forEach(g => goals.push({
+        id: g.id,
+        description: g.description,
+        goalTypeId: g.goalType.id,
+        axisInstanceId: g.axisInstance.id,
+        weight: g.weight,
+        status: 'Publiée',
+        sheetTitle: this.sheetToValidate.title,
+        emailContent: `Les objectives ont été acceptées pour la fiche ${this.sheetToValidate.title}.`,
+        sheetOwnerId: this.sheetToValidate.ownerId
+      }));
+    });
+
+    var acceptanceData = { goals: goals };
+    this.acceptGoalsEvent.emit(acceptanceData);
+    this.switchOffGoalsEvent.emit(false);
   }
 }
