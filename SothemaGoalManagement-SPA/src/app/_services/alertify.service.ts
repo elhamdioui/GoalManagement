@@ -8,7 +8,7 @@ export class AlertifyService {
   constructor() { }
 
   confirm(title, message: string, okCallback: () => any) {
-    alertify.confirm(message, function (e) {
+    alertify.confirm(title, message, function (e) {
       if (e) {
         okCallback();
       } else { }
