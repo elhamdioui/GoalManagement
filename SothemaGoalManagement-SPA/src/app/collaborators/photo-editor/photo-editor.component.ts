@@ -111,7 +111,7 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   deletePhoto(id: number) {
-    this.alertifyService.confirm(
+    this.alertifyService.confirm('Supprimer',
       'Etes-vous sûr de vouloir supprimer cette photo?',
       () => {
         this.loading = true;

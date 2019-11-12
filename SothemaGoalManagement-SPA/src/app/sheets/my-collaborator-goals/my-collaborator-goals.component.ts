@@ -14,10 +14,14 @@ export class MyCollaboratorGoalsComponent implements OnInit {
   @Output() rejectGoalsEvent = new EventEmitter();
   @Output() AcceptGoalsEvent = new EventEmitter();
   areGoalsReadOnly = true;
+  areGoalsPublished = false;
 
   constructor() { }
 
   ngOnInit() {
+    if (this.goalsByAxisInstanceList[0].goalsStatus === 'Publiée') {
+      this.areGoalsPublished = true;
+    }
   }
 
   returnToSheets() {

@@ -59,7 +59,7 @@ export class StrategyDocumentationComponent implements OnInit {
   }
 
   deleteDocumentation(id: number) {
-    this.alertifyService.confirm(
+    this.alertifyService.confirm('Supprimer',
       'Etes-vous sûr de vouloir supprimer ce document?',
       () => {
         this.loading = true;

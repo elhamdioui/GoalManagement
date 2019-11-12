@@ -65,7 +65,7 @@ export class EvaluationHrDetailComponent implements OnInit {
   }
 
   handleDeleteEvaluationFileInstance(evaluationFileInstance: EvaluationFileInstance) {
-    this.alertify.confirm(
+    this.alertify.confirm('Supprimer',
       `Etes-vous sur de vouloir supprimer la Fiche d\'évaluation: ${evaluationFileInstance.title}?`,
       () => {
         this.loading = true;

@@ -22,11 +22,11 @@
 
     <div class="card-footer">
       <div class="btn-group d-flex">
-        <button class="btn btn-success w-70 mr-1" (click)="acceptGoals()">
+        <button class="btn btn-success w-70 mr-1" (click)="acceptGoals()" *ngIf="!areGoalsPublished">
           Valider les Objectives
         </button>
 
-        <button class="btn btn-danger w-70 mr-1" (click)="rejectGoals()">
+        <button class="btn btn-danger w-70 mr-1" (click)="rejectGoals()" *ngIf="!areGoalsPublished">
           Rejeter les Objectives
         </button>
 
