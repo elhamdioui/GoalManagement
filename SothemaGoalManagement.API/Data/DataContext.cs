@@ -149,14 +149,6 @@ namespace SothemaGoalManagement.API.Data
                                             .IsRequired();
             });
 
-            builder.Entity<EvaluationFile>().HasOne<Strategy>(ef => ef.Strategy)
-                       .WithMany(e => e.EvaluationFiles).HasForeignKey(ef => ef.StrategyId);
-
-            builder.Entity<Strategy>().HasMany<EvaluationFile>(s => s.EvaluationFiles)
-                                           .WithOne(ef => ef.Strategy)
-                                           .HasForeignKey(ef => ef.StrategyId)
-                                           .OnDelete(DeleteBehavior.Cascade);
-
             builder.Entity<EvaluationFileInstance>(efi =>
             {
                 efi.HasOne<User>(u => u.Owner)

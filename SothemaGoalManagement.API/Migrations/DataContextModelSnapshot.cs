@@ -739,7 +739,7 @@ namespace SothemaGoalManagement.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SothemaGoalManagement.API.Models.Strategy", "Strategy")
-                        .WithMany("EvaluationFiles")
+                        .WithMany()
                         .HasForeignKey("StrategyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
