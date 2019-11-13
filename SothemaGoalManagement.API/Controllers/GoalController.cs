@@ -166,7 +166,7 @@ namespace SothemaGoalManagement.API.Controllers
                     }
                 }
 
-                // Set Status of goals
+                // Get main data
                 var goalIds = new List<int>();
                 foreach (var goalToUpdateDto in goalsToUpdateDto)
                 {
@@ -186,6 +186,13 @@ namespace SothemaGoalManagement.API.Controllers
                     break;
                 }
 
+                // Check if user has evaluator in the case of review
+                if (Constants.REVIEW == goalsStatus && !await IsUserHasEvaluator(userId))
+                {
+                    return BadRequest("Vous n'avez pas d'évaluateur pour le moment!");
+                }
+
+                // Set Status of goals
                 var goalsFromRepo = await _repo.Goal.GetGoalsByIds(goalIds);
                 if (goalsFromRepo != null)
                 {
@@ -207,34 +214,7 @@ namespace SothemaGoalManagement.API.Controllers
                     await _repo.EvaluationFileInstanceLog.SaveAllAsync();
 
                     // Send Notification
-                    if (Constants.REVIEW == goalsStatus)
-                    {
-                        var evaluators = await _repo.User.LoadEvaluators(userId);
-                        foreach (var evaluator in evaluators)
-                        {
-                            var messageForCreationDto = new MessageForCreationDto()
-                            {
-                                RecipientId = evaluator.Id,
-                                SenderId = userId,
-                                Content = emailContent
-                            };
-                            var message = _mapper.Map<Message>(messageForCreationDto);
-                            _repo.Message.AddMessage(message);
-                        }
-                    }
-                    else
-                    {
-                        var messageForCreationDto = new MessageForCreationDto()
-                        {
-                            RecipientId = sheetOwnerId,
-                            SenderId = userId,
-                            Content = emailContent
-                        };
-                        var message = _mapper.Map<Message>(messageForCreationDto);
-                        _repo.Message.AddMessage(message);
-                    }
-
-                    await _repo.Message.SaveAllAsync();
+                    await SendNotifications(goalsStatus, userId, emailContent, sheetOwnerId);
                 }
 
                 return NoContent();
@@ -336,6 +316,45 @@ namespace SothemaGoalManagement.API.Controllers
 
 
             return false;
+        }
+
+        private async Task SendNotifications(string goalsStatus, int userId, string emailContent, int sheetOwnerId)
+        {
+            if (Constants.REVIEW == goalsStatus)
+            {
+                var evaluators = await _repo.User.LoadEvaluators(userId);
+                foreach (var evaluator in evaluators)
+                {
+                    var messageForCreationDto = new MessageForCreationDto()
+                    {
+                        RecipientId = evaluator.Id,
+                        SenderId = userId,
+                        Content = emailContent
+                    };
+                    var message = _mapper.Map<Message>(messageForCreationDto);
+                    _repo.Message.AddMessage(message);
+                }
+            }
+            else
+            {
+                var messageForCreationDto = new MessageForCreationDto()
+                {
+                    RecipientId = sheetOwnerId,
+                    SenderId = userId,
+                    Content = emailContent
+                };
+                var message = _mapper.Map<Message>(messageForCreationDto);
+                _repo.Message.AddMessage(message);
+            }
+
+            await _repo.Message.SaveAllAsync();
+        }
+
+        private async Task<bool> IsUserHasEvaluator(int userId)
+        {
+            var evaluators = await _repo.User.LoadEvaluators(userId);
+            if (evaluators == null || evaluators.Count() == 0) return false;
+            return true;
         }
     }
 }
