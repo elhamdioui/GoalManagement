@@ -81,7 +81,7 @@ namespace SothemaGoalManagement.API.Controllers
                 }
                 var sheetsTovalidateFromRepo = await _repo.EvaluationFileInstance.GetEvaluationFileInstancesToValidate(evaluateeIds);
                 var sheetsToValidate = _mapper.Map<IEnumerable<EvaluationFileInstanceToReturnDto>>(sheetsTovalidateFromRepo);
-
+                sheetsToValidate = SetGoalsStatus(sheetsToValidate);
                 return Ok(sheetsToValidate);
             }
             catch (Exception ex)
@@ -124,6 +124,21 @@ namespace SothemaGoalManagement.API.Controllers
                 _logger.LogError($"Something went wrong inside UpdateAxisInstance enfpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
+        }
+
+        private IEnumerable<EvaluationFileInstanceToReturnDto> SetGoalsStatus(IEnumerable<EvaluationFileInstanceToReturnDto> sheets)
+        {
+            foreach (var sheet in sheets)
+            {
+                foreach (var axisInstance in sheet.AxisInstances)
+                {
+                    var goal = _repo.Goal.GetGoalsByAxisInstanceIds(new List<int>() { axisInstance.Id }).Result.First();
+                    sheet.GoalsStatus = goal.Status;
+                    break;
+                }
+            }
+
+            return sheets;
         }
     }
 }

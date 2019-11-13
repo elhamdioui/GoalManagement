@@ -14,6 +14,8 @@ namespace SothemaGoalManagement.API.Dtos
 
         public string Status { get; set; }
 
+        public string GoalsStatus { get; set; }
+
         public string StrategyTitle { get; set; }
         public string StrategyDescription { get; set; }
 

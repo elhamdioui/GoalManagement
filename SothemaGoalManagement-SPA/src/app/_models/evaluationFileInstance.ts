@@ -14,5 +14,6 @@ export interface EvaluationFileInstance {
   employeeNumber: string;
   ownerId: number;
   status: string;
+  goalsStatus: string
   created: Date;
 }

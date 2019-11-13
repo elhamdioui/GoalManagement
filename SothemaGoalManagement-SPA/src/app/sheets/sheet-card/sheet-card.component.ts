@@ -31,7 +31,7 @@ export class SheetCardComponent implements OnInit {
     this.updateUserWeightEvent.emit(axisInstance);
   }
 
-  getGoals() {
+  showGoals() {
     var axisInstanceIds = this.sheetToValidate.axisInstances.map(a => a.id);
     var loadGoalsData = { sheetToValidate: this.sheetToValidate, axisInstanceIds: axisInstanceIds };
     this.loadGoalsEvent.emit(loadGoalsData);

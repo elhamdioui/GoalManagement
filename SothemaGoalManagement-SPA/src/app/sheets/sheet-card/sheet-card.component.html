@@ -6,7 +6,7 @@
           <strong>{{sheetToValidate.title}}</strong>
         </div>
         <div class="col-md-4">
-          <img src="{{ sheetToValidate.photoUrl }}" class="img-circle rounded-circle mr-1" /> {{sheetToValidate.ownerName}}
+          <img src="{{ sheetToValidate.photoUrl || '../../assets/user.png'}}" class="img-circle rounded-circle mr-1" /> {{sheetToValidate.ownerName}}
         </div>
         <div class="col-md-4">
           <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed">
@@ -16,7 +16,8 @@
               <fa-icon [icon]="faCaretUp"></fa-icon>Réduire Axes</span>
           </button>
 
-          <button type="button" class="btn btn-secondary ml-1" (click)="getGoals()">
+          <button type="button" class="btn ml-1" [ngClass]="sheetToValidate.goalsStatus === 'En Revue' ? 'btn-success' : 'btn-secondary'"
+            (click)="showGoals()">
             <fa-icon [icon]="faCheckSquare"></fa-icon>Voir Objectives
           </button>
         </div>

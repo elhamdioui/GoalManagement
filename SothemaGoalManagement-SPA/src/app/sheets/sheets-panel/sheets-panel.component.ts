@@ -60,6 +60,23 @@ export class SheetsPanelComponent implements OnInit {
       );
   }
 
+  loadSheetsToValidate() {
+    this.loading = true;
+    this.userService.getMyCollaboratorsSheets(
+      this.authService.decodedToken.nameid
+    )
+      .subscribe(
+        (res: EvaluationFileInstance[]) => {
+          this.loading = false;
+          this.sheetsToValidate = res;
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
+  }
+
   handleDeleteGoal(id: number) {
     this.alertify.confirm('Supprimer',
       'Etes-vous sur de vouloir supprimer cet objectif?',
@@ -152,7 +169,8 @@ export class SheetsPanelComponent implements OnInit {
       .subscribe(
         () => {
           this.loading = false;
-          this.alertify.success('Les objectives ont été rejetées');
+          this.loadSheetsToValidate();
+          this.alertify.success('Les objectives ont été validées');
         },
         error => {
           this.loading = false;
@@ -167,8 +185,8 @@ export class SheetsPanelComponent implements OnInit {
       (res: GoalByAxisInstance[]) => {
         this.loading = false;
         this.goalsByAxisInstanceList = res;
+        this.sheetToValidate = loadGoalsData.sheetToValidate;
         this.goalsMode = true;
-        this.sheetToValidate = loadGoalsData.sheetToValidate
       },
       error => {
         this.loading = false;
