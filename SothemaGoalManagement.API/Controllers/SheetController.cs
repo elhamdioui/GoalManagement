@@ -81,7 +81,7 @@ namespace SothemaGoalManagement.API.Controllers
                 }
                 var sheetsTovalidateFromRepo = await _repo.EvaluationFileInstance.GetEvaluationFileInstancesToValidate(evaluateeIds);
                 var sheetsToValidate = _mapper.Map<IEnumerable<EvaluationFileInstanceToReturnDto>>(sheetsTovalidateFromRepo);
-                sheetsToValidate = SetGoalsStatus(sheetsToValidate);
+                sheetsToValidate = await SetGoalsStatus((List<EvaluationFileInstanceToReturnDto>)sheetsToValidate);
                 return Ok(sheetsToValidate);
             }
             catch (Exception ex)
@@ -126,16 +126,31 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
-        private IEnumerable<EvaluationFileInstanceToReturnDto> SetGoalsStatus(IEnumerable<EvaluationFileInstanceToReturnDto> sheets)
+        private async Task<IEnumerable<EvaluationFileInstanceToReturnDto>> SetGoalsStatus(List<EvaluationFileInstanceToReturnDto> sheets)
         {
+            IList<int> axisInstanceIds = new List<int>();
             foreach (var sheet in sheets)
             {
                 foreach (var axisInstance in sheet.AxisInstances)
                 {
-                    var goal = _repo.Goal.GetGoalsByAxisInstanceIds(new List<int>() { axisInstance.Id }).Result.FirstOrDefault();
-                    sheet.GoalsStatus = goal == null ? "Pas encore créé" : goal.Status;
+                    axisInstanceIds.Add(axisInstance.Id);
                     break;
                 }
+            }
+
+            List<Goal> goals = (List<Goal>)await _repo.Goal.GetGoalsByAxisInstanceIds(axisInstanceIds);
+            for (int i = 0; i < axisInstanceIds.Count(); i++)
+            {
+                var goal = goals.FirstOrDefault(g => g.AxisInstanceId == axisInstanceIds[i]);
+                if (goal == null)
+                {
+                    sheets[i].GoalsStatus = Constants.NOTSTARTED;
+                }
+                else
+                {
+                    sheets[i].GoalsStatus = goal.Status;
+                }
+
             }
 
             return sheets;
