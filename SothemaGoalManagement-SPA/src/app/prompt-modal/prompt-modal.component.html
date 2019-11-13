@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{promptTitle}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <h4>{{promptMessage}}</h4>
+  <textarea rows="3" cols="50" [(ngModel)]="promptValue"></textarea>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="bsModalRef.hide()">Annuler</button>
+  <button type="button" class="btn btn-success" (click)="sendPromptValue()">Ok</button>
+</div>

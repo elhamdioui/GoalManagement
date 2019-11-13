@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AlertifyService } from '../../_services/alertify.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
+import { PromptModalComponent } from '../../prompt-modal/prompt-modal.component';
 
 @Component({
   selector: 'app-my-collaborator-goals',
@@ -16,8 +18,9 @@ export class MyCollaboratorGoalsComponent implements OnInit {
   @Output() acceptGoalsEvent = new EventEmitter<any>();
   areGoalsReadOnly = true;
   canGoalsBeValidated = false;
+  bsModalRef: BsModalRef;
 
-  constructor(private alertify: AlertifyService) { }
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
     if (this.goalsByAxisInstanceList[0].goalsStatus === 'En Revue') {
@@ -30,8 +33,13 @@ export class MyCollaboratorGoalsComponent implements OnInit {
   }
 
   rejectGoals() {
-    this.alertify.prompt('Rejeter', `Quelle est la raison de votre renvoi des objectifs de ${this.sheetToValidate.ownerName}?`, '', (v) => {
+    const initialState = {
+      promptTitle: 'Renvoi',
+      promptMessage: `Quelle est la raison de votre renvoi des objectifs de ${this.sheetToValidate.ownerName}?`
+    };
 
+    this.bsModalRef = this.modalService.show(PromptModalComponent, { initialState });
+    this.bsModalRef.content.sendPromptValueEvent.subscribe((promptValue) => {
       var goals: any[] = [];
       this.goalsByAxisInstanceList.forEach(a => {
         a.goals.forEach(g => goals.push({
@@ -42,7 +50,7 @@ export class MyCollaboratorGoalsComponent implements OnInit {
           weight: g.weight,
           status: 'Rédaction',
           sheetTitle: this.sheetToValidate.title,
-          emailContent: `${v}`,
+          emailContent: promptValue,
           sheetOwnerId: this.sheetToValidate.ownerId
         }));
       });
@@ -50,7 +58,7 @@ export class MyCollaboratorGoalsComponent implements OnInit {
       var rejectionData = { goals: goals };
       this.rejectGoalsEvent.emit(rejectionData);
       this.switchOffGoalsEvent.emit(false);
-    })
+    });
   }
 
   acceptGoals() {

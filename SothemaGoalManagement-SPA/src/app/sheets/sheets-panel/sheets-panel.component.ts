@@ -153,6 +153,7 @@ export class SheetsPanelComponent implements OnInit {
       .subscribe(
         () => {
           this.loading = false;
+          this.loadSheetsToValidate();
           this.alertify.success('Les objectives ont été renvoyées');
         },
         error => {
