@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { faEnvelope, faEnvelopeOpen, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faEnvelopeOpen, faPaperPlane, faList } from '@fortawesome/free-solid-svg-icons';
 
 import { Message } from '../_models/message';
 import { Pagination, PaginatedResult } from '../_models/pagination';
@@ -18,9 +18,12 @@ export class MessagesComponent implements OnInit {
   pagination: Pagination;
   messageContainer = 'Unread';
   loading = false;
+  faList = faList;
   faEnvelope = faEnvelope;
   faEnvelopeOpen = faEnvelopeOpen;
   faPaperPlane = faPaperPlane;
+  showMessageThread: boolean;
+  recipientId: number;
 
   constructor(
     private userService: UserService,
@@ -86,5 +89,14 @@ export class MessagesComponent implements OnInit {
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
     this.loadMessages();
+  }
+
+  fetchMessageThread(recipientId) {
+    this.recipientId = recipientId;
+    this.showMessageThread = true;
+  }
+
+  returnMessages() {
+    this.showMessageThread = false;
   }
 }

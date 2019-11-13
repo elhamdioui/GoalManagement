@@ -2,13 +2,13 @@
   <div class="card mt-2 mb-2">
     <div class="card-header">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <strong>{{sheetToValidate.title}}</strong>
         </div>
         <div class="col-md-4">
           <img src="{{ sheetToValidate.photoUrl || '../../assets/user.png'}}" class="img-circle rounded-circle mr-1" /> {{sheetToValidate.ownerName}}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
           <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed">
             <span *ngIf="!isCollapsed">
               <fa-icon [icon]="faCaretDown"></fa-icon>Voir Axes</span>

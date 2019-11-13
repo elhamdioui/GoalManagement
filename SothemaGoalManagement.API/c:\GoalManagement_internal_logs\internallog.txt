@@ -30727,3 +30727,14 @@
 2019-11-13 21:28:22.9771 Trace  Scanning Property Encoding 'System.Text.UTF8Encoding+UTF8EncodingSealed' System.Text
 2019-11-13 21:28:22.9771 Trace File Target[logfile] has 2 layouts
 2019-11-13 21:28:22.9786 Trace FileTarget(Name=logfile): Using appenderFactory: NLog.Internal.FileAppenders.RetryingMultiProcessFileAppender+Factory
+2019-11-13 21:35:58.0888 Debug Targets for SothemaGoalManagement.API.Helpers.LoggerManager by level:
+2019-11-13 21:35:58.0888 Debug Trace =>
+2019-11-13 21:35:58.0904 Debug Debug => logfile
+2019-11-13 21:35:58.0904 Debug Info => logfile
+2019-11-13 21:35:58.0904 Debug Warn => logfile
+2019-11-13 21:35:58.0904 Debug Error => logfile
+2019-11-13 21:35:58.0904 Debug Fatal => logfile
+2019-11-13 21:35:58.1191 Debug FileTarget(Name=logfile): Process file '/Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API/bin/Debug/netcoreapp2.1/c:/goal_management_logs/2019-11-13_logfile.txt' on startup
+2019-11-13 21:35:58.1274 Debug Creating file appender: /Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API/bin/Debug/netcoreapp2.1/c:/goal_management_logs/2019-11-13_logfile.txt
+2019-11-13 21:35:58.1307 Trace Opening /Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API/bin/Debug/netcoreapp2.1/c:/goal_management_logs/2019-11-13_logfile.txt with allowFileSharedWriting=False
+2019-11-13 21:36:27.8844 Trace Opening /Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API/bin/Debug/netcoreapp2.1/c:/goal_management_logs/2019-11-13_logfile.txt with allowFileSharedWriting=False

@@ -95,7 +95,7 @@ export class SheetsPanelComponent implements OnInit {
             },
             error => {
               this.loading = false;
-              this.alertify.error('Impossible de supprimer l\'objectif');
+              this.alertify.error(error);
             }
           );
       }
@@ -157,7 +157,7 @@ export class SheetsPanelComponent implements OnInit {
         },
         error => {
           this.loading = false;
-          this.alertify.error('Impossible de valider les objectives');
+          this.alertify.error(error);
         }
       );
   }
@@ -174,7 +174,7 @@ export class SheetsPanelComponent implements OnInit {
         },
         error => {
           this.loading = false;
-          this.alertify.error('Impossible de valider les objectives');
+          this.alertify.error(error);
         }
       );
   }
