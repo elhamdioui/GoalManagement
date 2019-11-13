@@ -282,7 +282,7 @@ namespace SothemaGoalManagement.API.Controllers
             {
                 el.TotalGoals = el.Goals.Count;
                 el.TotalGoalWeight = el.Goals.Count == 0 ? 0 : el.Goals.Sum(g => g.Weight);
-                el.GoalsStatus = el.Goals.Count == 0 ? "Pas encore créé" : el.Goals.First().Status;
+                el.GoalsStatus = el.Goals.Count == 0 ? Constants.NOTSTARTED : el.Goals.First().Status;
             }
 
             return goalsGroupedByAxisInstanceList;
