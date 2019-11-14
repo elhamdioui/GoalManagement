@@ -131,7 +131,7 @@ export class SheetDetailComponent implements OnInit {
     return this.areGoalsEvaluable;
   }
 
-  validateGoals() {
+  handleValidateGoals() {
     this.loading = true;
 
     var goals: any[] = [];

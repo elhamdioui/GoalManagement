@@ -14,11 +14,13 @@ import { GoalType } from '../../_models/goalType';
 export class GoalsComponent implements OnInit {
   @Input() axisInstances: AxisInstance[];
   @Input() areGoalsReadOnly: boolean;
+  @Input() areGoalsCompleted: boolean;
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Input() goalTypeList: GoalType[];
   @Output() createGoalEvent = new EventEmitter<any>();
   @Output() editGoalEvent = new EventEmitter<Goal>();
   @Output() deleteGoalEvent = new EventEmitter<Goal>();
+  @Output() validateGoalsEvent = new EventEmitter();
   isCollapsed = true;
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
@@ -38,5 +40,9 @@ export class GoalsComponent implements OnInit {
 
   handleDeleteGoal(goal: Goal) {
     this.deleteGoalEvent.emit(goal);
+  }
+
+  validateGoals() {
+    this.validateGoalsEvent.emit()
   }
 }

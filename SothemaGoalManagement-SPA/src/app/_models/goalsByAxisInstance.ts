@@ -11,5 +11,5 @@ export interface GoalByAxisInstance {
   goals: Goal[];
   totalGoals: number;
   totalGoalWeight: number;
-  axisGrade: number;
+  axisGrade: string;
 }

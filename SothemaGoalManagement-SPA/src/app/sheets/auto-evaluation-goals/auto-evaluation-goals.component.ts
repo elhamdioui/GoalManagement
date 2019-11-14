@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+
 import { Goal } from '../../_models/goal';
 
 @Component({
@@ -9,9 +11,14 @@ import { Goal } from '../../_models/goal';
 export class AutoEvaluationGoalsComponent implements OnInit {
   @Input() goal: Goal;
   @Output() calculateAxisGradeEvent = new EventEmitter<Goal>();
+  isCollapsed = true;
+  faCaretDown = faCaretDown;
+  faCaretUp = faCaretUp;
+
   constructor() { }
 
   ngOnInit() {
+    this.calculateAxisGradeEvent.emit(this.goal);
   }
 
   onBlur() {

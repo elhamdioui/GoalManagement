@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 import { Goal } from '../../_models/goal';
 
@@ -9,6 +11,10 @@ import { Goal } from '../../_models/goal';
 })
 export class AutoEvaluationAxisComponent implements OnInit {
   @Input() goalsByAxisInstance: GoalByAxisInstance;
+  isCollapsed = true;
+  faCaretDown = faCaretDown;
+  faCaretUp = faCaretUp;
+
   constructor() { }
 
   ngOnInit() {
@@ -16,12 +22,10 @@ export class AutoEvaluationAxisComponent implements OnInit {
 
 
   handleCalculateAxisGrade(goal: Goal) {
-    this.goalsByAxisInstance.axisGrade = this.goalsByAxisInstance.goals.reduce((accumulator, currentValue) => {
-      console.log('weight:', currentValue.weight);
-      console.log('completionRate:', currentValue.completionRate);
-      console.log('userWeight:', this.goalsByAxisInstance.userWeight);
+    var total = this.goalsByAxisInstance.goals.reduce((accumulator, currentValue) => {
       return accumulator + currentValue.weight * (currentValue.completionRate === undefined ? 0 : currentValue.completionRate) * this.goalsByAxisInstance.userWeight / 10000
     }, 0);
 
+    this.goalsByAxisInstance.axisGrade = total.toFixed(2)
   }
 }

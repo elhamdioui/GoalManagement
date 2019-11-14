@@ -8,6 +8,8 @@ import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 })
 export class AutoEvaluationComponent implements OnInit {
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
+  @Input() areGoalsEvaluable: boolean;
+
   constructor() { }
 
   ngOnInit() {

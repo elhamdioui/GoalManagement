@@ -54,14 +54,20 @@
         </tab>
         <tab heading="Définition des objectifs">
           <div *ngIf="goalsByAxisInstanceList">
-            <app-goals [areGoalsReadOnly]="areGoalsReadOnly" [goalsByAxisInstanceList]="goalsByAxisInstanceList" [axisInstances]="sheetDetail.axisInstances"
-              [goalTypeList]="goalTypeList" (createGoalEvent)="handleCreateGoal($event)" (editGoalEvent)="handleEditGoal($event)"
-              (deleteGoalEvent)="handleDeleteGoal($event)"></app-goals>
+            <app-goals [areGoalsCompleted]="areGoalsCompleted" [areGoalsReadOnly]="areGoalsReadOnly" [goalsByAxisInstanceList]="goalsByAxisInstanceList"
+              [axisInstances]="sheetDetail.axisInstances" [goalTypeList]="goalTypeList" (createGoalEvent)="handleCreateGoal($event)"
+              (editGoalEvent)="handleEditGoal($event)" (deleteGoalEvent)="handleDeleteGoal($event)" (validateGoalsEvent)="handleValidateGoals($event)"></app-goals>
           </div>
         </tab>
         <tab heading="Auto-Évaluation">
           <div *ngIf="goalsByAxisInstanceList">
-            <app-auto-evaluation [goalsByAxisInstanceList]="goalsByAxisInstanceList"></app-auto-evaluation>
+            <app-auto-evaluation [goalsByAxisInstanceList]="goalsByAxisInstanceList" [areGoalsEvaluable]="areGoalsEvaluable"></app-auto-evaluation>
+
+            <div class="float-right">
+              <button class="btn btn-primary w-70 mr-1" (click)="saveAutoEvaluation()" *ngIf="areGoalsEvaluable">
+                Sauvegarder Auto-Évaluation
+              </button>
+            </div>
           </div>
         </tab>
       </tabset>
@@ -71,14 +77,6 @@
       <div class="btn-group d-flex">
         <button class="btn btn-success w-70 mr-1" [routerLink]="['/sheets']">
           Retour au List
-        </button>
-
-        <button class="btn btn-primary w-70 mr-1" [disabled]="!areGoalsCompleted" (click)="validateGoals()" *ngIf="!areGoalsReadOnly">
-          Envoyer les objectifs pour validation
-        </button>
-
-        <button class="btn btn-primary w-70 mr-1" (click)="saveAutoEvaluation()" *ngIf="areGoalsEvaluable">
-          Sauvegarder Auto-Évaluation
         </button>
       </div>
     </div>

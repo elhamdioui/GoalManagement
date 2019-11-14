@@ -30873,3 +30873,149 @@
 2019-11-14 08:32:02.3209 Trace  Scanning Property Encoding 'System.Text.UTF8Encoding+UTF8EncodingSealed' System.Text
 2019-11-14 08:32:02.3224 Trace File Target[logfile] has 2 layouts
 2019-11-14 08:32:02.3233 Trace FileTarget(Name=logfile): Using appenderFactory: NLog.Internal.FileAppenders.RetryingMultiProcessFileAppender+Factory
+2019-11-14 20:46:51.6619 Debug ScanAssembly('NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2019-11-14 20:46:51.6961 Debug Found assembly location directory: '/Users/elmehdiaitbrahim/.nuget/packages/nlog/4.6.7/lib/netstandard2.0' (NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c)
+2019-11-14 20:46:51.6979 Debug Search for auto loading files in location: /Users/elmehdiaitbrahim/.nuget/packages/nlog/4.6.7/lib/netstandard2.0
+2019-11-14 20:46:51.7010 Debug Found assembly location directory: '/Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API/bin/Debug/netcoreapp2.1' (SothemaGoalManagement.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null)
+2019-11-14 20:46:51.7010 Debug Search for auto loading files in location: /Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API/bin/Debug/netcoreapp2.1
+2019-11-14 20:46:51.7010 Debug Auto loading based on AppDomain-BaseDirectory found location: /Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API/bin/Debug/netcoreapp2.1
+2019-11-14 20:46:51.7010 Debug Search for auto loading files in location: /Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API/bin/Debug/netcoreapp2.1
+2019-11-14 20:46:51.7020 Debug Start auto loading, location: /Users/elmehdiaitbrahim/.nuget/packages/nlog/4.6.7/lib/netstandard2.0
+2019-11-14 20:46:51.7047 Trace Assembly 'Microsoft.Extensions.Logging, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60' will be hidden in callsite stacktrace
+2019-11-14 20:46:51.7050 Trace Assembly 'Microsoft.Extensions.Logging.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60' will be hidden in callsite stacktrace
+2019-11-14 20:46:51.7050 Debug Auto loading done
+2019-11-14 20:46:51.7050 Info Message Template Auto Format enabled
+2019-11-14 20:46:51.7224 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-11-14 20:46:51.7244 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2019-11-14 20:46:51.7292 Debug Setting 'UppercaseLayoutRendererWrapper.uppercase' to 'true'
+2019-11-14 20:46:51.7352 Trace Wrapping LevelLayoutRenderer with UppercaseLayoutRendererWrapper
+2019-11-14 20:46:51.7352 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-11-14 20:46:51.7352 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-11-14 20:46:51.7367 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-11-14 20:46:51.7367 Trace Scanning UppercaseLayoutRendererWrapper 'Layout Renderer: ${uppercase}'
+2019-11-14 20:46:51.7383 Trace  Scanning Property Culture '' System.Globalization
+2019-11-14 20:46:51.7402 Trace  Scanning Property Inner 'SimpleLayout=Layout Renderer: ${level}' NLog.Layouts
+2019-11-14 20:46:51.7402 Trace  Scanning SimpleLayout 'SimpleLayout=Layout Renderer: ${level}'
+2019-11-14 20:46:51.7402 Trace   Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-11-14 20:46:51.7413 Trace   Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-11-14 20:46:51.7413 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-11-14 20:46:51.7413 Trace Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${logger}'
+2019-11-14 20:46:51.7413 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-11-14 20:46:51.7420 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2019-11-14 20:46:51.7481 Debug Setting 'FileTarget.name' to 'logfile'
+2019-11-14 20:46:51.7481 Debug Setting 'FileTarget.fileName' to 'c:/goal_management_logs/${shortdate}_logfile.txt'
+2019-11-14 20:46:51.7490 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-11-14 20:46:51.7490 Trace Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2019-11-14 20:46:51.7501 Debug Setting 'FileTarget.layout' to '${longdate} ${level:uppercase=true} ${message}'
+2019-11-14 20:46:51.7501 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-11-14 20:46:51.7501 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2019-11-14 20:46:51.7501 Debug Setting 'UppercaseLayoutRendererWrapper.uppercase' to 'true'
+2019-11-14 20:46:51.7501 Trace Wrapping LevelLayoutRenderer with UppercaseLayoutRendererWrapper
+2019-11-14 20:46:51.7501 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-11-14 20:46:51.7501 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-11-14 20:46:51.7509 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-11-14 20:46:51.7509 Trace Scanning UppercaseLayoutRendererWrapper 'Layout Renderer: ${uppercase}'
+2019-11-14 20:46:51.7509 Trace  Scanning Property Culture '' System.Globalization
+2019-11-14 20:46:51.7509 Trace  Scanning Property Inner 'SimpleLayout=Layout Renderer: ${level}' NLog.Layouts
+2019-11-14 20:46:51.7509 Trace  Scanning SimpleLayout 'SimpleLayout=Layout Renderer: ${level}'
+2019-11-14 20:46:51.7509 Trace   Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-11-14 20:46:51.7509 Trace   Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-11-14 20:46:51.7509 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-11-14 20:46:51.7509 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2019-11-14 20:46:51.7522 Info Adding target FileTarget(Name=logfile)
+2019-11-14 20:46:51.7532 Debug Registered target logfile: NLog.Targets.FileTarget
+2019-11-14 20:46:51.7532 Trace ParseRulesElement
+2019-11-14 20:46:51.7674 Debug Unused target checking is started... Rule Count: 1, Target Count: 1
+2019-11-14 20:46:51.7717 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 1, Unused Target Count: 0
+2019-11-14 20:46:51.8284 Debug Watching path '/Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API' filter 'nlog.config' for changes.
+2019-11-14 20:46:51.8307 Debug --- NLog configuration dump ---
+2019-11-14 20:46:51.8309 Debug Targets:
+2019-11-14 20:46:51.8309 Debug File Target[logfile]
+2019-11-14 20:46:51.8309 Debug Rules:
+2019-11-14 20:46:51.8332 Debug logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] appendTo: [ logfile ]
+2019-11-14 20:46:51.8332 Debug --- End of NLog configuration dump ---
+2019-11-14 20:46:51.8358 Trace FindReachableObject<System.Object>:
+2019-11-14 20:46:51.8361 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] appendTo: [ logfile ]'
+2019-11-14 20:46:51.8361 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2019-11-14 20:46:51.8361 Trace  Scanning FileTarget 'File Target[logfile]'
+2019-11-14 20:46:51.8361 Trace   Scanning Property FileName ''c:/goal_management_logs/${shortdate}_logfile.txt'' NLog.Layouts
+2019-11-14 20:46:51.8369 Trace   Scanning SimpleLayout ''c:/goal_management_logs/${shortdate}_logfile.txt''
+2019-11-14 20:46:51.8369 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-11-14 20:46:51.8369 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-11-14 20:46:51.8369 Trace    Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2019-11-14 20:46:51.8369 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-11-14 20:46:51.8379 Trace   Scanning Property Layout ''${longdate} ${level:uppercase=true} ${message}'' NLog.Layouts
+2019-11-14 20:46:51.8379 Trace   Scanning SimpleLayout ''${longdate} ${level:uppercase=true} ${message}''
+2019-11-14 20:46:51.8379 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-11-14 20:46:51.8379 Trace    Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2019-11-14 20:46:51.8379 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-11-14 20:46:51.8379 Trace    Scanning UppercaseLayoutRendererWrapper 'Layout Renderer: ${uppercase}'
+2019-11-14 20:46:51.8379 Trace     Scanning Property Culture '' System.Globalization
+2019-11-14 20:46:51.8390 Trace     Scanning Property Inner 'SimpleLayout=Layout Renderer: ${level}' NLog.Layouts
+2019-11-14 20:46:51.8390 Trace     Scanning SimpleLayout 'SimpleLayout=Layout Renderer: ${level}'
+2019-11-14 20:46:51.8390 Trace      Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-11-14 20:46:51.8390 Trace      Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-11-14 20:46:51.8390 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-11-14 20:46:51.8390 Trace    Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2019-11-14 20:46:51.8400 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2019-11-14 20:46:51.8400 Trace   Scanning Property Encoding 'System.Text.UTF8Encoding+UTF8EncodingSealed' System.Text
+2019-11-14 20:46:51.8400 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2019-11-14 20:46:51.8410 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2019-11-14 20:46:51.8410 Info Found 14 configuration items
+2019-11-14 20:46:51.8421 Trace Initializing Layout Renderer: ${message}
+2019-11-14 20:46:51.8421 Trace Initializing Layout Renderer: ${literal}
+2019-11-14 20:46:51.8421 Trace Initializing Layout Renderer: ${level}
+2019-11-14 20:46:51.8430 Trace Initializing SimpleLayout=Layout Renderer: ${level}
+2019-11-14 20:46:51.8449 Trace FindReachableObject<System.Object>:
+2019-11-14 20:46:51.8451 Trace Scanning SimpleLayout 'SimpleLayout=Layout Renderer: ${level}'
+2019-11-14 20:46:51.8451 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-11-14 20:46:51.8451 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-11-14 20:46:51.8472 Trace Initializing Layout Renderer: ${uppercase}
+2019-11-14 20:46:51.8472 Trace Initializing Layout Renderer: ${literal}
+2019-11-14 20:46:51.8472 Trace Initializing Layout Renderer: ${longdate}
+2019-11-14 20:46:51.8479 Trace Initializing '${longdate} ${level:uppercase=true} ${message}'
+2019-11-14 20:46:51.8479 Trace FindReachableObject<System.Object>:
+2019-11-14 20:46:51.8479 Trace Scanning SimpleLayout ''${longdate} ${level:uppercase=true} ${message}''
+2019-11-14 20:46:51.8479 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-11-14 20:46:51.8479 Trace  Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2019-11-14 20:46:51.8479 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-11-14 20:46:51.8479 Trace  Scanning UppercaseLayoutRendererWrapper 'Layout Renderer: ${uppercase}'
+2019-11-14 20:46:51.8479 Trace   Scanning Property Culture '' System.Globalization
+2019-11-14 20:46:51.8479 Trace   Scanning Property Inner 'SimpleLayout=Layout Renderer: ${level}' NLog.Layouts
+2019-11-14 20:46:51.8489 Trace   Scanning SimpleLayout 'SimpleLayout=Layout Renderer: ${level}'
+2019-11-14 20:46:51.8489 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-11-14 20:46:51.8489 Trace    Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-11-14 20:46:51.8489 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-11-14 20:46:51.8489 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2019-11-14 20:46:51.8489 Trace Initializing Layout Renderer: ${literal}
+2019-11-14 20:46:51.8489 Trace Initializing Layout Renderer: ${shortdate}
+2019-11-14 20:46:51.8500 Trace Initializing Layout Renderer: ${literal}
+2019-11-14 20:46:51.8500 Trace Initializing 'c:/goal_management_logs/${shortdate}_logfile.txt'
+2019-11-14 20:46:51.8500 Trace FindReachableObject<System.Object>:
+2019-11-14 20:46:51.8500 Trace Scanning SimpleLayout ''c:/goal_management_logs/${shortdate}_logfile.txt''
+2019-11-14 20:46:51.8500 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-11-14 20:46:51.8500 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-11-14 20:46:51.8500 Trace  Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2019-11-14 20:46:51.8509 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-11-14 20:46:51.8509 Trace Initializing File Target[logfile]
+2019-11-14 20:46:51.8538 Trace FindReachableObject<NLog.Layouts.Layout>:
+2019-11-14 20:46:51.8540 Trace Scanning FileTarget 'File Target[logfile]'
+2019-11-14 20:46:51.8540 Trace  Scanning Property FileName ''c:/goal_management_logs/${shortdate}_logfile.txt'' NLog.Layouts
+2019-11-14 20:46:51.8540 Trace  Scanning SimpleLayout ''c:/goal_management_logs/${shortdate}_logfile.txt''
+2019-11-14 20:46:51.8540 Trace  Scanning Property Layout ''${longdate} ${level:uppercase=true} ${message}'' NLog.Layouts
+2019-11-14 20:46:51.8540 Trace  Scanning SimpleLayout ''${longdate} ${level:uppercase=true} ${message}''
+2019-11-14 20:46:51.8540 Trace  Scanning Property LineEnding 'Default' NLog.Targets
+2019-11-14 20:46:51.8540 Trace  Scanning Property Encoding 'System.Text.UTF8Encoding+UTF8EncodingSealed' System.Text
+2019-11-14 20:46:51.8553 Trace File Target[logfile] has 2 layouts
+2019-11-14 20:46:51.8562 Trace FileTarget(Name=logfile): Using appenderFactory: NLog.Internal.FileAppenders.RetryingMultiProcessFileAppender+Factory
+2019-11-14 21:47:20.2646 Debug Targets for SothemaGoalManagement.API.Helpers.LoggerManager by level:
+2019-11-14 21:47:20.2651 Debug Trace =>
+2019-11-14 21:47:20.2651 Debug Debug => logfile
+2019-11-14 21:47:20.2651 Debug Info => logfile
+2019-11-14 21:47:20.2651 Debug Warn => logfile
+2019-11-14 21:47:20.2651 Debug Error => logfile
+2019-11-14 21:47:20.2651 Debug Fatal => logfile
+2019-11-14 21:47:20.2906 Debug FileTarget(Name=logfile): Process file '/Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API/bin/Debug/netcoreapp2.1/c:/goal_management_logs/2019-11-14_logfile.txt' on startup
+2019-11-14 21:47:20.2979 Debug Creating file appender: /Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API/bin/Debug/netcoreapp2.1/c:/goal_management_logs/2019-11-14_logfile.txt
+2019-11-14 21:47:20.3009 Trace Opening /Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API/bin/Debug/netcoreapp2.1/c:/goal_management_logs/2019-11-14_logfile.txt with allowFileSharedWriting=False
+2019-11-14 21:47:23.2649 Trace Opening /Users/elmehdiaitbrahim/Projects/Sothema/SothemaGoalManagment/SothemaGoalManagement.API/bin/Debug/netcoreapp2.1/c:/goal_management_logs/2019-11-14_logfile.txt with allowFileSharedWriting=False

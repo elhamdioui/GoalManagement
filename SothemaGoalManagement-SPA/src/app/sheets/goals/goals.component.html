@@ -1,20 +1,17 @@
 <div class="container mt-2">
-
   <div class="card">
-    <div class="card-header" *ngIf="!areGoalsReadOnly">
+    <div class="card-header" *ngIf="!areGoalsReadOnly" style="cursor: pointer" (click)="isCollapsed = !isCollapsed">
       <div class="row">
         <div class="col-md-11">
-          <div *ngIf="isCollapsed">
+          <div *ngIf="isCollapsed" (click)="$event.stopPropagation()">
             <app-goal-new [axisInstances]="axisInstances" [goalTypeList]="goalTypeList" [goalsByAxisInstanceList]="goalsByAxisInstanceList"
               (createGoalEvent)="handleCreateGoal($event)"></app-goal-new>
           </div>
         </div>
         <div class="col-md-1">
           <div class="toggle">
-            <button type="button" (click)="isCollapsed = !isCollapsed" title="Réduire / Agrandir">
-              <fa-icon [icon]="faCaretDown" *ngIf="!isCollapsed"></fa-icon>
-              <fa-icon [icon]="faCaretUp" *ngIf="isCollapsed"></fa-icon>
-            </button>
+            <fa-icon [icon]="faCaretDown" *ngIf="!isCollapsed"></fa-icon>
+            <fa-icon [icon]="faCaretUp" *ngIf="isCollapsed"></fa-icon>
           </div>
         </div>
       </div>
@@ -24,6 +21,14 @@
       <div *ngFor="let goalsByAxisInstance of goalsByAxisInstanceList">
         <app-goal-card [areGoalsReadOnly]="areGoalsReadOnly" [axisInstances]="axisInstances" [goalTypeList]="goalTypeList" [goalsByAxisInstance]="goalsByAxisInstance"
           (editGoalEvent)="handleEditGoal($event)" (deleteGoalEvent)="handleDeleteGoal($event)"></app-goal-card>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <div class="float-right">
+        <button class="btn btn-primary w-70 mr-1" [disabled]="!areGoalsCompleted" (click)="validateGoals()" *ngIf="!areGoalsReadOnly">
+          Envoyer les objectifs pour validation
+        </button>
       </div>
     </div>
   </div>
