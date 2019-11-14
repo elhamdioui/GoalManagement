@@ -59,9 +59,9 @@
               (deleteGoalEvent)="handleDeleteGoal($event)"></app-goals>
           </div>
         </tab>
-        <tab heading="Évaluations">
-          <div class="container ">
-            comming soon...
+        <tab heading="Auto-Évaluation">
+          <div *ngIf="goalsByAxisInstanceList">
+            <app-auto-evaluation [goalsByAxisInstanceList]="goalsByAxisInstanceList"></app-auto-evaluation>
           </div>
         </tab>
       </tabset>
@@ -75,6 +75,10 @@
 
         <button class="btn btn-primary w-70 mr-1" [disabled]="!areGoalsCompleted" (click)="validateGoals()" *ngIf="!areGoalsReadOnly">
           Envoyer les objectifs pour validation
+        </button>
+
+        <button class="btn btn-primary w-70 mr-1" (click)="saveAutoEvaluation()" *ngIf="areGoalsEvaluable">
+          Sauvegarder Auto-Évaluation
         </button>
       </div>
     </div>

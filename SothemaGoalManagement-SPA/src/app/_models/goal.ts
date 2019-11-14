@@ -10,4 +10,6 @@ export interface Goal {
   projectName: string
   axisInstance: AxisInstance;
   status: string;
+  completionRate: number;
+  comment?: string;
 }

@@ -22,6 +22,7 @@ export class SheetDetailComponent implements OnInit {
   loading = false;
   areGoalsCompleted: boolean;
   areGoalsReadOnly: boolean;
+  areGoalsEvaluable: boolean;
 
   constructor(private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -45,11 +46,11 @@ export class SheetDetailComponent implements OnInit {
           this.goalsByAxisInstanceList = result;
           this.CanGoalsBeValidated();
           this.CheckReadOnly();
-          console.log('this.areGoalsReadOnly:', this.areGoalsReadOnly);
+          this.CanGoalsBeEvaluated();
         },
         error => {
           this.loading = false;
-          this.alertify.error('Impossible d\'avoir les objectifs');
+          this.alertify.error(error);
         }
       );
   }
@@ -105,7 +106,7 @@ export class SheetDetailComponent implements OnInit {
             },
             error => {
               this.loading = false;
-              this.alertify.error('Impossible de supprimer l\'objectif');
+              this.alertify.error(error);
             }
           );
       }
@@ -119,6 +120,15 @@ export class SheetDetailComponent implements OnInit {
       this.areGoalsCompleted = false;
     }
     return this.areGoalsCompleted;
+  }
+
+  CanGoalsBeEvaluated() {
+    if (this.goalsByAxisInstanceList.filter(g => g.goalsStatus === 'Publiée').length == 0) {
+      this.areGoalsEvaluable = false;
+    } else {
+      this.areGoalsEvaluable = true;
+    }
+    return this.areGoalsEvaluable;
   }
 
   validateGoals() {
@@ -151,8 +161,12 @@ export class SheetDetailComponent implements OnInit {
         },
         error => {
           this.loading = false;
-          this.alertify.error('Impossible de valider les objectives');
+          this.alertify.error(error);
         }
       );
+  }
+
+  saveAutoEvaluation() {
+    console.log('List:', this.goalsByAxisInstanceList);
   }
 }

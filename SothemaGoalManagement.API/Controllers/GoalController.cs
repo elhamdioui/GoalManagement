@@ -325,14 +325,18 @@ namespace SothemaGoalManagement.API.Controllers
                 var evaluators = await _repo.User.LoadEvaluators(userId);
                 foreach (var evaluator in evaluators)
                 {
-                    var messageForCreationDto = new MessageForCreationDto()
+                    // Only first rank of evaluators
+                    if (evaluator.Rank == 1)
                     {
-                        RecipientId = evaluator.Id,
-                        SenderId = userId,
-                        Content = emailContent
-                    };
-                    var message = _mapper.Map<Message>(messageForCreationDto);
-                    _repo.Message.AddMessage(message);
+                        var messageForCreationDto = new MessageForCreationDto()
+                        {
+                            RecipientId = evaluator.Id,
+                            SenderId = userId,
+                            Content = emailContent
+                        };
+                        var message = _mapper.Map<Message>(messageForCreationDto);
+                        _repo.Message.AddMessage(message);
+                    }
                 }
             }
             else

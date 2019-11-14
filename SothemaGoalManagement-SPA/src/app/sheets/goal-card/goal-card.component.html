@@ -68,7 +68,7 @@
         <td>{{ goal.description }}</td>
         <td>{{ goal.goalType.name }}</td>
         <td>{{ goal.projectName }}</td>
-        <td>{{ goal.weight }}</td>
+        <td>{{ goal.weight }}%</td>
         <td *ngIf="!areGoalsReadOnly">
           <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editGoalModal(goal)">
             <fa-icon [icon]="faEdit"></fa-icon>

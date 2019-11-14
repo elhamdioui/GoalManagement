@@ -1,0 +1,32 @@
+<div class="card mt-1">
+  <div class=" card-header ">
+    {{ goal.description }}
+  </div>
+  <div class="card-body ">
+    <div class="row ">
+      <div class="col-sm-6 ">
+        <label>Type d'objectif:</label>
+        {{ goal.goalType.name }}
+      </div>
+
+      <div class="col-sm-6 ">
+        <label>Poids d'Objectif %:</label>
+        {{ goal.weight }}
+      </div>
+
+      <div class="col-sm-6 ">
+        <label>Nom de projet:</label>
+        {{ goal.projectName }}
+      </div>
+
+      <div class="col-sm-6 ">
+        <label>Taux de réalisation %:</label>
+        <input type="number " [(ngModel)]="goal.completionRate " (blur)="onBlur()" maxlength="3" size="4">
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer ">
+    <textarea type="text " [(ngModel)]="goal.comment " cols="70 " rows="2 " placeholder="Commentaire "></textarea>
+  </div>
+</div>

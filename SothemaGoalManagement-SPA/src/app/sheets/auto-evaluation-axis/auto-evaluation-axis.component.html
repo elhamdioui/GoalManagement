@@ -1,0 +1,28 @@
+<div class="card-header">
+  <div class="row">
+    <div class="col">{{goalsByAxisInstance.title}}</div>
+    <div class="col">Pondération d'Axe:
+      <span class="badge badge-pill badge-danger" title="Pondération d'axe">
+        {{goalsByAxisInstance.userWeight}} %
+      </span>
+    </div>
+    <div class="col">Total:
+      <span class="badge badge-pill badge-success" title="Pondération d'axe">
+        {{goalsByAxisInstance.axisGrade}} %
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="card-body">
+  <div class="alert alert-danger mt-3" role="alert" *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length === 0">
+    <p>Aucun objectif n'a encore été ajouté...</p>
+  </div>
+
+  <ul class="list-inline text-center" *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0">
+    <li class="list-inline-item" *ngFor="let goal of goalsByAxisInstance.goals">
+      <app-auto-evaluation-goals [goal]="goal" (calculateAxisGradeEvent)="handleCalculateAxisGrade($event)"></app-auto-evaluation-goals>
+    </li>
+  </ul>
+
+</div>
