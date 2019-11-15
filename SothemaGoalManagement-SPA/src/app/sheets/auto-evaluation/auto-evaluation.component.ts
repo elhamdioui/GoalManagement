@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 
 @Component({
@@ -9,6 +10,9 @@ import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 export class AutoEvaluationComponent implements OnInit {
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Input() areGoalsEvaluable: boolean;
+  faCaretDown = faCaretDown;
+  faCaretUp = faCaretUp;
+  isCollapsed = false;
 
   constructor() { }
 

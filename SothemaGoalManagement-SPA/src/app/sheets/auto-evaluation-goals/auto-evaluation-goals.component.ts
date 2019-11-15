@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import {GoalsEvaluation} from '../../_models/goalsEvaluation';
 
 import { Goal } from '../../_models/goal';
 
@@ -10,6 +11,7 @@ import { Goal } from '../../_models/goal';
 })
 export class AutoEvaluationGoalsComponent implements OnInit {
   @Input() goal: Goal;
+  @Input() evaluations: GoalsEvaluation;
   @Output() calculateAxisGradeEvent = new EventEmitter<Goal>();
   isCollapsed = true;
   faCaretDown = faCaretDown;

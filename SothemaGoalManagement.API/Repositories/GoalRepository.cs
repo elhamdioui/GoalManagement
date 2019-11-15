@@ -31,9 +31,9 @@ namespace SothemaGoalManagement.API.Repositories
                                 .Include(a => a.AxisInstance).ToListAsync();
         }
 
-        public void AddGoal(Goal Goal)
+        public void AddGoal(Goal goal)
         {
-            Add(Goal);
+            Add(goal);
         }
 
         public void UpdateGoal(Goal dbGoal)
@@ -41,9 +41,9 @@ namespace SothemaGoalManagement.API.Repositories
             Update(dbGoal);
         }
 
-        public void DeleteGoal(Goal Goal)
+        public void DeleteGoal(Goal goal)
         {
-            Delete(Goal);
+            Delete(goal);
         }
 
         public async Task SaveAllAsync()

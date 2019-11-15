@@ -643,6 +643,30 @@ namespace SothemaGoalManagement.API.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "GoalEvaluations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Created = table.Column<DateTime>(nullable: false),
+                    EvaluatorName = table.Column<string>(nullable: true),
+                    CompletionRate = table.Column<int>(nullable: false),
+                    Comment = table.Column<string>(nullable: true),
+                    Sealed = table.Column<bool>(nullable: false),
+                    GoalId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GoalEvaluations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GoalEvaluations_Goals_GoalId",
+                        column: x => x.GoalId,
+                        principalTable: "Goals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -752,6 +776,11 @@ namespace SothemaGoalManagement.API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_GoalEvaluations_GoalId",
+                table: "GoalEvaluations",
+                column: "GoalId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Goals_AxisInstanceId",
                 table: "Goals",
                 column: "AxisInstanceId");
@@ -815,7 +844,7 @@ namespace SothemaGoalManagement.API.Migrations
                 name: "EvaluationFileInstanceLogs");
 
             migrationBuilder.DropTable(
-                name: "Goals");
+                name: "GoalEvaluations");
 
             migrationBuilder.DropTable(
                 name: "Messages");
@@ -834,6 +863,9 @@ namespace SothemaGoalManagement.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "BehavioralSkillInstances");
+
+            migrationBuilder.DropTable(
+                name: "Goals");
 
             migrationBuilder.DropTable(
                 name: "AxisInstances");

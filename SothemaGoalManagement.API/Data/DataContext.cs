@@ -50,6 +50,8 @@ namespace SothemaGoalManagement.API.Data
 
         public DbSet<Goal> Goals { get; set; }
 
+        public DbSet<GoalEvaluation> GoalEvaluations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -182,6 +184,14 @@ namespace SothemaGoalManagement.API.Data
                 g.HasOne<GoalType>(o => o.GoalType)
                     .WithMany(ai => ai.Goals)
                     .HasForeignKey(ai => ai.GoalTypeId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<GoalEvaluation>(ge =>
+            {
+                ge.HasOne<Goal>(e => e.Goal)
+                    .WithMany(g => g.GoalEvaluations)
+                    .HasForeignKey(e => e.GoalId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
         }

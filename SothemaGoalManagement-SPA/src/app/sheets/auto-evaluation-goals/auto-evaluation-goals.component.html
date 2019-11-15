@@ -31,14 +31,28 @@
 
   </div>
   <div class="card-body" *ngIf="!isCollapsed" (click)="$event.stopPropagation()">
-    <div class="row">
-      <label>Taux de réalisation:</label>
-      <input type="number " [(ngModel)]="goal.completionRate " (blur)="onBlur()" maxlength="3" size="4"> %
-
+    <div class="float-right mb-1">
+      <button class="btn btn-primary">
+        Ajouter une évaluation
+      </button>
     </div>
-
-    <div class="row">
-      <textarea type="text " [(ngModel)]="goal.comment " rows="2" cols="100" placeholder="Commentaire "></textarea>
-    </div>
+    <table class="table table-hover">
+      <tr>
+        <th style="width: 15%">Date heure</th>
+        <th style="width: 15%">Évaluateur</th>
+        <th style="width: 20%">Taux de réalisation</th>
+        <th style="width: 45%">Commentaire</th>
+        <th style="width: 5%"></th>
+      </tr>
+      <tr *ngFor="let evaluation of evaluations">
+        <td>{{ evaluation.dateTime }}</td>
+        <td>{{ evaluation.evaluatorName }}</td>
+        <td><span class="badge badge-pill badge-success">{{ evaluation.completionRate }}%</span></td>
+        <td>{{ evaluation.comment }}</td>
+        <td>
+          
+        </td>
+      </tr>
+  </table>
   </div>
 </div>

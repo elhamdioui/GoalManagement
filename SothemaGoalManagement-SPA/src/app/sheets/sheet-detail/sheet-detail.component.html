@@ -62,12 +62,6 @@
         <tab heading="Auto-Évaluation">
           <div *ngIf="goalsByAxisInstanceList">
             <app-auto-evaluation [goalsByAxisInstanceList]="goalsByAxisInstanceList" [areGoalsEvaluable]="areGoalsEvaluable"></app-auto-evaluation>
-
-            <div class="float-right">
-              <button class="btn btn-primary w-70 mr-1" (click)="saveAutoEvaluation()" *ngIf="areGoalsEvaluable">
-                Sauvegarder Auto-Évaluation
-              </button>
-            </div>
           </div>
         </tab>
       </tabset>

@@ -1,3 +1,4 @@
+import { GoalsEvaluationComponent } from './sheets/goals-evaluation/goals-evaluation.component';
 import { AutoEvaluationGoalsComponent } from './sheets/auto-evaluation-goals/auto-evaluation-goals.component';
 import { AutoEvaluationAxisComponent } from './sheets/auto-evaluation-axis/auto-evaluation-axis.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -178,7 +179,8 @@ export function tokenGetter() {
     PromptModalComponent,
     AutoEvaluationComponent,
     AutoEvaluationAxisComponent,
-    AutoEvaluationGoalsComponent
+    AutoEvaluationGoalsComponent,
+    GoalsEvaluationComponent
   ],
   imports: [
     BrowserModule,

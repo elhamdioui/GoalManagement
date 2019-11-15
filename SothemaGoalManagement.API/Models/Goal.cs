@@ -1,4 +1,5 @@
-
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System;
 
 namespace SothemaGoalManagement.API.Models
@@ -6,6 +7,7 @@ namespace SothemaGoalManagement.API.Models
     public class Goal
     {
         public int Id { get; set; }
+        
         public string Description { get; set; }
 
         public string Status { get; set; }
@@ -23,6 +25,13 @@ namespace SothemaGoalManagement.API.Models
         public int AxisInstanceId { get; set; }
 
         public DateTime Created { get; set; }
+
+        public ICollection<GoalEvaluation> GoalEvaluations { get; set; }
+
+        public Goal()
+        {
+            GoalEvaluations = new Collection<GoalEvaluation>();
+        }
 
     }
 }

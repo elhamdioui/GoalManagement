@@ -9,7 +9,7 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191112200948_newDB")]
+    [Migration("20191115195121_newDB")]
     partial class newDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -412,6 +412,30 @@ namespace SothemaGoalManagement.API.Migrations
                     b.ToTable("Goals");
                 });
 
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.GoalEvaluation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Comment");
+
+                    b.Property<int>("CompletionRate");
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("EvaluatorName");
+
+                    b.Property<int>("GoalId");
+
+                    b.Property<bool>("Sealed");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoalId");
+
+                    b.ToTable("GoalEvaluations");
+                });
+
             modelBuilder.Entity("SothemaGoalManagement.API.Models.GoalType", b =>
                 {
                     b.Property<int>("Id")
@@ -796,6 +820,14 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.GoalType", "GoalType")
                         .WithMany("Goals")
                         .HasForeignKey("GoalTypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.GoalEvaluation", b =>
+                {
+                    b.HasOne("SothemaGoalManagement.API.Models.Goal", "Goal")
+                        .WithMany("GoalEvaluations")
+                        .HasForeignKey("GoalId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
