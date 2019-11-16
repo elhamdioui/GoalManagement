@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
+import { GoalEvaluation } from '../../_models/goalEvaluation';
 
 @Component({
   selector: 'app-auto-evaluation',
@@ -10,6 +11,8 @@ import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 export class AutoEvaluationComponent implements OnInit {
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Input() areGoalsEvaluable: boolean;
+  @Input() evaluations: GoalEvaluation[];
+  @Output() loadGoalEvaluationEvent = new EventEmitter<number>();
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
   isCollapsed = false;
@@ -18,5 +21,9 @@ export class AutoEvaluationComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  handleLoadGoalEvaluation(goalId: number) {
+    this.loadGoalEvaluationEvent.emit(goalId);
   }
 }

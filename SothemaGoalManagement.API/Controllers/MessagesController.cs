@@ -43,7 +43,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetMessage enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetMessage endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }

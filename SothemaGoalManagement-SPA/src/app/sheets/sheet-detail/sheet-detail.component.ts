@@ -9,6 +9,7 @@ import { UserService } from '../../_services/user.service';
 import { AuthService } from '../../_services/auth.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
+import { GoalEvaluation } from '../../_models/goalEvaluation';
 
 @Component({
   selector: 'app-sheet-detail',
@@ -23,6 +24,7 @@ export class SheetDetailComponent implements OnInit {
   areGoalsCompleted: boolean;
   areGoalsReadOnly: boolean;
   areGoalsEvaluable: boolean;
+  evaluations: GoalEvaluation[];
 
   constructor(private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -168,5 +170,21 @@ export class SheetDetailComponent implements OnInit {
 
   saveAutoEvaluation() {
     console.log('List:', this.goalsByAxisInstanceList);
+  }
+
+  handleLoadGoalEvaluation(goalId) {
+    this.loading = true;
+    this.userService
+      .getGoalEvaluations(this.authService.decodedToken.nameid, goalId)
+      .subscribe(
+        (result: GoalEvaluation[]) => {
+          this.loading = false;
+          this.evaluations = result;
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
   }
 }

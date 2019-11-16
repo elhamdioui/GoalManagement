@@ -8,7 +8,7 @@
   </div>
 
   <div class="card-body" *ngIf="isCollapsed">
-    <ul class="list-inline member-icons animate text-center">
+    <ul class="list-inline member-icons animate text-center" (click)="$event.stopPropagation()">
       <li class="list-inline-item" *ngFor="let ap of axisPoleList">
         <app-axis-pole-weight-item [isReadOnly]="isReadOnly" [axisPole]="ap" (updateWeightEvent)="handleUpdateAxisPole($event)"></app-axis-pole-weight-item>
       </li>

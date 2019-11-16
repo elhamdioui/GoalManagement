@@ -193,6 +193,11 @@ namespace SothemaGoalManagement.API.Data
                     .WithMany(g => g.GoalEvaluations)
                     .HasForeignKey(e => e.GoalId)
                     .OnDelete(DeleteBehavior.Restrict);
+
+                ge.HasOne<User>(u => u.Evaluator)
+                    .WithMany(o => o.GoalEvaluations)
+                    .HasForeignKey(u => u.EvaluatorId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

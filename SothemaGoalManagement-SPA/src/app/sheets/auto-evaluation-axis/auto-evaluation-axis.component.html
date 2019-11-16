@@ -29,6 +29,6 @@
   </div>
 
   <div *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0">
-    <app-auto-evaluation-goals *ngFor="let goal of goalsByAxisInstance.goals" [goal]="goal" (calculateAxisGradeEvent)="handleCalculateAxisGrade($event)"></app-auto-evaluation-goals>
+    <app-auto-evaluation-goals *ngFor="let goal of goalsByAxisInstance.goals" [goal]="goal" [evaluations]="evaluations" (loadGoalEvaluationEvent)="handleLoadGoalEvaluation($event)"></app-auto-evaluation-goals>
   </div>
 </div>

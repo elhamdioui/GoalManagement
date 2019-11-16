@@ -166,4 +166,8 @@ export class UserService {
   validateGoals(userId: number, goals: any[]) {
     return this.http.put(`${this.baseUrl}users/${userId}/goal/validateGoals`, goals);
   }
+
+  getGoalEvaluations(userId: number, goalId: number) {
+    return this.http.get(`${this.baseUrl}users/${userId}/goalEvaluation/goalEvaluations/${goalId}`);
+  }
 }

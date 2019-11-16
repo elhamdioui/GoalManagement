@@ -53,7 +53,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetPhoto enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetPhoto endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -104,7 +104,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside AddPhotoForUser enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside AddPhotoForUser endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -133,7 +133,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside SetMainPhoto enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside SetMainPhoto endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -171,7 +171,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside DeltePhoto enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside DeltePhoto endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }

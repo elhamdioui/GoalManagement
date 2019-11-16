@@ -421,13 +421,15 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<DateTime>("Created");
 
-                    b.Property<string>("EvaluatorName");
+                    b.Property<int>("EvaluatorId");
 
                     b.Property<int>("GoalId");
 
                     b.Property<bool>("Sealed");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EvaluatorId");
 
                     b.HasIndex("GoalId");
 
@@ -823,6 +825,11 @@ namespace SothemaGoalManagement.API.Migrations
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.GoalEvaluation", b =>
                 {
+                    b.HasOne("SothemaGoalManagement.API.Models.User", "Evaluator")
+                        .WithMany("GoalEvaluations")
+                        .HasForeignKey("EvaluatorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("SothemaGoalManagement.API.Models.Goal", "Goal")
                         .WithMany("GoalEvaluations")
                         .HasForeignKey("GoalId")

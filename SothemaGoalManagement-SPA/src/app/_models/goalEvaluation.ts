@@ -1,5 +1,5 @@
 
-export interface GoalsEvaluation {
+export interface GoalEvaluation {
   id: number;
   created: Date;
   completionRate: number;

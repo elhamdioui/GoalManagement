@@ -44,7 +44,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetUsers enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetUsers endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -63,7 +63,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetUser enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetUser endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -80,7 +80,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetUser enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetUser endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -102,7 +102,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside UpdateProfile enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside UpdateProfile endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }

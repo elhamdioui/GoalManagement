@@ -650,7 +650,7 @@ namespace SothemaGoalManagement.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Created = table.Column<DateTime>(nullable: false),
-                    EvaluatorName = table.Column<string>(nullable: true),
+                    EvaluatorId = table.Column<int>(nullable: false),
                     CompletionRate = table.Column<int>(nullable: false),
                     Comment = table.Column<string>(nullable: true),
                     Sealed = table.Column<bool>(nullable: false),
@@ -659,6 +659,12 @@ namespace SothemaGoalManagement.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GoalEvaluations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GoalEvaluations_AspNetUsers_EvaluatorId",
+                        column: x => x.EvaluatorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_GoalEvaluations_Goals_GoalId",
                         column: x => x.GoalId,
@@ -774,6 +780,11 @@ namespace SothemaGoalManagement.API.Migrations
                 table: "EvaluationFiles",
                 column: "StrategyId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GoalEvaluations_EvaluatorId",
+                table: "GoalEvaluations",
+                column: "EvaluatorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GoalEvaluations_GoalId",

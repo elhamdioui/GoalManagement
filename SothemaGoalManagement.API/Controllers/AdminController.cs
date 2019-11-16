@@ -59,7 +59,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside EmailAlreadyExists enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside EmailAlreadyExists endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -76,7 +76,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside EmployeeNumberAlreadyExists enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside EmployeeNumberAlreadyExists endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -123,7 +123,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside Register enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside Register endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -141,7 +141,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetUsersWithRoles enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetUsersWithRoles endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -159,7 +159,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetDepartments enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetDepartments endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -177,7 +177,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetUserStatus enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetUserStatus endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -205,7 +205,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside EditRoles enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside EditRoles endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -228,7 +228,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetPhotosForModeration enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetPhotosForModeration endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -247,7 +247,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside ApprovePhoto enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside ApprovePhoto endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -276,7 +276,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside RejectPhoto enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside RejectPhoto endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -307,7 +307,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside UpdateUser enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside UpdateUser endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -325,7 +325,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside searchUsers enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside searchUsers endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -340,7 +340,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside LoadEvaluators enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside LoadEvaluators endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -355,7 +355,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside LoadEvaluatees enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside LoadEvaluatees endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -389,7 +389,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside AddEvaluatorToUser enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside AddEvaluatorToUser endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -423,7 +423,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside AddEvaluateeToUser enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside AddEvaluateeToUser endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -443,7 +443,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside UpdateRankOfEvaluator enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside UpdateRankOfEvaluator endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -464,7 +464,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside DeleteEvaluatorEvaluatee enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside DeleteEvaluatorEvaluatee endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -485,7 +485,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside DeleteEvaluatorEvaluatee enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside DeleteEvaluatorEvaluatee endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }

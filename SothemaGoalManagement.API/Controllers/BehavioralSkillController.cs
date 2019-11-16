@@ -40,7 +40,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetBehavioralSkill enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetBehavioralSkill endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -56,7 +56,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetBehavioralSkillList enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetBehavioralSkillList endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -82,7 +82,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside CreateBehavioralSkill enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside CreateBehavioralSkill endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -126,7 +126,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside CloneBehavioralSkill enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside CloneBehavioralSkill endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -148,7 +148,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside DeleteStrategy enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside DeleteStrategy endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -173,7 +173,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside UpdateBehavioralSkill enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside UpdateBehavioralSkill endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -196,7 +196,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetPublishedBehavioralSkills enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetPublishedBehavioralSkills endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }

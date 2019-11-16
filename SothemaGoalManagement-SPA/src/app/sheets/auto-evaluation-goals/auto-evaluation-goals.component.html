@@ -1,4 +1,4 @@
-<div class="card mt-1" style="cursor: pointer" (click)="isCollapsed = !isCollapsed">
+<div class="card mt-1" style="cursor: pointer" (click)="toggleGoal()">
   <div class=" card-header ">
     <div class="row">
       <div class="col-md-11">
@@ -47,12 +47,14 @@
       <tr *ngFor="let evaluation of evaluations">
         <td>{{ evaluation.dateTime }}</td>
         <td>{{ evaluation.evaluatorName }}</td>
-        <td><span class="badge badge-pill badge-success">{{ evaluation.completionRate }}%</span></td>
+        <td>
+          <span class="badge badge-pill badge-success">{{ evaluation.completionRate }}%</span>
+        </td>
         <td>{{ evaluation.comment }}</td>
         <td>
-          
+
         </td>
       </tr>
-  </table>
+    </table>
   </div>
 </div>

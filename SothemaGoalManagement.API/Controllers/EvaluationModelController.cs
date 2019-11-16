@@ -43,7 +43,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetEvaluationModel enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetEvaluationModel endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -60,7 +60,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetEvaluationModelList enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetEvaluationModelList endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -93,7 +93,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside CreateEvaluationModel enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside CreateEvaluationModel endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -120,7 +120,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside DeleteEvaluationModel enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside DeleteEvaluationModel endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -191,7 +191,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside UpdateEvaluationModel enfpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside UpdateEvaluationModel endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
