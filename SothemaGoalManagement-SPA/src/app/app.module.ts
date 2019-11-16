@@ -1,4 +1,3 @@
-import { GoalsEvaluationComponent } from './sheets/goals-evaluation/goals-evaluation.component';
 import { AutoEvaluationGoalsComponent } from './sheets/auto-evaluation-goals/auto-evaluation-goals.component';
 import { AutoEvaluationAxisComponent } from './sheets/auto-evaluation-axis/auto-evaluation-axis.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -106,6 +105,7 @@ import { SheetCardComponent } from './sheets/sheet-card/sheet-card.component';
 import { EvaluationFileInstanceLogsComponent } from './hr/evaluations/evaluation-file-instance-logs/evaluation-file-instance-logs.component';
 import { PromptModalComponent } from './prompt-modal/prompt-modal.component';
 import { AutoEvaluationComponent } from './sheets/auto-evaluation/auto-evaluation.component';
+import { GoalEvaluationModalComponent } from './sheets/goal-evaluation-modal/goal-evaluation-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -180,7 +180,7 @@ export function tokenGetter() {
     AutoEvaluationComponent,
     AutoEvaluationAxisComponent,
     AutoEvaluationGoalsComponent,
-    GoalsEvaluationComponent
+    GoalEvaluationModalComponent
   ],
   imports: [
     BrowserModule,
@@ -239,7 +239,8 @@ export function tokenGetter() {
     EvaluationHrEditModalComponent,
     CollaboratorSearchComponent,
     GoalEditModalComponent,
-    PromptModalComponent
+    PromptModalComponent,
+    GoalEvaluationModalComponent
   ],
   bootstrap: [AppComponent]
 })

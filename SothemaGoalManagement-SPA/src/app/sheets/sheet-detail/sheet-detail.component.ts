@@ -187,4 +187,21 @@ export class SheetDetailComponent implements OnInit {
         }
       );
   }
+
+  handleAddGoalEvaluation(newEval: any) {
+    this.loading = true;
+    let goalEval = { ...newEval, evaluatorId: this.authService.decodedToken.nameid };
+    this.userService
+      .addGoalEvaluations(this.authService.decodedToken.nameid, goalEval)
+      .subscribe(
+        () => {
+          this.loading = false;
+          this.handleLoadGoalEvaluation(newEval.goalId);
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
+  }
 }

@@ -120,6 +120,13 @@ namespace SothemaGoalManagement.API.Helpers
             CreateMap<GoalForUpdateDto, Goal>();
 
             CreateMap<Goal, GoalToReturnDto>();
+
+            CreateMap<GoalEvaluationForCreationDto, GoalEvaluation>();
+
+            CreateMap<GoalEvaluation, GoalEvaluationToReturnDto>().ForMember(dest => dest.EvaluatorName, opt =>
+            {
+                opt.ResolveUsing(u => u.Evaluator.FirstName.FullName(u.Evaluator.LastName));
+            });
         }
     }
 }

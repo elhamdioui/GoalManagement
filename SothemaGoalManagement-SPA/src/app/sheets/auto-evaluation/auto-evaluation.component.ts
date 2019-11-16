@@ -13,6 +13,7 @@ export class AutoEvaluationComponent implements OnInit {
   @Input() areGoalsEvaluable: boolean;
   @Input() evaluations: GoalEvaluation[];
   @Output() loadGoalEvaluationEvent = new EventEmitter<number>();
+  @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
   isCollapsed = false;
@@ -25,5 +26,9 @@ export class AutoEvaluationComponent implements OnInit {
 
   handleLoadGoalEvaluation(goalId: number) {
     this.loadGoalEvaluationEvent.emit(goalId);
+  }
+
+  handleAddGoalEvaluation(newEval: any) {
+    this.addGoalEvaluationEvent.emit(newEval);
   }
 }

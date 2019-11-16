@@ -170,4 +170,7 @@ export class UserService {
   getGoalEvaluations(userId: number, goalId: number) {
     return this.http.get(`${this.baseUrl}users/${userId}/goalEvaluation/goalEvaluations/${goalId}`);
   }
+  addGoalEvaluations(userId: number, goalEval: any) {
+    return this.http.post(`${this.baseUrl}users/${userId}/goalEvaluation/createGoalEvaluation`, goalEval);
+  }
 }

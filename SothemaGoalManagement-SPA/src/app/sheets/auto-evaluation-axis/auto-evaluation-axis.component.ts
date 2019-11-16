@@ -14,6 +14,7 @@ export class AutoEvaluationAxisComponent implements OnInit {
   @Input() goalsByAxisInstance: GoalByAxisInstance;
   @Input() evaluations: GoalEvaluation[];
   @Output() loadGoalEvaluationEvent = new EventEmitter<number>();
+  @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   isCollapsed = true;
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
@@ -32,5 +33,9 @@ export class AutoEvaluationAxisComponent implements OnInit {
     // }, 0);
 
     // this.goalsByAxisInstance.axisGrade = total.toFixed(2)
+  }
+
+  handleAddGoalEvaluation(newEval: any) {
+    this.addGoalEvaluationEvent.emit(newEval);
   }
 }

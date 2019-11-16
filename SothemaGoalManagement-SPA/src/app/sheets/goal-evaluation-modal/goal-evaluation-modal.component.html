@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Evalué l'objectif:</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <h6>{{ goal.description }}</h6>
+  <form #evalForm="ngForm" (ngSubmit)="evalForm.valid && evalGoal()">
+    <div class="row">
+      <div class="col form-group required">
+        <label class='control-label'>Taux de réalisation %:</label>
+        <input type="number" [(ngModel)]="newEval.completionRate" name="goalCompletionRate" required maxlength="3" size="4" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col form-group">
+        <label class='control-label'>Commentaire:</label>
+        <textarea [(ngModel)]="newEval.comment" name="comment" class="form-control input-sm" placeholder="Commentaire" rows="2"></textarea>
+      </div>
+    </div>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="bsModalRef.hide()">Annuler</button>
+  <button type="button" class="btn btn-success" (click)="addEvaluation()" form="evalForm" [disabled]="!evalForm.valid || !evalForm.dirty">Ajouter l'évaluation</button>
+</div>

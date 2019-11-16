@@ -19,7 +19,7 @@ namespace SothemaGoalManagement.API.Repositories
 
         public async Task<IEnumerable<GoalEvaluation>> GetGoalEvaluationsByGoalId(int goalId)
         {
-            return await FindByCondition(ge => ge.GoalId == goalId).ToListAsync();
+            return await FindByCondition(ge => ge.GoalId == goalId).Include(ge => ge.Evaluator).OrderByDescending(ge => ge.Created).ToListAsync();
         }
 
         public void AddGoalEvaluation(GoalEvaluation goalEvaluation)
