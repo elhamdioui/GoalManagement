@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { Goal } from '../../_models/goal';
+import { AlertifyService } from '../../_services/alertify.service';
 
 @Component({
   selector: 'app-goal-evaluation-modal',
@@ -13,7 +14,7 @@ export class GoalEvaluationModalComponent implements OnInit {
   newEval: any;
 
 
-  constructor(public bsModalRef: BsModalRef) { }
+  constructor(public bsModalRef: BsModalRef, private alertify: AlertifyService) { }
 
 
   ngOnInit() {
@@ -21,8 +22,13 @@ export class GoalEvaluationModalComponent implements OnInit {
   }
 
   addEvaluation() {
-    this.addGoalEvaluationEvent.emit(this.newEval);
-    this.bsModalRef.hide();
+    this.alertify.confirm('Confirmer',
+      `Etes-vous sur de vouloir ajouter cette évaluation avec un taux de réalisation: ${this.newEval.completionRate} %?`,
+      () => {
+        this.addGoalEvaluationEvent.emit(this.newEval);
+        this.bsModalRef.hide();
+      }
+    );
   }
 
 }
