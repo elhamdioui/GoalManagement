@@ -13,8 +13,6 @@ import { GoalEvaluationModalComponent } from '../goal-evaluation-modal/goal-eval
 })
 export class AutoEvaluationGoalsComponent implements OnInit {
   @Input() goal: Goal;
-  @Input() evaluations: GoalEvaluation[];
-  @Output() loadGoalEvaluationEvent = new EventEmitter<number>();
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   isCollapsed = true;
   faCaretDown = faCaretDown;
@@ -29,9 +27,6 @@ export class AutoEvaluationGoalsComponent implements OnInit {
 
   toggleGoal() {
     this.isCollapsed = !this.isCollapsed;
-    if (!this.isCollapsed) {
-      this.loadGoalEvaluationEvent.emit(this.goal.id);
-    }
   }
 
   addEvaluation() {

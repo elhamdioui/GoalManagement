@@ -1,7 +1,6 @@
 <div *ngIf="areGoalsEvaluable">
   <div class="card mt-1 mb-1" *ngFor="let goalsByAxisInstance of goalsByAxisInstanceList">
-    <app-auto-evaluation-axis [goalsByAxisInstance]="goalsByAxisInstance" [evaluations]="evaluations" (loadGoalEvaluationEvent)="handleLoadGoalEvaluation($event)"
-      (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation-axis>
+    <app-auto-evaluation-axis [goalsByAxisInstance]="goalsByAxisInstance" (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation-axis>
   </div>
 </div>
 

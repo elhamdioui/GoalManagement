@@ -24,7 +24,6 @@ export class SheetDetailComponent implements OnInit {
   areGoalsCompleted: boolean;
   areGoalsReadOnly: boolean;
   areGoalsEvaluable: boolean;
-  evaluations: GoalEvaluation[];
 
   constructor(private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -172,22 +171,6 @@ export class SheetDetailComponent implements OnInit {
     console.log('List:', this.goalsByAxisInstanceList);
   }
 
-  handleLoadGoalEvaluation(goalId) {
-    this.loading = true;
-    this.userService
-      .getGoalEvaluations(this.authService.decodedToken.nameid, goalId)
-      .subscribe(
-        (result: GoalEvaluation[]) => {
-          this.loading = false;
-          this.evaluations = result;
-        },
-        error => {
-          this.loading = false;
-          this.alertify.error(error);
-        }
-      );
-  }
-
   handleAddGoalEvaluation(newEval: any) {
     this.loading = true;
     let goalEval = { ...newEval, evaluatorId: this.authService.decodedToken.nameid };
@@ -196,7 +179,7 @@ export class SheetDetailComponent implements OnInit {
       .subscribe(
         () => {
           this.loading = false;
-          this.handleLoadGoalEvaluation(newEval.goalId);
+          this.getGoalsForAxis();
         },
         error => {
           this.loading = false;

@@ -119,7 +119,10 @@ namespace SothemaGoalManagement.API.Helpers
 
             CreateMap<GoalForUpdateDto, Goal>();
 
-            CreateMap<Goal, GoalToReturnDto>();
+            CreateMap<Goal, GoalToReturnDto>().ForMember(dest => dest.LatestCompletionRate, opt =>
+            {
+                opt.ResolveUsing(ge => (ge.GoalEvaluations.OrderByDescending(e => e.Created).FirstOrDefault() == null) ? 0 : ge.GoalEvaluations.OrderByDescending(e => e.Created).FirstOrDefault().CompletionRate);
+            });
 
             CreateMap<GoalEvaluationForCreationDto, GoalEvaluation>();
 

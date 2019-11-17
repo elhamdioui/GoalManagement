@@ -24,6 +24,7 @@ namespace SothemaGoalManagement.API.Dtos
         public string GoalsStatus { get; set; }
 
         public int TotalGoalWeight { get; set; }
+        public string AxisGrade { get; set; }
 
         public ICollection<GoalToReturnDto> Goals { get; set; }
 

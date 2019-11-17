@@ -44,7 +44,7 @@
         <th style="width: 45%">Commentaire</th>
         <th style="width: 5%"></th>
       </tr>
-      <tr *ngFor="let evaluation of evaluations">
+      <tr *ngFor="let evaluation of goal.goalEvaluations">
         <td>{{ evaluation.created | date :'short' }}</td>
         <td>{{ evaluation.evaluatorName }}</td>
         <td>

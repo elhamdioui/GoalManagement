@@ -11,8 +11,6 @@ import { GoalEvaluation } from '../../_models/goalEvaluation';
 export class AutoEvaluationComponent implements OnInit {
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Input() areGoalsEvaluable: boolean;
-  @Input() evaluations: GoalEvaluation[];
-  @Output() loadGoalEvaluationEvent = new EventEmitter<number>();
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
@@ -22,10 +20,6 @@ export class AutoEvaluationComponent implements OnInit {
 
   ngOnInit() {
 
-  }
-
-  handleLoadGoalEvaluation(goalId: number) {
-    this.loadGoalEvaluationEvent.emit(goalId);
   }
 
   handleAddGoalEvaluation(newEval: any) {

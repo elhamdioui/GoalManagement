@@ -21,7 +21,10 @@ namespace SothemaGoalManagement.API.Repositories
         {
             return await FindByCondition(u => axisInstanceIds.Contains(u.AxisInstanceId))
                                 .Include(t => t.GoalType)
-                                .Include(a => a.AxisInstance).ToListAsync();
+                                .Include(a => a.AxisInstance)
+                                .Include(ge => ge.GoalEvaluations)
+                                .ThenInclude(e => e.Evaluator)
+                                .ToListAsync();
         }
 
         public async Task<IEnumerable<Goal>> GetGoalsByIds(IEnumerable<int> ids)

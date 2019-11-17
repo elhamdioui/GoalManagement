@@ -3,7 +3,6 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 import { Goal } from '../../_models/goal';
-import { GoalEvaluation } from '../../_models/goalEvaluation';
 
 @Component({
   selector: 'app-auto-evaluation-axis',
@@ -12,8 +11,6 @@ import { GoalEvaluation } from '../../_models/goalEvaluation';
 })
 export class AutoEvaluationAxisComponent implements OnInit {
   @Input() goalsByAxisInstance: GoalByAxisInstance;
-  @Input() evaluations: GoalEvaluation[];
-  @Output() loadGoalEvaluationEvent = new EventEmitter<number>();
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   isCollapsed = true;
   faCaretDown = faCaretDown;
@@ -24,18 +21,15 @@ export class AutoEvaluationAxisComponent implements OnInit {
   ngOnInit() {
   }
 
-
-  handleLoadGoalEvaluation(goalId: number) {
-
-    this.loadGoalEvaluationEvent.emit(goalId);
-    // var total = this.goalsByAxisInstance.goals.reduce((accumulator, currentValue) => {
-    //   return accumulator + currentValue.weight * (currentValue.completionRate === undefined ? 0 : currentValue.completionRate) * this.goalsByAxisInstance.userWeight / 10000
-    // }, 0);
-
-    // this.goalsByAxisInstance.axisGrade = total.toFixed(2)
-  }
-
   handleAddGoalEvaluation(newEval: any) {
     this.addGoalEvaluationEvent.emit(newEval);
+  }
+
+  calculateTotals() {
+    var total = this.goalsByAxisInstance.goals.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.weight * (currentValue.completionRate === undefined ? 0 : currentValue.completionRate) * this.goalsByAxisInstance.userWeight / 10000
+    }, 0);
+
+    this.goalsByAxisInstance.axisGrade = total.toFixed(2)
   }
 }

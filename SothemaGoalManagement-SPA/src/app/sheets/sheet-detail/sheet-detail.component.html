@@ -61,8 +61,7 @@
         </tab>
         <tab heading="Auto-Évaluation">
           <div *ngIf="goalsByAxisInstanceList">
-            <app-auto-evaluation [goalsByAxisInstanceList]="goalsByAxisInstanceList" [areGoalsEvaluable]="areGoalsEvaluable" [evaluations]="evaluations"
-              (loadGoalEvaluationEvent)="handleLoadGoalEvaluation($event)" (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation>
+            <app-auto-evaluation [goalsByAxisInstanceList]="goalsByAxisInstanceList" [areGoalsEvaluable]="areGoalsEvaluable" (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation>
           </div>
         </tab>
       </tabset>

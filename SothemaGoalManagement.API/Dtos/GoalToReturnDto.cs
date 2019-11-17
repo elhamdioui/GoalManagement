@@ -23,5 +23,9 @@ namespace SothemaGoalManagement.API.Dtos
 
         public DateTime Created { get; set; }
 
+        public int LatestCompletionRate { get; set; }
+
+        public ICollection<GoalEvaluationToReturnDto> GoalEvaluations { get; set; }
+
     }
 }
