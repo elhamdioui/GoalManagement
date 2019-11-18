@@ -2,6 +2,20 @@
   <div class="card mt-1 mb-1" *ngFor="let goalsByAxisInstance of goalsByAxisInstanceList">
     <app-auto-evaluation-axis [goalsByAxisInstance]="goalsByAxisInstance" (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation-axis>
   </div>
+  <div class="row alert alert-info mt-1" role="alert">
+    <div class="offset-md-7 col-md-2">
+      <h3>
+        Total axes:
+      </h3>
+    </div>
+    <div class="col-md-2">
+      <h3>
+        <span class="badge badge-pill badge-success" title="Total des axes">
+          {{ totalGrade }} %
+        </span>
+      </h3>
+    </div>
+  </div>
 </div>
 
 <div class="alert alert-danger mt-3" role="alert" *ngIf="!areGoalsEvaluable">

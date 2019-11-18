@@ -24,6 +24,7 @@ export class SheetDetailComponent implements OnInit {
   areGoalsCompleted: boolean;
   areGoalsReadOnly: boolean;
   areGoalsEvaluable: boolean;
+  totalGrade: string;
 
   constructor(private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 

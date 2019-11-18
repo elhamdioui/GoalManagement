@@ -15,11 +15,17 @@ export class AutoEvaluationComponent implements OnInit {
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
   isCollapsed = false;
+  totalGrade: string;
 
   constructor() { }
 
   ngOnInit() {
 
+  }
+
+  ngOnChanges() {
+    let total = this.goalsByAxisInstanceList.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.axisGrade), 0);
+    this.totalGrade = total.toFixed(2);
   }
 
   handleAddGoalEvaluation(newEval: any) {

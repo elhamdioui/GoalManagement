@@ -1,7 +1,11 @@
 <div class="container mt-4">
   <div class="card">
     <div class="card-header">
-      <h1>Fiche d'évaluation</h1>
+      <h3>Fiche d'évaluation de {{ sheetDetail.ownerName }}
+        <div class="float-right">
+          <img src="{{ sheetDetail.photoUrl || '../../assets/user.png'}}" class="img-circle rounded-circle mr-1" />
+        </div>
+      </h3>
     </div>
     <div class="card-body">
       <tabset class="strategy-tabset">
@@ -59,10 +63,13 @@
               (editGoalEvent)="handleEditGoal($event)" (deleteGoalEvent)="handleDeleteGoal($event)" (validateGoalsEvent)="handleValidateGoals($event)"></app-goals>
           </div>
         </tab>
-        <tab heading="Auto-Évaluation">
+        <tab heading="Évaluation des Objectifs">
           <div *ngIf="goalsByAxisInstanceList">
             <app-auto-evaluation [goalsByAxisInstanceList]="goalsByAxisInstanceList" [areGoalsEvaluable]="areGoalsEvaluable" (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation>
           </div>
+        </tab>
+        <tab heading="Évaluation des Compétence Comportementale">
+          Comming soon...
         </tab>
       </tabset>
     </div>

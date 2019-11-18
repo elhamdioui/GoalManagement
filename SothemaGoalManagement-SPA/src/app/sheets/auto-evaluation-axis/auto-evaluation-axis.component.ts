@@ -24,12 +24,4 @@ export class AutoEvaluationAxisComponent implements OnInit {
   handleAddGoalEvaluation(newEval: any) {
     this.addGoalEvaluationEvent.emit(newEval);
   }
-
-  calculateTotals() {
-    var total = this.goalsByAxisInstance.goals.reduce((accumulator, currentValue) => {
-      return accumulator + currentValue.weight * (currentValue.completionRate === undefined ? 0 : currentValue.completionRate) * this.goalsByAxisInstance.userWeight / 10000
-    }, 0);
-
-    this.goalsByAxisInstance.axisGrade = total.toFixed(2)
-  }
 }

@@ -18,9 +18,8 @@ namespace SothemaGoalManagement.API.Repositories
         public async Task<IEnumerable<EvaluationFileInstance>> GetEvaluationFileInstancesByEvaluationFileId(int evaluationFileId)
         {
             return await RepositoryContext.EvaluationFileInstances.Include(efi => efi.AxisInstances)
-                                                        .Include(efi => efi.Owner)
-                                                        .ThenInclude(u => u.Department)
-                                                        .ThenInclude(d => d.Pole)
+                                                        .Include(efi => efi.Owner).Include(efi => efi.Owner)
+                                                        .ThenInclude(u => u.Department).ThenInclude(d => d.Pole)
                                                         .Where(efi => efi.EvaluationFileId == evaluationFileId).ToListAsync();
         }
 
@@ -35,7 +34,7 @@ namespace SothemaGoalManagement.API.Repositories
 
         public async Task<EvaluationFileInstance> GetEvaluationFileInstance(int id)
         {
-            return await FindByCondition(efi => efi.Id == id).Include(efi => efi.Owner).Include(efi => efi.AxisInstances).SingleOrDefaultAsync();
+            return await FindByCondition(efi => efi.Id == id).Include(efi => efi.Owner).ThenInclude(p => p.Photos).Include(efi => efi.AxisInstances).SingleOrDefaultAsync();
         }
 
         public async Task<PagedList<EvaluationFileInstance>> GetEvaluationFileInstancesForUser(CommunParams communParams)

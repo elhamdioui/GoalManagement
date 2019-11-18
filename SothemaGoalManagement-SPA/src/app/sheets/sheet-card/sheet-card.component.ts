@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { faCaretDown, faCaretUp, faCheckSquare, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretUp, faCheckSquare, faEye, faList } from '@fortawesome/free-solid-svg-icons';
 
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
 import { AxisInstance } from '../../_models/axisInstance';
@@ -20,6 +20,7 @@ export class SheetCardComponent implements OnInit {
   faCaretUp = faCaretUp;
   faCheckSquare = faCheckSquare;
   faEye = faEye;
+  faList = faList;
   isCollapsed = false;
 
   constructor(private alertify: AlertifyService) { }
