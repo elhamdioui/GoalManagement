@@ -25,7 +25,7 @@
                 <fa-icon [icon]="faEye"></fa-icon>Voir Objectives</span>
             </button>
 
-            <button type="button" class="btn btn-success ml-1" *ngIf="sheetToValidate.goalsStatus === 'Publiée'">
+            <button type="button" class="btn btn-success ml-1" *ngIf="sheetToValidate.goalsStatus === 'Publiée'" (click)="showSheetDetail()">
               <span>
                 <fa-icon [icon]="faList"></fa-icon>Evaluer</span>
             </button>

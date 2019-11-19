@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
 import { Goal } from '../../_models/goal';
 import { GoalType } from '../../_models/goalType';
@@ -17,6 +15,8 @@ import { GoalEvaluation } from '../../_models/goalEvaluation';
   styleUrls: ['./sheet-detail.component.css']
 })
 export class SheetDetailComponent implements OnInit {
+  @Input() sheetToValidate: EvaluationFileInstance;
+  @Output() switchOffDetailModeEvent = new EventEmitter();
   sheetDetail: EvaluationFileInstance;
   goalsByAxisInstanceList: GoalByAxisInstance[];
   goalTypeList: GoalType[];
@@ -26,22 +26,27 @@ export class SheetDetailComponent implements OnInit {
   areGoalsEvaluable: boolean;
   totalGrade: string;
 
-  constructor(private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
-      const resolvedData = data['resolvedData'];
-      this.sheetDetail = resolvedData['sheetDetail'];
-      this.goalTypeList = resolvedData['goalTypeList']
+    if (this.sheetToValidate) {
+      this.sheetDetail = this.sheetToValidate;
       this.getGoalsForAxis();
-    });
+    } else {
+      this.route.data.subscribe(data => {
+        const resolvedData = data['resolvedData'];
+        this.sheetDetail = resolvedData['sheetDetail'];
+        this.goalTypeList = resolvedData['goalTypeList']
+        this.getGoalsForAxis();
+      });
+    }
   }
 
   getGoalsForAxis() {
     var axisInstanceIds = this.sheetDetail.axisInstances.map(a => a.id);
     this.loading = true;
     this.userService
-      .getGoalsForAxis(this.authService.decodedToken.nameid, axisInstanceIds)
+      .getGoalsForAxis(this.sheetToValidate.ownerId, axisInstanceIds)
       .subscribe(
         (result: GoalByAxisInstance[]) => {
           this.loading = false;
@@ -187,5 +192,13 @@ export class SheetDetailComponent implements OnInit {
           this.alertify.error(error);
         }
       );
+  }
+
+  returnToList() {
+    if (this.sheetToValidate) {
+      this.switchOffDetailModeEvent.emit();
+    } else {
+      this.router.navigate(['/sheets']);
+    }
   }
 }

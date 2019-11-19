@@ -1,7 +1,7 @@
-<div class="container mt-5">
+<div class="container mt-5" [hidden]="detailMode">
   <h2>Panneau de fiches d'évaluation</h2>
   <div class="tab-panel">
-    <tabset class="member-tabset">
+    <tabset class="member-tabset" #tabset>
       <tab heading="Mes fiches d'évaluation">
         <div class="container">
           <div class="alert alert-info mt-3" role="info" *ngIf="sheets && sheets.length === 0">
@@ -18,9 +18,14 @@
           </div>
           <app-my-collaborators-sheets [goalsMode]="goalsMode" [goalsByAxisInstanceList]="goalsByAxisInstanceList" [sheetToValidate]="sheetToValidate"
             [sheetsToValidate]="sheetsToValidate" (updateUserWeightEvent)="handleUpdateUserWeight($event)" (rejectGoalsEvent)="handleRejectGoals($event)"
-            (acceptGoalsEvent)="handleAcceptGoals($event)" (loadGoalsEvent)="handleLoadGoals($event)" (switchOffGoalsEvent)="switchOffGoalsMode($event)"></app-my-collaborators-sheets>
+            (acceptGoalsEvent)="handleAcceptGoals($event)" (loadGoalsEvent)="handleLoadGoals($event)" (switchOffGoalsEvent)="switchOffGoalsMode($event)"
+            (showSheetDetailEvent)="handleShowSheetDetail($event)"></app-my-collaborators-sheets>
         </div>
       </tab>
     </tabset>
   </div>
+</div>
+
+<div *ngIf="detailMode" class="container">
+  <app-sheet-detail [sheetToValidate]="sheetToValidate" (switchOffDetailModeEvent)="switchOffDetailMode($event)"></app-sheet-detail>
 </div>

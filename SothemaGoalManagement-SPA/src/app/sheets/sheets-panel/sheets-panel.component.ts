@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';;
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { TabsetComponent } from 'ngx-bootstrap';
+import { Subject, combineLatest } from 'rxjs';
+import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 
 import { Pagination, PaginatedResult } from '../../_models/pagination';
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
@@ -12,12 +15,17 @@ import { GoalEditModalComponent } from '../goal-edit-modal/goal-edit-modal.compo
 import { AxisInstance } from '../../_models/axisInstance';
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 
+
 @Component({
   selector: 'app-sheets-panel',
   templateUrl: './sheets-panel.component.html',
   styleUrls: ['./sheets-panel.component.css']
 })
 export class SheetsPanelComponent implements OnInit {
+  private ngUnsubscribe = new Subject();
+  private tabSetInitialized = new Subject();
+  public tabSet: TabsetComponent;
+  @ViewChild('tabset') tabset: TabsetComponent;
   pagination: Pagination;
   sheets: EvaluationFileInstance[];
   sheetToValidate: EvaluationFileInstance;
@@ -27,6 +35,7 @@ export class SheetsPanelComponent implements OnInit {
   bsModalRef: BsModalRef;
   goalsByAxisInstanceList: GoalByAxisInstance[];
   goalsMode = false;
+  detailMode: boolean;
 
   constructor(private modalService: BsModalService, private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -198,5 +207,16 @@ export class SheetsPanelComponent implements OnInit {
 
   switchOffGoalsMode(event: boolean) {
     this.goalsMode = event;
+  }
+
+  handleShowSheetDetail(sheetToValidate: EvaluationFileInstance) {
+    this.sheetToValidate = sheetToValidate;
+    this.detailMode = true;
+  }
+
+  switchOffDetailMode() {
+    this.detailMode = false;
+
+    this.tabSet.tabs[1].active = true;
   }
 }

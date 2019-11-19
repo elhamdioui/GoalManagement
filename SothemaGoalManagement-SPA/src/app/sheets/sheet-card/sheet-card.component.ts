@@ -15,6 +15,7 @@ export class SheetCardComponent implements OnInit {
   @Input() sheetToValidate: EvaluationFileInstance;
   @Output() updateUserWeightEvent = new EventEmitter<AxisInstance>();
   @Output() loadGoalsEvent = new EventEmitter<any>();
+  @Output() showSheetDetailEvent = new EventEmitter<EvaluationFileInstance>();
   axisInstanceList: AxisInstance[];
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
@@ -37,5 +38,9 @@ export class SheetCardComponent implements OnInit {
     var axisInstanceIds = this.sheetToValidate.axisInstances.map(a => a.id);
     var loadGoalsData = { sheetToValidate: this.sheetToValidate, axisInstanceIds: axisInstanceIds };
     this.loadGoalsEvent.emit(loadGoalsData);
+  }
+
+  showSheetDetail() {
+    this.showSheetDetailEvent.emit(this.sheetToValidate);
   }
 }
