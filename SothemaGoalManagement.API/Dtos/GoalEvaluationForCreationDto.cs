@@ -12,6 +12,9 @@ namespace SothemaGoalManagement.API.Dtos
         public int EvaluatorId { get; set; }
 
         [Required]
+        public int EvaluateeId { get; set; }
+
+        [Required]
         public int CompletionRate { get; set; }
 
         public string Comment { get; set; }

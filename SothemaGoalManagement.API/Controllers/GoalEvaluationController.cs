@@ -71,7 +71,11 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
         {
             try
             {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var userFromRepo = _repo.User.GetUser(userId, true);
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                {
+                    var evaluators = _repo.User.LoadEvaluators(goalEvaluationCreationDto.EvaluateeId);
+                }
 
                 // Create a new goalEvaluation
                 var goalEvaluation = _mapper.Map<GoalEvaluation>(goalEvaluationCreationDto);
@@ -83,116 +87,6 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside CreateEvaluationFile endpoint: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        [HttpPut("editGoalEvaluation/{id}")]
-        public async Task<IActionResult> UpdateEvaluationFile(int userId, int id, GoalEvaluationForUpdateDto goalEvaluationForUpdateDto)
-        {
-            try
-            {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
-
-                var goalEvaluationFromRepo = await _repo.GoalEvaluation.GetGoalEvaluation(id);
-                if (goalEvaluationFromRepo == null) return BadRequest("La fiche d'évaluation n'existe pas!");
-
-                _mapper.Map(goalEvaluationForUpdateDto, goalEvaluationFromRepo);
-                _repo.GoalEvaluation.UpdateGoalEvaluation(goalEvaluationFromRepo);
-
-                await _repo.GoalEvaluation.SaveAllAsync();
-
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong inside UpdateEvaluationFile endpoint: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        // [HttpPut("validateGoalEvaluations")]
-        // public async Task<IActionResult> ValidateGoalEvaluations(int userId, IEnumerable<GoalEvaluationForUpdateDto> goalEvaluationsToUpdateDto)
-        // {
-        //     try
-        //     {
-        //         if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
-
-        //         // Get main data
-        //         var goalEvaluationIds = new List<int>();
-        //         foreach (var goalEvaluationToUpdateDto in goalEvaluationsToUpdateDto)
-        //         {
-        //             goalEvaluationIds.Add(goalEvaluationToUpdateDto.Id);
-        //         }
-
-        //         var emailContent = "";
-        //         var sheetTitle = "";
-        //         var sheetOwnerId = 0;
-        //         foreach (var goalEvaluationToUpdateDto in goalEvaluationsToUpdateDto)
-        //         {
-        //             emailContent = goalEvaluationToUpdateDto.EmailContent;
-        //             sheetTitle = goalEvaluationToUpdateDto.SheetTitle;
-        //             sheetOwnerId = goalEvaluationToUpdateDto.SheetOwnerId;
-        //             break;
-        //         }
-
-        //         // Check if user has evaluator in the case of review
-        //         if (Constants.REVIEW == goalEvaluationsStatus && !await IsUserHasEvaluator(userId))
-        //         {
-        //             return BadRequest("Vous n'avez pas d'évaluateur pour le moment!");
-        //         }
-
-        //         // Set Status of goalEvaluations
-        //         var goalEvaluationsFromRepo = await _repo.GoalEvaluation.GetGoalEvaluationsByIds(goalEvaluationIds);
-        //         if (goalEvaluationsFromRepo != null)
-        //         {
-        //             foreach (var goalEvaluation in goalEvaluationsFromRepo)
-        //             {
-        //                 goalEvaluation.Status = goalEvaluationsStatus;
-        //                 _repo.GoalEvaluation.UpdateGoalEvaluation(goalEvaluation);
-        //             }
-        //             await _repo.GoalEvaluation.SaveAllAsync();
-
-        //             // Log objectifs have been submitted for validation
-        //             var efil = new EvaluationFileInstanceLog
-        //             {
-        //                 Title = sheetTitle,
-        //                 Created = DateTime.Now,
-        //                 Log = $"Les objectives de la fiche: {sheetTitle} ont été mis au statut {goalEvaluationsStatus}."
-        //             };
-        //             _repo.EvaluationFileInstanceLog.AddEvaluationFileInstanceLog(efil);
-        //             await _repo.EvaluationFileInstanceLog.SaveAllAsync();
-
-        //             // Send Notification
-        //             await SendNotifications(goalEvaluationsStatus, userId, emailContent, sheetOwnerId);
-        //         }
-
-        //         return NoContent();
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         _logger.LogError($"Something went wrong inside ValidateGoalEvaluations endpoint: {ex.Message}");
-        //         return StatusCode(500, "Internal server error");
-        //     }
-        // }
-
-        [HttpDelete("deleteGoalEvaluation/{id}")]
-        public async Task<IActionResult> DeleteGoalEvaluation(int userId, int id)
-        {
-            try
-            {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
-
-                var goalEvaluationFromRepo = await _repo.GoalEvaluation.GetGoalEvaluation(id);
-                if (goalEvaluationFromRepo == null) return NotFound();
-
-                _repo.GoalEvaluation.DeleteGoalEvaluation(goalEvaluationFromRepo);
-                await _repo.GoalEvaluation.SaveAllAsync();
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong inside DeleteGoalEvaluation endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }

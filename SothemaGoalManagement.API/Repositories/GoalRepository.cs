@@ -19,12 +19,15 @@ namespace SothemaGoalManagement.API.Repositories
 
         public async Task<IEnumerable<Goal>> GetGoalsByAxisInstanceIds(IEnumerable<int> axisInstanceIds)
         {
-            return await FindByCondition(u => axisInstanceIds.Contains(u.AxisInstanceId))
-                                .Include(t => t.GoalType)
-                                .Include(a => a.AxisInstance)
-                                .Include(ge => ge.GoalEvaluations)
-                                .ThenInclude(e => e.Evaluator)
-                                .ToListAsync();
+            var goalsByAxisInstanceIds = await FindByCondition(u => axisInstanceIds.Contains(u.AxisInstanceId))
+                                            .Include(t => t.GoalType)
+                                            .Include(a => a.AxisInstance)
+                                            .Include(ge => ge.GoalEvaluations)
+                                            .ThenInclude(e => e.Evaluator)
+                                            .ToListAsync();
+
+            goalsByAxisInstanceIds.ForEach(g => g.GoalEvaluations = g.GoalEvaluations.OrderByDescending(e => e.Created).ToList());
+            return goalsByAxisInstanceIds;
         }
 
         public async Task<IEnumerable<Goal>> GetGoalsByIds(IEnumerable<int> ids)

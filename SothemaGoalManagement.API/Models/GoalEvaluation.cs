@@ -12,6 +12,10 @@ namespace SothemaGoalManagement.API.Models
 
         public User Evaluator { get; set; }
 
+        // public int EvaluateeId { get; set; }
+
+        // public User Evaluatee { get; set; }
+
         public int CompletionRate { get; set; }
 
         public string Comment { get; set; }
