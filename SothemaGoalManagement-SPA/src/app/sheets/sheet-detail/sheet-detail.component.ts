@@ -46,7 +46,7 @@ export class SheetDetailComponent implements OnInit {
     var axisInstanceIds = this.sheetDetail.axisInstances.map(a => a.id);
     this.loading = true;
     this.userService
-      .getGoalsForAxis(this.sheetToValidate.ownerId, axisInstanceIds)
+      .getGoalsForAxis(this.authService.decodedToken.nameid, axisInstanceIds)
       .subscribe(
         (result: GoalByAxisInstance[]) => {
           this.loading = false;

@@ -1,3 +1,7 @@
+.lead {
+  text-align: left;
+}
+
 .user_card {
   height: 400px;
   width: 350px;
