@@ -278,14 +278,21 @@ namespace SothemaGoalManagement.API.Controllers
             }
 
             // Count and summup goals
+            Decimal percentTotalGrade = 0.00m;
             foreach (var el in goalsGroupedByAxisInstanceList)
             {
                 el.TotalGoals = el.Goals.Count;
                 el.TotalGoalWeight = el.Goals.Count == 0 ? 0 : el.Goals.Sum(g => g.Weight);
                 el.GoalsStatus = el.Goals.Count == 0 ? Constants.NOTSTARTED : el.Goals.First().Status;
-                Decimal total = el.Goals.Select(g => g.Weight * g.LatestCompletionRate * el.UserWeight).Sum();
-                Decimal percentTotal = total / 10000.00m;
-                el.AxisGrade = percentTotal.ToString("N2");
+                Decimal axisGrade = el.Goals.Select(g => g.Weight * g.LatestCompletionRate * el.UserWeight).Sum();
+                Decimal percentAxisGrade = axisGrade / 10000.00m;
+                percentTotalGrade += percentAxisGrade;
+                el.AxisGrade = percentAxisGrade.ToString("N2");
+            }
+
+            foreach (var el in goalsGroupedByAxisInstanceList)
+            {
+                el.TotalGrade = percentTotalGrade.ToString("N2");
             }
 
             return goalsGroupedByAxisInstanceList;

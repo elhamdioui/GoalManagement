@@ -20,12 +20,7 @@ export class AutoEvaluationComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
-  }
-
-  ngOnChanges() {
-    let total = this.goalsByAxisInstanceList.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.axisGrade), 0);
-    this.totalGrade = total.toFixed(2);
+    this.totalGrade = this.goalsByAxisInstanceList[0].totalGrade;
   }
 
   handleAddGoalEvaluation(newEval: any) {
