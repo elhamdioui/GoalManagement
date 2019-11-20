@@ -22,5 +22,7 @@ namespace SothemaGoalManagement.API.Models
 
         public int GoalId { get; set; }
 
+        public bool SelfEvaluation { get; set; }
+
     }
 }

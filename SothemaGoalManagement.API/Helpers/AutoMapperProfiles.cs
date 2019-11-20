@@ -121,7 +121,8 @@ namespace SothemaGoalManagement.API.Helpers
 
             CreateMap<Goal, GoalToReturnDto>().ForMember(dest => dest.LatestCompletionRate, opt =>
             {
-                opt.ResolveUsing(ge => (ge.GoalEvaluations.OrderByDescending(e => e.Created).FirstOrDefault() == null) ? 0 : ge.GoalEvaluations.OrderByDescending(e => e.Created).FirstOrDefault().CompletionRate);
+                // Latest completion rate by an evaluator
+                opt.ResolveUsing(ge => (ge.GoalEvaluations.OrderByDescending(e => e.Created).FirstOrDefault(e => !e.SelfEvaluation) == null) ? 0 : ge.GoalEvaluations.OrderByDescending(e => e.Created).FirstOrDefault(e => !e.SelfEvaluation).CompletionRate);
             });
 
             CreateMap<GoalEvaluationForCreationDto, GoalEvaluation>();

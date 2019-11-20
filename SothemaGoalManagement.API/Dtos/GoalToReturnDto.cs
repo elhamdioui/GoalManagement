@@ -25,6 +25,8 @@ namespace SothemaGoalManagement.API.Dtos
 
         public int LatestCompletionRate { get; set; }
 
+        public string GoalGrade { get; set; }
+
         public ICollection<GoalEvaluationToReturnDto> GoalEvaluations { get; set; }
 
     }

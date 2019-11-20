@@ -288,6 +288,11 @@ namespace SothemaGoalManagement.API.Controllers
                 Decimal percentAxisGrade = axisGrade / 10000.00m;
                 percentTotalGrade += percentAxisGrade;
                 el.AxisGrade = percentAxisGrade.ToString("N2");
+                foreach (var goal in el.Goals)
+                {
+                    Decimal percentGoalGrade = (goal.Weight * goal.LatestCompletionRate * el.UserWeight) / 10000.00m;
+                    goal.GoalGrade = percentGoalGrade.ToString("N2");
+                }
             }
 
             foreach (var el in goalsGroupedByAxisInstanceList)

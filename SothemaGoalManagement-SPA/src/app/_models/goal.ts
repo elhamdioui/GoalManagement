@@ -14,4 +14,5 @@ export interface Goal {
   completionRate: number;
   comment?: string;
   goalEvaluations: GoalEvaluation[];
+  goalGrade: string;
 }
