@@ -13,6 +13,7 @@ import { GoalEvaluationModalComponent } from '../goal-evaluation-modal/goal-eval
 })
 export class AutoEvaluationGoalsComponent implements OnInit {
   @Input() goal: Goal;
+  @Input() goalIdToExpand: number;
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   isCollapsed = true;
   faCaretDown = faCaretDown;
@@ -23,6 +24,9 @@ export class AutoEvaluationGoalsComponent implements OnInit {
   constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
+    if (this.goalIdToExpand && this.goal.id == this.goalIdToExpand) {
+      this.isCollapsed = false;
+    }
   }
 
   toggleGoal() {

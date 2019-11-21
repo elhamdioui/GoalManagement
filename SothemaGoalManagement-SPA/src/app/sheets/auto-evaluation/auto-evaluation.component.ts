@@ -11,6 +11,7 @@ import { GoalEvaluation } from '../../_models/goalEvaluation';
 export class AutoEvaluationComponent implements OnInit {
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Input() areGoalsEvaluable: boolean;
+  @Input() goalIdToExpand: number;
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;

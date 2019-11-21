@@ -65,7 +65,8 @@
         </tab>
         <tab heading="Évaluation des Objectifs">
           <div *ngIf="goalsByAxisInstanceList">
-            <app-auto-evaluation [goalsByAxisInstanceList]="goalsByAxisInstanceList" [areGoalsEvaluable]="areGoalsEvaluable" (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation>
+            <app-auto-evaluation [goalIdToExpand]="goalIdToExpand" [goalsByAxisInstanceList]="goalsByAxisInstanceList" [areGoalsEvaluable]="areGoalsEvaluable"
+              (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation>
           </div>
         </tab>
         <tab heading="Évaluation des Compétence Comportementale">

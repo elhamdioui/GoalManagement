@@ -33,6 +33,7 @@
   </div>
 
   <div *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0">
-    <app-auto-evaluation-goals *ngFor="let goal of goalsByAxisInstance.goals" [goal]="goal" (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation-goals>
+    <app-auto-evaluation-goals *ngFor="let goal of goalsByAxisInstance.goals" [goalIdToExpand]="goalIdToExpand" [goal]="goal"
+      (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation-goals>
   </div>
 </div>

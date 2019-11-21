@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
@@ -11,6 +12,7 @@ import { Goal } from '../../_models/goal';
 })
 export class AutoEvaluationAxisComponent implements OnInit {
   @Input() goalsByAxisInstance: GoalByAxisInstance;
+  @Input() goalIdToExpand: number;
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   isCollapsed = true;
   faCaretDown = faCaretDown;
@@ -19,6 +21,9 @@ export class AutoEvaluationAxisComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    if (this.goalIdToExpand && this.goalsByAxisInstance.goals.filter(g => g.id == this.goalIdToExpand).length > 0) {
+      this.isCollapsed = false;
+    }
   }
 
   handleAddGoalEvaluation(newEval: any) {

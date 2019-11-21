@@ -25,6 +25,7 @@ export class SheetDetailComponent implements OnInit {
   areGoalsReadOnly: boolean;
   areGoalsEvaluable: boolean;
   totalGrade: string;
+  goalIdToExpand: number;
 
   constructor(private route: ActivatedRoute, private router: Router, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -180,6 +181,7 @@ export class SheetDetailComponent implements OnInit {
   handleAddGoalEvaluation(newEval: any) {
     this.loading = true;
     let goalEval = { ...newEval, evaluatorId: this.authService.decodedToken.nameid };
+    this.goalIdToExpand = newEval.goalId;
     this.userService
       .addGoalEvaluations(this.authService.decodedToken.nameid, goalEval)
       .subscribe(
