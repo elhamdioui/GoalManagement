@@ -71,7 +71,7 @@ namespace SothemaGoalManagement.API.Controllers
         {
             try
             {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                if (!await IsItAllowed(userId)) Unauthorized();
 
                 var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
 
@@ -373,6 +373,18 @@ namespace SothemaGoalManagement.API.Controllers
         {
             var evaluators = await _repo.User.LoadEvaluators(userId);
             if (evaluators == null || evaluators.Count() == 0) return false;
+            return true;
+        }
+
+        private async Task<bool> IsItAllowed(int userId)
+        {
+            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            if (userId != currentUserId)
+            {
+                var evaluators = await _repo.User.LoadEvaluators(userId);
+                var evaluator = evaluators.FirstOrDefault(e => e.Id == currentUserId);
+                if (evaluator == null) return false;
+            }
             return true;
         }
     }

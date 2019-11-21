@@ -71,11 +71,7 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
         {
             try
             {
-                var userFromRepo = _repo.User.GetUser(userId, true);
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                {
-                    var evaluators = _repo.User.LoadEvaluators(goalEvaluationCreationDto.EvaluateeId);
-                }
+                if (!await IsItAllowed(userId)) Unauthorized();
 
                 // Create a new goalEvaluation
                 var goalEvaluation = _mapper.Map<GoalEvaluation>(goalEvaluationCreationDto);
@@ -131,6 +127,18 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
         {
             var evaluators = await _repo.User.LoadEvaluators(userId);
             if (evaluators == null || evaluators.Count() == 0) return false;
+            return true;
+        }
+
+        private async Task<bool> IsItAllowed(int userId)
+        {
+            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            if (userId != currentUserId)
+            {
+                var evaluators = await _repo.User.LoadEvaluators(userId);
+                var evaluator = evaluators.FirstOrDefault(e => e.Id == currentUserId);
+                if (evaluator == null) return false;
+            }
             return true;
         }
     }

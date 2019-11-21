@@ -14,7 +14,6 @@ export class AutoEvaluationComponent implements OnInit {
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
-  isCollapsed = false;
   totalGrade: string;
 
   constructor() { }
