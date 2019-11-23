@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
 import { Goal } from '../../_models/goal';
 import { GoalType } from '../../_models/goalType';
@@ -202,5 +203,9 @@ export class SheetDetailComponent implements OnInit {
     } else {
       this.router.navigate(['/sheets']);
     }
+  }
+
+  handleCascadeMyGoal(usersGoalWeights: any[]) {
+    console.log(usersGoalWeights.filter(g => g.selected == true));
   }
 }

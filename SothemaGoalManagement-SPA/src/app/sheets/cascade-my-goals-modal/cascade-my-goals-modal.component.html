@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Cascader Objectif</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="alert alert-info mt-3" role="alert" *ngIf="usersGoalWeights.length === 0">
+    Aucun évalué n'a été encore affecté à vous!
+  </div>
+
+  <div *ngIf="usersGoalWeights.length > 0">
+    <p>
+      {{cascadededGoal.description}}
+    </p>
+
+    <table class="table table-hover" style="cursor: pointer">
+      <tr>
+        <th style="width: 5%">
+          <input class="form-check-input" type="checkbox" (change)="selectAll()" [checked]="selectedAll" data-toggle="tooltip" data-placement="top"
+            title="Tout sélectionner/désélectionner">
+        </th>
+        <th style="width: 45%">Nom</th>
+        <th style="width: 40%">Statut</th>
+        <th style="width: 15%">Poids d'Objectif</th>
+      </tr>
+      <tr *ngFor="let ugw of usersGoalWeights">
+        <td>
+          <input class="form-check-input" type="checkbox" value="{{ugw.evaluatee.id}}" [(ngModel)]="ugw.selected" (change)="checkIfAllSelected()">
+        </td>
+        <td>{{ ugw.evaluatee.fullName }}</td>
+        <td>{{ ugw.evaluatee.title}}</td>
+        <td>
+          <input type="number" [(ngModel)]="ugw.cascadededGoal.weight" maxlength="3" size="4">
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="bsModalRef.hide()">Annuler</button>
+  <button type="button" class="btn btn-success" (click)="cascadeGoal()" [disabled]="usersGoalWeights.length === 0">Cascader Objectif</button>
+</div>

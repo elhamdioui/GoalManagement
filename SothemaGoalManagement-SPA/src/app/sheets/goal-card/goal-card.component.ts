@@ -1,12 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import { faEdit, faTrash, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faCaretDown, faCaretUp, faArrowAltCircleDown } from '@fortawesome/free-solid-svg-icons';
 
 import { GoalByAxisInstance } from './../../_models/goalsByAxisInstance';
 import { Goal } from '../../_models/goal';
 import { GoalType } from '../../_models/goalType';
 import { AxisInstance } from '../../_models/axisInstance';
 import { GoalEditModalComponent } from '../goal-edit-modal/goal-edit-modal.component';
+import { CascadeMyGoalsModalComponent } from '../cascade-my-goals-modal/cascade-my-goals-modal.component';
 
 @Component({
   selector: 'app-goal-card',
@@ -19,6 +20,7 @@ export class GoalCardComponent implements OnInit {
   @Input() axisInstances: AxisInstance[];
   @Input() goalTypeList: GoalType[];
   @Output() editGoalEvent = new EventEmitter<any>();
+  @Output() cascadeMyGoalEvent = new EventEmitter<any[]>();
   @Output() deleteGoalEvent = new EventEmitter<Goal>();
   bsModalRef: BsModalRef;
   isCollapsed = false;
@@ -26,6 +28,7 @@ export class GoalCardComponent implements OnInit {
   faTrash = faTrash;
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
+  faArrowAltCircleDown = faArrowAltCircleDown;
 
   constructor(private modalService: BsModalService) { }
 
@@ -48,5 +51,16 @@ export class GoalCardComponent implements OnInit {
 
   deleteGoal(goal: Goal) {
     this.deleteGoalEvent.emit(goal);
+  }
+
+  cascadeGoal(myGoal: Goal) {
+    const initialState = {
+      myGoal
+    };
+
+    this.bsModalRef = this.modalService.show(CascadeMyGoalsModalComponent, { initialState, class: 'modal-lg' });
+    this.bsModalRef.content.cascadeMyGoalEvent.subscribe((usersGoalWeights) => {
+      this.cascadeMyGoalEvent.emit(usersGoalWeights);
+    });
   }
 }

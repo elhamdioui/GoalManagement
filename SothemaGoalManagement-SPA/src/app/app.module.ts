@@ -1,5 +1,3 @@
-import { AutoEvaluationGoalsComponent } from './sheets/auto-evaluation-goals/auto-evaluation-goals.component';
-import { AutoEvaluationAxisComponent } from './sheets/auto-evaluation-axis/auto-evaluation-axis.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -106,6 +104,11 @@ import { EvaluationFileInstanceLogsComponent } from './hr/evaluations/evaluation
 import { PromptModalComponent } from './prompt-modal/prompt-modal.component';
 import { AutoEvaluationComponent } from './sheets/auto-evaluation/auto-evaluation.component';
 import { GoalEvaluationModalComponent } from './sheets/goal-evaluation-modal/goal-evaluation-modal.component';
+import { CascadeMyGoalsModalComponent } from './sheets/cascade-my-goals-modal/cascade-my-goals-modal.component';
+import { AutoEvaluationGoalsComponent } from './sheets/auto-evaluation-goals/auto-evaluation-goals.component';
+import { AutoEvaluationAxisComponent } from './sheets/auto-evaluation-axis/auto-evaluation-axis.component';
+
+
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -180,7 +183,8 @@ export function tokenGetter() {
     AutoEvaluationComponent,
     AutoEvaluationAxisComponent,
     AutoEvaluationGoalsComponent,
-    GoalEvaluationModalComponent
+    GoalEvaluationModalComponent,
+    CascadeMyGoalsModalComponent
   ],
   imports: [
     BrowserModule,
@@ -240,7 +244,8 @@ export function tokenGetter() {
     CollaboratorSearchComponent,
     GoalEditModalComponent,
     PromptModalComponent,
-    GoalEvaluationModalComponent
+    GoalEvaluationModalComponent,
+    CascadeMyGoalsModalComponent
   ],
   bootstrap: [AppComponent]
 })

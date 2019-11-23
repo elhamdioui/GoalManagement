@@ -60,7 +60,8 @@
           <div *ngIf="goalsByAxisInstanceList">
             <app-goals [areGoalsCompleted]="areGoalsCompleted" [areGoalsReadOnly]="areGoalsReadOnly" [goalsByAxisInstanceList]="goalsByAxisInstanceList"
               [axisInstances]="sheetDetail.axisInstances" [goalTypeList]="goalTypeList" (createGoalEvent)="handleCreateGoal($event)"
-              (editGoalEvent)="handleEditGoal($event)" (deleteGoalEvent)="handleDeleteGoal($event)" (validateGoalsEvent)="handleValidateGoals($event)"></app-goals>
+              (editGoalEvent)="handleEditGoal($event)" (deleteGoalEvent)="handleDeleteGoal($event)" (validateGoalsEvent)="handleValidateGoals($event)"
+              (cascadeMyGoalEvent)="handleCascadeMyGoal($event)"></app-goals>
           </div>
         </tab>
         <tab heading="Évaluation des Objectifs">

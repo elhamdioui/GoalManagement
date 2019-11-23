@@ -21,6 +21,7 @@ export class GoalsComponent implements OnInit {
   @Output() editGoalEvent = new EventEmitter<Goal>();
   @Output() deleteGoalEvent = new EventEmitter<Goal>();
   @Output() validateGoalsEvent = new EventEmitter();
+  @Output() cascadeMyGoalEvent = new EventEmitter<any[]>();
   isCollapsed = true;
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
@@ -44,5 +45,9 @@ export class GoalsComponent implements OnInit {
 
   validateGoals() {
     this.validateGoalsEvent.emit()
+  }
+
+  handleCascadeMyGoal(usersGoalWeights: any[]) {
+    this.cascadeMyGoalEvent.emit(usersGoalWeights);
   }
 }

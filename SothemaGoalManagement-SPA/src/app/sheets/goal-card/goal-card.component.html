@@ -56,10 +56,11 @@
 
     <table *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0" class="table table-hover">
       <tr>
-        <th style="width: 53%">Objectif</th>
+        <th style="width: 50%">Objectif</th>
         <th style="width: 16%">Type d'objectif</th>
         <th style="width: 20%">Nom de projet</th>
         <th style="width: 5%">Poids</th>
+        <th style="width: 3%"></th>
         <th style="width: 3%"></th>
         <th style="width: 3%"></th>
       </tr>
@@ -69,13 +70,18 @@
         <td>{{ goal.projectName }}</td>
         <td>{{ goal.weight }}%</td>
         <td *ngIf="!areGoalsReadOnly">
-          <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editGoalModal(goal)">
+          <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editGoalModal(goal)" title="Modifier Objectif">
             <fa-icon [icon]="faEdit"></fa-icon>
           </button>
         </td>
         <td *ngIf="!areGoalsReadOnly">
-          <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteGoal(goal)">
+          <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteGoal(goal)" title="Supprimer Objectif">
             <fa-icon [icon]="faTrash"></fa-icon>
+          </button>
+        </td>
+        <td *ngIf="!areGoalsReadOnly">
+          <button class="btn btn-secondary" (click)="$event.stopPropagation()" (click)="cascadeGoal(goal)" title="Cascader Objectif">
+            <fa-icon [icon]="faArrowAltCircleDown"></fa-icon>
           </button>
         </td>
       </tr>
