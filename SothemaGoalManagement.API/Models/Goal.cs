@@ -7,7 +7,8 @@ namespace SothemaGoalManagement.API.Models
     public class Goal
     {
         public int Id { get; set; }
-        
+        public int ParentGoalId { get; set; }
+
         public string Description { get; set; }
 
         public string Status { get; set; }

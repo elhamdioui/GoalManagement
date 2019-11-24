@@ -89,26 +89,57 @@ namespace SothemaGoalManagement.API.Controllers
         {
             try
             {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
-                // Set axis instance id foreach evaluatee
-                foreach (var goalCascadeDto in goalsCascadeDto)
+                if (goalsCascadeDto.Count() > 0)
                 {
-                    var axisInstanceId = _repo.EvaluationFileInstance.GetAxisInstanceByUserIdAndAxisTitle(goalCascadeDto.EvaluateeId, goalCascadeDto.AxisInstanceTitle).Result;
-                    if (axisInstanceId != 0)
+                    if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                    // Set not published or archived axis instance id foreach evaluatee
+                    foreach (var goalCascadeDto in goalsCascadeDto)
                     {
+                        var axisInstanceId = _repo.EvaluationFileInstance.GetAxisInstanceByUserIdAndAxisTitle(goalCascadeDto.EvaluateeId, goalCascadeDto.AxisInstanceTitle, goalCascadeDto.ParentGoalId).Result;
                         goalCascadeDto.GoalForCreationDto.AxisInstanceId = axisInstanceId;
                     }
+
+                    // Create a new goal for each evaluatee who has an axis instance
+                    foreach (var goalCascadeDto in goalsCascadeDto)
+                    {
+                        if (goalCascadeDto.GoalForCreationDto.AxisInstanceId != 0)
+                        {
+                            var goal = _mapper.Map<Goal>(goalCascadeDto.GoalForCreationDto);
+                            goal.ParentGoalId = goalCascadeDto.ParentGoalId;
+                            _repo.Goal.AddGoal(goal);
+                        }
+                    }
+                    await _repo.Goal.SaveAllAsync();
+
+                    var evaluateeIds = new List<int>();
+                    var efilList = new List<EvaluationFileInstanceLog>();
+                    foreach (var goalCascadeDto in goalsCascadeDto)
+                    {
+                        if (goalCascadeDto.GoalForCreationDto.AxisInstanceId != 0)
+                        {
+                            evaluateeIds.Add(goalCascadeDto.EvaluateeId);
+
+                            var sheet = _repo.EvaluationFileInstance.GetEvaluationFileInstanceByUserId(goalCascadeDto.EvaluateeId).Result;
+                            var evaluator = _repo.User.GetUser(userId, true).Result;
+                            var efil = new EvaluationFileInstanceLog
+                            {
+                                Title = sheet.Title,
+                                Created = DateTime.Now,
+                                Log = $"L'objectif: '{goalCascadeDto.GoalForCreationDto.Description}', a été ajouté à la fiche '{sheet.Title}' par l'évaluateur {evaluator.FirstName} {evaluator.LastName}."
+                            };
+                            efilList.Add(efil);
+                        }
+                    }
+
+                    // Log new goal has been assigned by the evaluator
+                    await LogForSheet(efilList);
+
+                    // Send Notification
+                    string emailContent = "Un nouvel objectif vous a été attribué par votre évaluateur.";
+                    await SendNotificationsForSubordinate(userId, emailContent, evaluateeIds);
                 }
 
-                // Create a new goal for each evaluatee
-                foreach (var goalCascadeDto in goalsCascadeDto)
-                {
-                    var goal = _mapper.Map<Goal>(goalCascadeDto.GoalForCreationDto);
-                    _repo.Goal.AddGoal(goal);
-                }
-                await _repo.Goal.SaveAllAsync();
-
-                return Ok();
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -182,22 +213,6 @@ namespace SothemaGoalManagement.API.Controllers
             try
             {
                 if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
-
-                // Validate the total weights of the objectives within an axis instance
-                var axisInstanceIds = new List<int>();
-                foreach (var goalToUpdateDto in goalsToUpdateDto)
-                {
-                    axisInstanceIds.Add(goalToUpdateDto.AxisInstanceId);
-                }
-                var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
-                foreach (var goalsGroupedByAxisInstance in goalsGroupedByAxisInstanceList)
-                {
-                    if (goalsGroupedByAxisInstance.TotalGoalWeight != 100)
-                    {
-                        return BadRequest("Le poids total de vos objectifs est différent de 100%!");
-                    }
-                }
-
                 // Get main data
                 var goalIds = new List<int>();
                 foreach (var goalToUpdateDto in goalsToUpdateDto)
@@ -218,6 +233,21 @@ namespace SothemaGoalManagement.API.Controllers
                     break;
                 }
 
+                // Validate the total weights of the objectives within an axis instance
+                var axisInstanceIds = new List<int>();
+                foreach (var goalToUpdateDto in goalsToUpdateDto)
+                {
+                    axisInstanceIds.Add(goalToUpdateDto.AxisInstanceId);
+                }
+                var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
+                foreach (var goalsGroupedByAxisInstance in goalsGroupedByAxisInstanceList)
+                {
+                    if (goalsGroupedByAxisInstance.TotalGoalWeight != 100 && Constants.DRAFT != goalsStatus)
+                    {
+                        return BadRequest("Le poids total des objectifs est différent de 100%!");
+                    }
+                }
+
                 // Check if user has evaluator in the case of review
                 if (Constants.REVIEW == goalsStatus && !await IsUserHasEvaluator(userId))
                 {
@@ -236,17 +266,25 @@ namespace SothemaGoalManagement.API.Controllers
                     await _repo.Goal.SaveAllAsync();
 
                     // Log objectifs have been submitted for validation
-                    var efil = new EvaluationFileInstanceLog
+                    var efilList = new List<EvaluationFileInstanceLog>(){new EvaluationFileInstanceLog
                     {
                         Title = sheetTitle,
                         Created = DateTime.Now,
-                        Log = $"Les objectives de la fiche: {sheetTitle} ont été mis au statut {goalsStatus}."
-                    };
-                    _repo.EvaluationFileInstanceLog.AddEvaluationFileInstanceLog(efil);
-                    await _repo.EvaluationFileInstanceLog.SaveAllAsync();
+                        Log = $"Les objectives de la fiche: '{sheetTitle}' ont été mis au statut {goalsStatus}."
+                    }};
+
+                    await LogForSheet(efilList);
 
                     // Send Notification
-                    await SendNotifications(goalsStatus, userId, emailContent, sheetOwnerId);
+                    if (goalsStatus == Constants.REVIEW)
+                    {
+                        await SendNotificationsForEvaluator(userId, emailContent);
+                    }
+                    else
+                    {
+                        await SendNotificationsForSubordinate(userId, emailContent, new List<int>() { sheetOwnerId });
+                    }
+
                 }
 
                 return NoContent();
@@ -365,28 +403,29 @@ namespace SothemaGoalManagement.API.Controllers
             return false;
         }
 
-        private async Task SendNotifications(string goalsStatus, int userId, string emailContent, int sheetOwnerId)
+        private async Task SendNotificationsForEvaluator(int userId, string emailContent)
         {
-            if (Constants.REVIEW == goalsStatus)
+            var evaluators = await _repo.User.LoadEvaluators(userId);
+            foreach (var evaluator in evaluators)
             {
-                var evaluators = await _repo.User.LoadEvaluators(userId);
-                foreach (var evaluator in evaluators)
+                // Only first rank of evaluators
+                if (evaluator.Rank == 1)
                 {
-                    // Only first rank of evaluators
-                    if (evaluator.Rank == 1)
+                    var messageForCreationDto = new MessageForCreationDto()
                     {
-                        var messageForCreationDto = new MessageForCreationDto()
-                        {
-                            RecipientId = evaluator.Id,
-                            SenderId = userId,
-                            Content = emailContent
-                        };
-                        var message = _mapper.Map<Message>(messageForCreationDto);
-                        _repo.Message.AddMessage(message);
-                    }
+                        RecipientId = evaluator.Id,
+                        SenderId = userId,
+                        Content = emailContent
+                    };
+                    var message = _mapper.Map<Message>(messageForCreationDto);
+                    _repo.Message.AddMessage(message);
                 }
             }
-            else
+            await _repo.Message.SaveAllAsync();
+        }
+        private async Task SendNotificationsForSubordinate(int userId, string emailContent, List<int> sheetOwnerIds)
+        {
+            foreach (var sheetOwnerId in sheetOwnerIds)
             {
                 var messageForCreationDto = new MessageForCreationDto()
                 {
@@ -399,6 +438,16 @@ namespace SothemaGoalManagement.API.Controllers
             }
 
             await _repo.Message.SaveAllAsync();
+        }
+
+        private async Task LogForSheet(List<EvaluationFileInstanceLog> efilList)
+        {
+            foreach (var efil in efilList)
+            {
+                _repo.EvaluationFileInstanceLog.AddEvaluationFileInstanceLog(efil);
+            }
+
+            await _repo.EvaluationFileInstanceLog.SaveAllAsync();
         }
 
         private async Task<bool> IsUserHasEvaluator(int userId)

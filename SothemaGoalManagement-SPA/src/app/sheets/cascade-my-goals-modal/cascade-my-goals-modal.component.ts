@@ -81,4 +81,24 @@ export class CascadeMyGoalsModalComponent implements OnInit {
     this.cascadeMyGoalEvent.emit(this.usersGoalWeights);
     this.bsModalRef.hide();
   }
+
+  disableAction() {
+    if (this.usersGoalWeights === undefined) return true;
+    for (var i = 0; i < this.usersGoalWeights.length; i++) {
+      if (this.usersGoalWeights[i].selected) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  setWeight(weight: number, evaluateeId: number) {
+    console.log(`weight: ${weight} for evaluatedId: ${evaluateeId}`);
+    for (var i = 0; i < this.usersGoalWeights.length; i++) {
+      if (this.usersGoalWeights[i].evaluatee.id == evaluateeId) {
+        this.usersGoalWeights[i].cascadededGoal.weight = weight;
+        console.log(`Set weight: ${weight} for evaluatedId: ${evaluateeId}`);
+      }
+    }
+  }
 }

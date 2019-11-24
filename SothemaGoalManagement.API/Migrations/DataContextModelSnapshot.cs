@@ -395,6 +395,8 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<int>("GoalTypeId");
 
+                    b.Property<int>("ParentGoalId");
+
                     b.Property<string>("ProjectName");
 
                     b.Property<string>("Status");

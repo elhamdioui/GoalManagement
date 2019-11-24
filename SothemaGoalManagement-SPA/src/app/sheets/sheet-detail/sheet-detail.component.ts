@@ -212,7 +212,7 @@ export class SheetDetailComponent implements OnInit {
     this.userService.casvadeGoal(this.authService.decodedToken.nameid, golasForCascade).subscribe(
       () => {
         this.loading = false;
-        this.alertify.success('Objectif est cascadéé avec succèes');
+        this.alertify.success('L\'objectif est evoyé avec succès pour être cascader.');
       },
       error => {
         this.loading = false;

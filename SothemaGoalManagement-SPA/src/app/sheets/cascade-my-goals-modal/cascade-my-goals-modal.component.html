@@ -20,9 +20,9 @@
           <input class="form-check-input" type="checkbox" (change)="selectAll()" [checked]="selectedAll" data-toggle="tooltip" data-placement="top"
             title="Tout sélectionner/désélectionner">
         </th>
-        <th style="width: 40%">Nom</th>
-        <th style="width: 40%">Statut</th>
-        <th style="width: 20%">Poids d'Objectif %</th>
+        <th style="width: 35%">Nom</th>
+        <th style="width: 35%">Statut</th>
+        <th style="width: 30%">Poids d'Objectif %</th>
       </tr>
       <tr *ngFor="let ugw of usersGoalWeights">
         <td>
@@ -31,7 +31,12 @@
         <td>{{ ugw.evaluatee.fullName }}</td>
         <td>{{ ugw.evaluatee.title}}</td>
         <td>
-          <input type="number" [(ngModel)]="ugw.cascadededGoal.weight" maxlength="3" size="4">
+          <span *ngIf="!ugw.selected">
+            0
+          </span>
+          <span *ngIf="ugw.selected">
+            <input type="number" (input)="setWeight($event.target.value, ugw.evaluatee.id)" value="0" maxlength="3" size="4">
+          </span>
         </td>
       </tr>
     </table>
@@ -39,5 +44,5 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-primary" (click)="bsModalRef.hide()">Annuler</button>
-  <button type="button" class="btn btn-success" (click)="cascadeGoal()" [disabled]="usersGoalWeights.length === 0">Cascader Objectif</button>
+  <button type="button" class="btn btn-success" (click)="cascadeGoal()" [disabled]="disableAction()">Cascader Objectif</button>
 </div>

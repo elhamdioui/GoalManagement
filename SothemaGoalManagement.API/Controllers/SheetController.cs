@@ -108,11 +108,12 @@ namespace SothemaGoalManagement.API.Controllers
                     await _repo.AxisInstance.SaveAllAsync();
 
                     // Log the update of user's weight
+                    var user = _repo.User.GetUser(userId, true).Result;
                     var efil = new EvaluationFileInstanceLog
                     {
                         Title = axisIntsnaceFromRepo.EvaluationFileInstance.Title,
                         Created = DateTime.Now,
-                        Log = $"La pondération de l\'employée est modifié de {oldUserWeight} à {userWeight} pour {axisIntsnaceFromRepo.EvaluationFileInstance.Title} par l'utilisateur avec l'identifiant: {userId}."
+                        Log = $"La pondération de l\'employée est modifié de {oldUserWeight} à {userWeight} pour '{axisIntsnaceFromRepo.EvaluationFileInstance.Title}' par {user.FirstName} {user.LastName}."
                     };
                     _repo.EvaluationFileInstanceLog.AddEvaluationFileInstanceLog(efil);
                     await _repo.EvaluationFileInstanceLog.SaveAllAsync();
