@@ -15,6 +15,7 @@ import { AlertifyService } from '../../_services/alertify.service';
 export class CascadeMyGoalsModalComponent implements OnInit {
   @Output() cascadeMyGoalEvent = new EventEmitter<any[]>();
   myGoal: Goal;
+  axisInstanceTitle: string;
   cascadededGoal: any = {};
   evaluatees: Evaluator[];
   cascadededGoals: any[];
@@ -55,7 +56,7 @@ export class CascadeMyGoalsModalComponent implements OnInit {
 
   constructData() {
     this.evaluatees.forEach(evaluatee => {
-      let usersGoalWeight = { evaluatee: evaluatee, cascadededGoal: this.cascadededGoal, selected: false };
+      let usersGoalWeight = { evaluatee: evaluatee, cascadededGoal: this.cascadededGoal, selected: false, parentGoalId: this.myGoal.id, axisInstanceTitle: this.axisInstanceTitle };
       this.usersGoalWeights.push(usersGoalWeight);
     })
   }

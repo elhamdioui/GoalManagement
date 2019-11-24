@@ -55,7 +55,8 @@ export class GoalCardComponent implements OnInit {
 
   cascadeGoal(myGoal: Goal) {
     const initialState = {
-      myGoal
+      myGoal,
+      axisInstanceTitle: this.goalsByAxisInstance.title
     };
 
     this.bsModalRef = this.modalService.show(CascadeMyGoalsModalComponent, { initialState, class: 'modal-lg' });

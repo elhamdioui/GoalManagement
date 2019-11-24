@@ -84,6 +84,38 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
+        [HttpPost("cascadeGoal")]
+        public async Task<IActionResult> CascadeGoal(int userId, IEnumerable<GoalForCascadeDto> goalsCascadeDto)
+        {
+            try
+            {
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                // Set axis instance id foreach evaluatee
+                foreach (var goalCascadeDto in goalsCascadeDto)
+                {
+                    var axisInstanceId = _repo.EvaluationFileInstance.GetAxisInstanceByUserIdAndAxisTitle(goalCascadeDto.EvaluateeId, goalCascadeDto.AxisInstanceTitle).Result;
+                    if (axisInstanceId != 0)
+                    {
+                        goalCascadeDto.GoalForCreationDto.AxisInstanceId = axisInstanceId;
+                    }
+                }
+
+                // Create a new goal for each evaluatee
+                foreach (var goalCascadeDto in goalsCascadeDto)
+                {
+                    var goal = _mapper.Map<Goal>(goalCascadeDto.GoalForCreationDto);
+                    _repo.Goal.AddGoal(goal);
+                }
+                await _repo.Goal.SaveAllAsync();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside CascadeGoal endpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
 
         [HttpPost("createGoal")]
         public async Task<IActionResult> CreateGoal(int userId, GoalForCreationDto goalCreationDto)

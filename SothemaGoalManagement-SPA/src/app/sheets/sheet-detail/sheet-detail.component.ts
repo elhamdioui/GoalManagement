@@ -206,6 +206,18 @@ export class SheetDetailComponent implements OnInit {
   }
 
   handleCascadeMyGoal(usersGoalWeights: any[]) {
-    console.log(usersGoalWeights.filter(g => g.selected == true));
+    this.loading = true;
+    let seletedUsersGoalWeights = usersGoalWeights.filter(g => g.selected == true);
+    let golasForCascade = seletedUsersGoalWeights.map(gc => ({ evaluateeId: gc.evaluatee.id, goalForCreationDto: gc.cascadededGoal, parentGoalId: gc.parentGoalId, axisInstanceTitle: gc.axisInstanceTitle }));
+    this.userService.casvadeGoal(this.authService.decodedToken.nameid, golasForCascade).subscribe(
+      () => {
+        this.loading = false;
+        this.alertify.success('Objectif est cascadéé avec succèes');
+      },
+      error => {
+        this.loading = false;
+        this.alertify.error(error);
+      }
+    );
   }
 }

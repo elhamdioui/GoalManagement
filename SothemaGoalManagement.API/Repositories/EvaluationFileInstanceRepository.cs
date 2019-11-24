@@ -54,6 +54,21 @@ namespace SothemaGoalManagement.API.Repositories
                                                                 .ToListAsync();
         }
 
+        public async Task<int> GetAxisInstanceByUserIdAndAxisTitle(int evaluateeId, string axisInstanceTitle)
+        {
+            var sheet = await RepositoryContext.EvaluationFileInstances.Include(efi => efi.AxisInstances).SingleOrDefaultAsync(s => s.OwnerId == evaluateeId);
+            if (sheet != null)
+            {
+                foreach (var axisInstance in sheet.AxisInstances)
+                {
+                    if (axisInstance.Title == axisInstanceTitle)
+                    {
+                        return axisInstance.Id;
+                    }
+                }
+            }
+            return 0;
+        }
         public void AddEvaluationFileInstance(EvaluationFileInstance evaluationFileInstance)
         {
             Add(evaluationFileInstance);
