@@ -56,9 +56,8 @@
 
     <table *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0" class="table table-hover">
       <tr>
-        <th style="width: 50%">Objectif</th>
+        <th style="width: 70%">Objectif</th>
         <th style="width: 16%">Type d'objectif</th>
-        <th style="width: 20%">Nom de projet</th>
         <th style="width: 5%">Poids</th>
         <th style="width: 3%"></th>
         <th style="width: 3%"></th>
@@ -67,7 +66,6 @@
       <tr *ngFor="let goal of goalsByAxisInstance.goals">
         <td>{{ goal.description }}</td>
         <td>{{ goal.goalType.name }}</td>
-        <td>{{ goal.projectName }}</td>
         <td>{{ goal.weight }}%</td>
         <td *ngIf="!areGoalsReadOnly">
           <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editGoalModal(goal)" title="Modifier Objectif">
