@@ -9,8 +9,8 @@ using SothemaGoalManagement.API.Data;
 namespace SothemaGoalManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191120094307_SelftEvaluationFieldAdded")]
-    partial class SelftEvaluationFieldAdded
+    [Migration("20191124225700_newDB")]
+    partial class newDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -397,6 +397,8 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<int>("GoalTypeId");
 
+                    b.Property<int>("ParentGoalId");
+
                     b.Property<string>("ProjectName");
 
                     b.Property<string>("Status");
@@ -422,6 +424,8 @@ namespace SothemaGoalManagement.API.Migrations
                     b.Property<int>("CompletionRate");
 
                     b.Property<DateTime>("Created");
+
+                    b.Property<int>("EvaluateeId");
 
                     b.Property<int>("EvaluatorId");
 

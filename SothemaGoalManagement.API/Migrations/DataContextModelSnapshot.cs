@@ -423,6 +423,8 @@ namespace SothemaGoalManagement.API.Migrations
 
                     b.Property<DateTime>("Created");
 
+                    b.Property<int>("EvaluateeId");
+
                     b.Property<int>("EvaluatorId");
 
                     b.Property<int>("GoalId");

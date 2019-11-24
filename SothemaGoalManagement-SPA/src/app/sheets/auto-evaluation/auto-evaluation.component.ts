@@ -12,6 +12,7 @@ export class AutoEvaluationComponent implements OnInit {
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Input() areGoalsEvaluable: boolean;
   @Input() goalIdToExpand: number;
+  @Input() sheetOwnerId: number;
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;

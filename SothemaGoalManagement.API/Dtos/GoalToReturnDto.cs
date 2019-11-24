@@ -29,5 +29,10 @@ namespace SothemaGoalManagement.API.Dtos
 
         public ICollection<GoalEvaluationToReturnDto> GoalEvaluations { get; set; }
 
+        public GoalToReturnDto()
+        {
+            GoalEvaluations = new Collection<GoalEvaluationToReturnDto>();
+        }
+
     }
 }

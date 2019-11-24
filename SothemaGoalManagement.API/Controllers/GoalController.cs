@@ -354,13 +354,19 @@ namespace SothemaGoalManagement.API.Controllers
                 el.TotalGoals = el.Goals.Count;
                 el.TotalGoalWeight = el.Goals.Count == 0 ? 0 : el.Goals.Sum(g => g.Weight);
                 el.GoalsStatus = el.Goals.Count == 0 ? Constants.NOTSTARTED : el.Goals.First().Status;
-                Decimal axisGrade = el.Goals.Select(g => g.Weight * g.LatestCompletionRate * el.UserWeight).Sum();
+
+                Decimal axisGrade = el.Goals.Select(g =>
+                {
+                    var CompletionRate = GetCompletionRate(g);
+                    return g.Weight * el.UserWeight * CompletionRate;
+                }).Sum();
                 Decimal percentAxisGrade = axisGrade / 10000.00m;
                 percentTotalGrade += percentAxisGrade;
                 el.AxisGrade = percentAxisGrade.ToString("N2");
                 foreach (var goal in el.Goals)
                 {
-                    Decimal percentGoalGrade = (goal.Weight * goal.LatestCompletionRate * el.UserWeight) / 10000.00m;
+                    var CompletionRate = GetCompletionRate(goal);
+                    Decimal percentGoalGrade = (goal.Weight * el.UserWeight * CompletionRate) / 10000.00m;
                     goal.GoalGrade = percentGoalGrade.ToString("N2");
                 }
             }
@@ -371,6 +377,13 @@ namespace SothemaGoalManagement.API.Controllers
             }
 
             return goalsGroupedByAxisInstanceList;
+        }
+
+        private int GetCompletionRate(GoalToReturnDto goal)
+        {
+            return goal.GoalEvaluations.OrderByDescending(e => e.Created).Where(ge => ge.SelfEvaluation == false).FirstOrDefault() == null ?
+                    0 :
+                    goal.GoalEvaluations.OrderByDescending(e => e.Created).Where(ge => ge.SelfEvaluation == false).FirstOrDefault().CompletionRate;
         }
 
         private bool IsTotalWeightOfObjectivesOver100(List<AxisInstanceWithGoalsToReturnDto> goalsGroupedByAxisInstanceList, int weight, int goalId = 0)

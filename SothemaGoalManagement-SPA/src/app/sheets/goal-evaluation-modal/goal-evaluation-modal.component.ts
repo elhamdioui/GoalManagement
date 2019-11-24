@@ -12,13 +12,12 @@ export class GoalEvaluationModalComponent implements OnInit {
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   goal: Goal;
   newEval: any;
-
+  evaluateeId: number;
 
   constructor(public bsModalRef: BsModalRef, private alertify: AlertifyService) { }
 
-
   ngOnInit() {
-    this.newEval = { completionRate: 0, comment: '', goalId: this.goal.id };
+    this.newEval = { completionRate: 0, comment: '', goalId: this.goal.id, evaluateeId: this.evaluateeId };
   }
 
   addEvaluation() {

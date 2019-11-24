@@ -17,5 +17,7 @@ namespace SothemaGoalManagement.API.Dtos
         public bool Sealed { get; set; }
 
         public int GoalId { get; set; }
+
+        public bool SelfEvaluation { get; set; }
     }
 }

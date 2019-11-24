@@ -618,6 +618,7 @@ namespace SothemaGoalManagement.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    ParentGoalId = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Status = table.Column<string>(nullable: true),
                     Weight = table.Column<int>(nullable: false),
@@ -651,10 +652,12 @@ namespace SothemaGoalManagement.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Created = table.Column<DateTime>(nullable: false),
                     EvaluatorId = table.Column<int>(nullable: false),
+                    EvaluateeId = table.Column<int>(nullable: false),
                     CompletionRate = table.Column<int>(nullable: false),
                     Comment = table.Column<string>(nullable: true),
                     Sealed = table.Column<bool>(nullable: false),
-                    GoalId = table.Column<int>(nullable: false)
+                    GoalId = table.Column<int>(nullable: false),
+                    SelfEvaluation = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

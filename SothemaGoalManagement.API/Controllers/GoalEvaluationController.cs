@@ -75,6 +75,8 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
 
                 // Create a new goalEvaluation
                 var goalEvaluation = _mapper.Map<GoalEvaluation>(goalEvaluationCreationDto);
+                if (userId != goalEvaluationCreationDto.EvaluateeId) goalEvaluation.SelfEvaluation = false;
+                else goalEvaluation.SelfEvaluation = true;
                 _repo.GoalEvaluation.AddGoalEvaluation(goalEvaluation);
                 await _repo.GoalEvaluation.SaveAllAsync();
 
@@ -85,42 +87,6 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
                 _logger.LogError($"Something went wrong inside CreateEvaluationFile endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
-        }
-
-        private async Task SendNotifications(string goalEvaluationsStatus, int userId, string emailContent, int sheetOwnerId)
-        {
-            if (Constants.REVIEW == goalEvaluationsStatus)
-            {
-                var evaluators = await _repo.User.LoadEvaluators(userId);
-                foreach (var evaluator in evaluators)
-                {
-                    // Only first rank of evaluators
-                    if (evaluator.Rank == 1)
-                    {
-                        var messageForCreationDto = new MessageForCreationDto()
-                        {
-                            RecipientId = evaluator.Id,
-                            SenderId = userId,
-                            Content = emailContent
-                        };
-                        var message = _mapper.Map<Message>(messageForCreationDto);
-                        _repo.Message.AddMessage(message);
-                    }
-                }
-            }
-            else
-            {
-                var messageForCreationDto = new MessageForCreationDto()
-                {
-                    RecipientId = sheetOwnerId,
-                    SenderId = userId,
-                    Content = emailContent
-                };
-                var message = _mapper.Map<Message>(messageForCreationDto);
-                _repo.Message.AddMessage(message);
-            }
-
-            await _repo.Message.SaveAllAsync();
         }
 
         private async Task<bool> IsUserHasEvaluator(int userId)

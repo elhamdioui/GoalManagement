@@ -13,6 +13,7 @@ import { Goal } from '../../_models/goal';
 export class AutoEvaluationAxisComponent implements OnInit {
   @Input() goalsByAxisInstance: GoalByAxisInstance;
   @Input() goalIdToExpand: number;
+  @Input() sheetOwnerId: number;
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   isCollapsed = true;
   faCaretDown = faCaretDown;

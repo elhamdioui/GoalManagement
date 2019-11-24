@@ -14,6 +14,7 @@ import { GoalEvaluationModalComponent } from '../goal-evaluation-modal/goal-eval
 export class AutoEvaluationGoalsComponent implements OnInit {
   @Input() goal: Goal;
   @Input() goalIdToExpand: number;
+  @Input() sheetOwnerId: number;
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
   isCollapsed = true;
   faCaretDown = faCaretDown;
@@ -35,7 +36,8 @@ export class AutoEvaluationGoalsComponent implements OnInit {
 
   addEvaluation() {
     const initialState = {
-      goal: this.goal
+      goal: this.goal,
+      evaluateeId: this.sheetOwnerId
     };
 
     this.bsModalRef = this.modalService.show(GoalEvaluationModalComponent, { initialState });
