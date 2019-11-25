@@ -21,6 +21,15 @@ namespace SothemaGoalManagement.API.Repositories
             return await RepositoryContext.BehavioralSkillInstances.Where(bsi => bsIds.Contains(bsi.BehavioralSkillId)).ToListAsync();
         }
 
+        public async Task<IEnumerable<BehavioralSkillInstance>> GetBehavioralSkillInstancesBySheetId(int sheetId)
+        {
+            var behavioralSkillIds = await RepositoryContext.EvaluationFileInstanceBehavioralSkillInstances.Where(efi => efi.EvaluationFileInstanceId == sheetId)
+                                                                                                    .Select(efi => efi.BehavioralSkillInstanceId)
+                                                                                                    .ToListAsync();
+            return await RepositoryContext.BehavioralSkillInstances.Include(bsi => bsi.BehavioralSkillEvaluations).ThenInclude(bse => bse.Evaluator)
+                                                                    .Where(bsi => behavioralSkillIds.Contains(bsi.Id)).ToListAsync();
+        }
+
         public void AddBehavioralSkillInstance(BehavioralSkillInstance behavioralSkillInstance)
         {
             Add(behavioralSkillInstance);

@@ -203,6 +203,36 @@ namespace SothemaGoalManagement.API.Migrations
                     b.ToTable("BehavioralSkills");
                 });
 
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.BehavioralSkillEvaluation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BehavioralSkillInstanceId");
+
+                    b.Property<string>("Comment");
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<int>("EvaluateeId");
+
+                    b.Property<int>("EvaluationFileInstanceId");
+
+                    b.Property<int>("EvaluatorId");
+
+                    b.Property<int>("Grade");
+
+                    b.Property<bool>("Sealed");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BehavioralSkillInstanceId");
+
+                    b.HasIndex("EvaluatorId");
+
+                    b.ToTable("BehavioralSkillEvaluations");
+                });
+
             modelBuilder.Entity("SothemaGoalManagement.API.Models.BehavioralSkillInstance", b =>
                 {
                     b.Property<int>("Id")
@@ -741,6 +771,19 @@ namespace SothemaGoalManagement.API.Migrations
                         .WithMany()
                         .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.BehavioralSkillEvaluation", b =>
+                {
+                    b.HasOne("SothemaGoalManagement.API.Models.BehavioralSkillInstance", "BehavioralSkillInstance")
+                        .WithMany("BehavioralSkillEvaluations")
+                        .HasForeignKey("BehavioralSkillInstanceId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SothemaGoalManagement.API.Models.User", "Evaluator")
+                        .WithMany("BehavioralSkillEvaluations")
+                        .HasForeignKey("EvaluatorId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("SothemaGoalManagement.API.Models.Department", b =>

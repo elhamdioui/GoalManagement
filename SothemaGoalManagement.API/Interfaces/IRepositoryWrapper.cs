@@ -35,6 +35,7 @@ namespace SothemaGoalManagement.API.Interfaces
         IGoalRepository Goal { get; }
 
         IGoalEvaluationRepository GoalEvaluation { get; }
+        IBehavioralSkillEvaluationRepository BehavioralSkillEvaluation { get; }
 
         IEvaluationFileInstanceLogRepository EvaluationFileInstanceLog { get; }
 

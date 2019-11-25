@@ -41,6 +41,7 @@ namespace SothemaGoalManagement.API.Models
 
 
         public ICollection<GoalEvaluation> GoalEvaluations { get; set; }
+        public ICollection<BehavioralSkillEvaluation> BehavioralSkillEvaluations { get; set; }
         public User()
         {
             Photos = new Collection<Photo>();
@@ -50,6 +51,7 @@ namespace SothemaGoalManagement.API.Models
             EvaluatedEvaluators = new Collection<EvaluatedEvaluator>();
             EvaluationFileInstances = new Collection<EvaluationFileInstance>();
             GoalEvaluations = new Collection<GoalEvaluation>();
+            BehavioralSkillEvaluations = new Collection<BehavioralSkillEvaluation>();
         }
     }
 }

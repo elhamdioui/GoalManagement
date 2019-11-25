@@ -9,6 +9,8 @@ namespace SothemaGoalManagement.API.Interfaces
     {
         Task<IEnumerable<BehavioralSkillInstance>> GetBehavioralSkillInstancesByBSIds(IEnumerable<int> bsIds);
 
+        Task<IEnumerable<BehavioralSkillInstance>> GetBehavioralSkillInstancesBySheetId(int sheetId);
+
         void AddBehavioralSkillInstance(BehavioralSkillInstance behavioralSkillInstance);
 
         void UpdateBehavioralSkillInstance(BehavioralSkillInstance dbBehavioralSkillInstance);

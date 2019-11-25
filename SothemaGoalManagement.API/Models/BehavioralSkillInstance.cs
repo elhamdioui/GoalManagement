@@ -42,11 +42,14 @@ namespace SothemaGoalManagement.API.Models
 
         public DateTime Created { get; set; }
 
+        public ICollection<BehavioralSkillEvaluation> BehavioralSkillEvaluations { get; set; }
+
         public ICollection<EvaluationFileInstanceBehavioralSkillInstance> EvaluationFileInstances { get; set; }
 
         public BehavioralSkillInstance()
         {
             EvaluationFileInstances = new Collection<EvaluationFileInstanceBehavioralSkillInstance>();
+            BehavioralSkillEvaluations = new Collection<BehavioralSkillEvaluation>();
         }
 
     }

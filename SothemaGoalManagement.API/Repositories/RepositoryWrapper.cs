@@ -23,6 +23,7 @@ namespace SothemaGoalManagement.API.Repositories
         private IGoalTypeRepository _goalType;
         private IGoalRepository _goal;
         private IGoalEvaluationRepository _goalEvaluation;
+        private IBehavioralSkillEvaluationRepository _behavioralSkillEvaluation;
         private IEvaluationFileInstanceLogRepository _evaluationFileInstanceLog;
 
         public IAxisInstanceRepository AxisInstance
@@ -226,6 +227,17 @@ namespace SothemaGoalManagement.API.Repositories
                     _goalEvaluation = new GoalEvaluationRepository(_repoContext);
                 }
                 return _goalEvaluation;
+            }
+        }
+        public IBehavioralSkillEvaluationRepository BehavioralSkillEvaluation
+        {
+            get
+            {
+                if (_behavioralSkillEvaluation == null)
+                {
+                    _behavioralSkillEvaluation = new BehavioralSkillEvaluationRepository(_repoContext);
+                }
+                return _behavioralSkillEvaluation;
             }
         }
 

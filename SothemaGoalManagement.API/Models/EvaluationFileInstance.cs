@@ -26,6 +26,7 @@ namespace SothemaGoalManagement.API.Models
 
         public ICollection<AxisInstance> AxisInstances { get; set; }
 
+
         public string StrategyTitle { get; set; }
 
         public string StrategyDescription { get; set; }

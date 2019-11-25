@@ -51,6 +51,7 @@ namespace SothemaGoalManagement.API.Data
         public DbSet<Goal> Goals { get; set; }
 
         public DbSet<GoalEvaluation> GoalEvaluations { get; set; }
+        public DbSet<BehavioralSkillEvaluation> BehavioralSkillEvaluations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -196,6 +197,19 @@ namespace SothemaGoalManagement.API.Data
 
                 ge.HasOne<User>(u => u.Evaluator)
                     .WithMany(o => o.GoalEvaluations)
+                    .HasForeignKey(u => u.EvaluatorId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<BehavioralSkillEvaluation>(ge =>
+            {
+                ge.HasOne<BehavioralSkillInstance>(e => e.BehavioralSkillInstance)
+                    .WithMany(g => g.BehavioralSkillEvaluations)
+                    .HasForeignKey(e => e.BehavioralSkillInstanceId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                ge.HasOne<User>(u => u.Evaluator)
+                    .WithMany(o => o.BehavioralSkillEvaluations)
                     .HasForeignKey(u => u.EvaluatorId)
                     .OnDelete(DeleteBehavior.Restrict);
             });

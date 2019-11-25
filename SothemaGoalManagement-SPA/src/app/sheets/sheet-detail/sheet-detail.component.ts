@@ -9,6 +9,7 @@ import { AuthService } from '../../_services/auth.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 import { GoalEvaluation } from '../../_models/goalEvaluation';
+import { BehavioralSkillInstance } from '../../_models/behavioralSkillInstance';
 
 @Component({
   selector: 'app-sheet-detail',
@@ -20,6 +21,7 @@ export class SheetDetailComponent implements OnInit {
   @Output() switchOffDetailModeEvent = new EventEmitter();
   sheetDetail: EvaluationFileInstance;
   goalsByAxisInstanceList: GoalByAxisInstance[];
+  behavioralSkillInstanceList: BehavioralSkillInstance[];
   goalTypeList: GoalType[];
   loading = false;
   areGoalsCompleted: boolean;
@@ -27,6 +29,7 @@ export class SheetDetailComponent implements OnInit {
   areGoalsEvaluable: boolean;
   totalGrade: string;
   goalIdToExpand: number;
+  behavioralSkillIdToExpand: number;
 
   constructor(private route: ActivatedRoute, private router: Router, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -34,12 +37,14 @@ export class SheetDetailComponent implements OnInit {
     if (this.sheetToValidate) {
       this.sheetDetail = this.sheetToValidate;
       this.getGoalsForAxis();
+      this.getBehavioralSkillEvaluations();
     } else {
       this.route.data.subscribe(data => {
         const resolvedData = data['resolvedData'];
         this.sheetDetail = resolvedData['sheetDetail'];
         this.goalTypeList = resolvedData['goalTypeList']
         this.getGoalsForAxis();
+        this.getBehavioralSkillEvaluations();
       });
     }
   }
@@ -56,6 +61,22 @@ export class SheetDetailComponent implements OnInit {
           this.CanGoalsBeValidated();
           this.CheckReadOnly();
           this.CanGoalsBeEvaluated();
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
+  }
+
+  getBehavioralSkillEvaluations() {
+    this.loading = true;
+    this.userService
+      .getBehavioralSkillEvaluations(this.sheetDetail.ownerId, this.sheetDetail.id)
+      .subscribe(
+        (result: BehavioralSkillInstance[]) => {
+          this.loading = false;
+          this.behavioralSkillInstanceList = result;
         },
         error => {
           this.loading = false;
@@ -189,6 +210,24 @@ export class SheetDetailComponent implements OnInit {
         () => {
           this.loading = false;
           this.getGoalsForAxis();
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
+  }
+
+  handleAddBehavioralSkillEvaluation(newEval: any) {
+    this.loading = true;
+    let behavioralSkillEval = { ...newEval, evaluatorId: this.authService.decodedToken.nameid };
+    this.behavioralSkillIdToExpand = newEval.behavioralSkillId;
+    this.userService
+      .addBehavioralSkillEvaluations(this.authService.decodedToken.nameid, behavioralSkillEval)
+      .subscribe(
+        () => {
+          this.loading = false;
+          this.getBehavioralSkillEvaluations();
         },
         error => {
           this.loading = false;
