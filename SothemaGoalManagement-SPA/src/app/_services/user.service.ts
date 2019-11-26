@@ -183,7 +183,7 @@ export class UserService {
     return this.http.get(`${this.baseUrl}users/${userId}/behavioralSkillEvaluation/behavioralSkillInstancesForSheet/${sheetId}`);
   }
 
-  addBehavioralSkillEvaluations(userId: number, behavioralSkillEval: any) {
-    return this.http.post(`${this.baseUrl}users/${userId}/behavioralSkillEvaluation/createBehavioralSkillEvaluation`, behavioralSkillEval);
+  addBehavioralSkillEvaluations(userId: number, evals: any[]) {
+    return this.http.post(`${this.baseUrl}users/${userId}/behavioralSkillEvaluation/createBehavioralSkillEvaluation`, evals);
   }
 }

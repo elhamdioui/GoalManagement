@@ -21,7 +21,6 @@ export class AutoEvaluationGoalsComponent implements OnInit {
   faCaretUp = faCaretUp;
   bsModalRef: BsModalRef;
 
-
   constructor(private modalService: BsModalService) { }
 
   ngOnInit() {

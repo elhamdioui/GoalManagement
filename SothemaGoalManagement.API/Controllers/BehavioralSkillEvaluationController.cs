@@ -56,8 +56,15 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
                 if (!await IsItAllowed(userId)) Unauthorized();
 
                 var behavioralSkillInstancesFromRepo = await _repo.BehavioralSkillInstance.GetBehavioralSkillInstancesBySheetId(sheetId);
-                //var sheetsToValidate = _mapper.Map<IEnumerable<EvaluationFileInstanceToReturnDto>>(sheetsTovalidateFromRepo);
-                return Ok(behavioralSkillInstancesFromRepo);
+                var behavioralSkillInstancesToReturn = _mapper.Map<IEnumerable<BehavioralSkillToReturnDto>>(behavioralSkillInstancesFromRepo);
+                foreach (var behavioralSkillInstanceToReturn in behavioralSkillInstancesToReturn)
+                {
+                    var latestEval = behavioralSkillInstanceToReturn.BehavioralSkillEvaluations.OrderByDescending(bsie => bsie.Created).FirstOrDefault();
+                    behavioralSkillInstanceToReturn.BehavioralSkillGrade = latestEval != null ? latestEval.Grade : 0;
+                    behavioralSkillInstanceToReturn.BehavioralSkillLevel = latestEval != null ? latestEval.Level : "";
+                }
+
+                return Ok(behavioralSkillInstancesToReturn);
             }
             catch (Exception ex)
             {
@@ -67,18 +74,23 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
         }
 
         [HttpPost("createBehavioralSkillEvaluation")]
-        public async Task<IActionResult> createBehavioralSkillEvaluation(int userId, BehavioralSkillEvaluationForCreationDto behavioralSkillEvaluationCreationDto)
+        public async Task<IActionResult> createBehavioralSkillEvaluation(int userId, IEnumerable<BehavioralSkillEvaluationForCreationDto> behavioralSkillEvaluationsCreationDto)
         {
             try
             {
                 if (!await IsItAllowed(userId)) Unauthorized();
 
                 // Create a new behavioralSkillEvaluation
-                var behavioralSkillEvaluation = _mapper.Map<BehavioralSkillEvaluation>(behavioralSkillEvaluationCreationDto);
-                _repo.BehavioralSkillEvaluation.AddBehavioralSkillEvaluation(behavioralSkillEvaluation);
+                foreach (var behavioralSkillEvaluationCreationDto in behavioralSkillEvaluationsCreationDto)
+                {
+                    var behavioralSkillEvaluation = _mapper.Map<BehavioralSkillEvaluation>(behavioralSkillEvaluationCreationDto);
+                    behavioralSkillEvaluation.EvaluatorId = userId;
+                    _repo.BehavioralSkillEvaluation.AddBehavioralSkillEvaluation(behavioralSkillEvaluation);
+                }
+
                 await _repo.BehavioralSkillEvaluation.SaveAllAsync();
 
-                return CreatedAtRoute("GetBehavioralSkillEvaluation", new { id = behavioralSkillEvaluation.Id }, behavioralSkillEvaluation);
+                return NoContent();
             }
             catch (Exception ex)
             {

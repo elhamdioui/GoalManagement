@@ -27,9 +27,9 @@ export class SheetDetailComponent implements OnInit {
   areGoalsCompleted: boolean;
   areGoalsReadOnly: boolean;
   areGoalsEvaluable: boolean;
+  areBehavioralSkillsEvaluable: boolean;
   totalGrade: string;
   goalIdToExpand: number;
-  behavioralSkillIdToExpand: number;
 
   constructor(private route: ActivatedRoute, private router: Router, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -76,6 +76,7 @@ export class SheetDetailComponent implements OnInit {
       .subscribe(
         (result: BehavioralSkillInstance[]) => {
           this.loading = false;
+          this.CanBehavioralSkillBeEvaluated();
           this.behavioralSkillInstanceList = result;
         },
         error => {
@@ -161,6 +162,14 @@ export class SheetDetailComponent implements OnInit {
     return this.areGoalsEvaluable;
   }
 
+  CanBehavioralSkillBeEvaluated() {
+    if (this.sheetDetail.ownerId == this.authService.decodedToken.nameid) {
+      this.areBehavioralSkillsEvaluable = false;
+    } else {
+      this.areBehavioralSkillsEvaluable = true;
+    }
+  }
+
   handleValidateGoals() {
     this.loading = true;
 
@@ -218,16 +227,14 @@ export class SheetDetailComponent implements OnInit {
       );
   }
 
-  handleAddBehavioralSkillEvaluation(newEval: any) {
+  handleAddBehavioralSkillEvaluation(evals: any[]) {
     this.loading = true;
-    let behavioralSkillEval = { ...newEval, evaluatorId: this.authService.decodedToken.nameid };
-    this.behavioralSkillIdToExpand = newEval.behavioralSkillId;
     this.userService
-      .addBehavioralSkillEvaluations(this.authService.decodedToken.nameid, behavioralSkillEval)
+      .addBehavioralSkillEvaluations(this.authService.decodedToken.nameid, evals)
       .subscribe(
         () => {
           this.loading = false;
-          this.getBehavioralSkillEvaluations();
+          this.alertify.success('les évaluations de compétences comportementales ont été enregistrées avec succès.');
         },
         error => {
           this.loading = false;

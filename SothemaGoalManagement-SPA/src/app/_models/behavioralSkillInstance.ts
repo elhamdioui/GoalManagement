@@ -1,3 +1,5 @@
+import { BehavioralSkillEvaluation } from "./behavioralSkillEvaluation";
+
 export interface BehavioralSkillInstance {
   id: number;
   skill: string;
@@ -18,4 +20,8 @@ export interface BehavioralSkillInstance {
   createdById: number;
   status: string;
   created: Date;
+  behavioralSkillEvaluations: BehavioralSkillEvaluation[];
+  behavioralSkillGrade: number;
+  behavioralSkillLevel: string;
+
 }

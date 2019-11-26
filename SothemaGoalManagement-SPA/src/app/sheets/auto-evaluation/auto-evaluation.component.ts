@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 import { GoalEvaluation } from '../../_models/goalEvaluation';
 
@@ -14,8 +13,6 @@ export class AutoEvaluationComponent implements OnInit {
   @Input() goalIdToExpand: number;
   @Input() sheetOwnerId: number;
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
-  faCaretDown = faCaretDown;
-  faCaretUp = faCaretUp;
   totalGrade: string;
 
   constructor() { }

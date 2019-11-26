@@ -86,6 +86,8 @@ namespace SothemaGoalManagement.API.Helpers
                 opt.ResolveUsing(u => u.CreatedBy.FirstName.FullName(u.CreatedBy.LastName));
             });
 
+            CreateMap<BehavioralSkillInstance, BehavioralSkillToReturnDto>();
+
             CreateMap<EvaluationFileForCreationDto, EvaluationFile>();
 
             CreateMap<EvaluationFileForUpdateDto, EvaluationFile>().ForMember(x => x.BehavioralSkills, opt => opt.Ignore()); ;
@@ -128,6 +130,13 @@ namespace SothemaGoalManagement.API.Helpers
             CreateMap<GoalEvaluationForCreationDto, GoalEvaluation>();
 
             CreateMap<GoalEvaluation, GoalEvaluationToReturnDto>().ForMember(dest => dest.EvaluatorName, opt =>
+            {
+                opt.ResolveUsing(u => u.Evaluator.FirstName.FullName(u.Evaluator.LastName));
+            });
+
+            CreateMap<BehavioralSkillEvaluationForCreationDto, BehavioralSkillEvaluation>();
+
+            CreateMap<BehavioralSkillEvaluation, BehavioralSkillEvaluationToReturnDto>().ForMember(dest => dest.EvaluatorName, opt =>
             {
                 opt.ResolveUsing(u => u.Evaluator.FirstName.FullName(u.Evaluator.LastName));
             });

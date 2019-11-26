@@ -1,0 +1,43 @@
+<div class="card mt-1">
+  <div class="card-body">
+    <div class="alert alert-info mt-1" role="info" *ngIf="displayDefinition">
+      {{description}}
+    </div>
+    <table class="table table-hover mt-1">
+      <tr>
+        <th style="width: 20%"></th>
+        <th style="width: 15%">{{behavioralSkillInstanceList[0].levelOne}}</th>
+        <th style="width: 15%">{{behavioralSkillInstanceList[0].levelTwo}}</th>
+        <th style="width: 25%">{{behavioralSkillInstanceList[0].levelThree}}</th>
+        <th style="width: 25%">{{behavioralSkillInstanceList[0].levelFour}}</th>
+      </tr>
+      <tr *ngFor="let behavioralSkillInstance of behavioralSkillInstanceList">
+        <td>
+          <strong>{{behavioralSkillInstance.skill}}</strong>
+        </td>
+        <td align="center">
+          <input type="radio" (click)="levelSelected(behavioralSkillInstance.levelOneDescription)" name="{{behavioralSkillInstance.skill}}"
+            [value]="behavioralSkillInstance.levelOneGrade" [(ngModel)]="behavioralSkillInstance.behavioralSkillGrade" (ngModelChange)="changeEventInRadioButton(behavioralSkillInstance)"
+            checked>
+        </td>
+        <td align="center">
+          <input type="radio" (click)="levelSelected(behavioralSkillInstance.levelTwoDescription)" name="{{behavioralSkillInstance.skill}}"
+            [value]="behavioralSkillInstance.levelTwoGrade" [(ngModel)]="behavioralSkillInstance.behavioralSkillGrade" (ngModelChange)="changeEventInRadioButton(behavioralSkillInstance)">
+        </td>
+        <td align="center">
+          <input type="radio" (click)="levelSelected(behavioralSkillInstance.levelThreeDescription)" name="{{behavioralSkillInstance.skill}}"
+            [value]="behavioralSkillInstance.levelThreeGrade" [(ngModel)]="behavioralSkillInstance.behavioralSkillGrade" (ngModelChange)="changeEventInRadioButton(behavioralSkillInstance)">
+        </td>
+        <td align="center">
+          <input type="radio" (click)="levelSelected(behavioralSkillInstance.levelFourDescription)" name="{{behavioralSkillInstance.skill}}"
+            [value]="behavioralSkillInstance.levelFourGrade" [(ngModel)]="behavioralSkillInstance.behavioralSkillGrade" (ngModelChange)="changeEventInRadioButton(behavioralSkillInstance)">
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="card-footer" *ngIf="areBehavioralSkillsEvaluable">
+    <div class="float-right">
+      <button class="btn btn-primary" (click)="Save()">Enregistrer</button>
+    </div>
+  </div>
+</div>

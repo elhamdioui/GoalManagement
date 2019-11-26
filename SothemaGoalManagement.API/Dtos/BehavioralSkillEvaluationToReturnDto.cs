@@ -10,9 +10,8 @@ namespace SothemaGoalManagement.API.Dtos
 
         public string EvaluatorName { get; set; }
 
+        public string Level { get; set; }
         public int Grade { get; set; }
-
-        public string Comment { get; set; }
 
         public bool Sealed { get; set; }
 
