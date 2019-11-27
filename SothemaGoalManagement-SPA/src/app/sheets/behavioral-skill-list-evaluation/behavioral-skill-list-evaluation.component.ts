@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { BehavioralSkillInstance } from '../../_models/behavioralSkillInstance';
 
 @Component({
@@ -15,36 +16,44 @@ export class BehavioralSkillListEvaluationComponent implements OnInit {
   displayDefinition: boolean;
   description: string;
   evals: any[] = [];
+  faCheckCircle = faCheckCircle;
+  faTimesCircle = faTimesCircle;
 
   constructor() { }
 
   ngOnInit() {
+    this.evals = this.behavioralSkillInstanceList.map(behavioralSkillInstance => ({
+      grade: behavioralSkillInstance.behavioralSkillGrade,
+      level: behavioralSkillInstance.behavioralSkillLevel,
+      behavioralSkillInstanceId: behavioralSkillInstance.id,
+      evaluateeId: this.sheetOwnerId,
+      evaluationFileInstanceId: this.sheetId
+    }));
   }
 
-  changeEventInRadioButton(behavioralSkillInstance: BehavioralSkillInstance) {
-    let newEval = { grade: 0, level: '', behavioralSkillInstanceId: behavioralSkillInstance.id, evaluateeId: this.sheetOwnerId, evaluationFileInstanceId: this.sheetId };
-    switch (behavioralSkillInstance.behavioralSkillGrade) {
-      case behavioralSkillInstance.levelOneGrade:
-        newEval.grade = behavioralSkillInstance.levelOneGrade;
-        newEval.level = behavioralSkillInstance.levelOne;
-        break;
-      case behavioralSkillInstance.levelTwoGrade:
-        newEval.grade = behavioralSkillInstance.levelTwoGrade;
-        newEval.level = behavioralSkillInstance.levelTwo;
-        break;
-      case behavioralSkillInstance.levelThreeGrade:
-        newEval.grade = behavioralSkillInstance.levelThreeGrade;
-        newEval.level = behavioralSkillInstance.levelThree;
-        break;
-      case behavioralSkillInstance.levelFourGrade:
-        newEval.grade = behavioralSkillInstance.levelFourGrade;
-        newEval.level = behavioralSkillInstance.levelFour;
-        break;
-    }
-    this.evals.push(newEval);
+  changeEventInRadioButton(behavioralSkillInstance: BehavioralSkillInstance, newGrade: string) {
+    let newEval = {
+      grade: parseInt(newGrade),
+      level: this.getLevel(behavioralSkillInstance, newGrade),
+      behavioralSkillInstanceId: behavioralSkillInstance.id,
+      evaluateeId: this.sheetOwnerId,
+      evaluationFileInstanceId: this.sheetId
+    };
+
+    this.evals.splice(this.evals.findIndex(e => e.behavioralSkillInstanceId === behavioralSkillInstance.id), 1, newEval);
+    console.log('clicked:', this.evals);
   }
 
-  Save() {
+  getLevel(behavioralSkillInstance: BehavioralSkillInstance, grade: string) {
+    if (grade == behavioralSkillInstance.levelOneGrade.toString()) return behavioralSkillInstance.levelOne;
+    if (grade == behavioralSkillInstance.levelTwoGrade.toString()) return behavioralSkillInstance.levelTwo;
+    if (grade == behavioralSkillInstance.levelThreeGrade.toString()) return behavioralSkillInstance.levelThree;
+    if (grade == behavioralSkillInstance.levelFourGrade.toString()) return behavioralSkillInstance.levelFour;
+
+    return '';
+  }
+
+  save() {
     this.addBehavioralSkillEvaluationEvent.emit(this.evals);
   }
 
