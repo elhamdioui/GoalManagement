@@ -16,7 +16,7 @@ export class AxisPolesWeightsCardComponent implements OnInit {
   @Input() axis: Axis;
   @Input() isReadOnly: boolean;
   axisPoleList: AxisPole[];
-  loading = false;
+  public loading = false;
   isCollapsed: boolean = false;
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;

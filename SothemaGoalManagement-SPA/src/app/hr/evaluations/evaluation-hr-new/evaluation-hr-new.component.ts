@@ -28,7 +28,7 @@ export class EvaluationHrNewComponent implements OnInit {
   @Output() cancelCreation = new EventEmitter();
   @Output() switchOffCreation = new EventEmitter();
   newForm: FormGroup;
-  loading = false;
+  public loading = false;
   strategyList: Strategy[];
   skillsData: BehavioralSkill[];
 

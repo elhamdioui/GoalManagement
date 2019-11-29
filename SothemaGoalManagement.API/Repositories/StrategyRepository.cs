@@ -41,7 +41,8 @@ namespace SothemaGoalManagement.API.Repositories
                     strategies = strategies.Where(s => s.Status == Constants.ARCHIVED);
                     break;
                 default:
-                    strategies = strategies.Where(s => s.OwnerId == strategyParams.OwnerId);
+                    strategies = strategies.Where(s => (s.Status == Constants.DRAFT && s.OwnerId == strategyParams.OwnerId)
+                    || s.Status == Constants.REVIEW || s.Status == Constants.PUBLISHED || s.Status == Constants.ARCHIVED);
                     break;
             }
 

@@ -14,7 +14,7 @@
       </tr>
       <tr *ngFor="let behavioralSkillInstance of behavioralSkillInstanceList">
         <td>
-          <strong>{{behavioralSkillInstance.skill}}</strong>
+          <strong style="cursor: pointer" (click)="levelSelected(behavioralSkillInstance.definition)">{{behavioralSkillInstance.skill}}</strong>
         </td>
         <td align="center">
           <div *ngIf="areBehavioralSkillsEvaluable">

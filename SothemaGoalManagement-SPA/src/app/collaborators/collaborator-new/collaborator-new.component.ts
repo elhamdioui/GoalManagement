@@ -28,7 +28,7 @@ export class CollaboratorNewComponent implements OnInit {
   newUserForm: FormGroup;
   bsConfig: Partial<BsDatepickerConfig>;
   notifyUser: boolean = false;
-  loading = false;
+  public loading = false;
 
   constructor(private fb: FormBuilder, private adminService: AdminService, private alertify: AlertifyService) { }
 

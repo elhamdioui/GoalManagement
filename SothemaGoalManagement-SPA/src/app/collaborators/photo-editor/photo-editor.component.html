@@ -1,3 +1,5 @@
+<ngx-loading [show]="loading"></ngx-loading>
+
 <div class="row">
   <div class="col-sm-2 img-wrapper" *ngFor="let photo of photos">
     <img src="{{ photo.url }}" class="img-thumbnail p1" alt="" [ngClass]="!photo.isApproved && 'not-approved'" />

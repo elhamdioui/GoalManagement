@@ -18,7 +18,7 @@ import { AuthService } from '../../_services/auth.service';
 export class ResetPasswordComponent implements OnInit {
   model: any = {};
   resetPasswordForm: FormGroup;
-  loading = false;
+  public loading = false;
 
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private authService: AuthService,
     private alertify: AlertifyService, ) { }

@@ -1,4 +1,5 @@
 <div class="container mt-4">
+  <ngx-loading [show]="loading"></ngx-loading>
   <div class="row">
     <div class="col-sm-8 offset-sm-4">
       <div *ngIf="editForm.dirty" class="alert alert-info">
@@ -40,26 +41,30 @@
               <div class="row">
                 <div class="col-lg-4">
                   <h4>Prénom</h4>
-                  <input type="text" name="firstName" class="form-control" [(ngModel)]="user.firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': firstName.invalid }" required/>
+                  <input type="text" name="firstName" class="form-control" [(ngModel)]="user.firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': firstName.invalid }"
+                    required/>
                   <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="invalid-feedback">
                     <div *ngIf="firstName.errors.required">Le prénom est requis.</div>
                   </div>
-                  
+
                   <h4>Nom</h4>
-                  <input type="text" name="lastName" class="form-control" [(ngModel)]="user.lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': lastName.invalid }" required/>
+                  <input type="text" name="lastName" class="form-control" [(ngModel)]="user.lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': lastName.invalid }"
+                    required/>
                   <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="invalid-feedback">
                     <div *ngIf="lastName.errors.required">Le nom est requis.</div>
                   </div>
 
                   <h4>Statut</h4>
-                  <select class="form-control mb-1" style="width: 200px" id="userStatusId" name="userStatusId" [(ngModel)]="user.userStatus.id" required>
+                  <select class="form-control mb-1" style="width: 200px" id="userStatusId" name="userStatusId" [(ngModel)]="user.userStatus.id"
+                    required>
                     <option *ngFor="let us of userStatusList" [ngValue]="us.id">
                       {{ us.name }}
                     </option>
                   </select>
 
                   <h4>Fonction</h4>
-                  <input type="text" name="title" class="form-control" [(ngModel)]="user.title" #title="ngModel" [ngClass]="{ 'is-invalid': title.invalid }" required/>
+                  <input type="text" name="title" class="form-control" [(ngModel)]="user.title" #title="ngModel" [ngClass]="{ 'is-invalid': title.invalid }"
+                    required/>
                   <div *ngIf="title.invalid && (title.dirty || title.touched)" class="invalid-feedback">
                     <div *ngIf="title.errors.required">La fonction est requise.</div>
                   </div>
@@ -75,19 +80,22 @@
 
                 <div class="col-lg-6 offset-lg1">
                   <h4>Matricule</h4>
-                  <input type="text" name="employeeNumber" class="form-control" [(ngModel)]="user.employeeNumber" #employeeNumber="ngModel" [ngClass]="{ 'is-invalid': employeeNumber.invalid }" required/>
+                  <input type="text" name="employeeNumber" class="form-control" [(ngModel)]="user.employeeNumber" #employeeNumber="ngModel"
+                    [ngClass]="{ 'is-invalid': employeeNumber.invalid }" required/>
                   <div *ngIf="employeeNumber.invalid && (employeeNumber.dirty || employeeNumber.touched)" class="invalid-feedback">
                     <div *ngIf="employeeNumber.errors.required">Le matricule est requis.</div>
                   </div>
 
                   <h4>Email</h4>
-                  <input type="text" name="email" class="form-control" [(ngModel)]="user.email" required #email="ngModel" [ngClass]="{ 'is-invalid': email.invalid }" required/>
+                  <input type="text" name="email" class="form-control" [(ngModel)]="user.email" required #email="ngModel" [ngClass]="{ 'is-invalid': email.invalid }"
+                    required/>
                   <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
                     <div *ngIf="email.errors.required">L'email est requis.</div>
                   </div>
 
                   <h4>Date de recrutement</h4>
-                  <input type="text" name="recruitmentDate" class="form-control mb-1" [(ngModel)]="user.recruitmentDate" bsDatepicker [bsConfig]="bsConfig" #recruitmentDate="ngModel" [ngClass]="{ 'is-invalid': recruitmentDate.invalid }" required/>
+                  <input type="text" name="recruitmentDate" class="form-control mb-1" [(ngModel)]="user.recruitmentDate" bsDatepicker [bsConfig]="bsConfig"
+                    #recruitmentDate="ngModel" [ngClass]="{ 'is-invalid': recruitmentDate.invalid }" required/>
                   <div *ngIf="recruitmentDate.invalid && (recruitmentDate.dirty || recruitmentDate.touched)" class="invalid-feedback">
                     <div *ngIf="recruitmentDate.errors.required">Le prénom est requis.</div>
                   </div>

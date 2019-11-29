@@ -22,7 +22,7 @@ import { AuthService } from '../../../_services/auth.service';
 export class StrategyDetailComponent implements OnInit {
   strategy: Strategy;
   axisList: Axis[];
-  loading: boolean = false;
+  public loading: boolean = false;
   isReadOnly: boolean;
   faTrash = faTrash;
 

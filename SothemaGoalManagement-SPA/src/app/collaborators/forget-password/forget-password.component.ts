@@ -11,7 +11,7 @@ import { AuthService } from '../../_services/auth.service';
 })
 export class ForgetPasswordComponent implements OnInit {
   model: any = {};
-  loading = false;
+  public loading = false;
 
   constructor(private router: Router, private authService: AuthService, private alertify: AlertifyService, ) { }
 

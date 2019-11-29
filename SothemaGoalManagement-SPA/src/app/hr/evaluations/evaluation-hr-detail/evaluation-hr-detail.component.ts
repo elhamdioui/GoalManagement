@@ -22,7 +22,7 @@ import { EvaluationFileInstanceLog } from '../../../_models/evaluationFileInstan
 export class EvaluationHrDetailComponent implements OnInit {
   evaluationFile: EvaluationFile;
   evaluationFileInstanceList: EvaluationFileInstance[] = [];
-  loading: boolean;
+  public loading: boolean;
   userStatusList: UserStatus[];
   bsModalRef: BsModalRef;
   faTrash = faTrash

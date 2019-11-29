@@ -17,7 +17,7 @@ export class MessagesComponent implements OnInit {
   messages: Message[];
   pagination: Pagination;
   messageContainer = 'Unread';
-  loading = false;
+  public loading = false;
   faList = faList;
   faEnvelope = faEnvelope;
   faEnvelopeOpen = faEnvelopeOpen;

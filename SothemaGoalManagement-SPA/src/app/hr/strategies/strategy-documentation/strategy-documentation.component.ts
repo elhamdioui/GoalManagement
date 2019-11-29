@@ -19,7 +19,7 @@ export class StrategyDocumentationComponent implements OnInit {
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
-  loading = false;
+  public loading = false;
   faTrash = faTrash;
 
   constructor(private alertifyService: AlertifyService, private hrService: HrService, ) { }

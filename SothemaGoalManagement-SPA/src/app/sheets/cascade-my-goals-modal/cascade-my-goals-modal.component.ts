@@ -19,7 +19,7 @@ export class CascadeMyGoalsModalComponent implements OnInit {
   cascadededGoal: any = {};
   evaluatees: Evaluator[];
   cascadededGoals: any[];
-  loading = false;
+  public loading = false;
   selectedAll: boolean;
   usersGoalWeights: any[] = [];
 

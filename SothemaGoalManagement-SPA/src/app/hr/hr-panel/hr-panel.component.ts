@@ -26,7 +26,7 @@ export class HrPanelComponent implements OnInit {
   strategyList: Strategy[];
   skillList: BehavioralSkill[];
   pagination: Pagination;
-  loading = false;
+  public loading = false;
 
   constructor(private route: ActivatedRoute, private hrService: HrService,
     private authService: AuthService,

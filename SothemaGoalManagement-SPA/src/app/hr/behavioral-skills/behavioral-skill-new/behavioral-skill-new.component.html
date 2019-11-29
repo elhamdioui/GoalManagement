@@ -1,4 +1,5 @@
 <div class="row" d-flex justify-content-center>
+  <ngx-loading [show]="loading"></ngx-loading>
   <form [formGroup]="newForm" class="form-inline" (ngSubmit)="create()">
     <div class="col-sm-12 text-center">
       <h2 class="ext-primary">Création d'une compétence comportementale</h2>

@@ -20,7 +20,7 @@ export class PhotoEditorComponent implements OnInit {
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
   currentMain: Photo;
-  loading = false;
+  public loading = false;
   faTrash = faTrash;
   faHome = faHome;
 

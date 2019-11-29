@@ -24,7 +24,7 @@ export class BehavioralSkillNewComponent implements OnInit {
   @Output() switchOffCreation = new EventEmitter();
   newBehavioralSkill: BehavioralSkill;
   newForm: FormGroup;
-  loading = false;
+  public loading = false;
 
   constructor(private fb: FormBuilder, private hrService: HrService, private authService: AuthService, private alertify: AlertifyService) { }
 

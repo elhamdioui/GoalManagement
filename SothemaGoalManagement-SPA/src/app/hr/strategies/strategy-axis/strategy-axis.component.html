@@ -1,4 +1,5 @@
 <div class="card">
+  <ngx-loading [show]="loading"></ngx-loading>
   <div *ngIf="!isReadOnly" class="card-header">
     <form #axisForm="ngForm" (ngSubmit)="axisForm.valid && addAxis()">
       <div class="form-group required">

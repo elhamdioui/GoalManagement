@@ -71,11 +71,11 @@ namespace SothemaGoalManagement.API.Controllers
         {
             try
             {
-                if (ownerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
-
                 var strategyFromRepo = await _repo.Strategy.GetStrategy(id);
 
                 if (strategyFromRepo == null) return NotFound();
+
+                if (ownerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) && strategyFromRepo.Status == Constants.DRAFT) return Unauthorized();
 
                 var strategyToReturn = _mapper.Map<StrategyToReturnDto>(strategyFromRepo);
                 return Ok(strategyToReturn);

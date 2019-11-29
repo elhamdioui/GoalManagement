@@ -1,4 +1,5 @@
 <div class="container">
+  <ngx-loading [show]="loading"></ngx-loading>
 
   <div class="card mt-2" style="width: 30rem;" *ngIf="strategy.documentationUrl">
     <a href="{{strategy.documentationUrl}}" target="_blanc" class="mt-2">

@@ -18,7 +18,7 @@ export class CollaboratorSearchComponent implements OnInit {
   @Output() actionEvent = new EventEmitter<User[]>();
   users: any;
   searchTerm: { userToSearch: string, userStatusId: number };
-  loading = false;
+  public loading = false;
   selectedAll: any;
   selectedUsers: User[] = [];
 

@@ -13,7 +13,7 @@ import { AuthService } from '../_services/auth.service';
 export class HomeComponent implements OnInit {
   registerMode = false;
   model: any = {};
-  loading = false;
+  public loading = false;
   faUser = faUser;
   faKey = faKey;
 

@@ -46,7 +46,8 @@ namespace SothemaGoalManagement.API.Repositories
                     behavioralSkills = behavioralSkills.Where(s => s.Status == Constants.ARCHIVED);
                     break;
                 default:
-                    behavioralSkills = behavioralSkills.Where(s => s.CreatedById == behavioralSkillParams.OwnerId);
+                    behavioralSkills = behavioralSkills.Where(s => (s.Status == Constants.DRAFT && s.CreatedById == behavioralSkillParams.OwnerId)
+                    || s.Status == Constants.REVIEW || s.Status == Constants.PUBLISHED || s.Status == Constants.ARCHIVED);
                     break;
             }
 

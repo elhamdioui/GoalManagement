@@ -18,7 +18,7 @@ export class EvaluatorAssignmentComponent implements OnInit {
   @Input() evaluated: User;
   evaluators: Evaluator[];
   evaluatees: Evaluator[];
-  loading = false;
+  public loading = false;
   bsModalRef: BsModalRef;
   userStatusList: UserStatus[];
   faTrash = faTrash;

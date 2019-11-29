@@ -52,7 +52,8 @@ namespace SothemaGoalManagement.API.Repositories
                     evaluationFilesWithBehavioralSkills = evaluationFilesWithBehavioralSkills.Where(s => s.Status == Constants.ARCHIVED);
                     break;
                 default:
-                    evaluationFilesWithBehavioralSkills = evaluationFilesWithBehavioralSkills.Where(s => s.CreatedById == evaluationFileParams.OwnerId);
+                    evaluationFilesWithBehavioralSkills = evaluationFilesWithBehavioralSkills.Where(s => (s.Status == Constants.DRAFT && s.CreatedById == evaluationFileParams.OwnerId)
+                    || s.Status == Constants.REVIEW || s.Status == Constants.PUBLISHED || s.Status == Constants.ARCHIVED);
                     break;
             }
 

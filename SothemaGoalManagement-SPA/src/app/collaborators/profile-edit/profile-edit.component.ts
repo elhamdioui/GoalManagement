@@ -22,7 +22,7 @@ export class ProfileEditComponent implements OnInit {
       $event.returnValue = true;
     }
   }
-  loading = false;
+  public loading = false;
 
   constructor(
     private route: ActivatedRoute,

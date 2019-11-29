@@ -30,7 +30,7 @@ export class SheetsPanelComponent implements OnInit {
   sheets: EvaluationFileInstance[];
   sheetToValidate: EvaluationFileInstance;
   sheetsToValidate: EvaluationFileInstance[];
-  loading = false;
+  public loading = false;
   goalList: Goal[];
   bsModalRef: BsModalRef;
   goalsByAxisInstanceList: GoalByAxisInstance[];

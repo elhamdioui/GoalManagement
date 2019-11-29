@@ -19,7 +19,7 @@ export class StrategyAxisComponent implements OnInit {
   @Output() addAxisEvent = new EventEmitter<Axis>();
   newAxis: any = {};
   bsModalRef: BsModalRef;
-  loading = false;
+  public loading = false;
   faTrash = faTrash;
   faEdit = faEdit;
 

@@ -23,7 +23,7 @@ export class SheetDetailComponent implements OnInit {
   goalsByAxisInstanceList: GoalByAxisInstance[];
   behavioralSkillInstanceList: BehavioralSkillInstance[];
   goalTypeList: GoalType[];
-  loading = false;
+  public loading = false;
   areGoalsCompleted: boolean;
   areGoalsReadOnly: boolean;
   areGoalsEvaluable: boolean;
@@ -119,7 +119,7 @@ export class SheetDetailComponent implements OnInit {
     }, error => {
       this.loading = false;
       this.alertify.error(error);
-    })
+    });
   }
 
   handleDeleteGoal(goal: Goal) {

@@ -1,4 +1,5 @@
 <div class="container mt-4">
+  <ngx-loading [show]="loading"></ngx-loading>
   <div class="row">
     <div class="col-sm-4">
       <h1>Votre profil</h1>
@@ -44,19 +45,22 @@
           <tab heading="Editer Profile">
             <form #editForm="ngForm" id="editForm" (ngSubmit)="updateUser()">
               <h4>Prénom:</h4>
-              <input type="text" name="firstName" rows="6" class="form-control" [(ngModel)]="user.firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': firstName.invalid }" required/>
+              <input type="text" name="firstName" rows="6" class="form-control" [(ngModel)]="user.firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': firstName.invalid }"
+                required/>
               <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="invalid-feedback">
                 <div *ngIf="firstName.errors.required">Le prénom est requis.</div>
               </div>
 
               <h4>Nom:</h4>
-              <input type="text" name="lastName" rows="6" class="form-control" [(ngModel)]="user.lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': lastName.invalid }" required/>
+              <input type="text" name="lastName" rows="6" class="form-control" [(ngModel)]="user.lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': lastName.invalid }"
+                required/>
               <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="invalid-feedback">
                 <div *ngIf="lastName.errors.required">Le nom est requis.</div>
               </div>
-              
+
               <h4>Fonction:</h4>
-              <input type="text" name="title" rows="6" class="form-control" [(ngModel)]="user.title" #title="ngModel" [ngClass]="{ 'is-invalid': title.invalid }" required/>
+              <input type="text" name="title" rows="6" class="form-control" [(ngModel)]="user.title" #title="ngModel" [ngClass]="{ 'is-invalid': title.invalid }"
+                required/>
               <div *ngIf="title.invalid && (title.dirty || title.touched)" class="invalid-feedback">
                 <div *ngIf="title.errors.required">La fonction est requise.</div>
               </div>
