@@ -73,6 +73,8 @@ namespace SothemaGoalManagement.API.Controllers
             {
                 var user = await _repo.User.GetUser(ownerId, false);
                 if (user.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var evaluationFileFromRepo = await _repo.EvaluationFile.GetEvaluationFileByStratgeyId(evaluationFileForCreationDto.StrategyId);
+                if (evaluationFileFromRepo != null) return BadRequest("La stratégie sélectionnée est déjà utilisée par un autre modèle d'évaluation");
 
                 evaluationFileForCreationDto.OwnerId = ownerId;
 

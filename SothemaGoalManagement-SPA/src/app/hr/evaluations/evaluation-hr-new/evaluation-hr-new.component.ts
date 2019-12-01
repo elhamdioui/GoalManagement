@@ -46,9 +46,7 @@ export class EvaluationHrNewComponent implements OnInit {
     this.hrService.getPublishedStrategies().subscribe(
       (result: Strategy[]) => {
         this.loading = false;
-        console.log('result:', result);
         this.strategyList = result.filter(r => r.sealed === false);
-        console.log('this.strategyList:', this.strategyList);
       },
       error => {
         this.loading = false;
@@ -62,7 +60,7 @@ export class EvaluationHrNewComponent implements OnInit {
     of(this.hrService.getPublishedBehavioralSkills().subscribe(
       (result: BehavioralSkill[]) => {
         this.loading = false;
-        this.skillsData = result.filter(r => r.sealed === false);;
+        this.skillsData = result;//.filter(r => r.sealed === false);;
         this.addCheckboxes();
       },
       error => {
