@@ -1,6 +1,7 @@
 <div class="card mt-2">
   <div class="card-header">
-    <input type="text" placeholder="Filtrer par utilisateurs" [(value)]="values" (keyup)="onKeyUp($event)" />
+    <input type="text" placeholder="Filtrer par utilisateurs" [(value)]="values" (keyup)="onKeyUp($event)" *ngIf="!showLogs"
+    />
     <span class="float-right">
       <button class="btn btn-secondary" (click)="toggleLogs()">
         <span *ngIf="showLogs">
@@ -22,7 +23,7 @@
           <th style="width: 25%">Pole</th>
           <td style="width: 5%"></td>
         </tr>
-        <tr *ngFor="let evaluationFileInsatnce of filteredEvaluationFileInstances">
+        <tr *ngFor="let evaluationFileInsatnce of filteredEvaluationFileInstances" [routerLink]="['/sheets', evaluationFileInsatnce.id]">
           <td>{{ evaluationFileInsatnce.title }}</td>
           <td>{{ evaluationFileInsatnce.ownerName }}</td>
           <td>{{ evaluationFileInsatnce.axisInstances[0].poleName }}</td>
