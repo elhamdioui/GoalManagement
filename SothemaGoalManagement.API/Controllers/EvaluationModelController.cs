@@ -134,10 +134,8 @@ namespace SothemaGoalManagement.API.Controllers
         {
             try
             {
-                var owner = await _repo.User.GetUser(ownerId, false);
-                if (owner.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                if (ownerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
 
-                evaluationFileForUpdateDto.OwnerId = ownerId;
                 var evaluationFileFromRepo = await _repo.EvaluationFile.GetEvaluationFile(evaluationFileForUpdateDto.Id);
                 if (evaluationFileFromRepo == null) return BadRequest("La fiche d'évaluation n'existe pas!");
                 if (evaluationFileFromRepo.Sealed && evaluationFileForUpdateDto.Status != Constants.ARCHIVED) return BadRequest("La fiche d'évaluation est scellée!");

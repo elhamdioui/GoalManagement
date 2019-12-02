@@ -231,10 +231,8 @@ namespace SothemaGoalManagement.API.Controllers
         {
             try
             {
-                var owner = await _repo.User.GetUser(ownerId, false);
-                if (owner.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                if (ownerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
 
-                strategyForUpdateDto.OwnerId = ownerId;
                 var strategyFromRepo = await _repo.Strategy.GetStrategy(strategyForUpdateDto.Id);
                 if (strategyFromRepo == null) return BadRequest("La stratégie n'existe pas!");
                 if (strategyFromRepo.Sealed) return BadRequest("La stratégie est scellée!");

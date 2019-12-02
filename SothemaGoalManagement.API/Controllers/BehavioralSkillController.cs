@@ -159,10 +159,8 @@ namespace SothemaGoalManagement.API.Controllers
         {
             try
             {
-                var owner = await _repo.User.GetUser(createdById, false);
-                if (owner.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                if (createdById != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
 
-                behavioralSkillForUpdateDto.CreatedById = createdById;
                 var behavioralSkillFromRepo = await _repo.BehavioralSkill.GetBehavioralSkill(behavioralSkillForUpdateDto.Id);
                 if (behavioralSkillFromRepo.Sealed) return BadRequest("La compétence comportementale est scellée!");
 

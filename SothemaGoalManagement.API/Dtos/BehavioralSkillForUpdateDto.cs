@@ -19,7 +19,6 @@ namespace SothemaGoalManagement.API.Dtos
         public string LevelTwoDescription { get; set; }
         public string LevelThreeDescription { get; set; }
         public string LevelFourDescription { get; set; }
-        [Required] public int CreatedById { get; set; }
         [Required] public string Status { get; set; }
     }
 }
