@@ -36,6 +36,7 @@ export class SheetsPanelComponent implements OnInit {
   goalsByAxisInstanceList: GoalByAxisInstance[];
   goalsMode = false;
   detailMode: boolean;
+  public behavioralSkillEvaluationUpdated: boolean;
 
   constructor(private modalService: BsModalService, private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -88,7 +89,7 @@ export class SheetsPanelComponent implements OnInit {
 
   handleDeleteGoal(id: number) {
     this.alertify.confirm('Supprimer',
-      'Etes-vous sur de vouloir supprimer cet objectif?',
+      'Êtes-vous sûr de vouloir supprimer cet objectif?',
       () => {
         this.loading = true;
         this.userService
@@ -216,7 +217,9 @@ export class SheetsPanelComponent implements OnInit {
 
   switchOffDetailMode() {
     this.detailMode = false;
+  }
 
-    this.tabSet.tabs[1].active = true;
+  handleBehavioralSkillEvaluationUpdated(event: boolean) {
+    this.behavioralSkillEvaluationUpdated = event;
   }
 }

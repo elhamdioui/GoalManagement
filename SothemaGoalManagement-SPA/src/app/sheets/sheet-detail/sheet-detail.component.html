@@ -74,7 +74,8 @@
         <tab heading="Évaluation des Compétence Comportementale">
           <div *ngIf="behavioralSkillInstanceList">
             <app-behavioral-skill-list-evaluation [areBehavioralSkillsEvaluable]="areBehavioralSkillsEvaluable" [sheetId]="sheetDetail.id"
-              [sheetOwnerId]="sheetDetail.ownerId" [behavioralSkillInstanceList]="behavioralSkillInstanceList" (addBehavioralSkillEvaluationEvent)="handleAddBehavioralSkillEvaluation($event)"></app-behavioral-skill-list-evaluation>
+              [sheetOwnerId]="sheetDetail.ownerId" [behavioralSkillInstanceList]="behavioralSkillInstanceList" (addBehavioralSkillEvaluationEvent)="handleAddBehavioralSkillEvaluation($event)"
+              (behavioralSkillEvaluationUpdatedEvent)="handleBehavioralSkillEvaluationUpdated($event)"></app-behavioral-skill-list-evaluation>
           </div>
         </tab>
       </tabset>

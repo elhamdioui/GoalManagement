@@ -66,7 +66,7 @@ export class EvaluationHrDetailComponent implements OnInit {
 
   handleDeleteEvaluationFileInstance(evaluationFileInstance: EvaluationFileInstance) {
     this.alertify.confirm('Supprimer',
-      `Etes-vous sur de vouloir supprimer la Fiche d\'évaluation: ${evaluationFileInstance.title}?`,
+      `Êtes-vous sûr de vouloir supprimer la Fiche d\'évaluation: ${evaluationFileInstance.title}?`,
       () => {
         this.loading = true;
         this.hrService
@@ -114,7 +114,7 @@ export class EvaluationHrDetailComponent implements OnInit {
 
   delete() {
     this.alertify.confirm('Supprimer',
-      'Etes-vous sur de vouloir supprimer ce modele?',
+      'Êtes-vous sûr de vouloir supprimer ce modele?',
       () => {
         this.loading = true;
         this.hrService.deleteEvaluationFile(this.evaluationFile.id, this.authService.decodedToken.nameid)

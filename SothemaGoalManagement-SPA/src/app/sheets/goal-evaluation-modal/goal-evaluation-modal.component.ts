@@ -22,7 +22,7 @@ export class GoalEvaluationModalComponent implements OnInit {
 
   addEvaluation() {
     this.alertify.confirm('Confirmer',
-      `Etes-vous sur de vouloir ajouter cette évaluation avec un taux de réalisation: ${this.newEval.completionRate} %?`,
+      `Êtes-vous sûr de vouloir ajouter cette évaluation avec un taux de réalisation: ${this.newEval.completionRate} %?`,
       () => {
         this.addGoalEvaluationEvent.emit(this.newEval);
         this.bsModalRef.hide();

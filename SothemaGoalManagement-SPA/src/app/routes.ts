@@ -5,7 +5,6 @@ import { HomeComponent } from './home/home.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { CollaboratorEditComponent } from './collaborators/collaborator-edit/collaborator-edit.component';
-import { PreventUnsavedChanges } from './_guards/prevent-unsave-changes-guards';
 import { MessagesResolver } from './_resolvers/messages.resolver';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { HrPanelComponent } from './hr/hr-panel/hr-panel.component';
@@ -32,7 +31,8 @@ import { SheetDetailResolver } from './_resolvers/sheet-detail.resolver';
 import { MyCollaboratorGoalsComponent } from './sheets/my-collaborator-goals/my-collaborator-goals.component';
 import { MyCollaboratorGoalsResolver } from './_resolvers/my-collaborator-goals.resolver';
 import { CollaboratorMessagesComponent } from './collaborators/collaborator-messages/collaborator-messages.component';
-
+import { PreventUnsavedChangesForCollaborator } from './_guards/prevent-unsave-changes-guards-for-collaborator';
+import { PreventUnsavedChangesForSheets } from './_guards/prevent-unsave-changes-guards-for-sheets';
 
 export const appRoutes: Routes = [
   {
@@ -56,12 +56,13 @@ export const appRoutes: Routes = [
         path: 'profile/edit',
         component: ProfileEditComponent,
         resolve: { user: ProfileEditResolver },
-        canDeactivate: [PreventUnsavedChanges]
+        canDeactivate: [PreventUnsavedChangesForCollaborator]
       },
       {
         path: 'sheets',
         component: SheetsPanelComponent,
-        resolve: { resolvedData: SheetsResolver }
+        resolve: { resolvedData: SheetsResolver },
+        canDeactivate: [PreventUnsavedChangesForSheets]
       }, {
         path: 'sheets/:id',
         component: SheetDetailComponent,
@@ -111,7 +112,7 @@ export const appRoutes: Routes = [
         path: 'admin/collaborators/edit/:id',
         component: CollaboratorEditComponent,
         resolve: { user: CollaboratorDetailResolver },
-        canDeactivate: [PreventUnsavedChanges]
+        canDeactivate: [PreventUnsavedChangesForCollaborator]
       }
     ]
   },

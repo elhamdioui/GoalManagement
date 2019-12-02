@@ -38,7 +38,8 @@ import { CollaboratorEditComponent } from './collaborators/collaborator-edit/col
 import { CollaboratorListResolver } from './_resolvers/collaborator-list.resolver';
 import { CollaboratorDetailResolver } from './_resolvers/collaborator-detail.resolver';
 import { CollaboratorNewComponent } from './collaborators/collaborator-new/collaborator-new.component';
-import { PreventUnsavedChanges } from './_guards/prevent-unsave-changes-guards';
+import { PreventUnsavedChangesForCollaborator } from './_guards/prevent-unsave-changes-guards-for-collaborator';
+import { PreventUnsavedChangesForSheets } from './_guards/prevent-unsave-changes-guards-for-sheets';
 import { PhotoEditorComponent } from './collaborators/photo-editor/photo-editor.component';
 import { MessagesResolver } from './_resolvers/messages.resolver';
 import { CollaboratorMessagesComponent } from './collaborators/collaborator-messages/collaborator-messages.component';
@@ -218,7 +219,8 @@ export function tokenGetter() {
     ErrorInterceptorProvider,
     AlertifyService,
     AuthGuard,
-    PreventUnsavedChanges,
+    PreventUnsavedChangesForCollaborator,
+    PreventUnsavedChangesForSheets,
     UserService,
     CollaboratorListResolver,
     CollaboratorDetailResolver,

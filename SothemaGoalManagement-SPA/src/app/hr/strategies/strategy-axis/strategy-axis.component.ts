@@ -36,7 +36,7 @@ export class StrategyAxisComponent implements OnInit {
 
   deleteAxis(id: number) {
     this.alertify.confirm('Supprimer',
-      'Etes-vous sur de vouloir supprimer cet axe?',
+      'Êtes-vous sûr de vouloir supprimer cet axe?',
       () => {
         this.loading = true;
         this.hrService

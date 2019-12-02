@@ -19,6 +19,7 @@ import { BehavioralSkillInstance } from '../../_models/behavioralSkillInstance';
 export class SheetDetailComponent implements OnInit {
   @Input() sheetToValidate: EvaluationFileInstance;
   @Output() switchOffDetailModeEvent = new EventEmitter();
+  @Output() behavioralSkillEvaluationUpdatedEvent = new EventEmitter<boolean>();
   sheetDetail: EvaluationFileInstance;
   goalsByAxisInstanceList: GoalByAxisInstance[];
   behavioralSkillInstanceList: BehavioralSkillInstance[];
@@ -30,6 +31,7 @@ export class SheetDetailComponent implements OnInit {
   areBehavioralSkillsEvaluable: boolean;
   totalGrade: string;
   goalIdToExpand: number;
+  behavioralSkillEvaluationUpdated: boolean;
 
   constructor(private route: ActivatedRoute, private router: Router, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -124,7 +126,7 @@ export class SheetDetailComponent implements OnInit {
 
   handleDeleteGoal(goal: Goal) {
     this.alertify.confirm('Supprimer',
-      `Etes-vous sur de vouloir supprimer l'objectif: ${goal.description}?`,
+      `Êtes-vous sûr de vouloir supprimer l'objectif: ${goal.description}?`,
       () => {
         this.loading = true;
         this.userService
@@ -243,9 +245,25 @@ export class SheetDetailComponent implements OnInit {
       );
   }
 
+  handleBehavioralSkillEvaluationUpdated(event: boolean) {
+    this.behavioralSkillEvaluationUpdated = event;
+    this.behavioralSkillEvaluationUpdatedEvent.emit(event);
+  }
+
   returnToList() {
     if (this.sheetToValidate) {
-      this.switchOffDetailModeEvent.emit();
+      if (this.behavioralSkillEvaluationUpdated) {
+        this.alertify.confirm('Confirmer',
+          `Êtes-vous sûr de vouloir revenir à la liste avant d’enregistrer les modifications apportées aux compétences comportementales?`,
+          () => {
+            this.switchOffDetailModeEvent.emit();
+            this.behavioralSkillEvaluationUpdated = false;
+            this.behavioralSkillEvaluationUpdatedEvent.emit(false);
+          }
+        );
+      } else {
+        this.switchOffDetailModeEvent.emit();
+      }
     } else {
       this.router.navigate(['/sheets']);
     }

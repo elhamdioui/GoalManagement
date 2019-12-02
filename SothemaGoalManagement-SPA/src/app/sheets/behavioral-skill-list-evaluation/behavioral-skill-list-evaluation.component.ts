@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { BehavioralSkillInstance } from '../../_models/behavioralSkillInstance';
 import { AlertifyService } from '../../_services/alertify.service';
@@ -14,11 +16,19 @@ export class BehavioralSkillListEvaluationComponent implements OnInit {
   @Input() sheetOwnerId: number;
   @Input() areBehavioralSkillsEvaluable: boolean;
   @Output() addBehavioralSkillEvaluationEvent = new EventEmitter<any[]>();
+  @Output() behavioralSkillEvaluationUpdatedEvent = new EventEmitter<boolean>();
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.dirty) {
+      $event.returnValue = true;
+    }
+  }
   displayDefinition: boolean;
   description: string;
   evals: any[] = [];
   faCheckCircle = faCheckCircle;
   faTimesCircle = faTimesCircle;
+  dirty: boolean;
 
   constructor(private alertify: AlertifyService) { }
 
@@ -42,7 +52,8 @@ export class BehavioralSkillListEvaluationComponent implements OnInit {
     };
 
     this.evals.splice(this.evals.findIndex(e => e.behavioralSkillInstanceId === behavioralSkillInstance.id), 1, newEval);
-    console.log('clicked:', this.evals);
+    this.dirty = true;
+    this.behavioralSkillEvaluationUpdatedEvent.emit(true);
   }
 
   getLevel(behavioralSkillInstance: BehavioralSkillInstance, grade: string) {
@@ -56,13 +67,15 @@ export class BehavioralSkillListEvaluationComponent implements OnInit {
 
   save() {
     this.alertify.confirm('Confirmer',
-      `Etes-vous sur de vouloir ajouter cette évaluation:
+      `Êtes-vous sûr de vouloir ajouter cette évaluation:
         <ul>
         ${this.evals.map(e => "<li>" + this.behavioralSkillInstanceList.find(b => b.id === e.behavioralSkillInstanceId).skill + ": " + e.level + "</li>").join("")}
         </ul>
         `,
       () => {
         this.addBehavioralSkillEvaluationEvent.emit(this.evals);
+        this.dirty = false;
+        this.behavioralSkillEvaluationUpdatedEvent.emit(false);
       }
     );
   }
