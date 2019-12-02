@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { BehavioralSkillInstance } from '../../_models/behavioralSkillInstance';
+import { AlertifyService } from '../../_services/alertify.service';
 
 @Component({
   selector: 'app-behavioral-skill-list-evaluation',
@@ -19,7 +20,7 @@ export class BehavioralSkillListEvaluationComponent implements OnInit {
   faCheckCircle = faCheckCircle;
   faTimesCircle = faTimesCircle;
 
-  constructor() { }
+  constructor(private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.evals = this.behavioralSkillInstanceList.map(behavioralSkillInstance => ({
@@ -54,7 +55,16 @@ export class BehavioralSkillListEvaluationComponent implements OnInit {
   }
 
   save() {
-    this.addBehavioralSkillEvaluationEvent.emit(this.evals);
+    this.alertify.confirm('Confirmer',
+      `Etes-vous sur de vouloir ajouter cette évaluation:
+        <ul>
+        ${this.evals.map(e => "<li>" + this.behavioralSkillInstanceList.find(b => b.id === e.behavioralSkillInstanceId).skill + ": " + e.level + "</li>").join("")}
+        </ul>
+        `,
+      () => {
+        this.addBehavioralSkillEvaluationEvent.emit(this.evals);
+      }
+    );
   }
 
   levelSelected(description) {
