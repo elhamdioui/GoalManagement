@@ -80,10 +80,10 @@ namespace SothemaGoalManagement.API
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("RequireAdminHRRoles", policy => policy.RequireRole("Admin", "HR"));
-                options.AddPolicy("RequireHRHRDRoles", policy => policy.RequireRole("HR", "HRD"));
-                options.AddPolicy("RequireHRDRole", policy => policy.RequireRole("HRD"));
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole(Constants.ADMIN));
+                options.AddPolicy("RequireAdminHRRoles", policy => policy.RequireRole(Constants.ADMIN, Constants.HR));
+                options.AddPolicy("RequireHRHRDRoles", policy => policy.RequireRole(Constants.HR, Constants.HRD));
+                options.AddPolicy("RequireHRDRole", policy => policy.RequireRole(Constants.HRD));
             });
 
             services.AddMvc(options =>
@@ -136,10 +136,10 @@ namespace SothemaGoalManagement.API
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("RequireAdminHRRoles", policy => policy.RequireRole("Admin", "HR"));
-                options.AddPolicy("RequireHRHRDRoles", policy => policy.RequireRole("HR", "HRD"));
-                options.AddPolicy("RequireHRDRole", policy => policy.RequireRole("HRD"));
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole(Constants.ADMIN));
+                options.AddPolicy("RequireAdminHRRoles", policy => policy.RequireRole(Constants.ADMIN, Constants.HR));
+                options.AddPolicy("RequireHRHRDRoles", policy => policy.RequireRole(Constants.HR, Constants.HRD));
+                options.AddPolicy("RequireHRDRole", policy => policy.RequireRole(Constants.HRD));
             });
 
             services.AddMvc(options =>

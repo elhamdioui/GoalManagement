@@ -490,7 +490,7 @@ namespace SothemaGoalManagement.API.Controllers
                         var roles = await _userManager.GetRolesAsync(currentUser);
                         foreach (var role in roles)
                         {
-                            if (role == "HR" || role == "DHR") return true;
+                            if (role == Constants.HR || role == Constants.HRD) return true;
 
                         }
                         return false;

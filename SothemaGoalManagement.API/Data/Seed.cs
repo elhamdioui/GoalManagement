@@ -4,6 +4,7 @@ using SothemaGoalManagement.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using System;
+using SothemaGoalManagement.API.Helpers;
 
 namespace SothemaGoalManagement.API.Data
 {
@@ -66,10 +67,10 @@ namespace SothemaGoalManagement.API.Data
 
                 var roles = new List<Role>
                 {
-                    new Role{Name = "Collaborator"},
-                    new Role{Name = "Admin"},
-                    new Role{Name = "HR"},
-                    new Role{Name = "HRD"}
+                    new Role{Name = Constants.COLLABORATOR},
+                    new Role{Name = Constants.ADMIN},
+                    new Role{Name = Constants.HR},
+                    new Role{Name = Constants.HRD}
                 };
 
                 foreach (var role in roles)
@@ -88,7 +89,7 @@ namespace SothemaGoalManagement.API.Data
                     {
                         if (user.UserName == "admin")
                         {
-                            _userManager.AddToRolesAsync(user, new[] { "Admin", "HR", "HRD" }).Wait();
+                            _userManager.AddToRolesAsync(user, new[] { Constants.ADMIN, Constants.HR, Constants.HRD }).Wait();
                         }
                         else
                         {
