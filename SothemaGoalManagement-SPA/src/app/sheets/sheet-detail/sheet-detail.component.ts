@@ -207,16 +207,12 @@ export class SheetDetailComponent implements OnInit {
       );
   }
 
-  saveAutoEvaluation() {
-    console.log('List:', this.goalsByAxisInstanceList);
-  }
-
   handleAddGoalEvaluation(newEval: any) {
     this.loading = true;
     let goalEval = { ...newEval, evaluatorId: this.authService.decodedToken.nameid };
     this.goalIdToExpand = newEval.goalId;
     this.userService
-      .addGoalEvaluations(this.authService.decodedToken.nameid, goalEval)
+      .addGoalEvaluations(this.sheetDetail.ownerId, goalEval)
       .subscribe(
         () => {
           this.loading = false;
@@ -232,7 +228,7 @@ export class SheetDetailComponent implements OnInit {
   handleAddBehavioralSkillEvaluation(evals: any[]) {
     this.loading = true;
     this.userService
-      .addBehavioralSkillEvaluations(this.authService.decodedToken.nameid, evals)
+      .addBehavioralSkillEvaluations(this.sheetDetail.ownerId, evals)
       .subscribe(
         () => {
           this.loading = false;

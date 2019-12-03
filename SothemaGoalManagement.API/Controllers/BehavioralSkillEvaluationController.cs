@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SothemaGoalManagement.API.Dtos;
 using SothemaGoalManagement.API.Helpers;
@@ -21,11 +22,14 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
         private ILoggerManager _logger;
         private IRepositoryWrapper _repo;
         private readonly IMapper _mapper;
-        public BehavioralSkillEvaluationController(ILoggerManager logger, IRepositoryWrapper repo, IMapper mapper)
+        private readonly UserManager<User> _userManager;
+
+        public BehavioralSkillEvaluationController(ILoggerManager logger, IRepositoryWrapper repo, IMapper mapper, UserManager<User> userManager)
         {
             _logger = logger;
             _mapper = mapper;
             _repo = repo;
+            _userManager = userManager;
         }
 
         [HttpGet("{id}", Name = "GetBehavioralSkillEvaluation")]
@@ -53,7 +57,7 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
         {
             try
             {
-                if (!await IsItAllowed(userId)) Unauthorized();
+                if (!await IsItAllowed(userId)) return Unauthorized();
 
                 var behavioralSkillInstancesFromRepo = await _repo.BehavioralSkillInstance.GetBehavioralSkillInstancesBySheetId(sheetId);
                 var behavioralSkillInstancesToReturn = _mapper.Map<IEnumerable<BehavioralSkillToReturnDto>>(behavioralSkillInstancesFromRepo);
@@ -78,7 +82,7 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
         {
             try
             {
-                if (!await IsItAllowed(userId)) Unauthorized();
+                if (!await IsItAllowed(userId, "write")) return Unauthorized();
 
                 // Create a new behavioralSkillEvaluation
                 foreach (var behavioralSkillEvaluationCreationDto in behavioralSkillEvaluationsCreationDto)
@@ -98,14 +102,32 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-        private async Task<bool> IsItAllowed(int userId)
+        private async Task<bool> IsItAllowed(int userId, string action = "read")
         {
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             if (userId != currentUserId)
             {
                 var evaluators = await _repo.User.LoadEvaluators(userId);
                 var evaluator = evaluators.FirstOrDefault(e => e.Id == currentUserId);
-                if (evaluator == null) return false;
+                if (evaluator == null)
+                {
+                    if (action == "read")
+                    {
+                        // Check if current user has allowed roles:
+                        var currentUser = await _userManager.FindByIdAsync(currentUserId.ToString());
+                        var roles = await _userManager.GetRolesAsync(currentUser);
+                        foreach (var role in roles)
+                        {
+                            if (role == "HR" || role == "DHR") return true;
+
+                        }
+                        return false;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
             return true;
         }
