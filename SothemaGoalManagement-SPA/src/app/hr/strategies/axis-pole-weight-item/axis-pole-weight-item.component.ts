@@ -12,7 +12,7 @@ import { AxisPole } from './../../../_models/axisPole';
 export class AxisPoleWeightItemComponent implements OnInit {
   @Input() axisPole: AxisPole;
   @Input() isReadOnly: boolean;
-  @Output() updateWeightEvent = new EventEmitter<AxisPole>();
+  @Output() updateAxisPoleEvent = new EventEmitter<AxisPole>();
   editing: boolean = false;
   faEdit = faEdit;
   faSave = faSave;
@@ -28,7 +28,7 @@ export class AxisPoleWeightItemComponent implements OnInit {
 
   toggleEdit() {
     if (this.editing) {
-      this.updateWeightEvent.emit(this.axisPole);
+      this.updateAxisPoleEvent.emit(this.axisPole);
     }
     this.editing = !this.editing;
   }

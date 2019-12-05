@@ -242,14 +242,13 @@ namespace SothemaGoalManagement.API.Controllers
                     {
                         return BadRequest("Vous ne pouvez pas publier cette stratégie car elle n'a aucun axe.");
                     }
-                    foreach (var axis in strategyFromRepo.AxisList)
+
+                    var weightsGroupedByPoles = await _repo.Axis.GetWeightsGroupedByPoles(strategyForUpdateDto.Id);
+                    foreach (var axisPole in weightsGroupedByPoles)
                     {
-                        foreach (var ap in axis.AxisPoles)
+                        if (axisPole.Weight != 100)
                         {
-                            if (ap.Weight == 0)
-                            {
-                                return BadRequest("Vous ne pouvez pas publier cette stratégie car une pondération de pôle égale 0%.");
-                            }
+                            return BadRequest("Vous ne pouvez pas publier cette stratégie car une pondération de pôle n'est pas égale à 100%.");
                         }
                     }
                 }

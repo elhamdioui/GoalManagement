@@ -13,6 +13,7 @@ import { Axis } from './../../../_models/axis';
 import { HrService } from '../../../_services/hr.service';
 import { AlertifyService } from '../../../_services/alertify.service';
 import { AuthService } from '../../../_services/auth.service';
+import { AxisPole } from '../../../_models/axisPole';
 
 @Component({
   selector: 'app-strategy-detail',
@@ -25,6 +26,9 @@ export class StrategyDetailComponent implements OnInit {
   public loading: boolean = false;
   isReadOnly: boolean;
   faTrash = faTrash;
+  tallyWeights: any = {};
+  messages: string[] = [];
+  axisPoles: AxisPole[] = [];
 
   constructor(private hrService: HrService, private authService: AuthService, private alertify: AlertifyService, private route: ActivatedRoute, private router: Router) { }
 
@@ -43,6 +47,7 @@ export class StrategyDetailComponent implements OnInit {
       axises => {
         this.loading = false;
         this.axisList = axises;
+        this.tallyWeightsPerPole();
       },
       error => {
         this.loading = false;
@@ -108,5 +113,38 @@ export class StrategyDetailComponent implements OnInit {
           );
       }
     );
+  }
+
+  tallyWeightsPerPole() {
+    this.axisPoles = [];
+    this.axisList.forEach(axis => this.axisPoles = [...this.axisPoles, ...axis.axisPoles]);
+    console.log('this.axisPoles:', this.axisPoles);
+    this.tallyWeights = this.axisPoles.reduce((tally, pole) => {
+      if (tally[pole.poleName]) tally[pole.poleName] = parseInt(tally[pole.poleName]) + pole.weight;
+      else tally[pole.poleName] = pole.weight;
+      return tally;
+    }, {});
+
+    if (this.messages.length > 0) this.messages = [];
+    for (let key in this.tallyWeights) {
+      this.messages.push(`Pondération total du ${key} est ${this.tallyWeights[key]}%.`);
+    }
+  }
+
+  handleUpdateAxisPole(axisPole: AxisPole) {
+    this.loading = true;
+    this.hrService
+      .updateAxisPoleWeigth(axisPole.axisId, axisPole.poleId, axisPole.weight)
+      .subscribe(
+        next => {
+          this.loading = false;
+          this.loadAxisList(this.strategy.id);
+          this.alertify.success('Mise à jour du pondération est réussie');
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
   }
 }

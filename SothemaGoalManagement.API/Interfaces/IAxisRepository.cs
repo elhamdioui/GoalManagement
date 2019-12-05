@@ -12,6 +12,8 @@ namespace SothemaGoalManagement.API.Interfaces
 
         Task<IEnumerable<Axis>> GetAxisListDetailed(int strategyId);
 
+        Task<IEnumerable<AxisPole>> GetWeightsGroupedByPoles(int strategyId);
+
         void AddAxis(Axis axis);
 
         void UpdateAxis(Axis dbAxis);

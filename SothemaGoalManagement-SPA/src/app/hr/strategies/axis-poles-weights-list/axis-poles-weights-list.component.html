@@ -8,6 +8,6 @@
 
 <div *ngIf="axisList?.length > 0" class="row" class="body">
   <div *ngFor="let axis of axisList">
-    <app-axis-poles-weights-card [isReadOnly]="isReadOnly" [axis]="axis" (axisPolesLoadedEvent)="handleAxisPolesLoaded($event)"></app-axis-poles-weights-card>
+    <app-axis-poles-weights-card [isReadOnly]="isReadOnly" [axis]="axis" (updateAxisPoleEvent)="handleUpdateAxisPole($event)"></app-axis-poles-weights-card>
   </div>
 </div>

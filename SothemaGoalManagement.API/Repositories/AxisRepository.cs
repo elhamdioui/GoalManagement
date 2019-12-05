@@ -22,7 +22,7 @@ namespace SothemaGoalManagement.API.Repositories
 
         public async Task<IEnumerable<Axis>> GetAxisList(int strategyId)
         {
-            var axisList = await FindByCondition(a => a.StrategyId == strategyId)
+            var axisList = await FindByCondition(a => a.StrategyId == strategyId).Include(a => a.AxisPoles).ThenInclude(ap => ap.Pole)
                                             .OrderByDescending(a => a.Created)
                                             .ToListAsync();
             return axisList;
@@ -35,6 +35,23 @@ namespace SothemaGoalManagement.API.Repositories
                                                 .OrderByDescending(a => a.Created)
                                                 .ToListAsync();
             return axisList;
+        }
+
+        public async Task<IEnumerable<AxisPole>> GetWeightsGroupedByPoles(int strategyId)
+        {
+            var axisList = await FindByCondition(a => a.StrategyId == strategyId)
+                                .Include(a => a.AxisPoles).ToListAsync();
+
+            var axisPoles = new List<AxisPole>();
+            foreach (var axis in axisList)
+            {
+                axisPoles.AddRange(axis.AxisPoles);
+            }
+            var results = axisPoles.GroupBy(
+                                    ap => ap.PoleId,
+                                    ap => ap.Weight,
+                                    (key, g) => new AxisPole { PoleId = key, Weight = g.Sum() });
+            return results;
         }
 
         public void AddAxis(Axis axis)
