@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 import { HrService } from '../../../_services/hr.service';
@@ -15,6 +15,7 @@ import { Axis } from '../../../_models/axis';
 export class AxisPolesWeightsCardComponent implements OnInit {
   @Input() axis: Axis;
   @Input() isReadOnly: boolean;
+  @Output() axisPolesLoadedEvent = new EventEmitter<AxisPole[]>();
   axisPoleList: AxisPole[];
   public loading = false;
   isCollapsed: boolean = false;
@@ -33,6 +34,7 @@ export class AxisPolesWeightsCardComponent implements OnInit {
       result => {
         this.loading = false;
         this.axisPoleList = result;
+        this.axisPolesLoadedEvent.emit(this.axisPoleList);
       },
       error => {
         this.loading = false;

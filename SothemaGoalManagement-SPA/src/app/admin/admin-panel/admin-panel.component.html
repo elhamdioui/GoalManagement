@@ -32,7 +32,7 @@
 
   <div *ngIf="creationMode" class="container">
     <div class="row justify-content-center">
-      <div class="col-4">
+      <div class="col-6">
         <app-collaborator-new [departmentList]="departmentList" [userStatusList]="userStatusList" (cancelRegister)="cancelRegisterMode($event)"
           (switchOffRegister)="switchOffRegisterMode($event)"></app-collaborator-new>
       </div>

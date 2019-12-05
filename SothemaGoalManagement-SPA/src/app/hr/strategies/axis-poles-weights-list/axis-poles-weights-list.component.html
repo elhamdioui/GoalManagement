@@ -2,8 +2,12 @@
   <p>Aucun axe n'a encore été ajouté...</p>
 </div>
 
+<div class="alert alert-info mt-3" role="alert" *ngIf="messages.length > 0">
+  <p *ngFor="let message of messages">{{message}}</p>
+</div>
+
 <div *ngIf="axisList?.length > 0" class="row" class="body">
   <div *ngFor="let axis of axisList">
-    <app-axis-poles-weights-card [isReadOnly]="isReadOnly" [axis]="axis"></app-axis-poles-weights-card>
+    <app-axis-poles-weights-card [isReadOnly]="isReadOnly" [axis]="axis" (axisPolesLoadedEvent)="handleAxisPolesLoaded($event)"></app-axis-poles-weights-card>
   </div>
 </div>
