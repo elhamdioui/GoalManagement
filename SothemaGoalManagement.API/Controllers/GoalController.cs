@@ -252,6 +252,13 @@ namespace SothemaGoalManagement.API.Controllers
                     }
                 }
 
+                // Validate the total user weights
+                var totalWeights = goalsGroupedByAxisInstanceList.Sum(a => a.UserWeight);
+                if (totalWeights != 100)
+                {
+                    return BadRequest($"Pondération Utilisateur total est égale à {totalWeights}%, elle doit être égale à 100%.");
+                }
+
                 // Check if user has evaluator in the case of review
                 if (Constants.REVIEW == goalsStatus && !await IsUserHasEvaluator(userId))
                 {

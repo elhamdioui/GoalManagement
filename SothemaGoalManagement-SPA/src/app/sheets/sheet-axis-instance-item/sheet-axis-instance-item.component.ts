@@ -10,20 +10,24 @@ import { AxisInstance } from '../../_models/axisInstance';
 })
 export class SheetAxisInstanceItemComponent implements OnInit {
   @Input() axisInstance: AxisInstance;
-  @Output() updateUserWeightEvent = new EventEmitter<AxisInstance>();
+  @Input() goalsStatus: string;
+  @Output() updateUserWeightEvent = new EventEmitter<any>();
   faSave = faSave;
   faEdit = faEdit;
   faUndo = faUndo;
   editing: boolean = false;
+  oldUserWeight: number;
 
   constructor() { }
 
   ngOnInit() {
+    this.oldUserWeight = this.axisInstance.userWeight;
   }
 
   toggleEdit(axisInstance: AxisInstance) {
     if (this.editing) {
-      this.updateUserWeightEvent.emit(axisInstance);
+      const data = { oldUserWeight: this.oldUserWeight, axisInstance: this.axisInstance };
+      this.updateUserWeightEvent.emit(data);
     }
     this.editing = !this.editing;
   }

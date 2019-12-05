@@ -13,7 +13,7 @@ import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 })
 export class SheetCardComponent implements OnInit {
   @Input() sheetToValidate: EvaluationFileInstance;
-  @Output() updateUserWeightEvent = new EventEmitter<AxisInstance>();
+  @Output() updateUserWeightEvent = new EventEmitter<any>();
   @Output() loadGoalsEvent = new EventEmitter<any>();
   @Output() showSheetDetailEvent = new EventEmitter<EvaluationFileInstance>();
   axisInstanceList: AxisInstance[];
@@ -24,6 +24,7 @@ export class SheetCardComponent implements OnInit {
   faList = faList;
   isCollapsed = false;
   message: string = '';
+  goalsStatus: string = '';
 
   constructor(private alertify: AlertifyService) { }
 
@@ -31,8 +32,8 @@ export class SheetCardComponent implements OnInit {
     this.axisInstanceList = this.sheetToValidate.axisInstances;
   }
 
-  handleUpdateUserWeight(axisInstance: AxisInstance) {
-    this.updateUserWeightEvent.emit(axisInstance);
+  handleUpdateUserWeight(data: any) {
+    this.updateUserWeightEvent.emit(data);
     this.tallyUserWeights();
   }
 

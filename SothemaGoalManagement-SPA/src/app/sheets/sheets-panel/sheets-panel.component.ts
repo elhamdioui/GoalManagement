@@ -1,3 +1,4 @@
+import { AxisInstance } from './../../_models/axisInstance';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';;
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
@@ -136,7 +137,7 @@ export class SheetsPanelComponent implements OnInit {
     this.loadSheets();
   }
 
-  handleUpdateUserWeight(axisInstance: AxisInstance) {
+  handleUpdateUserWeight({ oldUserWeight, axisInstance }) {
     this.loading = true;
     this.userService
       .updateAxisInstance(
@@ -152,6 +153,10 @@ export class SheetsPanelComponent implements OnInit {
         error => {
           this.loading = false;
           this.alertify.error(error);
+          const sheetToValidate = this.sheetsToValidate.find(s => s.axisInstances.includes(axisInstance));
+          const idx = sheetToValidate.axisInstances.findIndex(ai => ai.id === axisInstance.id);
+          sheetToValidate.axisInstances[idx].userWeight = oldUserWeight;
+          this.sheetToValidate = sheetToValidate;
         }
       );
   }
@@ -191,6 +196,7 @@ export class SheetsPanelComponent implements OnInit {
   }
 
   handleLoadGoals(loadGoalsData: any) {
+
     this.loading = true;
     this.userService.getGoalsForAxis(this.authService.decodedToken.nameid, loadGoalsData.axisInstanceIds).subscribe(
       (res: GoalByAxisInstance[]) => {

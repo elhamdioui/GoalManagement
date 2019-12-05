@@ -33,7 +33,7 @@
   </div>
 
 
-  <div class="card-footer">
+  <div class="card-footer" *ngIf="goalsStatus === 'En Revue'">
     <button class="btn" [ngClass]="editing ? 'btn-success' : 'btn-info'" (click)="toggleEdit(axisInstance)">
       <span *ngIf="editing">
         <fa-icon [icon]="faSave"></fa-icon>Sauvegarder</span>

@@ -40,7 +40,7 @@
       </div>
       <ul class="list-inline member-icons animate text-center">
         <li class="list-inline-item" *ngFor="let axisInstance of axisInstanceList">
-          <app-sheet-axis-instance-item [axisInstance]="axisInstance" (updateUserWeightEvent)="handleUpdateUserWeight($event)"></app-sheet-axis-instance-item>
+          <app-sheet-axis-instance-item [goalsStatus]="sheetToValidate.goalsStatus" [axisInstance]="axisInstance" (updateUserWeightEvent)="handleUpdateUserWeight($event)"></app-sheet-axis-instance-item>
         </li>
       </ul>
     </div>

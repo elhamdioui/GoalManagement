@@ -14,7 +14,7 @@ export class MyCollaboratorsSheetsComponent implements OnInit {
   @Input() sheetToValidate: EvaluationFileInstance;
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Input() goalsMode: boolean;
-  @Output() updateUserWeightEvent = new EventEmitter<AxisInstance>();
+  @Output() updateUserWeightEvent = new EventEmitter<any>();
   @Output() rejectGoalsEvent = new EventEmitter<any>();
   @Output() acceptGoalsEvent = new EventEmitter<any>();
   @Output() loadGoalsEvent = new EventEmitter<any>();
@@ -26,8 +26,8 @@ export class MyCollaboratorsSheetsComponent implements OnInit {
   ngOnInit() {
   }
 
-  handleUpdateUserWeight(axisInstance: AxisInstance) {
-    this.updateUserWeightEvent.emit(axisInstance);
+  handleUpdateUserWeight(data: any) {
+    this.updateUserWeightEvent.emit(data);
   }
 
   switchOffGoalsMode(event: boolean) {

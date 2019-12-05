@@ -102,6 +102,15 @@ namespace SothemaGoalManagement.API.Controllers
                 var axisIntsnaceFromRepo = await _repo.AxisInstance.GetAxisInstance(axisInstanceId);
                 if (axisIntsnaceFromRepo != null)
                 {
+                    // Validate goal's status
+                    IList<int> axisInstanceIds = new List<int>() { axisInstanceId };
+                    List<Goal> goals = (List<Goal>)await _repo.Goal.GetGoalsByAxisInstanceIds(axisInstanceIds);
+                    if (goals.First().Status == Constants.PUBLISHED)
+                    {
+                        return BadRequest("Trop tard! Les objectifs sont déjà validés.");
+                    }
+
+                    //Proceed with update
                     var oldUserWeight = axisIntsnaceFromRepo.UserWeight;
                     axisIntsnaceFromRepo.UserWeight = userWeight;
                     _repo.AxisInstance.UpdateAxisInstance(axisIntsnaceFromRepo);
