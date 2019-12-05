@@ -16,6 +16,10 @@
         <span *ngIf="!editing">
           <fa-icon [icon]="faEdit"></fa-icon> Editer</span>
       </button>
+      <button *ngIf="editing" class="btn btn-danger mt-1" (click)="cancel()">
+        <span>
+          <fa-icon [icon]="faUndo"></fa-icon>Annuler</span>
+      </button>
     </div>
   </div>
 </div>

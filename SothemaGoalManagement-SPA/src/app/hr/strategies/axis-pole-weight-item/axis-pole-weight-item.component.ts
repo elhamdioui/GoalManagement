@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
 
 import { AxisPole } from './../../../_models/axisPole';
 
@@ -16,6 +16,7 @@ export class AxisPoleWeightItemComponent implements OnInit {
   editing: boolean = false;
   faEdit = faEdit;
   faSave = faSave;
+  faUndo = faUndo;
 
   constructor() { }
 
@@ -30,6 +31,10 @@ export class AxisPoleWeightItemComponent implements OnInit {
     if (this.editing) {
       this.updateAxisPoleEvent.emit(this.axisPole);
     }
+    this.editing = !this.editing;
+  }
+
+  cancel() {
     this.editing = !this.editing;
   }
 }
