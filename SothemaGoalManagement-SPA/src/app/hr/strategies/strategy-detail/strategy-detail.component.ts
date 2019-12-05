@@ -118,7 +118,6 @@ export class StrategyDetailComponent implements OnInit {
   tallyWeightsPerPole() {
     this.axisPoles = [];
     this.axisList.forEach(axis => this.axisPoles = [...this.axisPoles, ...axis.axisPoles]);
-    console.log('this.axisPoles:', this.axisPoles);
     this.tallyWeights = this.axisPoles.reduce((tally, pole) => {
       if (tally[pole.poleName]) tally[pole.poleName] = parseInt(tally[pole.poleName]) + pole.weight;
       else tally[pole.poleName] = pole.weight;
