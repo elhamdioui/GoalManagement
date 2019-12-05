@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { faUser, faKey, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faKey, faSignOutAlt, faBell } from '@fortawesome/free-solid-svg-icons';
 
 import { AlertifyService } from './../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
@@ -11,10 +11,12 @@ import { AuthService } from '../_services/auth.service';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  @Input() showBell: boolean;
   photoUrl: string;
   faSignOutAlt = faSignOutAlt;
   faKey = faKey;
   faUser = faUser;
+  faBell = faBell;
 
   constructor(
     private authService: AuthService,

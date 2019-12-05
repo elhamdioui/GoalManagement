@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-primary">
   <div class="container">
-    <a class="navbar-brand" [routerLink]="['/home']">Goal Management</a>
+    <a class="navbar-brand" [routerLink]="['/']">Goal Management</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -17,7 +17,10 @@
         </li>
 
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="['/messages']">Messages</a>
+          <a class="nav-link" [routerLink]="['/messages']">
+            Messages
+            <fa-icon [icon]="faBell" *ngIf="showBell" title="Vous avez de nouveaux messages"></fa-icon>
+          </a>
         </li>
         <li class="nav-item" routerLinkActive="active" *appHasRole="['HR', 'HRD']">
           <a class="nav-link" [routerLink]="['/hr']">Ressources Humaines</a>

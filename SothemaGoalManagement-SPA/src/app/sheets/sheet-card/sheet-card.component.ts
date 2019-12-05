@@ -32,9 +32,10 @@ export class SheetCardComponent implements OnInit {
     this.axisInstanceList = this.sheetToValidate.axisInstances;
   }
 
-  handleUpdateUserWeight(data: any) {
+  handleUpdateUserWeight(data) {
     this.updateUserWeightEvent.emit(data);
     this.tallyUserWeights();
+
   }
 
   toggleAxis() {
@@ -55,6 +56,8 @@ export class SheetCardComponent implements OnInit {
     let totalWeights = this.sheetToValidate.axisInstances.reduce((accumWeights, axisInstance) => accumWeights + (typeof axisInstance.userWeight === 'string' ? parseInt(axisInstance.userWeight) : axisInstance.userWeight), 0);
     if (totalWeights !== 100) {
       this.message = `Pondération Utilisateur total est égale à ${totalWeights}%, elle doit être égale à 100%.`;
+    } else {
+      this.message = '';
     }
   }
 }
