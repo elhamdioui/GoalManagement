@@ -78,7 +78,7 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
 
                 // Create a new goalEvaluation
                 var goalEvaluation = _mapper.Map<GoalEvaluation>(goalEvaluationCreationDto);
-                if (userId != goalEvaluationCreationDto.EvaluateeId) goalEvaluation.SelfEvaluation = false;
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) goalEvaluation.SelfEvaluation = false;
                 else goalEvaluation.SelfEvaluation = true;
                 _repo.GoalEvaluation.AddGoalEvaluation(goalEvaluation);
                 await _repo.GoalEvaluation.SaveAllAsync();
