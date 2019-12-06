@@ -1,9 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { faUser, faKey, faSignOutAlt, faBell } from '@fortawesome/free-solid-svg-icons';
 
 import { AlertifyService } from './../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
+import { UserService } from './../_services/user.service';
+import { Message } from './../_models/message';
+import { PaginatedResult } from './../_models/pagination';
 
 @Component({
   selector: 'app-nav',
@@ -11,18 +14,27 @@ import { AuthService } from '../_services/auth.service';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  @Input() showBell: boolean;
   photoUrl: string;
   faSignOutAlt = faSignOutAlt;
   faKey = faKey;
   faUser = faUser;
   faBell = faBell;
+  showBell: boolean;
+  public loading = false;
+
 
   constructor(
     private authService: AuthService,
     private alertify: AlertifyService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private userService: UserService,
+  ) {
+    router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        this.checkNonReadMessages();
+      }
+    });
+  }
 
   ngOnInit() {
     this.authService.currentPhotoUrl.subscribe(
@@ -41,5 +53,27 @@ export class NavComponent implements OnInit {
     this.authService.currentUser = null;
     this.alertify.message('Déconnecté');
     this.router.navigate(['/home']);
+  }
+
+  checkNonReadMessages() {
+    this.loading = true;
+    this.userService
+      .getMessages(
+        this.authService.decodedToken.nameid,
+        1,
+        10,
+        'Unread'
+      )
+      .subscribe(
+        (res: PaginatedResult<Message[]>) => {
+          this.loading = false;
+          if (res.result.length > 0) this.showBell = true;
+          else this.showBell = false;
+        },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
   }
 }
