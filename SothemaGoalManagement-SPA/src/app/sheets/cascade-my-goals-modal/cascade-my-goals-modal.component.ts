@@ -3,6 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 
 import { Goal } from '../../_models/goal';
 import { Evaluator } from '../../_models/evaluator';
+import { UserGoalWeight } from '../../_models/userGoalWeight';
 import { AdminService } from '../../_services/admin.service';
 import { AuthService } from '../../_services/auth.service';
 import { AlertifyService } from '../../_services/alertify.service';
@@ -21,7 +22,10 @@ export class CascadeMyGoalsModalComponent implements OnInit {
   cascadededGoals: any[];
   public loading = false;
   selectedAll: boolean;
-  usersGoalWeights: any[] = [];
+  userGoalWeight: UserGoalWeight;
+  usersGoalWeights: UserGoalWeight[] = [];
+  filteredUsersGoalWeights: any[] = [];
+  values: string = '';
 
   constructor(public bsModalRef: BsModalRef, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -45,6 +49,7 @@ export class CascadeMyGoalsModalComponent implements OnInit {
         (evaluatees: Evaluator[]) => {
           this.loading = false;
           this.evaluatees = evaluatees;
+
           this.constructData();
         },
         error => {
@@ -56,10 +61,13 @@ export class CascadeMyGoalsModalComponent implements OnInit {
 
   constructData() {
     this.evaluatees.forEach(evaluatee => {
-      let usersGoalWeight = { evaluatee: evaluatee, cascadededGoal: this.cascadededGoal, selected: false, parentGoalId: this.myGoal.id, axisInstanceTitle: this.axisInstanceTitle };
-      this.usersGoalWeights.push(usersGoalWeight);
-    })
+      this.userGoalWeight = { evaluatee: evaluatee, cascadededGoal: this.cascadededGoal, selected: false, parentGoalId: this.myGoal.id, axisInstanceTitle: this.axisInstanceTitle };
+      this.usersGoalWeights.push(this.userGoalWeight);
+    });
+
+    this.filteredUsersGoalWeights = this.usersGoalWeights;
   }
+
   selectAll() {
     this.selectedAll = !this.selectedAll;
     for (var i = 0; i < this.usersGoalWeights.length; i++) {
@@ -93,12 +101,15 @@ export class CascadeMyGoalsModalComponent implements OnInit {
   }
 
   setWeight(weight: number, evaluateeId: number) {
-    console.log(`weight: ${weight} for evaluatedId: ${evaluateeId}`);
     for (var i = 0; i < this.usersGoalWeights.length; i++) {
       if (this.usersGoalWeights[i].evaluatee.id == evaluateeId) {
         this.usersGoalWeights[i].cascadededGoal.weight = weight;
-        console.log(`Set weight: ${weight} for evaluatedId: ${evaluateeId}`);
       }
     }
+  }
+
+  onKeyUp(event) {
+    this.values = event.target.value;
+    this.filteredUsersGoalWeights = this.usersGoalWeights.filter(ugw => ugw.evaluatee.fullName.toLowerCase().includes(this.values.toLowerCase()));
   }
 }
