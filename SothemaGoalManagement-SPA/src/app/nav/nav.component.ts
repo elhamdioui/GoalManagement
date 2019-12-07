@@ -19,7 +19,7 @@ export class NavComponent implements OnInit {
   faKey = faKey;
   faUser = faUser;
   faBell = faBell;
-  showBell: boolean;
+  unreadNessages: number;
   public loading = false;
 
 
@@ -30,8 +30,8 @@ export class NavComponent implements OnInit {
     private userService: UserService,
   ) {
     router.events.subscribe(e => {
-      if (e instanceof NavigationEnd) {
-        this.checkNonReadMessages();
+      if (e instanceof NavigationEnd && this.authService.loggedIn()) {
+        this.userService.totalUnreadMessages(this.authService.decodedToken.nameid);
       }
     });
   }
@@ -39,6 +39,10 @@ export class NavComponent implements OnInit {
   ngOnInit() {
     this.authService.currentPhotoUrl.subscribe(
       photoUrl => (this.photoUrl = photoUrl)
+    );
+
+    this.userService.currentUnreadMessages.subscribe(
+      unreadMessages => (this.unreadNessages = unreadMessages)
     );
   }
 
@@ -53,27 +57,5 @@ export class NavComponent implements OnInit {
     this.authService.currentUser = null;
     this.alertify.message('Déconnecté');
     this.router.navigate(['/home']);
-  }
-
-  checkNonReadMessages() {
-    this.loading = true;
-    this.userService
-      .getMessages(
-        this.authService.decodedToken.nameid,
-        1,
-        10,
-        'Unread'
-      )
-      .subscribe(
-        (res: PaginatedResult<Message[]>) => {
-          this.loading = false;
-          if (res.result.length > 0) this.showBell = true;
-          else this.showBell = false;
-        },
-        error => {
-          this.loading = false;
-          this.alertify.error(error);
-        }
-      );
   }
 }

@@ -42,6 +42,7 @@ export class CollaboratorMessagesComponent implements OnInit {
               this.userService.markAsRead(currentUserId, messages[i].id);
             }
           }
+          this.userService.totalUnreadMessages(this.authService.decodedToken.nameid);
         })
       )
       .subscribe(

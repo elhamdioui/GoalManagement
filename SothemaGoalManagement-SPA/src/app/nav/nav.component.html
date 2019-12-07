@@ -19,7 +19,9 @@
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['/messages']">
             Messages
-            <fa-icon [icon]="faBell" *ngIf="showBell" title="Vous avez de nouveaux messages"></fa-icon>
+            <span class="badge badge-pill badge-danger" *ngIf="unreadNessages > 0">
+              <fa-icon [icon]="faBell"></fa-icon> {{unreadNessages}}
+            </span>
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active" *appHasRole="['HR', 'HRD']">

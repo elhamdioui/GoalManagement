@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 import { User } from '../_models/user';
 import { PaginatedResult } from './../_models/pagination';
@@ -17,8 +17,21 @@ import { EvaluationFileInstance } from '../_models/evaluationFileInstance';
 })
 export class UserService {
   baseUrl = environment.apiUrl;
+  unreadMessages = new BehaviorSubject<number>(0);
+  currentUnreadMessages = this.unreadMessages.asObservable();
 
   constructor(private http: HttpClient) { }
+
+  totalUnreadMessages(userId: number) {
+    this.getMessages(userId, 1, 100, 'Unread')
+      .subscribe((res: PaginatedResult<Message[]>) => {
+        this.unreadMessages.next(res.result.length);
+      },
+        error => {
+          this.unreadMessages.next(0);
+        }
+      );
+  }
 
   getUser(id): Observable<User> {
     return this.http.get<User>(this.baseUrl + 'users/' + id);

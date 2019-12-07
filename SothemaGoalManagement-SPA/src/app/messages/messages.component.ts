@@ -97,6 +97,7 @@ export class MessagesComponent implements OnInit {
   }
 
   returnMessages() {
+    this.loadMessages();
     this.showMessageThread = false;
   }
 }
