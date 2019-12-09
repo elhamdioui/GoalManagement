@@ -30,6 +30,18 @@ namespace SothemaGoalManagement.API.Repositories
             return goalsByAxisInstanceIds;
         }
 
+        public async Task<User> GetGoalOwner(int goalId)
+        {
+            var goal = await FindByCondition(g => g.Id == goalId)
+                                        .Include(g => g.AxisInstance)
+                                        .ThenInclude(ai => ai.EvaluationFileInstance)
+                                        .ThenInclude(s => s.Owner)
+                                        .ThenInclude(o => o.Photos)
+                                        .SingleOrDefaultAsync();
+
+            return goal.AxisInstance.EvaluationFileInstance.Owner;
+        }
+
         public async Task<IEnumerable<Goal>> GetGoalsByIds(IEnumerable<int> ids)
         {
             return await FindByCondition(u => ids.Contains(u.Id))

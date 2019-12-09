@@ -12,6 +12,8 @@ namespace SothemaGoalManagement.API.Interfaces
 
         Task<IEnumerable<Goal>> GetGoalsByIds(IEnumerable<int> ids);
 
+        Task<User> GetGoalOwner(int goalId);
+
         void AddGoal(Goal goal);
 
         void UpdateGoal(Goal dbGoal);

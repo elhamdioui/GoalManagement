@@ -370,6 +370,13 @@ namespace SothemaGoalManagement.API.Controllers
             foreach (var goal in goalsFromRepo)
             {
                 var goalToReturn = _mapper.Map<GoalToReturnDto>(goal);
+                if (goal.ParentGoalId > 0)
+                {
+                    var parentGoalOwner = await _repo.Goal.GetGoalOwner(goal.ParentGoalId);
+                    goalToReturn.CascaderFullName = parentGoalOwner.FirstName + " " + parentGoalOwner.LastName;
+                    goalToReturn.CascaderPhotoUrl = parentGoalOwner.Photos.FirstOrDefault(p => p.IsMain).Url;
+                }
+
                 if (goalsGroupedByAxisInstanceList.Exists(a => a.axisInstanceId == goal.AxisInstanceId))
                 {
                     goalsGroupedByAxisInstanceList.Find(a => a.axisInstanceId == goal.AxisInstanceId).Goals.Add(goalToReturn);

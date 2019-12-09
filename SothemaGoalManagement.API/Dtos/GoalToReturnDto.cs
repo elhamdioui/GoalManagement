@@ -8,6 +8,7 @@ namespace SothemaGoalManagement.API.Dtos
     public class GoalToReturnDto
     {
         public int Id { get; set; }
+        public int ParentGoalId { get; set; }
 
         public string Description { get; set; }
 
@@ -23,9 +24,9 @@ namespace SothemaGoalManagement.API.Dtos
 
         public DateTime Created { get; set; }
 
-        public int LatestCompletionRate { get; set; }
-
         public string GoalGrade { get; set; }
+        public string CascaderPhotoUrl { get; set; }
+        public string CascaderFullName { get; set; }
 
         public ICollection<GoalEvaluationToReturnDto> GoalEvaluations { get; set; }
 

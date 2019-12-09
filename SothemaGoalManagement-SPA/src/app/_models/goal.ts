@@ -12,7 +12,10 @@ export interface Goal {
   axisInstance: AxisInstance;
   status: string;
   completionRate: number;
+  parentGoalId: number;
   comment?: string;
   goalEvaluations: GoalEvaluation[];
   goalGrade: string;
+  cascaderPhotoUrl?: string;
+  cascaderFullName?: string;
 }

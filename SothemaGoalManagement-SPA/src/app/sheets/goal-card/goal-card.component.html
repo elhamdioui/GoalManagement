@@ -59,29 +59,32 @@
         <th style="width: 70%">Objectif</th>
         <th style="width: 16%">Type d'objectif</th>
         <th style="width: 5%">Poids</th>
-        <th style="width: 3%"></th>
-        <th style="width: 3%"></th>
-        <th style="width: 3%"></th>
+        <th style="width: 9%"></th>
       </tr>
       <tr *ngFor="let goal of goalsByAxisInstance.goals">
         <td>{{ goal.description }}</td>
         <td>{{ goal.goalType.name }}</td>
         <td>{{ goal.weight }}%</td>
-        <td *ngIf="!areGoalsReadOnly">
-          <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editGoalModal(goal)" title="Modifier Objectif">
-            <fa-icon [icon]="faEdit"></fa-icon>
-          </button>
+        <td *ngIf="goal.parentGoalId === 0">
+          <span *ngIf="!areGoalsReadOnly" class="d-flex justify-content-center">
+            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editGoalModal(goal)" title="Modifier Objectif">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+
+            <button class="btn btn-danger ml-1" (click)="$event.stopPropagation()" (click)="deleteGoal(goal)" title="Supprimer Objectif">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </span>
         </td>
-        <td *ngIf="!areGoalsReadOnly">
-          <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteGoal(goal)" title="Supprimer Objectif">
-            <fa-icon [icon]="faTrash"></fa-icon>
-          </button>
+        <td *ngIf="goal.parentGoalId > 0" align="center">
+          <img src="{{ goal.cascaderPhotoUrl || '../../../assets/user.png'}}" class="img-circle rounded-circle" title="{{goal.cascaderFullName}}"
+          />
         </td>
-        <td *ngIf="!areGoalsReadOnly">
+        <!-- <td *ngIf="!areGoalsReadOnly">
           <button class="btn btn-secondary" (click)="$event.stopPropagation()" (click)="cascadeGoal(goal)" title="Cascader Objectif">
             <fa-icon [icon]="faArrowAltCircleDown"></fa-icon>
           </button>
-        </td>
+        </td> -->
       </tr>
     </table>
   </div>

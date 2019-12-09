@@ -75,6 +75,7 @@ export class MessagesComponent implements OnInit {
                 this.messages.findIndex(m => m.id === id),
                 1
               );
+              this.userService.totalUnreadMessages(this.authService.decodedToken.nameid);
               this.alertify.success('Le message a été supprimé');
             },
             error => {
@@ -94,6 +95,7 @@ export class MessagesComponent implements OnInit {
   fetchMessageThread(recipientId) {
     this.recipientId = recipientId;
     this.showMessageThread = true;
+    this.userService.totalUnreadMessages(this.authService.decodedToken.nameid);
   }
 
   returnMessages() {
