@@ -265,10 +265,9 @@ export class SheetDetailComponent implements OnInit {
     }
   }
 
-  handleCascadeMyGoal(usersGoalWeights: any[]) {
+  handleCascadeMyGoal(golasForCascade: any) {
     this.loading = true;
-    let seletedUsersGoalWeights = usersGoalWeights.filter(g => g.selected == true);
-    let golasForCascade = seletedUsersGoalWeights.map(gc => ({ evaluateeId: gc.evaluatee.id, goalForCreationDto: gc.cascadededGoal, parentGoalId: gc.parentGoalId, axisInstanceTitle: gc.axisInstanceTitle }));
+    console.log('golasForCascade:', golasForCascade);
     this.userService.casvadeGoal(this.authService.decodedToken.nameid, golasForCascade).subscribe(
       () => {
         this.loading = false;

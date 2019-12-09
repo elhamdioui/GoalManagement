@@ -20,7 +20,7 @@ export class GoalCardComponent implements OnInit {
   @Input() axisInstances: AxisInstance[];
   @Input() goalTypeList: GoalType[];
   @Output() editGoalEvent = new EventEmitter<any>();
-  @Output() cascadeMyGoalEvent = new EventEmitter<any[]>();
+  @Output() cascadeMyGoalEvent = new EventEmitter<any>();
   @Output() deleteGoalEvent = new EventEmitter<Goal>();
   bsModalRef: BsModalRef;
   isCollapsed = false;
@@ -60,8 +60,8 @@ export class GoalCardComponent implements OnInit {
     };
 
     this.bsModalRef = this.modalService.show(CascadeMyGoalsModalComponent, { initialState, class: 'modal-lg' });
-    this.bsModalRef.content.cascadeMyGoalEvent.subscribe((usersGoalWeights) => {
-      this.cascadeMyGoalEvent.emit(usersGoalWeights);
+    this.bsModalRef.content.cascadeMyGoalEvent.subscribe((golasForCascade) => {
+      this.cascadeMyGoalEvent.emit(golasForCascade);
     });
   }
 }

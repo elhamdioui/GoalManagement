@@ -3,7 +3,6 @@ import { BsModalRef } from 'ngx-bootstrap';
 
 import { Goal } from '../../_models/goal';
 import { Evaluator } from '../../_models/evaluator';
-import { UserGoalWeight } from '../../_models/userGoalWeight';
 import { AdminService } from '../../_services/admin.service';
 import { AuthService } from '../../_services/auth.service';
 import { AlertifyService } from '../../_services/alertify.service';
@@ -14,30 +13,19 @@ import { AlertifyService } from '../../_services/alertify.service';
   styleUrls: ['./cascade-my-goals-modal.component.css']
 })
 export class CascadeMyGoalsModalComponent implements OnInit {
-  @Output() cascadeMyGoalEvent = new EventEmitter<any[]>();
+  @Output() cascadeMyGoalEvent = new EventEmitter<any>();
+  subGoal: any;
+  subGoals: any[] = [];
+  filteredSubGoals: any[] = [];
   myGoal: Goal;
   axisInstanceTitle: string;
-  cascadededGoal: any = {};
-  evaluatees: Evaluator[];
-  cascadededGoals: any[];
   public loading = false;
   selectedAll: boolean;
-  userGoalWeight: UserGoalWeight;
-  usersGoalWeights: UserGoalWeight[] = [];
-  filteredUsersGoalWeights: any[] = [];
   values: string = '';
 
   constructor(public bsModalRef: BsModalRef, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
-    this.cascadededGoal = {
-      'description': this.myGoal.description,
-      'axisInstanceId': this.myGoal.axisInstance.id,
-      'goalTypeId': this.myGoal.goalType.id,
-      'projectName': this.myGoal.projectName,
-      'weight': 0,
-      'status': this.myGoal.status
-    };
     this.loadMyEvaluatees();
   }
 
@@ -48,9 +36,8 @@ export class CascadeMyGoalsModalComponent implements OnInit {
       .subscribe(
         (evaluatees: Evaluator[]) => {
           this.loading = false;
-          this.evaluatees = evaluatees;
-
-          this.constructData();
+          evaluatees.forEach(evaluatee => this.constructData(evaluatee));
+          this.filteredSubGoals = this.subGoals;
         },
         error => {
           this.loading = false;
@@ -59,57 +46,73 @@ export class CascadeMyGoalsModalComponent implements OnInit {
       );
   }
 
-  constructData() {
-    this.evaluatees.forEach(evaluatee => {
-      this.userGoalWeight = { evaluatee: evaluatee, cascadededGoal: this.cascadededGoal, selected: false, parentGoalId: this.myGoal.id, axisInstanceTitle: this.axisInstanceTitle };
-      this.usersGoalWeights.push(this.userGoalWeight);
-    });
-
-    this.filteredUsersGoalWeights = this.usersGoalWeights;
+  constructData(evaluatee: Evaluator) {
+    this.subGoal = {
+      selected: false,
+      evaluateeId: evaluatee.id,
+      fullName: evaluatee.fullName,
+      description: this.myGoal.description,
+      weight: 0
+    };
+    this.subGoals.push(this.subGoal);
   }
 
   selectAll() {
     this.selectedAll = !this.selectedAll;
-    for (var i = 0; i < this.usersGoalWeights.length; i++) {
-      this.usersGoalWeights[i].selected = this.selectedAll;
+    for (var i = 0; i < this.filteredSubGoals.length; i++) {
+      this.filteredSubGoals[i].selected = this.selectedAll;
     }
   }
 
   checkIfAllSelected() {
     var totalSelected = 0;
-    for (var i = 0; i < this.usersGoalWeights.length; i++) {
-      if (this.usersGoalWeights[i].selected) totalSelected++;
+    for (var i = 0; i < this.filteredSubGoals.length; i++) {
+      if (this.filteredSubGoals[i].selected) totalSelected++;
     }
-    this.selectedAll = totalSelected === this.usersGoalWeights.length;
+    this.selectedAll = totalSelected === this.filteredSubGoals.length;
 
     return true;
   }
 
   cascadeGoal() {
-    this.cascadeMyGoalEvent.emit(this.usersGoalWeights);
+    const { id, axisInstance, goalType, projectName, status } = this.myGoal;
+    let golasForCascade = this.filteredSubGoals.filter(sg => sg.selected == true)
+      .map(ssg => ({
+        evaluateeId: ssg.evaluateeId,
+        goalForCreationDto: {
+          description: ssg.description,
+          axisInstanceId: axisInstance.id,
+          goalTypeId: goalType.id,
+          projectName,
+          weight: ssg.weight,
+          status: status
+        },
+        parentGoalId: id,
+        axisInstanceTitle: this.axisInstanceTitle
+      }));
+    this.cascadeMyGoalEvent.emit(golasForCascade);
     this.bsModalRef.hide();
   }
 
   disableAction() {
-    if (this.usersGoalWeights === undefined) return true;
-    for (var i = 0; i < this.usersGoalWeights.length; i++) {
-      if (this.usersGoalWeights[i].selected) {
+    if (this.filteredSubGoals === undefined) return true;
+    for (var i = 0; i < this.filteredSubGoals.length; i++) {
+      if (this.filteredSubGoals[i].selected) {
         return false;
       }
     }
     return true;
   }
 
-  setWeight(weight: number, evaluateeId: number) {
-    for (var i = 0; i < this.usersGoalWeights.length; i++) {
-      if (this.usersGoalWeights[i].evaluatee.id == evaluateeId) {
-        this.usersGoalWeights[i].cascadededGoal.weight = weight;
-      }
+  setDescriptionOrWeight(evaluateeId: number, event) {
+    const idx = this.filteredSubGoals.findIndex(sb => sb.evaluateeId === evaluateeId);
+    if (idx > -1) {
+      this.filteredSubGoals[idx][event.target.name] = event.target.value;
     }
   }
 
   onKeyUp(event) {
     this.values = event.target.value;
-    this.filteredUsersGoalWeights = this.usersGoalWeights.filter(ugw => ugw.evaluatee.fullName.toLowerCase().includes(this.values.toLowerCase()));
+    this.filteredSubGoals = this.subGoals.filter(sb => sb.fullName.toLowerCase().includes(this.values.toLowerCase()));
   }
 }
