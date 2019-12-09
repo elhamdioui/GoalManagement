@@ -4,6 +4,7 @@ import { faUser, faKey } from '@fortawesome/free-solid-svg-icons';
 
 import { AlertifyService } from './../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
+import { UserService } from './../_services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,8 @@ export class HomeComponent implements OnInit {
 
   constructor(private authService: AuthService,
     private alertify: AlertifyService,
-    private router: Router) { }
+    private router: Router,
+    private userService: UserService) { }
 
   ngOnInit() { }
 
@@ -32,6 +34,7 @@ export class HomeComponent implements OnInit {
     this.authService.login(this.model).subscribe(
       next => {
         this.loading = false;
+        this.userService.totalUnreadMessages(this.authService.decodedToken.nameid);
         this.alertify.success('Connecté avec succès');
       },
       error => {
