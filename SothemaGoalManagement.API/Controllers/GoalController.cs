@@ -115,6 +115,7 @@ namespace SothemaGoalManagement.API.Controllers
                     }
                     await _repo.Goal.SaveAllAsync();
 
+                    // Log new goal has been assigned by the evaluator
                     var evaluateeIds = new List<int>();
                     var efilList = new List<EvaluationFileInstanceLog>();
                     foreach (var goalCascadeDto in goalsCascadeDto)
@@ -135,7 +136,6 @@ namespace SothemaGoalManagement.API.Controllers
                         }
                     }
 
-                    // Log new goal has been assigned by the evaluator
                     await LogForSheet(efilList);
 
                     // Send Notification
@@ -319,6 +319,7 @@ namespace SothemaGoalManagement.API.Controllers
 
                 _repo.Goal.DeleteGoal(goalFromRepo);
                 await _repo.Goal.SaveAllAsync();
+
                 return Ok();
             }
             catch (Exception ex)
