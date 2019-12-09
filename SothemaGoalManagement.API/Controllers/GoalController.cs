@@ -202,6 +202,15 @@ namespace SothemaGoalManagement.API.Controllers
 
                 await _repo.Goal.SaveAllAsync();
 
+                // Sent notification if deleted goal has parent
+                if (goalFromRepo.ParentGoalId != 0)
+                {
+                    var parentGoalFromRepo = await _repo.Goal.GetGoal(goalFromRepo.ParentGoalId);
+                    var user = await _userManager.FindByIdAsync(userId.ToString());
+                    string emailContent = $"Le sous-objectif: '{goalFromRepo.Description}' de l'objectif '{parentGoalFromRepo.Description}', a été modifé dans la feuille d'évaluation de l'utilisateur {user.FirstName} {user.LastName}.";
+                    await SendNotificationsForEvaluator(userId, emailContent);
+                }
+
                 return NoContent();
             }
             catch (Exception ex)
@@ -320,6 +329,14 @@ namespace SothemaGoalManagement.API.Controllers
                 _repo.Goal.DeleteGoal(goalFromRepo);
                 await _repo.Goal.SaveAllAsync();
 
+                // Sent notification if deleted goal has parent
+                if (goalFromRepo.ParentGoalId != 0)
+                {
+                    var parentGoalFromRepo = await _repo.Goal.GetGoal(goalFromRepo.ParentGoalId);
+                    var user = await _userManager.FindByIdAsync(userId.ToString());
+                    string emailContent = $"Le sous-objectif: '{goalFromRepo.Description}' de l'objectif '{parentGoalFromRepo.Description}', a été supprimé de la feuille d'évaluation de l'utilisateur {user.FirstName} {user.LastName}.";
+                    await SendNotificationsForEvaluator(userId, emailContent);
+                }
                 return Ok();
             }
             catch (Exception ex)
