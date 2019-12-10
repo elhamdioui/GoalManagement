@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
 import { Goal } from '../../_models/goal';
@@ -32,6 +33,9 @@ export class SheetDetailComponent implements OnInit {
   totalGrade: string;
   goalIdToExpand: number;
   behavioralSkillEvaluationUpdated: boolean;
+  showDetail: boolean;
+  faCaretDown = faCaretDown;
+  faCaretUp = faCaretUp;
 
   constructor(private route: ActivatedRoute, private router: Router, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 

@@ -10,6 +10,8 @@ namespace SothemaGoalManagement.API.Interfaces
 
         Task<IEnumerable<Goal>> GetGoalsByAxisInstanceIds(IEnumerable<int> axisInstanceIds);
 
+        Task<IEnumerable<Goal>> GetGoalChildren(int id);
+
         Task<IEnumerable<Goal>> GetGoalsByIds(IEnumerable<int> ids);
 
         Task<User> GetGoalOwner(int goalId);

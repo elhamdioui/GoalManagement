@@ -14,6 +14,7 @@ import { GoalType } from '../../_models/goalType';
 export class GoalsComponent implements OnInit {
   @Input() axisInstances: AxisInstance[];
   @Input() areGoalsReadOnly: boolean;
+  @Input() sheetId: number;
   @Input() areGoalsCompleted: boolean;
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Input() goalTypeList: GoalType[];

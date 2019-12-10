@@ -1,65 +1,98 @@
 <div class="container mt-4">
   <ngx-loading [show]="loading"></ngx-loading>
   <div class="card">
-    <div class="card-header">
-      <h3>Fiche d'évaluation de {{ sheetDetail.ownerName }}
+    <div class="card-header" (click)="showDetail = !showDetail" style="cursor: pointer">
+      <div class="toggle">
+        <fa-icon [icon]="faCaretDown" *ngIf="!showDetail"></fa-icon>
+        <fa-icon [icon]="faCaretUp" *ngIf="showDetail"></fa-icon>
+      </div>
+      <h3>Fiche d'évaluation: {{ sheetDetail.title }}
         <div class="float-right">
-          <img src="{{ sheetDetail.photoUrl || '../../assets/user.png'}}" class="img-circle rounded-circle mr-1" />
+          <img src="{{ sheetDetail.photoUrl || '../../assets/user.png'}}" class="img-circle rounded-circle mr-1" title="{{sheetDetail.ownerName}}"
+          />
         </div>
       </h3>
+      <div [ngClass]="showDetail ? 'slider' : 'slider closed'">
+        <div class="container mt-2">
+          <div class="row">
+            <div class="col-md-4">
+              <strong>Titre:</strong>
+              <p>{{ sheetDetail.title }}</p>
+            </div>
+            <div class="col-md-4">
+              <strong>Année:</strong>
+              <p>{{ sheetDetail.year }}</p>
+            </div>
+            <div class="col-md-4">
+              <strong>Statut:</strong>
+              <p>{{ sheetDetail.status }}</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <strong>Matricule:</strong>
+              <p>{{ sheetDetail.employeeNumber }}</p>
+            </div>
+            <div class="col-md-4">
+              <strong>Nom de l'employé:</strong>
+              <p>{{ sheetDetail.ownerName }}</p>
+            </div>
+            <div class="col-md-4">
+              <strong>Fonction:</strong>
+              <p>{{ sheetDetail.ownerTitle }}</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <strong>Pôle/entité:</strong>
+              <p>{{ sheetDetail.axisInstances[0].poleName }}</p>
+            </div>
+            <div class="col-md-4">
+              <strong>Créé:</strong>
+              <p>{{ sheetDetail.created | date: 'mediumDate' }}</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <strong>{{sheetDetail.strategyTitle}}</strong>
+            </div>
+            <div class="col-md-12">
+              <p>{{sheetDetail.strategyDescription}}</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <strong>Axes:</strong>
+            </div>
+            <div class="col-md-12">
+              <table class="table">
+                <tr>
+                  <th style="width: 40%">Titre</th>
+                  <th style="width: 50%">Description</th>
+                  <th style="width: 10%">Pondération</th>
+                </tr>
+                <tr *ngFor="let axis of sheetDetail.axisInstances">
+                  <td>{{ axis.title }}</td>
+                  <td>{{ axis.description }}</td>
+                  <td align="center">
+                    <span class="badge badge-pill badge-danger">{{axis.userWeight}} %</span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="card-body">
       <tabset class="member-tabset">
-        <tab heading="Détail">
-          <div class="container mt-2">
-            <div class="row">
-              <div class="col-md-4">
-                <strong>Titre:</strong>
-                <p>{{ sheetDetail.title }}</p>
-              </div>
-              <div class="col-md-4">
-                <strong>Année:</strong>
-                <p>{{ sheetDetail.year }}</p>
-              </div>
-              <div class="col-md-4">
-                <strong>Statut:</strong>
-                <p>{{ sheetDetail.status }}</p>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-4">
-                <strong>Matricule:</strong>
-                <p>{{ sheetDetail.employeeNumber }}</p>
-              </div>
-              <div class="col-md-4">
-                <strong>Nom de l'employé:</strong>
-                <p>{{ sheetDetail.ownerName }}</p>
-              </div>
-              <div class="col-md-4">
-                <strong>Fonction:</strong>
-                <p>{{ sheetDetail.ownerTitle }}</p>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-4">
-                <strong>Pôle/entité:</strong>
-                <p>{{ sheetDetail.axisInstances[0].poleName }}</p>
-              </div>
-              <div class="col-md-4">
-                <strong>Créé:</strong>
-                <p>{{ sheetDetail.created | date: 'mediumDate' }}</p>
-              </div>
-            </div>
-          </div>
-        </tab>
-        <tab heading="Stratégie">
-          <app-axis-user [strategyTitle]="sheetDetail.strategyTitle" [strategyDescription]="sheetDetail.strategyDescription" [axisInstances]="sheetDetail.axisInstances"></app-axis-user>
-        </tab>
         <tab heading="Définition des objectifs">
           <div *ngIf="goalsByAxisInstanceList">
-            <app-goals [areGoalsCompleted]="areGoalsCompleted" [areGoalsReadOnly]="areGoalsReadOnly" [goalsByAxisInstanceList]="goalsByAxisInstanceList"
+            <app-goals [sheetId]="sheetDetail.id" [areGoalsCompleted]="areGoalsCompleted" [areGoalsReadOnly]="areGoalsReadOnly" [goalsByAxisInstanceList]="goalsByAxisInstanceList"
               [axisInstances]="sheetDetail.axisInstances" [goalTypeList]="goalTypeList" (createGoalEvent)="handleCreateGoal($event)"
               (editGoalEvent)="handleEditGoal($event)" (deleteGoalEvent)="handleDeleteGoal($event)" (validateGoalsEvent)="handleValidateGoals($event)"
               (cascadeMyGoalEvent)="handleCascadeMyGoal($event)"></app-goals>

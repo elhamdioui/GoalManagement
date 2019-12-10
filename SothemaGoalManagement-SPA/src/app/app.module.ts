@@ -97,7 +97,6 @@ import { SheetDetailResolver } from './_resolvers/sheet-detail.resolver';
 import { SheetAxisInstanceItemComponent } from './sheets/sheet-axis-instance-item/sheet-axis-instance-item.component';
 import { GoalsComponent } from './sheets/goals/goals.component';
 import { GoalEditModalComponent } from './sheets/goal-edit-modal/goal-edit-modal.component';
-import { AxisUserComponent } from './sheets/axis-user/axis-user.component';
 import { GoalNewComponent } from './sheets/goal-new/goal-new.component';
 import { GoalCardComponent } from './sheets/goal-card/goal-card.component';
 import { SheetCardComponent } from './sheets/sheet-card/sheet-card.component';
@@ -109,6 +108,8 @@ import { CascadeMyGoalsModalComponent } from './sheets/cascade-my-goals-modal/ca
 import { AutoEvaluationGoalsComponent } from './sheets/auto-evaluation-goals/auto-evaluation-goals.component';
 import { AutoEvaluationAxisComponent } from './sheets/auto-evaluation-axis/auto-evaluation-axis.component';
 import { BehavioralSkillListEvaluationComponent } from './sheets/behavioral-skill-list-evaluation/behavioral-skill-list-evaluation.component';
+import { GoalDetailComponent } from './sheets/goal-detail/goal-detail.component';
+import { GoalDetailResolver } from './_resolvers/goal-detail.resolver';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -176,7 +177,6 @@ export function tokenGetter() {
     SheetAxisInstanceItemComponent,
     GoalsComponent,
     GoalEditModalComponent,
-    AxisUserComponent,
     GoalNewComponent,
     GoalCardComponent,
     PromptModalComponent,
@@ -186,6 +186,7 @@ export function tokenGetter() {
     GoalEvaluationModalComponent,
     CascadeMyGoalsModalComponent,
     BehavioralSkillListEvaluationComponent,
+    GoalDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -235,7 +236,8 @@ export function tokenGetter() {
     HrService,
     LayoutService,
     SheetsResolver,
-    SheetDetailResolver
+    SheetDetailResolver,
+    GoalDetailResolver
   ],
   entryComponents: [
     RolesModalComponent,

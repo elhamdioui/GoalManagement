@@ -52,6 +52,32 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
+        [HttpGet("goalWithChildren/{goalId}")]
+        public async Task<IActionResult> GetGoalWithChildren(int userId, int goalId)
+        {
+            try
+            {
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var goalFromRepo = await _repo.Goal.GetGoal(goalId);
+
+                if (goalFromRepo == null) return NotFound();
+                var goalWithChildrenToReturn = _mapper.Map<GoalWithChildrenToReturnDto>(goalFromRepo);
+                var childrenFromRepo = await _repo.Goal.GetGoalChildren(goalFromRepo.Id);
+
+                if (childrenFromRepo.Count() > 0)
+                {
+                    goalWithChildrenToReturn.Children = _mapper.Map<ICollection<GoalWithChildrenToReturnDto>>(childrenFromRepo);
+                }
+
+                return Ok(goalWithChildrenToReturn);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetGoal endpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         [HttpGet("goalTypes")]
         public async Task<IActionResult> GetGoalTypes(int userId)
         {
@@ -369,13 +395,7 @@ namespace SothemaGoalManagement.API.Controllers
             var goalsFromRepo = await _repo.Goal.GetGoalsByAxisInstanceIds(axisInstanceIds);
             foreach (var goal in goalsFromRepo)
             {
-                var goalToReturn = _mapper.Map<GoalToReturnDto>(goal);
-                if (goal.ParentGoalId > 0)
-                {
-                    var parentGoalOwner = await _repo.Goal.GetGoalOwner(goal.ParentGoalId);
-                    goalToReturn.CascaderFullName = parentGoalOwner.FirstName + " " + parentGoalOwner.LastName;
-                    goalToReturn.CascaderPhotoUrl = parentGoalOwner.Photos.FirstOrDefault(p => p.IsMain).Url;
-                }
+                var goalToReturn = await BuildGoalToReturn(goal);
 
                 if (goalsGroupedByAxisInstanceList.Exists(a => a.axisInstanceId == goal.AxisInstanceId))
                 {
@@ -413,6 +433,19 @@ namespace SothemaGoalManagement.API.Controllers
             }
 
             return goalsGroupedByAxisInstanceList;
+        }
+
+        private async Task<GoalToReturnDto> BuildGoalToReturn(Goal goal)
+        {
+            var goalToReturn = _mapper.Map<GoalToReturnDto>(goal);
+            if (goal.ParentGoalId > 0)
+            {
+                var parentGoalOwner = await _repo.Goal.GetGoalOwner(goal.ParentGoalId);
+                goalToReturn.CascaderFullName = parentGoalOwner.FirstName + " " + parentGoalOwner.LastName;
+                goalToReturn.CascaderPhotoUrl = parentGoalOwner.Photos.FirstOrDefault(p => p.IsMain).Url;
+            }
+
+            return goalToReturn;
         }
 
         private int GetCompletionRate(GoalToReturnDto goal)

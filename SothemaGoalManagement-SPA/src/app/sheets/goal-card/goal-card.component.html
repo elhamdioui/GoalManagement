@@ -54,14 +54,14 @@
       <p>Aucun objectif n'a encore été ajouté...</p>
     </div>
 
-    <table *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0" class="table table-hover">
+    <table *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0" class="table table-hover" style="cursor: pointer">
       <tr>
         <th style="width: 70%">Objectif</th>
         <th style="width: 16%">Type d'objectif</th>
         <th style="width: 5%">Poids</th>
         <th style="width: 9%"></th>
       </tr>
-      <tr *ngFor="let goal of goalsByAxisInstance.goals">
+      <tr *ngFor="let goal of goalsByAxisInstance.goals" [routerLink]="['/goal', goal.id]" [queryParams]="{ sheetId: sheetId }">
         <td>{{ goal.description }}</td>
         <td>{{ goal.goalType.name }}</td>
         <td>{{ goal.weight }}%</td>

@@ -17,6 +17,7 @@ import { CascadeMyGoalsModalComponent } from '../cascade-my-goals-modal/cascade-
 export class GoalCardComponent implements OnInit {
   @Input() goalsByAxisInstance: GoalByAxisInstance;
   @Input() areGoalsReadOnly: boolean;
+  @Input() sheetId: number;
   @Input() axisInstances: AxisInstance[];
   @Input() goalTypeList: GoalType[];
   @Output() editGoalEvent = new EventEmitter<any>();

@@ -123,6 +123,20 @@ namespace SothemaGoalManagement.API.Helpers
 
             CreateMap<Goal, GoalToReturnDto>();
 
+            CreateMap<Goal, GoalWithChildrenToReturnDto>().ForMember(dest => dest.AxisInstanceTitle, opt =>
+            {
+                opt.MapFrom(src => src.AxisInstance.Title);
+            }).ForMember(dest => dest.GoalTypeName, opt =>
+            {
+                opt.MapFrom(src => src.GoalType.Name);
+            }).ForMember(dest => dest.OwnerFullName, opt =>
+            {
+                opt.MapFrom(src => src.AxisInstance.EvaluationFileInstance != null ? src.AxisInstance.EvaluationFileInstance.Owner.FirstName + " " + src.AxisInstance.EvaluationFileInstance.Owner.LastName : "");
+            }).ForMember(dest => dest.OwnerPhotoUrl, opt =>
+            {
+                opt.MapFrom(src => src.AxisInstance.EvaluationFileInstance != null ? src.AxisInstance.EvaluationFileInstance.Owner.Photos.FirstOrDefault(p => p.IsMain).Url : "");
+            });
+
             CreateMap<GoalEvaluationForCreationDto, GoalEvaluation>();
 
             CreateMap<GoalEvaluation, GoalEvaluationToReturnDto>().ForMember(dest => dest.EvaluatorName, opt =>

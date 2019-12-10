@@ -156,6 +156,10 @@ export class UserService {
     return this.http.post(`${this.baseUrl}users/${userId}/goal`, axisInstanceIds);
   }
 
+  getGoalDetail(userId: number, goalId) {
+    return this.http.get(`${this.baseUrl}users/${userId}/goal/goalWithChildren/${goalId}`);
+  }
+
   createGoal(userId: number, goal: any) {
     return this.http.post(`${this.baseUrl}users/${userId}/goal/createGoal`, goal);
   }
