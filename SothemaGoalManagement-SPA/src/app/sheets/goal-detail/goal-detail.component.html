@@ -3,10 +3,65 @@
 
   <div class="card">
     <div class="card-header">
+      <div class="row">
+        <div class="col-md-12">{{goalWithChildren.description}}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <strong>Axe:</strong>
+          <span class="ml-2">{{goalWithChildren.axisInstanceTitle}}</span>
+        </div>
 
+        <div class="col-md-4">
+          <strong>Type d'objectif:</strong>
+          <span class="ml-2">{{goalWithChildren.goalTypeName}}</span>
+        </div>
+
+        <div class="col-md-4">
+          <strong>Poids:</strong>
+          <span class="ml-2">{{goalWithChildren.weight}} %</span>
+        </div>
+      </div>
     </div>
     <div class="card-body">
-
+      <ngx-loading [show]="loading"></ngx-loading>
+      <div class="alert alert-info mt-3" role="alert" *ngIf="goalWithChildren.children.length === 0">
+        <p>Aucun sous-objectif n'a encore été défini...</p>
+      </div>
+      <table *ngIf="goalWithChildren.children.length > 0" class="table table-hover">
+        <tr>
+          <!-- <th style="width: 2%"></th> -->
+          <th style="width: 10%">Colaborateur</th>
+          <th style="width: 10%">Axe</th>
+          <th style="width: 70%">Sous-Objectif</th>
+          <th style="width: 5%">Poids</th>
+          <th style="width: 3%"></th>
+        </tr>
+        <tr *ngFor="let goal of goalWithChildren.children">
+          <!-- <td>
+            <button class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()" (click)="toggleSubGoal(goal)" title="Développer Sous-Objectif"
+              *ngIf="!showSubGoal">
+              <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+            <button class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()" (click)="toggleSubGoal(goal)" title="Ecrouler Sous-Objectif"
+              *ngIf="showSubGoal">
+              <fa-icon [icon]="faMinus"></fa-icon>
+            </button>
+          </td> -->
+          <td align="center">
+            <img src="{{ goal.ownerPhotoUrl || '../../../assets/user.png'}}" class="img-circle rounded-circle" title="{{goal.ownerFullName}}"
+            />
+          </td>
+          <td>{{ goal.axisInstanceTitle }}</td>
+          <td>{{ goal.description }}</td>
+          <td>{{ goal.weight }}%</td>
+          <td>
+            <button class="btn btn-danger ml-1" (click)="$event.stopPropagation()" (click)="deleteGoal(goal)" title="Supprimer Sous-Objectif">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </td>
+        </tr>
+      </table>
     </div>
 
     <div class="card-footer">

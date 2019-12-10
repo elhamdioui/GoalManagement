@@ -144,6 +144,7 @@ namespace SothemaGoalManagement.API.Controllers
                     // Log new goal has been assigned by the evaluator
                     var evaluateeIds = new List<int>();
                     var efilList = new List<EvaluationFileInstanceLog>();
+                    var notCascadedList = new List<string>();
                     foreach (var goalCascadeDto in goalsCascadeDto)
                     {
                         if (goalCascadeDto.GoalForCreationDto.AxisInstanceId != 0)
@@ -160,13 +161,25 @@ namespace SothemaGoalManagement.API.Controllers
                             };
                             efilList.Add(efil);
                         }
+                        else
+                        {
+                            var evaluatee = _repo.User.GetUser(goalCascadeDto.EvaluateeId, false).Result;
+                            notCascadedList.Add($"Le sous-objectif: '{goalCascadeDto.GoalForCreationDto.Description}', n'a pas été cascadé au collaborateur {evaluatee.FirstName} {evaluatee.LastName}, car ses objectifs sont déjà validé.");
+                        }
                     }
 
                     await LogForSheet(efilList);
 
-                    // Send Notification
+                    // Send Notifications
                     string emailContent = "Un nouvel objectif vous a été attribué par votre évaluateur.";
                     await SendNotificationsForSubordinate(userId, emailContent, evaluateeIds);
+                    if (notCascadedList.Count() > 0)
+                    {
+                        foreach (var notCascaded in notCascadedList)
+                        {
+                            await SendNotificationsForEvaluator(userId, notCascaded);
+                        }
+                    }
                 }
 
                 return NoContent();

@@ -59,7 +59,8 @@
         <th style="width: 70%">Objectif</th>
         <th style="width: 16%">Type d'objectif</th>
         <th style="width: 5%">Poids</th>
-        <th style="width: 9%"></th>
+        <th style="width: 6%"></th>
+        <th style="width: 3%"></th>
       </tr>
       <tr *ngFor="let goal of goalsByAxisInstance.goals" [routerLink]="['/goal', goal.id]" [queryParams]="{ sheetId: sheetId }">
         <td>{{ goal.description }}</td>
@@ -80,11 +81,11 @@
           <img src="{{ goal.cascaderPhotoUrl || '../../../assets/user.png'}}" class="img-circle rounded-circle" title="{{goal.cascaderFullName}}"
           />
         </td>
-        <!-- <td *ngIf="!areGoalsReadOnly">
+        <td *ngIf="!areGoalsReadOnly">
           <button class="btn btn-secondary" (click)="$event.stopPropagation()" (click)="cascadeGoal(goal)" title="Cascader Objectif">
             <fa-icon [icon]="faArrowAltCircleDown"></fa-icon>
           </button>
-        </td> -->
+        </td>
       </tr>
     </table>
   </div>
