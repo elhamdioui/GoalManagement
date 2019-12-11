@@ -10,7 +10,7 @@ import { Strategy } from '../_models/strategy';
 })
 export class StrategiesComponent implements OnInit {
   strategies: Strategy[];
-  viewMode = false;
+  viewMode = true;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {

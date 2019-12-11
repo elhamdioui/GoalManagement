@@ -21,7 +21,7 @@ export class HrFilterCreateActionsComponent implements OnInit {
     this.filters.orderBy = 'created';
     switch (this.dataType) {
       case 'strategy':
-        this.labelButton = 'Créer Nouvelle Stratégie';
+        this.labelButton = 'Créer Nouveau Axe';
         break;
       case 'behavioralSkill':
         this.labelButton = 'Créer Nouvelle compétence comportementale';

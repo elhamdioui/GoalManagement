@@ -1,109 +1,69 @@
 <div class="container mt-5">
   <ngx-loading [show]="loading"></ngx-loading>
   <div *ngIf="loggedIn()" style="text-align: center">
-    <div class="card">
-      <div class="card-header">
-        <h1>Sothema Goal Management</h1>
-        <p class="lead">
-          Sothema a adopté le système de management par objectifs (MPO) qui consiste à définir des objectifs à atteindre par les collaborateurs,
-          selon une cascade découlant de l’orientation stratégique et des objectifs d’entreprise. Il a pour objectif :
+    <div class="row">
+      <div class="col-md-5">
+        <accordion [closeOthers]="true">
+          <accordion-group heading="Fixation d’objectifs" [isOpen]="true">
+            <p class="text-left">
+              Durant cette étape, le Manager fixe les objectifs de performance pour chaque collaborateur en fonction de son niveau de responsabilité.
+              Ces objectifs doivent être SMART et découlant des objectifs de l’entreprise conformément aux 4 axes stratégiques
+              : Croissance, Performance, Innovation, Management.
+            </p>
+          </accordion-group>
 
-        </p>
-        <ul class="lead">
-          <li>D’aligner l’ensemble des collaborateurs sur la performance de l’entreprise</li>
+          <accordion-group heading="Evaluation mi-année">
+            <p class="text-muft">
+              L’évaluation mi-année est une étape importante, car elle permet de mesurer le degré d’atteinte des objectifs individuels
+              d’une part, d’autre part, la revue des objectifs fixés, ou de l’orientation opérationnelle suite à des événements
+              survenus durant l’année.
+            </p>
+          </accordion-group>
 
-          <li>De motiver les collaborateurs et les impliquer dans développement de l’entreprise</li>
-
-          <li>De promouvoir la culture du mérite et de la performance </li>
-
-          <li>De dynamiser la nouvelle organisation </li>
-
-        </ul>
-        <p class="lead">
-          Ce système permet aussi de traduire la performance individuelle en performance collective et contribuer efficacement à l’amélioration
-          de celle d’entreprise en général.
-        </p>
+          <accordion-group heading="Evaluation finale">
+            <p class="text-left">
+              C’est l’étape d’évaluation de la performance et du potentiel du collaborateur par son manager. Cette étape est basée sur
+              l’évaluation quant à l’atteinte des objectifs assignés et des compétences individuelles, techniques et comportementales.
+              L’objectif est de permettre une évaluation objective et équitable de la performance du collaborateur, de mesurer
+              son potentiel d’évolution, et d’établir un plan d’action pour le développement de ses compétences.
+            </p>
+          </accordion-group>
+        </accordion>
       </div>
 
-      <div class="card-body">
-        <ul class="list-inline member-icons animate text-center">
-          <li class="list-inline-item">
-            <div class="card text-center" style="width: 20rem;">
-              <div class="card-body">
-                <h6 class="card-title text-center mb-1">
+      <div class="col offset-1 col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h1>Sothema Goal Management</h1>
+            <p class="lead">
+              Sothema a adopté le système de management par objectifs (MPO) qui consiste à définir des objectifs à atteindre par les collaborateurs,
+              selon une cascade découlant de l’orientation stratégique et des objectifs d’entreprise. Il a pour objectif
+              :
 
-                  Fixation d’objectifs
+            </p>
+            <ul class="lead">
+              <li>D’aligner l’ensemble des collaborateurs sur la performance de l’entreprise</li>
 
-                </h6>
+              <li>De motiver les collaborateurs et les impliquer dans développement de l’entreprise</li>
 
-                <p class="card-text text-muted text-left">
+              <li>De promouvoir la culture du mérite et de la performance </li>
 
+              <li>De dynamiser la nouvelle organisation </li>
 
-
-                  Durant cette étape, le Manager fixe les objectifs de performance pour chaque collaborateur en fonction de son niveau de responsabilité.
-                  Ces objectifs doivent être SMART et découlant des objectifs de l’entreprise conformément aux 4 axes stratégiques
-                  : Croissance, Performance, Innovation, Management.
-
-
-
-                </p>
-              </div>
-            </div>
-          </li>
-
-          <li class="list-inline-item">
-            <div class="card text-center" style="width: 20rem;">
-              <div class="card-body">
-                <h6 class="card-title text-center mb-1">
-
-                  Evaluation mi-année
-
-                </h6>
-
-                <p class="card-text text-muted text-left">
-
-
-
-                  L’évaluation mi-année est une étape importante, car elle permet de mesurer le degré d’atteinte des objectifs individuels
-                  d’une part, d’autre part, la revue des objectifs fixés, ou de l’orientation opérationnelle suite à des
-                  événements survenus durant l’année.
-
-
-
-                </p>
-              </div>
-            </div>
-          </li>
-
-          <li class="list-inline-item">
-            <div class="card text-center" style="width: 20rem;">
-              <div class="card-body">
-                <h6 class="card-title text-center mb-1">
-
-                  Evaluation finale
-
-                </h6>
-
-                <p class="card-text text-muted text-left">
-                  C’est l’étape d’évaluation de la performance et du potentiel du collaborateur par son manager. Cette étape est basée sur
-                  l’évaluation quant à l’atteinte des objectifs assignés et des compétences individuelles, techniques et
-                  comportementales. L’objectif est de permettre une évaluation objective et équitable de la performance du
-                  collaborateur, de mesurer son potentiel d’évolution, et d’établir un plan d’action pour le développement
-                  de ses compétences.
-
-                </p>
-              </div>
-            </div>
-          </li>
-
-
-        </ul>
+            </ul>
+            <p class="lead">
+              Ce système permet aussi de traduire la performance individuelle en performance collective et contribuer efficacement à l’amélioration
+              de celle d’entreprise en général.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
 
   </div>
 
+  <!--Login form-->
   <div *ngIf="!loggedIn()" class="container h-100">
     <div class="d-flex justify-content-center h-100">
       <div class="user_card">

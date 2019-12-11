@@ -3,7 +3,7 @@
   <h2>Panneau de Ressource Humaine</h2>
   <div class="tab-panel">
     <tabset class="member-tabset" #hrTabs>
-      <tab heading="Axes Stratégique" *appHasRole="['HRD', 'HR']">
+      <tab heading="Axes d'évaluation" *appHasRole="['HRD', 'HR']">
         <div class="container mt-2">
           <app-strategy-list [statusList]="statusList" [strategies]="strategies" [pagination]="pagination" (pageChangedEvent)="(handlePageChanged($event))"
             (loadStrategiesEvent)="handleLoadStrategies($event)" (editStrategyEvent)="handleEditStrategy($event)">
