@@ -134,7 +134,7 @@ namespace SothemaGoalManagement.API.Helpers
                 opt.MapFrom(src => src.AxisInstance.EvaluationFileInstance != null ? src.AxisInstance.EvaluationFileInstance.Owner.FirstName + " " + src.AxisInstance.EvaluationFileInstance.Owner.LastName : "");
             }).ForMember(dest => dest.OwnerPhotoUrl, opt =>
             {
-                opt.MapFrom(src => src.AxisInstance.EvaluationFileInstance != null ? src.AxisInstance.EvaluationFileInstance.Owner.Photos.FirstOrDefault(p => p.IsMain).Url : "");
+                opt.MapFrom(src => src.AxisInstance.EvaluationFileInstance != null ? (src.AxisInstance.EvaluationFileInstance.Owner.Photos.FirstOrDefault(p => p.IsMain) != null ? src.AxisInstance.EvaluationFileInstance.Owner.Photos.FirstOrDefault(p => p.IsMain).Url : "") : "");
             });
 
             CreateMap<GoalEvaluationForCreationDto, GoalEvaluation>();
