@@ -1,17 +1,85 @@
 [{
-        "Name": "Pôle support",
+        "Name": "COMMERCIALE",
         "Departments": [{
-            "name": "DSI"
+            "name": "COMMERCIALE"
         }, {
-            "name": "DAF"
+            "name": "OPERATIONS MAROC"
+        }, {
+            "name": "VENTES"
+        }, {
+            "name": "PROMO HOSPITALIERE"
+        }, {
+            "name": "AFF INTERNATIONALES"
+        }, {
+            "name": "BUSINESS DEV"
+        }, {
+            "name": "OP MAROC & INTER"
+        }, {
+            "name": "MEDICALE"
         }]
     },
     {
-        "Name": "Pôle marketing",
+        "Name": "DEVELOPPEMENT",
         "Departments": [{
-            "name": "Direction commerciale"
+            "name": "DEVELOPPEMENT"
         }, {
-            "name": "Direction des ventes"
+            "name": "AFF PHARMACEUTIQUES"
+        }]
+    },
+    {
+        "Name": "DIRECTION GENERALE",
+        "Departments": [{
+            "name": "DIRECTION GENERALE"
+        }]
+    },
+    {
+        "Name": "INDUSTRIELLE",
+        "Departments": [{
+            "name": "SUPPLY CHAIN"
+        }, {
+            "name": "INDUSTRIEL & DEVELOPPEMENT"
+        }, {
+            "name": "SITE 2"
+        }, {
+            "name": "ENGINEERING"
+        }, {
+            "name": "ASB"
+        }, {
+            "name": "SITE 1"
+        }]
+    },
+    {
+        "Name": "MARKETING",
+        "Departments": [{
+            "name": "MARKETING"
+        }]
+    },
+    {
+        "Name": "QUALITE",
+        "Departments": [{
+            "name": "QUALITE"
+        }]
+    },
+    {
+        "Name": "SUPPORT",
+        "Departments": [{
+            "name": "SUPPORT"
+        }, {
+            "name": "DFC"
+        }, {
+            "name": "DRH"
+        }, {
+            "name": "INFORMATIQUE"
+        }, {
+            "name": "AUDIT INTERNE"
+        }, {
+            "name": "SUPPORT DES FILIALES"
+        }, {
+            "name": "CONTRÔLE DE GESTION"
+        }, {
+            "name": "PROJETS"
+        }, {
+            "name": "AFFAIRES JURIDIQUES"
         }]
     }
 ]
