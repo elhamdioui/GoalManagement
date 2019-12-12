@@ -6,6 +6,7 @@
 
 <!--Login form-->
 <div *ngIf="!loggedIn()" class="container login-container">
+  <ngx-loading [show]="loading"></ngx-loading>
   <div class="row">
     <div class="col-md-6 login-form-1">
     </div>

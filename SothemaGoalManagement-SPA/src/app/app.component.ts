@@ -46,20 +46,25 @@ export class AppComponent implements OnInit {
 
   login() {
     this.loading = true;
-    this.authService.login(this.model).subscribe(
-      next => {
-        this.loading = false;
-        this.userService.totalUnreadMessages(this.authService.decodedToken.nameid);
-        this.alertify.success('Connecté avec succès');
-      },
-      error => {
-        this.loading = false;
-        this.alertify.error(error);
-      },
-      () => {
-        this.router.navigate(['']);
-      }
-    );
+    setTimeout(() => {
+      this.loading = false;
+      console.log('done')
+    }, 2000);
+    console.log('testing');
+    // this.authService.login(this.model).subscribe(
+    //   next => {
+    //     this.loading = false;
+    //     this.userService.totalUnreadMessages(this.authService.decodedToken.nameid);
+    //     this.alertify.success('Connecté avec succès');
+    //   },
+    //   error => {
+    //     this.loading = false;
+    //     this.alertify.error(error);
+    //   },
+    //   () => {
+    //     this.router.navigate(['']);
+    //   }
+    // );
   }
 }
 
