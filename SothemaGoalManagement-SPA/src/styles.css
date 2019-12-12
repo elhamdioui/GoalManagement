@@ -1,5 +1,5 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-@import '../node_modules/bootswatch/dist/flatly/bootstrap.min.css';
+@import '../node_modules/bootswatch/dist/Cosmo/bootstrap.min.css';
 @import '../node_modules/alertifyjs/build/css/alertify.min.css';
 @import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
 @import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
@@ -18,7 +18,7 @@
 .member-tabset>.nav-tabs>li:hover>a {
   border: 0;
   background: none !important;
-  color: #333333;
+  color: #2780E3;
 }
 
 .member-tabset>.nav-tabs>li.open>a>i,
@@ -32,13 +32,13 @@
 }
 
 .member-tabset>.nav-tabs>li.active {
-  border-bottom: 4px solid #2C3E50;
+  border-bottom: 4px solid #2780E3;
   position: relative;
 }
 
 .member-tabset>.nav-tabs>li.active>a {
   border: 0 !important;
-  color: #333333;
+  color: #2780E3;
 }
 
 .member-tabset>.nav-tabs>li.active>a>i {
