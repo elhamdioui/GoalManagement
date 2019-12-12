@@ -3,20 +3,22 @@
     <app-auto-evaluation-axis [sheetOwnerId]="sheetOwnerId" [goalIdToExpand]="goalIdToExpand" [goalsByAxisInstance]="goalsByAxisInstance"
       (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation-axis>
   </div>
+
   <div class="row alert alert-info mt-1" role="alert">
     <div class="offset-md-7 col-md-2">
-      <h3>
-        Total axes:
-      </h3>
+      <h4>
+        Total des axes:
+      </h4>
     </div>
     <div class="col-md-2">
-      <h3>
+      <h4>
         <span class="badge badge-pill badge-success" title="Total des axes">
-          {{ totalGrade }} %
+          {{ goalsByAxisInstanceList[0].totalGrade }} %
         </span>
-      </h3>
+      </h4>
     </div>
   </div>
+
 </div>
 
 <div class="alert alert-danger mt-3" role="alert" *ngIf="!areGoalsEvaluable">

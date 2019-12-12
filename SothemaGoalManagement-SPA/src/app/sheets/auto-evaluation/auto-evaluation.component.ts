@@ -13,12 +13,10 @@ export class AutoEvaluationComponent implements OnInit {
   @Input() goalIdToExpand: number;
   @Input() sheetOwnerId: number;
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
-  totalGrade: string;
 
   constructor() { }
 
   ngOnInit() {
-    this.totalGrade = this.goalsByAxisInstanceList[0].totalGrade;
   }
 
   handleAddGoalEvaluation(newEval: any) {
