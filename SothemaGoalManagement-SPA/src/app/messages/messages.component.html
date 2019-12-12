@@ -57,12 +57,8 @@
 </div>
 
 <div class="container mt-5" *ngIf="showMessageThread">
-  <div class="row">
-    <button class="btn btn-primary" (click)="returnMessages()">
-      <fa-icon [icon]="faList"></fa-icon> Retour à la liste des messages
-    </button>
-  </div>
-  <div class="row">
-    <app-collaborator-messages [recipientId]="recipientId"></app-collaborator-messages>
-  </div>
+  <button class="btn btn-primary" (click)="returnMessages()">
+    <fa-icon [icon]="faList"></fa-icon> Retour à la liste des messages
+  </button>
+  <app-collaborator-messages [recipientId]="recipientId"></app-collaborator-messages>
 </div>

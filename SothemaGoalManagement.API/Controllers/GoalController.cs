@@ -455,7 +455,11 @@ namespace SothemaGoalManagement.API.Controllers
             {
                 var parentGoalOwner = await _repo.Goal.GetGoalOwner(goal.ParentGoalId);
                 goalToReturn.CascaderFullName = parentGoalOwner.FirstName + " " + parentGoalOwner.LastName;
-                goalToReturn.CascaderPhotoUrl = parentGoalOwner.Photos.FirstOrDefault(p => p.IsMain).Url;
+                var mainPhoto = parentGoalOwner.Photos.FirstOrDefault(p => p.IsMain);
+                if (mainPhoto != null)
+                {
+                    goalToReturn.CascaderPhotoUrl = mainPhoto.Url;
+                }
             }
 
             return goalToReturn;
