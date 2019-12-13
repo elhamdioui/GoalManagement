@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { faAt } from '@fortawesome/free-solid-svg-icons';
 
 import { AlertifyService } from '../../_services/alertify.service';
 import { AuthService } from '../../_services/auth.service';
@@ -12,6 +13,7 @@ import { AuthService } from '../../_services/auth.service';
 export class ForgetPasswordComponent implements OnInit {
   model: any = {};
   public loading = false;
+  faAt = faAt;
 
   constructor(private router: Router, private authService: AuthService, private alertify: AlertifyService, ) { }
 

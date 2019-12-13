@@ -6,6 +6,7 @@ import {
   Validators,
   FormBuilder
 } from '@angular/forms';
+import { faKey, faHandshake } from '@fortawesome/free-solid-svg-icons';
 
 import { AlertifyService } from '../../_services/alertify.service';
 import { AuthService } from '../../_services/auth.service';
@@ -19,6 +20,8 @@ export class ResetPasswordComponent implements OnInit {
   model: any = {};
   resetPasswordForm: FormGroup;
   public loading = false;
+  faKey = faKey;
+  faHandshake = faHandshake;
 
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private authService: AuthService,
     private alertify: AlertifyService, ) { }

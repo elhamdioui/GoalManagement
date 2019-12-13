@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5" *ngIf="loggedIn()">
   <div style="text-align: center">
     <div class="row">
       <div class="col-md-5">
@@ -60,5 +60,46 @@
     </div>
 
 
+  </div>
+</div>
+
+<!--Login form-->
+<div *ngIf="!loggedIn()" class="container login-container">
+  <ngx-loading [show]="loading"></ngx-loading>
+  <div class="row">
+    <div class="col-md-6 login-form-1">
+    </div>
+
+    <div class="col-md-6 login-form-2">
+      <div class="logo-container">
+        <img src="../../assets/SGM.png" class="logo" alt="Logo">
+      </div>
+
+      <form #loginForm="ngForm" (ngSubmit)="login()">
+        <div class="input-group mb-3">
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <fa-icon [icon]="faUser"></fa-icon>
+            </span>
+          </div>
+          <input class="form-control input_user" type="text" placeholder="Adresse Email" [(ngModel)]="model.username" required name="username">
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <fa-icon [icon]="faKey"></fa-icon>
+            </span>
+          </div>
+          <input class="form-control input_pass" type="password" placeholder="Mot de Passe" [(ngModel)]="model.password" required name="password">
+        </div>
+        <div class="form-group">
+          <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary btn-lg">Se Connecter</button>
+        </div>
+        <div class="form-group">
+          <a [routerLink]="['/requestResetPassword']">Mot de passe oublié?</a>
+        </div>
+
+      </form>
+    </div>
   </div>
 </div>
