@@ -13,6 +13,12 @@
   margin-bottom: 5%;
 }
 
+.img-valign {
+  vertical-align: middle;
+  width: 50px;
+
+}
+
 .login-form-1 {
   background-image: url('./../../assets/bg.png');
   background-repeat: no-repeat;
