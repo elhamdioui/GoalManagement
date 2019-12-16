@@ -57,7 +57,8 @@ export class MessagesComponent implements OnInit {
         error => {
           this.loading = false;
           this.alertify.error(error);
-        }
+        },
+        () => this.userService.totalUnreadMessages(this.authService.decodedToken.nameid)
       );
   }
 
