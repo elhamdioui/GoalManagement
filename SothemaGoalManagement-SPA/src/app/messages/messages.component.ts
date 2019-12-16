@@ -95,7 +95,6 @@ export class MessagesComponent implements OnInit {
   fetchMessageThread(recipientId) {
     this.recipientId = recipientId;
     this.showMessageThread = true;
-    this.userService.totalUnreadMessages(this.authService.decodedToken.nameid);
   }
 
   returnMessages() {
