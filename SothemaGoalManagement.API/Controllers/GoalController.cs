@@ -364,6 +364,8 @@ namespace SothemaGoalManagement.API.Controllers
 
                 var goalFromRepo = await _repo.Goal.GetGoal(id);
                 if (goalFromRepo == null) return NotFound();
+                var children = await _repo.Goal.GetGoalChildren(goalFromRepo.Id);
+                if (children != null && children.Count() > 0) return BadRequest("Cet objectif a des sous-objectifs.");
 
                 _repo.Goal.DeleteGoal(goalFromRepo);
                 await _repo.Goal.SaveAllAsync();
