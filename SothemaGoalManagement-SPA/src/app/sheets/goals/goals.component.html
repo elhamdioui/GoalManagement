@@ -1,13 +1,13 @@
 <div class="container mt-2">
-  <div class="card">
-    <div class="card-header" *ngIf="!areGoalsReadOnly" style="cursor: pointer" (click)="isCollapsed = !isCollapsed">
+  <div class="card border-primary">
+    <div class="card-header " *ngIf="!areGoalsReadOnly" style="cursor: pointer" (click)="isCollapsed = !isCollapsed">
       <div class="row">
-        <div class="col-md-11">
-          <h4>Ajouter Nouveau Objectif</h4>
+        <div class="col-md-11 text-primary">
+          <h4>LA LISTE DES OBJECTIFS</h4>
         </div>
         <div class="col-md-1">
           <div class="toggle">
-            <fa-icon [icon]="faCaretDown" *ngIf="!isCollapsed"></fa-icon>
+            <button class="btn btn-outline-primary btn-round" *ngIf="!isCollapsed">Ajouter</button>
             <fa-icon [icon]="faCaretUp" *ngIf="isCollapsed"></fa-icon>
           </div>
         </div>
