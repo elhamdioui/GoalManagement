@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { TabsetComponent } from 'ngx-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,7 +19,9 @@ import { BehavioralSkillInstance } from '../../_models/behavioralSkillInstance';
   styleUrls: ['./sheet-detail.component.css']
 })
 export class SheetDetailComponent implements OnInit {
+  @ViewChild('sheetTabs') sheetTabs: TabsetComponent;
   @Input() sheetToValidate: EvaluationFileInstance;
+  @Input() tabIndex: number;
   @Output() switchOffDetailModeEvent = new EventEmitter();
   @Output() behavioralSkillEvaluationUpdatedEvent = new EventEmitter<boolean>();
   sheetDetail: EvaluationFileInstance;
@@ -42,6 +45,7 @@ export class SheetDetailComponent implements OnInit {
   ngOnInit() {
     if (this.sheetToValidate) {
       this.sheetDetail = this.sheetToValidate;
+      this.sheetTabs.tabs[this.tabIndex].active = true;
       this.getGoalsForAxis();
       this.getBehavioralSkillEvaluations();
     } else {

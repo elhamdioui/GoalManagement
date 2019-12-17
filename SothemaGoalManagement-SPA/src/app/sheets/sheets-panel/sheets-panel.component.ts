@@ -36,6 +36,7 @@ export class SheetsPanelComponent implements OnInit {
   goalsByAxisInstanceList: GoalByAxisInstance[];
   goalsMode = false;
   detailMode: boolean;
+  tabIndex: number = 0;
   public behavioralSkillEvaluationUpdated: boolean;
 
   constructor(private modalService: BsModalService, private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
@@ -217,6 +218,7 @@ export class SheetsPanelComponent implements OnInit {
 
   handleShowSheetDetail(sheetToValidate: EvaluationFileInstance) {
     this.sheetToValidate = sheetToValidate;
+    this.tabIndex = 1;
     this.detailMode = true;
   }
 

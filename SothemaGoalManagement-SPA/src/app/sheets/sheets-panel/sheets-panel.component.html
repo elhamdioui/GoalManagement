@@ -28,5 +28,6 @@
 </div>
 
 <div *ngIf="detailMode" class="container">
-  <app-sheet-detail [sheetToValidate]="sheetToValidate" (switchOffDetailModeEvent)="switchOffDetailMode($event)" (behavioralSkillEvaluationUpdatedEvent)="handleBehavioralSkillEvaluationUpdated($event)"></app-sheet-detail>
+  <app-sheet-detail [tabIndex]="tabIndex" [sheetToValidate]="sheetToValidate" (switchOffDetailModeEvent)="switchOffDetailMode($event)"
+    (behavioralSkillEvaluationUpdatedEvent)="handleBehavioralSkillEvaluationUpdated($event)"></app-sheet-detail>
 </div>
