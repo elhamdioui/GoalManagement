@@ -38,19 +38,8 @@
           <th style="width: 3%"></th>
         </tr>
         <tr *ngFor="let goal of goalWithChildren.children">
-          <!-- <td>
-            <button class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()" (click)="toggleSubGoal(goal)" title="Développer Sous-Objectif"
-              *ngIf="!showSubGoal">
-              <fa-icon [icon]="faPlus"></fa-icon>
-            </button>
-            <button class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()" (click)="toggleSubGoal(goal)" title="Ecrouler Sous-Objectif"
-              *ngIf="showSubGoal">
-              <fa-icon [icon]="faMinus"></fa-icon>
-            </button>
-          </td> -->
           <td align="center">
-            <img src="{{ goal.ownerPhotoUrl || '../../../assets/user.png'}}" class="img-circle rounded-circle" title="{{goal.ownerFullName}}"
-            />
+            {{goal.ownerFullName}}
           </td>
           <td>{{ goal.axisInstanceTitle }}</td>
           <td>{{ goal.description }}</td>

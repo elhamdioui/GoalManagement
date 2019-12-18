@@ -26,8 +26,8 @@
 
         </div>
       </div>
-      
-      
+
+
 
       <div class="col-md-5">
         <div class="well">
@@ -58,19 +58,17 @@
 
     <table *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0" class="table table-hover" style="cursor: pointer">
       <tr>
-        <th style="width: 5%"></th>
-        <th style="width: 65%">Objectif</th>
+        <th style="width: 70%">Objectif</th>
         <th style="width: 16%">Type d'objectif</th>
         <th style="width: 5%">Poids</th>
         <th style="width: 6%"></th>
         <th style="width: 3%"></th>
       </tr>
       <tr *ngFor="let goal of goalsByAxisInstance.goals" [routerLink]="['/goal', goal.id]" [queryParams]="{ sheetId: sheetId }">
-        <td align="center">
-          <img src="{{ goal.cascaderPhotoUrl || '../../../assets/user.png'}}" class="img-circle rounded-circle" title="{{goal.cascaderFullName}}"
-          />
+        <td>{{ goal.description }}
+          <span *ngIf="ownerName != goal.cascaderFullName">(
+            <strong>Cascader par {{goal.cascaderFullName}}</strong>)</span>
         </td>
-        <td>{{ goal.description }}</td>
         <td>{{ goal.goalType.name }}</td>
         <td>{{ goal.weight }}%</td>
         <td>

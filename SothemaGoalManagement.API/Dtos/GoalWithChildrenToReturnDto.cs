@@ -17,7 +17,6 @@ namespace SothemaGoalManagement.API.Dtos
 
         public string ProjectName { get; set; }
 
-        public string OwnerPhotoUrl { get; set; }
         public string OwnerFullName { get; set; }
 
         public ICollection<GoalWithChildrenToReturnDto> Children { get; set; }

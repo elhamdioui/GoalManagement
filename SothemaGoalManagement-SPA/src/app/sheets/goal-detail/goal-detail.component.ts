@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faTrash, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { GoalWithChildren } from '../../_models/goalWithChildren';
@@ -16,8 +16,6 @@ export class GoalDetailComponent implements OnInit {
   goalWithChildren: GoalWithChildren;
   sheetId: number;
   faTrash = faTrash;
-  faPlus = faPlus;
-  faMinus = faMinus;
   public loading = false;
   showSubGoal: boolean;
 
