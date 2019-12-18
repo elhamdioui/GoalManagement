@@ -23,7 +23,7 @@ export class GoalsComponent implements OnInit {
   @Output() deleteGoalEvent = new EventEmitter<Goal>();
   @Output() validateGoalsEvent = new EventEmitter();
   @Output() cascadeMyGoalEvent = new EventEmitter<any>();
-  isCollapsed = true;
+  isCollapsed = false;
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
 

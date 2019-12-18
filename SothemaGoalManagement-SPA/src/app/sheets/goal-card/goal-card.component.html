@@ -1,13 +1,13 @@
-<div class="card mt-2 mb-2">
+<div class="card mt-2 mb-2 border-primary">
   <div class="card-header" style="cursor: pointer" (click)="isCollapsed = !isCollapsed">
     <div class="row">
       <div class="col-md-1">
-        <span class="badge badge-pill badge-danger" title="Pondération d'axe">
+        <span class="badge badge-pill badge-primary" title="Pondération d'axe">
           {{goalsByAxisInstance.userWeight}} %
         </span>
       </div>
-      <div class="col-md-4">
-        {{goalsByAxisInstance.title}}
+      <div class="col-md-4 text-primary ">
+        <strong>{{goalsByAxisInstance.title}}</strong>
       </div>
       <div class="offset-md-6 col-md-1 ">
         <div class="toggle">
@@ -18,28 +18,30 @@
     </div>
 
     <div class="row">
-      <div class="col-md-1">
-        <span class="badge badge-pill badge-info">
-          {{goalsByAxisInstance.totalGoals}}
-        </span>
+      <div class="col-md-4">
+        <div class="well">Nombre d'objectifs
+          <span class="badge badge-pill badge-success">
+            {{goalsByAxisInstance.totalGoals}}
+          </span>
+
+        </div>
       </div>
-      <div class="col-md-2">
-        <div class="well">objectifs</div>
-      </div>
+      
+      
 
       <div class="col-md-5">
         <div class="well">
           Statut des objectifs:
-          <span class="badge badge-pill badge-info">
+          <span class="badge badge-pill badge-success">
             {{goalsByAxisInstance.goalsStatus}}
           </span>
         </div>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="well">
-          Poids total des objectifs:
-          <span class="badge badge-pill badge-info">
+          Poids total :
+          <span class="badge badge-pill badge-success">
             {{goalsByAxisInstance.totalGoalWeight}} %
           </span>
         </div>
@@ -73,7 +75,7 @@
         <td>{{ goal.weight }}%</td>
         <td>
           <span *ngIf="!areGoalsReadOnly" class="d-flex justify-content-center">
-            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editGoalModal(goal)" title="Modifier Objectif">
+            <button class="btn btn-warning" (click)="$event.stopPropagation()" (click)="editGoalModal(goal)" title="Modifier Objectif">
               <fa-icon [icon]="faEdit"></fa-icon>
             </button>
 
@@ -83,7 +85,7 @@
           </span>
         </td>
         <td *ngIf="!areGoalsReadOnly">
-          <button class="btn btn-secondary" (click)="$event.stopPropagation()" (click)="cascadeGoal(goal)" title="Cascader Objectif">
+          <button class="btn btn-primary" (click)="$event.stopPropagation()" (click)="cascadeGoal(goal)" title="Cascader Objectif">
             <fa-icon [icon]="faArrowAltCircleDown"></fa-icon>
           </button>
         </td>
