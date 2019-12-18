@@ -275,8 +275,7 @@ export class SheetDetailComponent implements OnInit {
 
   handleCascadeMyGoal(golasForCascade: any) {
     this.loading = true;
-    console.log('golasForCascade:', golasForCascade);
-    this.userService.casvadeGoal(this.authService.decodedToken.nameid, golasForCascade).subscribe(
+    this.userService.casvadeGoal(this.authService.decodedToken.nameid, golasForCascade, this.sheetDetail.evaluationFileId).subscribe(
       () => {
         this.loading = false;
         this.alertify.success('L\'objectif est evoyé avec succès pour être cascader.');

@@ -23,6 +23,8 @@ namespace SothemaGoalManagement.API.Dtos
 
         public int OwnerId { get; set; }
 
+        public int EvaluationFileId { get; set; }
+
         public string PhotoUrl { get; set; }
         public string OwnerTitle { get; set; }
         public string EmployeeNumber { get; set; }

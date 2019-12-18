@@ -114,8 +114,8 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
-        [HttpPost("cascadeGoal")]
-        public async Task<IActionResult> CascadeGoal(int userId, IEnumerable<GoalForCascadeDto> goalsCascadeDto)
+        [HttpPost("{model}/cascadeGoal")]
+        public async Task<IActionResult> CascadeGoal(int userId, int model, IEnumerable<GoalForCascadeDto> goalsCascadeDto)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace SothemaGoalManagement.API.Controllers
                     // Set not published or archived axis instance id foreach evaluatee
                     foreach (var goalCascadeDto in goalsCascadeDto)
                     {
-                        var axisInstanceId = _repo.EvaluationFileInstance.GetAxisInstanceByUserIdAndAxisTitle(goalCascadeDto.EvaluateeId, goalCascadeDto.AxisInstanceTitle, goalCascadeDto.ParentGoalId).Result;
+                        var axisInstanceId = _repo.EvaluationFileInstance.GetAxisInstanceByUserIdAndAxisTitle(goalCascadeDto.EvaluateeId, model, goalCascadeDto.AxisInstanceTitle, goalCascadeDto.ParentGoalId).Result;
                         goalCascadeDto.GoalForCreationDto.AxisInstanceId = axisInstanceId;
                     }
 
@@ -150,7 +150,7 @@ namespace SothemaGoalManagement.API.Controllers
                         {
                             evaluateeIds.Add(goalCascadeDto.EvaluateeId);
 
-                            var sheet = _repo.EvaluationFileInstance.GetEvaluationFileInstanceByUserId(goalCascadeDto.EvaluateeId).Result;
+                            var sheet = _repo.EvaluationFileInstance.GetEvaluationFileInstanceByUserId(goalCascadeDto.EvaluateeId, model).Result;
                             var evaluator = _repo.User.GetUser(userId, true).Result;
                             var efil = new EvaluationFileInstanceLog
                             {

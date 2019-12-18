@@ -13,6 +13,7 @@ export interface EvaluationFileInstance {
   photoUrl: string;
   employeeNumber: string;
   ownerId: number;
+  evaluationFileId: number
   status: string;
   goalsStatus: string
   created: Date;
