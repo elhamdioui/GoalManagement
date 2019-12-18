@@ -1,7 +1,7 @@
 .form-group>label {
   display: inline-block;
   vertical-align: middle;
-  width: 30em;
+  width: 40em;
 }
 
 .form-group.required .control-label:after {

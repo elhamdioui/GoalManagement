@@ -49,6 +49,10 @@
       </div>
     </div>
 
+    <div class="form-group row alert-danger ml-2" *ngIf="strategyList && strategyList.length === 0">
+      Aucun axe d'évaluation publié et non référencé n'est disponible.
+    </div>
+
     <div class="form-group row required">
       <label for="behavioralSkillId" class="col-sm-12 col-form-label control-label">Compétence Comportementale Publiée: </label>
     </div>
