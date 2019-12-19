@@ -37,6 +37,7 @@ export class SheetsPanelComponent implements OnInit {
   goalsMode = false;
   detailMode: boolean;
   tabIndex: number = 0;
+
   public behavioralSkillEvaluationUpdated: boolean;
 
   constructor(private modalService: BsModalService, private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
