@@ -24,7 +24,6 @@ namespace SothemaGoalManagement.API.Repositories
                                                    .Include(a => a.AxisInstance)
                                                    .ThenInclude(ai => ai.EvaluationFileInstance)
                                                    .ThenInclude(s => s.Owner)
-                                                   .ThenInclude(o => o.Photos)
                                                    .ToListAsync();
         }
 
@@ -35,7 +34,6 @@ namespace SothemaGoalManagement.API.Repositories
                                             .Include(a => a.AxisInstance)
                                             .ThenInclude(ai => ai.EvaluationFileInstance)
                                             .ThenInclude(s => s.Owner)
-                                            .ThenInclude(o => o.Photos)
                                             .Include(ge => ge.GoalEvaluations)
                                             .ThenInclude(e => e.Evaluator)
                                             .ToListAsync();
@@ -50,7 +48,6 @@ namespace SothemaGoalManagement.API.Repositories
                                         .Include(g => g.AxisInstance)
                                         .ThenInclude(ai => ai.EvaluationFileInstance)
                                         .ThenInclude(s => s.Owner)
-                                        .ThenInclude(o => o.Photos)
                                         .SingleOrDefaultAsync();
 
             return goal.AxisInstance.EvaluationFileInstance.Owner;

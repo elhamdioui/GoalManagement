@@ -16,7 +16,7 @@ namespace SothemaGoalManagement.API.Dtos
 
         public AxisInstanceToReturnDto AxisInstance { get; set; }
 
-        public GoalType GoalType { get; set; }
+        public GoalTypeToReturnDto GoalType { get; set; }
 
         public string ProjectName { get; set; }
 
