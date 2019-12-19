@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';;
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { Subject, combineLatest } from 'rxjs';
-import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 
 import { Pagination, PaginatedResult } from '../../_models/pagination';
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';

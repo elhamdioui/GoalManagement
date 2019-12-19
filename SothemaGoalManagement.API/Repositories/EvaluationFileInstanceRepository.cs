@@ -70,8 +70,7 @@ namespace SothemaGoalManagement.API.Repositories
                 {
                     var goals = axisInstance.Goals.Where(g => g.Status == Constants.PUBLISHED || g.Status == Constants.ARCHIVED).ToList();
                     if (goals != null && goals.Count > 0) break;
-                    goals = axisInstance.Goals.Where(g => g.ParentGoalId == parentGoalId).ToList();
-                    if (goals != null && goals.Count > 0) break;
+
                     if (axisInstance.Title == axisInstanceTitle)
                     {
                         return axisInstance.Id;
