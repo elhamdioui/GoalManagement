@@ -16,6 +16,5 @@ export interface Goal {
   comment?: string;
   goalEvaluations: GoalEvaluation[];
   goalGrade: string;
-  cascaderPhotoUrl?: string;
   cascaderFullName?: string;
 }

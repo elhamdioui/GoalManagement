@@ -164,8 +164,8 @@ export class UserService {
     return this.http.post(`${this.baseUrl}users/${userId}/goal/createGoal`, goal);
   }
 
-  casvadeGoal(userId: number, golasForCascade: any) {
-    return this.http.post(`${this.baseUrl}users/${userId}/goal/cascadeGoal`, golasForCascade);
+  casvadeGoal(userId: number, golasForCascade: any, model: number) {
+    return this.http.post(`${this.baseUrl}users/${userId}/goal/${model}/cascadeGoal`, golasForCascade);
   }
 
   updateGoal(id: number, userId: number, goal: any) {

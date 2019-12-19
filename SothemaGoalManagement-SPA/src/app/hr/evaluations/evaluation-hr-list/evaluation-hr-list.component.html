@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <div *ngIf="creationMode">
+  <div class="row" *ngIf="creationMode">
     <app-evaluation-hr-new (cancelCreation)="cancelCreationMode($event)" (switchOffCreation)="switchOffCreationMode($event)"></app-evaluation-hr-new>
   </div>
 

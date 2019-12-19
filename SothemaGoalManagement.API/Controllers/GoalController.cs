@@ -114,8 +114,8 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
-        [HttpPost("cascadeGoal")]
-        public async Task<IActionResult> CascadeGoal(int userId, IEnumerable<GoalForCascadeDto> goalsCascadeDto)
+        [HttpPost("{model}/cascadeGoal")]
+        public async Task<IActionResult> CascadeGoal(int userId, int model, IEnumerable<GoalForCascadeDto> goalsCascadeDto)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace SothemaGoalManagement.API.Controllers
                     // Set not published or archived axis instance id foreach evaluatee
                     foreach (var goalCascadeDto in goalsCascadeDto)
                     {
-                        var axisInstanceId = _repo.EvaluationFileInstance.GetAxisInstanceByUserIdAndAxisTitle(goalCascadeDto.EvaluateeId, goalCascadeDto.AxisInstanceTitle, goalCascadeDto.ParentGoalId).Result;
+                        var axisInstanceId = _repo.EvaluationFileInstance.GetAxisInstanceByUserIdAndAxisTitle(goalCascadeDto.EvaluateeId, model, goalCascadeDto.AxisInstanceTitle, goalCascadeDto.ParentGoalId).Result;
                         goalCascadeDto.GoalForCreationDto.AxisInstanceId = axisInstanceId;
                     }
 
@@ -144,14 +144,13 @@ namespace SothemaGoalManagement.API.Controllers
                     // Log new goal has been assigned by the evaluator
                     var evaluateeIds = new List<int>();
                     var efilList = new List<EvaluationFileInstanceLog>();
-                    var notCascadedList = new List<string>();
                     foreach (var goalCascadeDto in goalsCascadeDto)
                     {
                         if (goalCascadeDto.GoalForCreationDto.AxisInstanceId != 0)
                         {
                             evaluateeIds.Add(goalCascadeDto.EvaluateeId);
 
-                            var sheet = _repo.EvaluationFileInstance.GetEvaluationFileInstanceByUserId(goalCascadeDto.EvaluateeId).Result;
+                            var sheet = _repo.EvaluationFileInstance.GetEvaluationFileInstanceByUserId(goalCascadeDto.EvaluateeId, model).Result;
                             var evaluator = _repo.User.GetUser(userId, true).Result;
                             var efil = new EvaluationFileInstanceLog
                             {
@@ -164,7 +163,8 @@ namespace SothemaGoalManagement.API.Controllers
                         else
                         {
                             var evaluatee = _repo.User.GetUser(goalCascadeDto.EvaluateeId, false).Result;
-                            notCascadedList.Add($"Le sous-objectif: '{goalCascadeDto.GoalForCreationDto.Description}', n'a pas été cascadé au collaborateur {evaluatee.FirstName} {evaluatee.LastName}, car ses objectifs sont déjà validé.");
+                            await SendNotificationsForEvaluator(goalCascadeDto.EvaluateeId,
+                            $"Le sous-objectif: '{goalCascadeDto.GoalForCreationDto.Description}', n'a pas été cascadé au collaborateur {evaluatee.FirstName} {evaluatee.LastName}, car ses objectifs sont déjà validé.");
                         }
                     }
 
@@ -173,13 +173,6 @@ namespace SothemaGoalManagement.API.Controllers
                     // Send Notifications
                     string emailContent = "Un nouvel objectif vous a été attribué par votre évaluateur.";
                     await SendNotificationsForSubordinate(userId, emailContent, evaluateeIds);
-                    if (notCascadedList.Count() > 0)
-                    {
-                        foreach (var notCascaded in notCascadedList)
-                        {
-                            await SendNotificationsForEvaluator(userId, notCascaded);
-                        }
-                    }
                 }
 
                 return NoContent();
@@ -364,6 +357,8 @@ namespace SothemaGoalManagement.API.Controllers
 
                 var goalFromRepo = await _repo.Goal.GetGoal(id);
                 if (goalFromRepo == null) return NotFound();
+                var children = await _repo.Goal.GetGoalChildren(goalFromRepo.Id);
+                if (children != null && children.Count() > 0) return BadRequest("Cet objectif a des sous-objectifs.");
 
                 _repo.Goal.DeleteGoal(goalFromRepo);
                 await _repo.Goal.SaveAllAsync();
@@ -454,11 +449,9 @@ namespace SothemaGoalManagement.API.Controllers
             if (goal.ParentGoalId > 0)
             {
                 var parentGoalOwner = await _repo.Goal.GetGoalOwner(goal.ParentGoalId);
-                goalToReturn.CascaderFullName = parentGoalOwner.FirstName + " " + parentGoalOwner.LastName;
-                var mainPhoto = parentGoalOwner.Photos.FirstOrDefault(p => p.IsMain);
-                if (mainPhoto != null)
+                if (parentGoalOwner != null)
                 {
-                    goalToReturn.CascaderPhotoUrl = mainPhoto.Url;
+                    goalToReturn.CascaderFullName = parentGoalOwner.FirstName + " " + parentGoalOwner.LastName;
                 }
             }
 

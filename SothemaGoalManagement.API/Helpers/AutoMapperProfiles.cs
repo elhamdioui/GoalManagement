@@ -121,7 +121,10 @@ namespace SothemaGoalManagement.API.Helpers
 
             CreateMap<GoalForUpdateDto, Goal>();
 
-            CreateMap<Goal, GoalToReturnDto>();
+            CreateMap<Goal, GoalToReturnDto>().ForMember(dest => dest.CascaderFullName, opt =>
+            {
+                opt.MapFrom(src => src.AxisInstance.EvaluationFileInstance != null ? src.AxisInstance.EvaluationFileInstance.Owner.FirstName + " " + src.AxisInstance.EvaluationFileInstance.Owner.LastName : "");
+            });
 
             CreateMap<Goal, GoalWithChildrenToReturnDto>().ForMember(dest => dest.AxisInstanceTitle, opt =>
             {
@@ -132,9 +135,6 @@ namespace SothemaGoalManagement.API.Helpers
             }).ForMember(dest => dest.OwnerFullName, opt =>
             {
                 opt.MapFrom(src => src.AxisInstance.EvaluationFileInstance != null ? src.AxisInstance.EvaluationFileInstance.Owner.FirstName + " " + src.AxisInstance.EvaluationFileInstance.Owner.LastName : "");
-            }).ForMember(dest => dest.OwnerPhotoUrl, opt =>
-            {
-                opt.MapFrom(src => src.AxisInstance.EvaluationFileInstance != null ? (src.AxisInstance.EvaluationFileInstance.Owner.Photos.FirstOrDefault(p => p.IsMain) != null ? src.AxisInstance.EvaluationFileInstance.Owner.Photos.FirstOrDefault(p => p.IsMain).Url : "") : "");
             });
 
             CreateMap<GoalEvaluationForCreationDto, GoalEvaluation>();

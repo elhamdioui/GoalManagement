@@ -32,18 +32,26 @@ export class EvaluationHrDetailComponent implements OnInit {
   constructor(private modalService: BsModalService, private route: ActivatedRoute, private router: Router, private hrService: HrService, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
-    this.hrService.efiObservableList.subscribe(
-      efiList => {
-        (this.evaluationFileInstanceList = efiList)
-      }
-    );
     this.route.data.subscribe(data => {
       this.evaluationFile = data['evaluationFile'];
-      this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe();
+      this.loadEvaluationFileInstances();
       this.isReadOnly = this.evaluationFile.status == 'Publiée' || this.evaluationFile.status == 'Archivée';
     });
 
     this.getUserStatus();
+  }
+
+  loadEvaluationFileInstances() {
+    this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe(
+      (result) => {
+        this.loading = false;
+        this.evaluationFileInstanceList = result;
+      },
+      error => {
+        this.loading = false;
+        this.alertify.error(error);
+      }
+    );
   }
 
   getUserStatus() {
@@ -75,7 +83,7 @@ export class EvaluationHrDetailComponent implements OnInit {
             () => {
               this.loading = false;
               this.evaluationFileInstanceList = [];
-              this.hrService.getEvaluationFileInstancesByEvaluationFileId(this.evaluationFile.id).subscribe();
+              this.loadEvaluationFileInstances();
               this.alertify.success('La fiche d\'évaluation a été supprimée');
             },
             error => {

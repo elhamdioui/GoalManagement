@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SothemaGoalManagement.API.Interfaces;
 using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace SothemaGoalManagement.API.Controllers
 {
@@ -24,12 +25,13 @@ namespace SothemaGoalManagement.API.Controllers
         private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
         private readonly IMapper _mapper;
         private IRepositoryWrapper _repo;
-
+        private readonly UserManager<User> _userManager;
         private Cloudinary _cloudinary;
-        public PhotosController(ILoggerManager logger, IRepositoryWrapper repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig)
+        public PhotosController(ILoggerManager logger, UserManager<User> userManager, IRepositoryWrapper repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig)
         {
             _logger = logger;
             _repo = repo;
+            _userManager = userManager;
             _mapper = mapper;
             _cloudinaryConfig = cloudinaryConfig;
 
@@ -98,6 +100,10 @@ namespace SothemaGoalManagement.API.Controllers
                 _repo.User.UpdateUser(userFromRepo);
 
                 await _repo.User.SaveAllAsync();
+
+                // Send Notifications
+                string emailContent = $"Une nouvelle photo de {userFromRepo.FirstName} {userFromRepo.LastName} a été soumise pour approbation.";
+                await SendNotificationsForAdmins(userFromRepo.Id, emailContent);
 
                 var photoToReturn = _mapper.Map<PhotoForReturnDto>(photo);
                 return CreatedAtRoute("GetPhoto", new { id = photo.Id }, photoToReturn);
@@ -174,6 +180,24 @@ namespace SothemaGoalManagement.API.Controllers
                 _logger.LogError($"Something went wrong inside DeltePhoto endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
+        }
+
+        private async Task SendNotificationsForAdmins(int userId, string emailContent)
+        {
+            var admins = await _userManager.GetUsersInRoleAsync(Constants.ADMIN);
+            foreach (var admin in admins)
+            {
+                var messageForCreationDto = new MessageForCreationDto()
+                {
+                    RecipientId = admin.Id,
+                    SenderId = userId,
+                    Content = emailContent
+                };
+                var message = _mapper.Map<Message>(messageForCreationDto);
+                _repo.Message.AddMessage(message);
+            }
+
+            await _repo.Message.SaveAllAsync();
         }
     }
 }

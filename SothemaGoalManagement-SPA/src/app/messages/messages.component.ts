@@ -57,7 +57,8 @@ export class MessagesComponent implements OnInit {
         error => {
           this.loading = false;
           this.alertify.error(error);
-        }
+        },
+        () => this.userService.totalUnreadMessages(this.authService.decodedToken.nameid)
       );
   }
 
@@ -95,7 +96,6 @@ export class MessagesComponent implements OnInit {
   fetchMessageThread(recipientId) {
     this.recipientId = recipientId;
     this.showMessageThread = true;
-    this.userService.totalUnreadMessages(this.authService.decodedToken.nameid);
   }
 
   returnMessages() {

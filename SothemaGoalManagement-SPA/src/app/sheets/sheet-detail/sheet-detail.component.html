@@ -89,7 +89,7 @@
       </div>
     </div>
     <div class="card-body">
-      <tabset class="member-tabset">
+      <tabset class="member-tabset" #sheetTabs>
         <tab heading="Définition des objectifs">
           <div *ngIf="goalsByAxisInstanceList">
             <app-goals [sheetId]="sheetDetail.id" [areGoalsCompleted]="areGoalsCompleted" [areGoalsReadOnly]="areGoalsReadOnly" [goalsByAxisInstanceList]="goalsByAxisInstanceList"

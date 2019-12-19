@@ -37,9 +37,9 @@ namespace SothemaGoalManagement.API.Repositories
             return await FindByCondition(efi => efi.Id == id).Include(efi => efi.Owner).ThenInclude(p => p.Photos).Include(efi => efi.AxisInstances).SingleOrDefaultAsync();
         }
 
-        public async Task<EvaluationFileInstance> GetEvaluationFileInstanceByUserId(int userId)
+        public async Task<EvaluationFileInstance> GetEvaluationFileInstanceByUserId(int userId, int model)
         {
-            return await FindByCondition(efi => efi.OwnerId == userId).SingleOrDefaultAsync();
+            return await FindByCondition(efi => efi.OwnerId == userId && efi.EvaluationFileId == model).SingleOrDefaultAsync();
         }
 
         public async Task<PagedList<EvaluationFileInstance>> GetEvaluationFileInstancesForUser(CommunParams communParams)
@@ -59,19 +59,18 @@ namespace SothemaGoalManagement.API.Repositories
                                                                 .ToListAsync();
         }
 
-        public async Task<int> GetAxisInstanceByUserIdAndAxisTitle(int evaluateeId, string axisInstanceTitle, int parentGoalId)
+        public async Task<int> GetAxisInstanceByUserIdAndAxisTitle(int evaluateeId, int model, string axisInstanceTitle, int parentGoalId)
         {
             var sheetFromRepo = await RepositoryContext.EvaluationFileInstances.Include(efi => efi.AxisInstances)
                                                                                 .ThenInclude(g => g.Goals)
-                                                                                .SingleOrDefaultAsync(s => s.OwnerId == evaluateeId);
+                                                                                .SingleOrDefaultAsync(s => s.OwnerId == evaluateeId && s.EvaluationFileId == model);
             if (sheetFromRepo != null)
             {
                 foreach (var axisInstance in sheetFromRepo.AxisInstances)
                 {
                     var goals = axisInstance.Goals.Where(g => g.Status == Constants.PUBLISHED || g.Status == Constants.ARCHIVED).ToList();
                     if (goals != null && goals.Count > 0) break;
-                    goals = axisInstance.Goals.Where(g => g.ParentGoalId == parentGoalId).ToList();
-                    if (goals != null && goals.Count > 0) break;
+
                     if (axisInstance.Title == axisInstanceTitle)
                     {
                         return axisInstance.Id;

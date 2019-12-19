@@ -16,7 +16,7 @@ namespace SothemaGoalManagement.API.Dtos
 
         public AxisInstanceToReturnDto AxisInstance { get; set; }
 
-        public GoalType GoalType { get; set; }
+        public GoalTypeToReturnDto GoalType { get; set; }
 
         public string ProjectName { get; set; }
 
@@ -25,7 +25,6 @@ namespace SothemaGoalManagement.API.Dtos
         public DateTime Created { get; set; }
 
         public string GoalGrade { get; set; }
-        public string CascaderPhotoUrl { get; set; }
         public string CascaderFullName { get; set; }
 
         public ICollection<GoalEvaluationToReturnDto> GoalEvaluations { get; set; }

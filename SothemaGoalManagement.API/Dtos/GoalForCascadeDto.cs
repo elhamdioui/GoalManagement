@@ -10,5 +10,6 @@ namespace SothemaGoalManagement.API.Dtos
         [Required] public int EvaluateeId { get; set; }
         [Required] public int ParentGoalId { get; set; }
         [Required] public string AxisInstanceTitle { get; set; }
+        [Required] public int EvaluationFileId { get; set; }
     }
 }

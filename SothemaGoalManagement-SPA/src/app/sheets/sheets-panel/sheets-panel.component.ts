@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';;
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { Subject, combineLatest } from 'rxjs';
-import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 
 import { Pagination, PaginatedResult } from '../../_models/pagination';
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
@@ -36,6 +35,8 @@ export class SheetsPanelComponent implements OnInit {
   goalsByAxisInstanceList: GoalByAxisInstance[];
   goalsMode = false;
   detailMode: boolean;
+  tabIndex: number = 0;
+
   public behavioralSkillEvaluationUpdated: boolean;
 
   constructor(private modalService: BsModalService, private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
@@ -217,6 +218,7 @@ export class SheetsPanelComponent implements OnInit {
 
   handleShowSheetDetail(sheetToValidate: EvaluationFileInstance) {
     this.sheetToValidate = sheetToValidate;
+    this.tabIndex = 1;
     this.detailMode = true;
   }
 

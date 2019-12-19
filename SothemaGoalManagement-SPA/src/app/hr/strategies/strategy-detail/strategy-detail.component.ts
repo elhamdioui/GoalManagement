@@ -64,7 +64,8 @@ export class StrategyDetailComponent implements OnInit {
       .subscribe(
         (axis: Axis) => {
           this.loading = false;
-          this.axisList.unshift(axis);
+          this.loadAxisList(strategyId);
+          // this.axisList.unshift(axis);
         },
         error => {
           this.loading = false;

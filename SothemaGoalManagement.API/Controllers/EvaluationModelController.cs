@@ -139,8 +139,7 @@ namespace SothemaGoalManagement.API.Controllers
                 var evaluationFileFromRepo = await _repo.EvaluationFile.GetEvaluationFile(evaluationFileForUpdateDto.Id);
                 if (evaluationFileFromRepo == null) return BadRequest("La fiche d'évaluation n'existe pas!");
                 if (evaluationFileFromRepo.Sealed && evaluationFileForUpdateDto.Status != Constants.ARCHIVED) return BadRequest("La fiche d'évaluation est scellée!");
-                if (evaluationFileFromRepo.Status != Constants.PUBLISHED && evaluationFileForUpdateDto.Status == Constants.PUBLISHED &&
-                    (evaluationFileFromRepo.Strategy.Sealed || await IsBehavioralSkillSealed(evaluationFileFromRepo.Id)))
+                if (evaluationFileFromRepo.Status != Constants.PUBLISHED && evaluationFileForUpdateDto.Status == Constants.PUBLISHED && evaluationFileFromRepo.Strategy.Sealed)
                 {
                     return BadRequest("Vous ne pouvez pas publier cette fiche d'évaluation car une stratégie ou bien une compétence est déjà associée à une autre fiche d'évaluation.");
                 }
@@ -196,19 +195,6 @@ namespace SothemaGoalManagement.API.Controllers
             }
         }
 
-        private async Task<bool> IsBehavioralSkillSealed(int evaluationFileId)
-        {
-            var skillIds = await _repo.EvaluationFile.GetEvaluationFileBehavioralSkillIds(evaluationFileId);
-            var behavioralSkillListFromRepo = await _repo.BehavioralSkill.GetBehavioralSkillsByIds(skillIds);
-            foreach (var behavioralSkill in behavioralSkillListFromRepo)
-            {
-                if (behavioralSkill.Sealed)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
         private async Task PublishEvaluationModel(int evaluationFileId)
         {
             var evaluationFileFromRepo = await _repo.EvaluationFile.GetEvaluationFile(evaluationFileId);

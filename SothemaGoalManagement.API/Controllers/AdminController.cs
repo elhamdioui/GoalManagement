@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System;
 using Microsoft.Extensions.Configuration;
 using SothemaGoalManagement.API.Interfaces;
+using System.Security.Claims;
 
 namespace SothemaGoalManagement.API.Controllers
 {
@@ -243,6 +244,10 @@ namespace SothemaGoalManagement.API.Controllers
                 photo.IsApproved = true;
                 await _context.SaveChangesAsync();
 
+                // Send Notifications
+                string emailContent = "Votre photo a été approuvée.";
+                await SendNotificationToUser(photo.UserId, emailContent);
+
                 return Ok();
             }
             catch (Exception ex)
@@ -269,9 +274,14 @@ namespace SothemaGoalManagement.API.Controllers
                     if (result.Result == "ok") _context.Photos.Remove(photo);
                 }
 
+                var userId = photo.UserId;
                 if (photo.PublicId == null) _context.Photos.Remove(photo);
 
                 await _context.SaveChangesAsync();
+
+                // Send Notifications
+                string emailContent = "Votre photo a été refusée.";
+                await SendNotificationToUser(userId, emailContent);
                 return Ok();
             }
             catch (Exception ex)
@@ -488,6 +498,24 @@ namespace SothemaGoalManagement.API.Controllers
                 _logger.LogError($"Something went wrong inside DeleteEvaluatorEvaluatee endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
+        }
+
+        private async Task SendNotificationToUser(int userId, string emailContent)
+        {
+            var admins = await _userManager.GetUsersInRoleAsync(Constants.ADMIN);
+            foreach (var admin in admins)
+            {
+                var messageForCreationDto = new MessageForCreationDto()
+                {
+                    RecipientId = userId,
+                    SenderId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value),
+                    Content = emailContent
+                };
+                var message = _mapper.Map<Message>(messageForCreationDto);
+                _repo.Message.AddMessage(message);
+            }
+
+            await _repo.Message.SaveAllAsync();
         }
     }
 }

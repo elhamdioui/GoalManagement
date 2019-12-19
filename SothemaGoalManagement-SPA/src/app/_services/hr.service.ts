@@ -186,16 +186,8 @@ export class HrService {
     return this.http.post(`${this.baseUrl}hr/evaluationSheet/generate/${evaluationFileId}`, users);
   }
 
-  efiBSList = new BehaviorSubject<EvaluationFileInstance[]>([]);
-  efiObservableList = this.efiBSList.asObservable();
-  changeEfiList(efilist: EvaluationFileInstance[]) {
-    this.efiBSList.next(efilist);
-  }
   getEvaluationFileInstancesByEvaluationFileId(evaluationFileId: number) {
-    return this.http.get<EvaluationFileInstance[]>(`${this.baseUrl}hr/evaluationSheet/${evaluationFileId}`)
-      .pipe(map((result: EvaluationFileInstance[]) => {
-        this.changeEfiList(result);
-      }));
+    return this.http.get<EvaluationFileInstance[]>(`${this.baseUrl}hr/evaluationSheet/${evaluationFileId}`);
   }
 
   deleteEvaluationFileInstance(id: number, userId: number) {

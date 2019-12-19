@@ -42,7 +42,6 @@ export class CollaboratorMessagesComponent implements OnInit {
               this.userService.markAsRead(currentUserId, messages[i].id);
             }
           }
-          this.userService.totalUnreadMessages(this.authService.decodedToken.nameid);
         })
       )
       .subscribe(
@@ -53,7 +52,8 @@ export class CollaboratorMessagesComponent implements OnInit {
         error => {
           this.alertify.error(error);
           this.loading = false;
-        }
+        },
+        () => this.userService.totalUnreadMessages(this.authService.decodedToken.nameid)
       );
   }
 

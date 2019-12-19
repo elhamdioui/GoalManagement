@@ -20,6 +20,7 @@ export class GoalCardComponent implements OnInit {
   @Input() sheetId: number;
   @Input() axisInstances: AxisInstance[];
   @Input() goalTypeList: GoalType[];
+  @Input() ownerName: string;
   @Output() editGoalEvent = new EventEmitter<any>();
   @Output() cascadeMyGoalEvent = new EventEmitter<any>();
   @Output() deleteGoalEvent = new EventEmitter<Goal>();
