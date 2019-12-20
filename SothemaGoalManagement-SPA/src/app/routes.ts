@@ -33,8 +33,6 @@ import { MyCollaboratorGoalsResolver } from './_resolvers/my-collaborator-goals.
 import { CollaboratorMessagesComponent } from './collaborators/collaborator-messages/collaborator-messages.component';
 import { PreventUnsavedChangesForCollaborator } from './_guards/prevent-unsave-changes-guards-for-collaborator';
 import { PreventUnsavedChangesForSheets } from './_guards/prevent-unsave-changes-guards-for-sheets';
-import { GoalDetailComponent } from './sheets/goal-detail/goal-detail.component';
-import { GoalDetailResolver } from './_resolvers/goal-detail.resolver';
 
 export const appRoutes: Routes = [
   {
@@ -69,10 +67,6 @@ export const appRoutes: Routes = [
         path: 'sheets/:id',
         component: SheetDetailComponent,
         resolve: { resolvedData: SheetDetailResolver }
-      }, {
-        path: 'goal/:id',
-        component: GoalDetailComponent,
-        resolve: { goalDetail: GoalDetailResolver }
       },
       {
         path: 'strategies',

@@ -56,7 +56,7 @@
       <p>Aucun objectif n'a encore été ajouté...</p>
     </div>
 
-    <table *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0" class="table table-hover" style="cursor: pointer">
+    <table *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0" class="table table-hover">
       <tr>
         <th style="width: 5%"></th>
         <th style="width: 65%">Objectif</th>
@@ -65,7 +65,7 @@
         <th style="width: 6%"></th>
         <th style="width: 3%"></th>
       </tr>
-      <tr *ngFor="let goal of goalsByAxisInstance.goals" [routerLink]="['/goal', goal.id]" [queryParams]="{ sheetId: sheetId }">
+      <tr *ngFor="let goal of goalsByAxisInstance.goals">
         <td align="center">
           <img src="{{ goal.cascaderPhotoUrl || '../../../assets/user.png'}}" class="img-circle rounded-circle" title="{{goal.cascaderFullName}}"
           />

@@ -1,10 +1,12 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { Goal } from '../../_models/goal';
+import { GoalWithChildren } from '../../_models/goalWithChildren';
 import { Evaluator } from '../../_models/evaluator';
 import { AdminService } from '../../_services/admin.service';
+import { UserService } from '../../_services/user.service';
 import { AuthService } from '../../_services/auth.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { splitAtColon } from '@angular/compiler/src/util';
@@ -26,8 +28,12 @@ export class CascadeMyGoalsModalComponent implements OnInit {
   values: string = '';
   faPlus = faPlus;
   faMinus = faMinus;
+  goalWithChildren: GoalWithChildren;
+  faTrash = faTrash;
+  showSubGoal: boolean;
+  goalChildren: GoalWithChildren[] = [];
 
-  constructor(public bsModalRef: BsModalRef, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
+  constructor(public bsModalRef: BsModalRef, private userService: UserService, private adminService: AdminService, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.loadMyEvaluatees();
@@ -42,12 +48,57 @@ export class CascadeMyGoalsModalComponent implements OnInit {
           this.loading = false;
           evaluatees.forEach(evaluatee => this.constructData(evaluatee));
           this.filteredSubGoals = this.subGoals;
+          this.loadGoalDetail();
         },
         error => {
           this.loading = false;
           this.alertify.error(error);
         }
       );
+  }
+
+  loadGoalDetail() {
+    this.loading = true;
+    this.userService.getGoalDetail(this.authService.decodedToken.nameid, this.myGoal.id)
+      .subscribe((res: GoalWithChildren) => {
+        this.loading = false;
+        this.goalWithChildren = res;
+        this.goalChildren = this.goalWithChildren.children;
+      },
+        error => {
+          this.loading = false;
+          this.alertify.error(error);
+        }
+      );
+  }
+
+  deleteGoal(subGoal: GoalWithChildren) {
+    this.alertify.confirm('Supprimer',
+      `Êtes-vous sûr de vouloir supprimer le sous-objectif: ${subGoal.description}, assigné à ${subGoal.ownerFullName}?`,
+      () => {
+        this.loading = true;
+        this.userService
+          .deleteGoal(subGoal.id, this.authService.decodedToken.nameid)
+          .subscribe(
+            () => {
+              this.loading = false;
+              this.goalWithChildren.children.splice(
+                this.goalWithChildren.children.findIndex(a => a.id === subGoal.id),
+                1
+              );
+              this.alertify.success('Le sous-objectif a été supprimé');
+            },
+            error => {
+              this.loading = false;
+              this.alertify.error(error);
+            }
+          );
+      }
+    );
+  }
+
+  toggleSubGoal(subGoal: GoalWithChildren) {
+    this.showSubGoal = !this.showSubGoal;
   }
 
   constructData(evaluatee: Evaluator) {
