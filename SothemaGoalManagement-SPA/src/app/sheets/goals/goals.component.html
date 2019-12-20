@@ -1,16 +1,31 @@
 <div class="container mt-2">
   <div class="card border-primary">
-    <div class="card-header " *ngIf="!areGoalsReadOnly" style="cursor: pointer" (click)="isCollapsed = !isCollapsed">
+    <div class="card-header " *ngIf="!areGoalsReadOnly" >
       <div class="row">
-        <div class="col-md-11 text-primary">
-          <h4>LA LISTE DES OBJECTIFS</h4>
+        <div class="col-md-7 text-primary">
+          <h4><fa-icon [icon]="faList" ></fa-icon> LA LISTE DES OBJECTIFS</h4>
         </div>
-        <div class="col-md-1">
-          <div class="toggle">
-            <button class="btn btn-outline-primary btn-round" *ngIf="!isCollapsed">Ajouter</button>
-            <fa-icon [icon]="faCaretUp" *ngIf="isCollapsed"></fa-icon>
+        <div class="col-md-2">
+          <div class=" float-right toggle">
+            <button class="btn btn-outline-primary" *ngIf="!isCollapsed" (click)="isCollapsed = !isCollapsed">
+              <fa-icon [icon]="faPlus" ></fa-icon>
+              Ajouter
+            </button>
+            <button class="btn btn-outline-secondary" *ngIf="isCollapsed" (click)="isCollapsed = !isCollapsed"> 
+              <fa-icon [icon]="faCaretUp" ></fa-icon> Fermer
+            </button>
+            
           </div>
         </div>
+        <div class="col-md-3">
+          <div class="float-left" >
+            <button class="btn btn-primary w-70 mr-1" [disabled]="!areGoalsCompleted" (click)="validateGoals()" *ngIf="!areGoalsReadOnly">
+              <fa-icon [icon]="faCheck" ></fa-icon> Demander l'approbation
+            </button>
+          </div>
+        </div>
+        
+        
       </div>
 
       <div class="row" *ngIf="isCollapsed" (click)="$event.stopPropagation()">
@@ -25,14 +40,6 @@
       <div *ngFor="let goalsByAxisInstance of goalsByAxisInstanceList">
         <app-goal-card [sheetId]="sheetId" [areGoalsReadOnly]="areGoalsReadOnly" [axisInstances]="axisInstances" [goalTypeList]="goalTypeList" [goalsByAxisInstance]="goalsByAxisInstance"
           (editGoalEvent)="handleEditGoal($event)" (deleteGoalEvent)="handleDeleteGoal($event)" (cascadeMyGoalEvent)="handleCascadeMyGoal($event)"></app-goal-card>
-      </div>
-    </div>
-
-    <div class="card-footer">
-      <div class="float-right">
-        <button class="btn btn-primary w-70 mr-1" [disabled]="!areGoalsCompleted" (click)="validateGoals()" *ngIf="!areGoalsReadOnly">
-          Envoyer les objectifs pour validation
-        </button>
       </div>
     </div>
   </div>

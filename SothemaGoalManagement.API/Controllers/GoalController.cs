@@ -452,11 +452,14 @@ namespace SothemaGoalManagement.API.Controllers
                 if (parentGoalOwner != null)
                 {
                     goalToReturn.CascaderFullName = parentGoalOwner.FirstName + " " + parentGoalOwner.LastName;
+<<<<<<< HEAD
                     var mainPhoto = parentGoalOwner.Photos.FirstOrDefault(p => p.IsMain);
                     if (mainPhoto != null)
                     {
                         goalToReturn.CascaderPhotoUrl = mainPhoto.Url;
                     }
+=======
+>>>>>>> b98da4c3c763a80003f3f756e12a3b34ebb86189
                 }
             }
 

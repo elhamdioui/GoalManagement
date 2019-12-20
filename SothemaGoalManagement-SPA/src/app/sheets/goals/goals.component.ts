@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faCaretUp, faListUl, faClipboardCheck } from '@fortawesome/free-solid-svg-icons';
 
 import { AxisInstance } from '../../_models/axisInstance';
 import { GoalByAxisInstance } from './../../_models/goalsByAxisInstance';
@@ -24,9 +24,11 @@ export class GoalsComponent implements OnInit {
   @Output() validateGoalsEvent = new EventEmitter();
   @Output() cascadeMyGoalEvent = new EventEmitter<any>();
   isCollapsed = false;
-  faCaretDown = faCaretDown;
+  faPlus = faPlus;
   faCaretUp = faCaretUp;
-
+  faList =faListUl;
+  faCheck=faClipboardCheck;
+  
   constructor() { }
 
   ngOnInit() {
