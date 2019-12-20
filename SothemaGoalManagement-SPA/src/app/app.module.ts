@@ -108,8 +108,6 @@ import { CascadeMyGoalsModalComponent } from './sheets/cascade-my-goals-modal/ca
 import { AutoEvaluationGoalsComponent } from './sheets/auto-evaluation-goals/auto-evaluation-goals.component';
 import { AutoEvaluationAxisComponent } from './sheets/auto-evaluation-axis/auto-evaluation-axis.component';
 import { BehavioralSkillListEvaluationComponent } from './sheets/behavioral-skill-list-evaluation/behavioral-skill-list-evaluation.component';
-import { GoalDetailComponent } from './sheets/goal-detail/goal-detail.component';
-import { GoalDetailResolver } from './_resolvers/goal-detail.resolver';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -185,8 +183,7 @@ export function tokenGetter() {
     AutoEvaluationGoalsComponent,
     GoalEvaluationModalComponent,
     CascadeMyGoalsModalComponent,
-    BehavioralSkillListEvaluationComponent,
-    GoalDetailComponent
+    BehavioralSkillListEvaluationComponent
   ],
   imports: [
     BrowserModule,
@@ -236,8 +233,7 @@ export function tokenGetter() {
     HrService,
     LayoutService,
     SheetsResolver,
-    SheetDetailResolver,
-    GoalDetailResolver
+    SheetDetailResolver
   ],
   entryComponents: [
     RolesModalComponent,
