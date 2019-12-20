@@ -52,15 +52,15 @@
   </div>
 
   <div class="card-body" *ngIf="isCollapsed">
-    <div class="alert alert-danger mt-3" role="alert" *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length === 0">
-      <p>Aucun objectif n'a encore été ajouté...</p>
+    <div class="alert alert-primary mt-3" role="alert" *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length === 0">
+      <p>Aucun objectif n'a été ajouté...</p>
     </div>
 
     <table *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0" class="table table-hover">
       <tr>
         <th style="width: 5%"></th>
         <th style="width: 65%">Objectif</th>
-        <th style="width: 16%">Type d'objectif</th>
+        <th style="width: 16%">Type</th>
         <th style="width: 5%">Poids</th>
         <th style="width: 6%"></th>
         <th style="width: 3%"></th>
@@ -69,25 +69,27 @@
         <td align="center">
           <img src="{{ goal.cascaderPhotoUrl || '../../../assets/user.png'}}" class="img-circle rounded-circle" title="{{goal.cascaderFullName}}"
           />
-          <td>{{ goal.description }}</td>
-          <td>{{ goal.goalType.name }}</td>
-          <td>{{ goal.weight }}%</td>
-          <td>
-            <span *ngIf="!areGoalsReadOnly" class="d-flex justify-content-center">
-              <button class="btn btn-warning" (click)="$event.stopPropagation()" (click)="editGoalModal(goal)" title="Modifier Objectif">
-                <fa-icon [icon]="faEdit"></fa-icon>
-              </button>
-
-              <button class="btn btn-danger ml-1" (click)="$event.stopPropagation()" (click)="deleteGoal(goal)" title="Supprimer Objectif">
-                <fa-icon [icon]="faTrash"></fa-icon>
-              </button>
-            </span>
-          </td>
-          <td *ngIf="!areGoalsReadOnly">
-            <button class="btn btn-primary" (click)="$event.stopPropagation()" (click)="cascadeGoal(goal)" title="Cascader Objectif">
-              <fa-icon [icon]="faArrowAltCircleDown"></fa-icon>
+        </td>
+        <td>{{ goal.description }}</td>
+        <td>{{ goal.goalType.name }}</td>
+        <td>{{ goal.weight }}%</td>
+        <td *ngIf="goal.parentGoalId === 0">
+          <span *ngIf="!areGoalsReadOnly" class="d-flex justify-content-center">
+            <button class="btn btn-outline-warning rounded-circle" (click)="$event.stopPropagation()" (click)="editGoalModal(goal)" title="Modifier Objectif">
+              <fa-icon [icon]="faEdit"></fa-icon>
             </button>
-          </td>
+
+            <button class="btn btn-outline-danger ml-1 rounded-circle" (click)="$event.stopPropagation()" (click)="deleteGoal(goal)"
+              title="Supprimer Objectif">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </span>
+        </td>
+        <td *ngIf="!areGoalsReadOnly">
+          <button class="btn btn-outline-primary rounded-circle" (click)="$event.stopPropagation()" (click)="cascadeGoal(goal)" title="Cascader Objectif">
+            <fa-icon [icon]="faArrowAltCircleDown"></fa-icon>
+          </button>
+        </td>
       </tr>
     </table>
   </div>
