@@ -39,7 +39,8 @@
         </tr>
         <tr *ngFor="let goal of goalWithChildren.children">
           <td align="center">
-            {{goal.ownerFullName}}
+            <img src="{{ goal.ownerPhotoUrl || '../../../assets/user.png'}}" class="img-circle rounded-circle" title="{{goal.ownerFullName}}"
+            />
           </td>
           <td>{{ goal.axisInstanceTitle }}</td>
           <td>{{ goal.description }}</td>

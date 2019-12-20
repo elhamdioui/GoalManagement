@@ -6,5 +6,6 @@ export interface GoalWithChildren {
   goalTypeName: string;
   projectName: string;
   ownerFullName: string
+  ownerPhotoUrl: string;
   children: GoalWithChildren[];
 }

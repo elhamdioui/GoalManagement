@@ -25,6 +25,7 @@ namespace SothemaGoalManagement.API.Dtos
         public DateTime Created { get; set; }
 
         public string GoalGrade { get; set; }
+        public string CascaderPhotoUrl { get; set; }
         public string CascaderFullName { get; set; }
 
         public ICollection<GoalEvaluationToReturnDto> GoalEvaluations { get; set; }
