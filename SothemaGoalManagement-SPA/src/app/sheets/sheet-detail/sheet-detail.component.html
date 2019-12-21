@@ -1,9 +1,9 @@
 <div class="container mt-4">
   <ngx-loading [show]="loading"></ngx-loading>
   <div class="card">
-    <div class="card-header text-center " (click)="showDetail = !showDetail" style="cursor: pointer">
+    <div class="card-header " >
       
-      <h3>{{ sheetDetail.title }}
+      <h3 class="text-center"><span (click)="showDetail = !showDetail" style="cursor: pointer">{{ sheetDetail.title }}</span>
         <div class="float-right">
           <img src="{{ sheetDetail.photoUrl || '../../assets/user.png'}}" class="img-circle rounded-circle mr-1" title="{{sheetDetail.ownerName}}"
           />
