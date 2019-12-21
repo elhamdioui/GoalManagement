@@ -1,15 +1,17 @@
 <div class="container mt-4">
   <ngx-loading [show]="loading"></ngx-loading>
   <div class="card">
-    <div class="card-header" (click)="showDetail = !showDetail" style="cursor: pointer">
-      <div class="toggle">
-        <fa-icon [icon]="faCaretDown" *ngIf="!showDetail"></fa-icon>
-        <fa-icon [icon]="faCaretUp" *ngIf="showDetail"></fa-icon>
-      </div>
-      <h3>Fiche d'évaluation: {{ sheetDetail.title }}
+    <div class="card-header text-center " (click)="showDetail = !showDetail" style="cursor: pointer">
+      
+      <h3>{{ sheetDetail.title }}
         <div class="float-right">
           <img src="{{ sheetDetail.photoUrl || '../../assets/user.png'}}" class="img-circle rounded-circle mr-1" title="{{sheetDetail.ownerName}}"
           />
+        </div>
+        <div class="float-left">
+          <button class="btn btn-outline-primary w-70 mr-1" (click)="returnToList()">
+            <fa-icon [icon]="faArrowLeft" class="fa-2x"></fa-icon>
+          </button>
         </div>
       </h3>
       <div [ngClass]="showDetail ? 'slider' : 'slider closed'">
@@ -114,12 +116,6 @@
       </tabset>
     </div>
 
-    <div class="card-footer">
-      <div class="btn-group d-flex">
-        <button class="btn btn-success w-70 mr-1" (click)="returnToList()">
-          Retour
-        </button>
-      </div>
-    </div>
+    
   </div>
 </div>
