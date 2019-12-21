@@ -26,8 +26,8 @@
 
         </div>
       </div>
-      
-      
+
+
 
       <div class="col-md-5">
         <div class="well">
@@ -53,18 +53,23 @@
 
   <div class="card-body" *ngIf="isCollapsed">
     <div class="alert alert-primary mt-3" role="alert" *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length === 0">
-      <p>Aucun objectif n'a  été ajouté...</p>
+      <p>Aucun objectif n'a été ajouté...</p>
     </div>
 
-    <table *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0" class="table table-hover" style="cursor: pointer">
+    <table *ngIf="goalsByAxisInstance.goals && goalsByAxisInstance.goals.length > 0" class="table table-hover">
       <tr>
-        <th style="width: 70%">Objectif</th>
+        <th style="width: 5%"></th>
+        <th style="width: 65%">Objectif</th>
         <th style="width: 16%">Type</th>
         <th style="width: 5%">Poids</th>
         <th style="width: 6%"></th>
         <th style="width: 3%"></th>
       </tr>
-      <tr *ngFor="let goal of goalsByAxisInstance.goals" [routerLink]="['/goal', goal.id]" [queryParams]="{ sheetId: sheetId }">
+      <tr *ngFor="let goal of goalsByAxisInstance.goals">
+        <td align="center">
+          <img src="{{ goal.cascaderPhotoUrl || '../../../assets/user.png'}}" class="img-circle rounded-circle" title="{{goal.cascaderFullName}}"
+          />
+        </td>
         <td>{{ goal.description }}</td>
         <td>{{ goal.goalType.name }}</td>
         <td>{{ goal.weight }}%</td>
@@ -74,14 +79,11 @@
               <fa-icon [icon]="faEdit"></fa-icon>
             </button>
 
-            <button class="btn btn-outline-danger ml-1 rounded-circle" (click)="$event.stopPropagation()" (click)="deleteGoal(goal)" title="Supprimer Objectif">
+            <button class="btn btn-outline-danger ml-1 rounded-circle" (click)="$event.stopPropagation()" (click)="deleteGoal(goal)"
+              title="Supprimer Objectif">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>
           </span>
-        </td>
-        <td *ngIf="goal.parentGoalId > 0" align="center">
-          <img src="{{ goal.cascaderPhotoUrl || '../../../assets/user.png'}}" class="img-circle rounded-circle" title="{{goal.cascaderFullName}}"
-          />
         </td>
         <td *ngIf="!areGoalsReadOnly">
           <button class="btn btn-outline-primary rounded-circle" (click)="$event.stopPropagation()" (click)="cascadeGoal(goal)" title="Cascader Objectif">
