@@ -24,6 +24,7 @@ namespace SothemaGoalManagement.API.Repositories
                                                    .Include(a => a.AxisInstance)
                                                    .ThenInclude(ai => ai.EvaluationFileInstance)
                                                    .ThenInclude(s => s.Owner)
+                                                   .ThenInclude(o => o.Photos)
                                                    .ToListAsync();
         }
 
