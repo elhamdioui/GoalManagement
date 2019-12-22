@@ -1,24 +1,23 @@
 <div class="card mt-1" (click)="toggleGoal()">
   <div class=" card-header" style="cursor: pointer">
-    <div class="row">
-      <div class="col-md-11">
-        {{ goal.description }}
-      </div>
-
-      <div class="col-md-1 float-right">
-        <fa-icon [icon]="faCaretDown" *ngIf="isCollapsed"></fa-icon>
-        <fa-icon [icon]="faCaretUp" *ngIf="!isCollapsed"></fa-icon>
-      </div>
+    <div class="row float-right">
+      <fa-icon [icon]="faCaretDown" *ngIf="isCollapsed"></fa-icon>
+      <fa-icon [icon]="faCaretUp" *ngIf="!isCollapsed"></fa-icon>
     </div>
-
-    <div class="row mt-3">
-      <div class="col-sm-3">
-        <label>Type d'objectif:</label>
-        {{ goal.goalType.name }}
+    <div class="row">
+      <div class="col-md-9">
+        {{ goal.description }}
       </div>
 
       <div class="col-sm-3">
         {{ goal.projectName }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3">
+        <label>Type d'objectif:</label>
+        {{ goal.goalType.name }}
       </div>
 
       <div class="col-sm-3">
@@ -34,15 +33,16 @@
           {{ goal.goalGrade }} %
         </span>
       </div>
+
+      <div class="col-sm-3 float-right">
+        <button class="btn btn-primary" (click)="addEvaluation()">
+          Ajouter une évaluation
+        </button>
+      </div>
     </div>
 
   </div>
   <div class="card-body" *ngIf="!isCollapsed" (click)="$event.stopPropagation()">
-    <div class="float-right mb-1">
-      <button class="btn btn-primary" (click)="addEvaluation()">
-        Ajouter une évaluation
-      </button>
-    </div>
     <table class="table table-hover">
       <tr>
         <th style="width: 20%">Date heure</th>
