@@ -124,12 +124,9 @@ namespace SothemaGoalManagement.API.Helpers
             CreateMap<Goal, GoalToReturnDto>().ForMember(dest => dest.CascaderFullName, opt =>
             {
                 opt.MapFrom(src => src.AxisInstance.EvaluationFileInstance != null ? src.AxisInstance.EvaluationFileInstance.Owner.FirstName + " " + src.AxisInstance.EvaluationFileInstance.Owner.LastName : "");
-<<<<<<< HEAD
             }).ForMember(dest => dest.CascaderPhotoUrl, opt =>
             {
                 opt.MapFrom(src => src.AxisInstance.EvaluationFileInstance != null ? (src.AxisInstance.EvaluationFileInstance.Owner.Photos.FirstOrDefault(p => p.IsMain) != null ? src.AxisInstance.EvaluationFileInstance.Owner.Photos.FirstOrDefault(p => p.IsMain).Url : "") : "");
-=======
->>>>>>> b98da4c3c763a80003f3f756e12a3b34ebb86189
             });
 
             CreateMap<Goal, GoalWithChildrenToReturnDto>().ForMember(dest => dest.AxisInstanceTitle, opt =>

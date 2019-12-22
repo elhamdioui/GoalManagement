@@ -1,12 +1,20 @@
+<div class="card">
+  <div class="card-header">
+    <input type="text" style="width:400px;" placeholder="Filtrer par titre" [(value)]="values" (keyup)="onKeyUp($event)"/>
+  </div>
+
+  <div class="card-body">
 <table class="table table-hover  mt-2">
   <tr>
     <th style="width: 25%">Date heure</th>
     <th style="width: 30%">Titre</th>
     <th style="width: 45%">Log</th>
   </tr>
-  <tr *ngFor="let evaluationFileInstanceLog of evaluationFileInstanceLogs">
+  <tr *ngFor="let evaluationFileInstanceLog of filteredEvaluationFileInstanceLogs">
     <td>{{ evaluationFileInstanceLog.created | date :'short'}}</td>
     <td>{{ evaluationFileInstanceLog.title }}</td>
     <td>{{ evaluationFileInstanceLog.log }}</td>
   </tr>
 </table>
+</div>
+</div>

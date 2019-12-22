@@ -11,6 +11,8 @@ import { AlertifyService } from '../../_services/alertify.service';
 import { BehavioralSkill } from '../../_models/behavioralSkill';
 import { Strategy } from '../../_models/strategy';
 import { EvaluationFile } from '../../_models/evaluationFile';
+import { EvaluationFileInstanceLog } from '../../_models/evaluationFileInstanceLog';
+
 
 @Component({
   selector: 'app-hr-panel',
@@ -27,6 +29,7 @@ export class HrPanelComponent implements OnInit {
   skillList: BehavioralSkill[];
   pagination: Pagination;
   public loading = false;
+  evaluationFileInstanceLogs: EvaluationFileInstanceLog[] = [];
 
   constructor(private route: ActivatedRoute, private hrService: HrService,
     private authService: AuthService,
@@ -48,6 +51,22 @@ export class HrPanelComponent implements OnInit {
         this.hrTabs.tabs[selectedTab > 0 ? selectedTab : 0].active = true;
       });
     });
+
+    this.loadLogs();
+  }
+
+  loadLogs() {
+    this.loading = true;
+    this.hrService.getEvaluationSheetLogs().subscribe(
+      (result: EvaluationFileInstanceLog[]) => {
+        this.loading = false;
+        this.evaluationFileInstanceLogs = result;
+      },
+      error => {
+        this.loading = false;
+        this.alertify.error(error);
+      }
+    );
   }
 
   handleLoadStrategies(filters) {
