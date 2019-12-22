@@ -164,7 +164,7 @@ namespace SothemaGoalManagement.API.Controllers
                         {
                             var evaluatee = _repo.User.GetUser(goalCascadeDto.EvaluateeId, false).Result;
                             await SendNotificationsForEvaluator(goalCascadeDto.EvaluateeId,
-                            $"Le sous-objectif: '{goalCascadeDto.GoalForCreationDto.Description}', n'a pas été cascadé au collaborateur {evaluatee.FirstName} {evaluatee.LastName}, car ses objectifs sont déjà validé.");
+                            $"Le sous-objectif: '{goalCascadeDto.GoalForCreationDto.Description}', n'a pas été cascadé au collaborateur {evaluatee.FirstName} {evaluatee.LastName}.");
                         }
                     }
 
