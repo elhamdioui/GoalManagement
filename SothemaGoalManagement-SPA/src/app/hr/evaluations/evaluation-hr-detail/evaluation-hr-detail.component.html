@@ -82,6 +82,9 @@
               </ul>
             </div>
           </tab>
+          <tab heading="Paramétrages">
+            Paramétrage
+          </tab>
           <tab heading="Fiche d'évaluation">
             <div class="container">
               <button class="btn btn-secondary mt-1" (click)="openModal()" [disabled]="evaluationFile.status !== 'Publiée'">
@@ -94,9 +97,6 @@
                 Aucune fiche d'évaluation n'a été générée!
               </div>
             </div>
-          </tab>
-          <tab heading="Paramétrages">
-            Paramétrage
           </tab>
         </tabset>
       </div>

@@ -29,12 +29,13 @@ export class CollaboratorNewComponent implements OnInit {
   bsConfig: Partial<BsDatepickerConfig>;
   notifyUser: boolean = false;
   public loading = false;
+  locale = 'eb';
 
   constructor(private fb: FormBuilder, private adminService: AdminService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.bsConfig = {
-      containerClass: 'theme-red',
+      containerClass: 'theme-dark-blue',
       dateInputFormat: 'YYYY-MM-DD'
     };
     this.createUserForm();
