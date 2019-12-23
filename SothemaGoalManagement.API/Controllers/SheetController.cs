@@ -59,9 +59,8 @@ namespace SothemaGoalManagement.API.Controllers
             try
             {
                 var evaluationFileInstanceFromRepo = await _repo.EvaluationFileInstance.GetEvaluationFileInstance(id);
-
+                if (evaluationFileInstanceFromRepo == null) return NotFound();
                 if (!await IsItAllowed(evaluationFileInstanceFromRepo.OwnerId)) return Unauthorized();
-
 
                 var evaluationFileInstanceToReturn = _mapper.Map<EvaluationFileInstanceToReturnDto>(evaluationFileInstanceFromRepo);
 

@@ -218,7 +218,8 @@ namespace SothemaGoalManagement.API.Controllers
             try
             {
                 var goalOwner = await _repo.Goal.GetGoalOwner(id);
-                if (!await IsItAllowed(userId)) return Unauthorized();
+                if (goalOwner == null) return NotFound();
+                if (!await IsItAllowed(goalOwner.Id)) return Unauthorized();
                 // Validate the total weights of the objectives within an axis instance
                 var axisInstanceIds = new List<int> { goalForUpdateDto.AxisInstanceId };
                 var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
@@ -229,6 +230,9 @@ namespace SothemaGoalManagement.API.Controllers
 
                 var goalFromRepo = await _repo.Goal.GetGoal(id);
                 if (goalFromRepo == null) return BadRequest("La fiche d'évaluation n'existe pas!");
+
+                //Prevent evaluator from update in case the sheet's status is in draft
+                if (goalOwner.Id != userId && goalFromRepo.Status == Constants.DRAFT) return BadRequest("La fiche d'évaluation est encore en rédaction.");
 
                 _mapper.Map(goalForUpdateDto, goalFromRepo);
                 _repo.Goal.UpdateGoal(goalFromRepo);
@@ -354,7 +358,9 @@ namespace SothemaGoalManagement.API.Controllers
         {
             try
             {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var goalOwner = await _repo.Goal.GetGoalOwner(id);
+                if (goalOwner == null) return NotFound();
+                if (!await IsItAllowed(goalOwner.Id)) return Unauthorized();
 
                 var goalFromRepo = await _repo.Goal.GetGoal(id);
                 if (goalFromRepo == null) return NotFound();
