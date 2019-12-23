@@ -82,22 +82,21 @@
               </ul>
             </div>
           </tab>
+          <tab heading="Paramétrages">
+            Paramétrage
+          </tab>
           <tab heading="Fiche d'évaluation">
             <div class="container">
               <button class="btn btn-secondary mt-1" (click)="openModal()" [disabled]="evaluationFile.status !== 'Publiée'">
                 Générer fiche d'évaluation une fois le modèle publié
               </button>
               <div *ngIf="evaluationFileInstanceList.length > 0">
-                <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList" [evaluationFileInstanceLogs]="evaluationFileInstanceLogs"
-                  (loadLogsEvent)="handleLoadLogs($event)" (deleteEvaluationFileInstanceEvent)="handleDeleteEvaluationFileInstance($event)"></app-evaluation-file-instance-hr-list>
+                <app-evaluation-file-instance-hr-list [evaluationFileInstanceList]="evaluationFileInstanceList" (deleteEvaluationFileInstanceEvent)="handleDeleteEvaluationFileInstance($event)"></app-evaluation-file-instance-hr-list>
               </div>
               <div class="alert alert-danger mt-3" role="alert" *ngIf="evaluationFileInstanceList.length === 0">
                 Aucune fiche d'évaluation n'a été générée!
               </div>
             </div>
-          </tab>
-          <tab heading="Paramétrages">
-            Paramétrage
           </tab>
         </tabset>
       </div>

@@ -164,7 +164,7 @@ namespace SothemaGoalManagement.API.Controllers
                         {
                             var evaluatee = _repo.User.GetUser(goalCascadeDto.EvaluateeId, false).Result;
                             await SendNotificationsForEvaluator(goalCascadeDto.EvaluateeId,
-                            $"Le sous-objectif: '{goalCascadeDto.GoalForCreationDto.Description}', n'a pas été cascadé au collaborateur {evaluatee.FirstName} {evaluatee.LastName}, car ses objectifs sont déjà validé.");
+                            $"Le sous-objectif: '{goalCascadeDto.GoalForCreationDto.Description}', n'a pas été cascadé au collaborateur {evaluatee.FirstName} {evaluatee.LastName}.");
                         }
                     }
 
@@ -452,6 +452,11 @@ namespace SothemaGoalManagement.API.Controllers
                 if (parentGoalOwner != null)
                 {
                     goalToReturn.CascaderFullName = parentGoalOwner.FirstName + " " + parentGoalOwner.LastName;
+                    var mainPhoto = parentGoalOwner.Photos.FirstOrDefault(p => p.IsMain);
+                    if (mainPhoto != null)
+                    {
+                        goalToReturn.CascaderPhotoUrl = mainPhoto.Url;
+                    }
                 }
             }
 

@@ -25,6 +25,12 @@
             (loadPublishedStratgeiesEvent)="handleLoadPublishedStratgeies($event)" (loadPublishedBehavioralSkillsEvent)="handleLoadPublishedBehavioralSkills($event)"></app-evaluation-hr-list>
         </div>
       </tab>
+
+      <tab heading="Logs des fiches d'évaluation" *appHasRole="['HRD', 'HR']">
+        <div class="container mt-2" *ngIf="evaluationFileInstanceLogs.length > 0">
+          <app-evaluation-file-instance-logs [evaluationFileInstanceLogs]="evaluationFileInstanceLogs"></app-evaluation-file-instance-logs>
+        </div>
+      </tab>
     </tabset>
   </div>
 </div>

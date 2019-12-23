@@ -1,43 +1,26 @@
 <div class="card mt-2">
   <div class="card-header">
-    <input type="text" placeholder="Filtrer par utilisateurs" [(value)]="values" (keyup)="onKeyUp($event)" *ngIf="!showLogs"
+    <input type="text" style="width:400px;" placeholder="Filtrer par utilisateurs" [(value)]="values" (keyup)="onKeyUp($event)"
     />
-    <span class="float-right">
-      <button class="btn btn-secondary" (click)="toggleLogs()">
-        <span *ngIf="showLogs">
-          <fa-icon [icon]="faList"></fa-icon>
-        </span>
-        <span *ngIf="!showLogs">
-          <fa-icon [icon]="faHistory"></fa-icon>
-        </span>
-      </button>
-    </span>
   </div>
-
   <div class="card-body">
-    <div *ngIf="!showLogs">
-      <table *ngIf="evaluationFileInstanceList?.length > 0" class="table table-hover  mt-2" style="cursor: pointer">
-        <tr>
-          <th style="width: 30%">Titre</th>
-          <th style="width: 20%">Utilisateur</th>
-          <th style="width: 25%">Pole</th>
-          <td style="width: 5%"></td>
-        </tr>
-        <tr *ngFor="let evaluationFileInsatnce of filteredEvaluationFileInstances" [routerLink]="['/sheets', evaluationFileInsatnce.id]">
-          <td>{{ evaluationFileInsatnce.title }}</td>
-          <td>{{ evaluationFileInsatnce.ownerName }}</td>
-          <td>{{ evaluationFileInsatnce.axisInstances[0].poleName }}</td>
-          <td>
-            <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="delete(evaluationFileInsatnce)">
-              <fa-icon [icon]="faTrash"></fa-icon>
-            </button>
-          </td>
-        </tr>
-      </table>
-    </div>
-
-    <div *ngIf="showLogs">
-      <app-evaluation-file-instance-logs [evaluationFileInstanceLogs]="evaluationFileInstanceLogs"></app-evaluation-file-instance-logs>
-    </div>
+    <table *ngIf="evaluationFileInstanceList?.length > 0" class="table table-hover  mt-2" style="cursor: pointer">
+      <tr>
+        <th style="width: 30%">Titre</th>
+        <th style="width: 20%">Utilisateur</th>
+        <th style="width: 25%">Pole</th>
+        <td style="width: 5%"></td>
+      </tr>
+      <tr *ngFor="let evaluationFileInsatnce of filteredEvaluationFileInstances" [routerLink]="['/sheets', evaluationFileInsatnce.id]">
+        <td>{{ evaluationFileInsatnce.title }}</td>
+        <td>{{ evaluationFileInsatnce.ownerName }}</td>
+        <td>{{ evaluationFileInsatnce.axisInstances[0].poleName }}</td>
+        <td>
+          <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="delete(evaluationFileInsatnce)">
+            <fa-icon [icon]="faTrash"></fa-icon>
+          </button>
+        </td>
+      </tr>
+    </table>
   </div>
 </div>

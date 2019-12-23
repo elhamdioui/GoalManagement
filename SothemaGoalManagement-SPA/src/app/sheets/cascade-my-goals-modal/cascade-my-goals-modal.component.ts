@@ -1,11 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
-<<<<<<< HEAD
 import { faPlus, faMinus, faTrash } from '@fortawesome/free-solid-svg-icons';
-=======
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
->>>>>>> b98da4c3c763a80003f3f756e12a3b34ebb86189
-
 import { Goal } from '../../_models/goal';
 import { GoalWithChildren } from '../../_models/goalWithChildren';
 import { Evaluator } from '../../_models/evaluator';

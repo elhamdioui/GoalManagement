@@ -8,9 +8,18 @@ import { EvaluationFileInstanceLog } from '../../../_models/evaluationFileInstan
 })
 export class EvaluationFileInstanceLogsComponent implements OnInit {
   @Input() evaluationFileInstanceLogs: EvaluationFileInstanceLog[];
+  filteredEvaluationFileInstanceLogs: EvaluationFileInstanceLog[];
+  values: string;
+
   constructor() { }
 
   ngOnInit() {
+    this.values = '';
+    this.filteredEvaluationFileInstanceLogs = this.evaluationFileInstanceLogs;
   }
 
+  onKeyUp(event) {
+    this.values = event.target.value;
+    this.filteredEvaluationFileInstanceLogs = this.evaluationFileInstanceLogs.filter(efil => efil.title.toLowerCase().includes(this.values.toLowerCase()));
+  }
 }
