@@ -18,7 +18,7 @@ export class CollaboratorDetailResolver implements Resolve<User> {
   resolve(route: ActivatedRouteSnapshot): Observable<User> {
     return this.adminService.getUser(route.params['id']).pipe(
       catchError(error => {
-        this.alertify.error('Problème lors de la récupération des données de votre utilisateur');
+        this.alertify.error(`Problème lors de la récupération des données de votre utilisateur: ${error}`);
         this.router.navigate(['/admin']);
         return of(null);
       })

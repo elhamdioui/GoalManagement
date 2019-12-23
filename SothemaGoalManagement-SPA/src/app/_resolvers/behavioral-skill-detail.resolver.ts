@@ -18,7 +18,7 @@ export class BehavioralSkillDetailResolver implements Resolve<BehavioralSkill> {
   resolve(route: ActivatedRouteSnapshot): Observable<BehavioralSkill> {
     return this.hrService.getBehavioralSkill(route.params['id']).pipe(
       catchError(error => {
-        this.alertify.error('Problème lors de la récupération des données de votre compétence comportementale');
+        this.alertify.error(`Problème lors de la récupération des données de votre compétence comportementale: ${error}`);
         this.router.navigate(['/hr']);
         return of(null);
       })

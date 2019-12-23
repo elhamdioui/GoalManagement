@@ -31,7 +31,7 @@ export class SheetDetailResolver implements Resolve<any> {
           };
         }),
           catchError(error => {
-            this.alertify.error('Problème lors de la récupération des données de votre fiche d\'evaluation');
+            this.alertify.error(`Problème lors de la récupération des données de votre fiche d\'evaluation: ${error}`);
             this.router.navigate(['/sheets']);
             return of(null);
           }));
@@ -42,7 +42,8 @@ export class SheetDetailResolver implements Resolve<any> {
         this.userService.getGoalTypes(userId),
         this.userService.getMySheet(route.params['id'], userId)
           .pipe(catchError(error => {
-            this.alertify.error('Problème lors de la récupération des données devotre fiche d\'evaluation');
+            console.log(error);
+            this.alertify.error(`Problème lors de la récupération des données de votre fiche d\'evaluation: ${error}`);
             this.router.navigate(['/sheets']);
             return of(null);
           }))

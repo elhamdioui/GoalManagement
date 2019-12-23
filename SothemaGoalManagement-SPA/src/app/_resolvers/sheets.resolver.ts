@@ -31,7 +31,7 @@ export class SheetsResolver implements Resolve<any> {
 
         this.userService.getMySheets(this.authService.decodedToken.nameid, this.pageNumber, this.pageSize).pipe(
           catchError(error => {
-            this.alertify.error('Problème lors de la récupération des données de votre fiches d\'évaluation');
+            this.alertify.error(`Problème lors de la récupération des données de votre fiches d\'évaluation: ${error}`);
             this.router.navigate(['/']);
             return of(null);
           }))

@@ -20,7 +20,7 @@ export class StrategyDetailResolver implements Resolve<Strategy> {
   resolve(route: ActivatedRouteSnapshot): Observable<Strategy> {
     return this.hrService.getStrategy(route.params['id'], this.authService.decodedToken.nameid).pipe(
       catchError(error => {
-        this.alertify.error('Problème lors de la récupération des données de votre stratégie');
+        this.alertify.error(`Problème lors de la récupération des données de votre stratégie: ${error}`);
         this.router.navigate(['/hr']);
         return of(null);
       })

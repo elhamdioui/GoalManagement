@@ -18,7 +18,7 @@ export class EvaluationHrDetailResolver implements Resolve<EvaluationFile> {
   resolve(route: ActivatedRouteSnapshot): Observable<EvaluationFile> {
     return this.hrService.getEvaluationFile(route.params['id']).pipe(
       catchError(error => {
-        this.alertify.error('Problème lors de la récupération des données de votre fiche d\'évaluation');
+        this.alertify.error(`Problème lors de la récupération des données de votre fiche d\'évaluation: ${error}`);
         this.router.navigate(['/hr']);
         return of(null);
       }));

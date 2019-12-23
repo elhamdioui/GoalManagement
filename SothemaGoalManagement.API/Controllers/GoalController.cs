@@ -207,17 +207,18 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside CreateEvaluationFile endpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside CreateGoal endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
 
         [HttpPut("editGoal/{id}")]
-        public async Task<IActionResult> UpdateEvaluationFile(int userId, int id, GoalForUpdateDto goalForUpdateDto)
+        public async Task<IActionResult> UpdateGoal(int userId, int id, GoalForUpdateDto goalForUpdateDto)
         {
             try
             {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var goalOwner = await _repo.Goal.GetGoalOwner(id);
+                if (!await IsItAllowed(userId)) return Unauthorized();
                 // Validate the total weights of the objectives within an axis instance
                 var axisInstanceIds = new List<int> { goalForUpdateDto.AxisInstanceId };
                 var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
@@ -247,7 +248,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside UpdateEvaluationFile endpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside UpdateGoal endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -554,12 +555,12 @@ namespace SothemaGoalManagement.API.Controllers
             return true;
         }
 
-        private async Task<bool> IsItAllowed(int userId, string action = "read")
+        private async Task<bool> IsItAllowed(int goalOwnerId, string action = "read")
         {
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            if (userId != currentUserId)
+            if (goalOwnerId != currentUserId)
             {
-                var evaluators = await _repo.User.LoadEvaluators(userId);
+                var evaluators = await _repo.User.LoadEvaluators(goalOwnerId);
                 var evaluator = evaluators.FirstOrDefault(e => e.Id == currentUserId);
                 if (evaluator == null)
                 {

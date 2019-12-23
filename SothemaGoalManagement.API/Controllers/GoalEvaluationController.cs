@@ -74,7 +74,8 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
         {
             try
             {
-                if (!await IsItAllowed(userId, "write")) return Unauthorized();
+                var goalOwner = await _repo.Goal.GetGoalOwner(goalEvaluationCreationDto.GoalId);
+                if (!await IsItAllowed(goalOwner.Id, "write")) return Unauthorized();
 
                 // Create a new goalEvaluation
                 var goalEvaluation = _mapper.Map<GoalEvaluation>(goalEvaluationCreationDto);
@@ -99,12 +100,12 @@ namespace SothemaGoalEvaluationManagement.API.Controllers
             return true;
         }
 
-        private async Task<bool> IsItAllowed(int userId, string action = "read")
+        private async Task<bool> IsItAllowed(int goalOwnerId, string action = "read")
         {
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            if (userId != currentUserId)
+            if (goalOwnerId != currentUserId)
             {
-                var evaluators = await _repo.User.LoadEvaluators(userId);
+                var evaluators = await _repo.User.LoadEvaluators(goalOwnerId);
                 var evaluator = evaluators.FirstOrDefault(e => e.Id == currentUserId);
                 if (evaluator == null)
                 {
