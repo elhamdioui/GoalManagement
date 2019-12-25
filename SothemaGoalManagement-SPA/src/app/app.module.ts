@@ -109,6 +109,7 @@ import { AutoEvaluationGoalsComponent } from './sheets/auto-evaluation-goals/aut
 import { AutoEvaluationAxisComponent } from './sheets/auto-evaluation-axis/auto-evaluation-axis.component';
 import { BehavioralSkillListEvaluationComponent } from './sheets/behavioral-skill-list-evaluation/behavioral-skill-list-evaluation.component';
 import { EvaluationHrParametersComponent } from './hr/evaluations/evaluation-hr-parameters/evaluation-hr-parameters.component';
+import { SheetMetaDataComponent } from './sheets/sheet-meta-data/sheet-meta-data.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -173,6 +174,7 @@ export function tokenGetter() {
     MyCollaboratorsSheetsComponent,
     MyCollaboratorGoalsComponent,
     SheetDetailComponent,
+    SheetMetaDataComponent,
     SheetCardComponent,
     SheetAxisInstanceItemComponent,
     GoalsComponent,

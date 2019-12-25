@@ -1,5 +1,5 @@
 <div *ngIf="areGoalsEvaluable">
-  <div class="card mt-1 mb-1" *ngFor="let goalsByAxisInstance of goalsByAxisInstanceList">
+  <div class="card mt-2 mb-2 border-primary" *ngFor="let goalsByAxisInstance of goalsByAxisInstanceList">
     <app-auto-evaluation-axis [sheetOwnerId]="sheetOwnerId" [goalIdToExpand]="goalIdToExpand" [goalsByAxisInstance]="goalsByAxisInstance"
       (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation-axis>
   </div>
