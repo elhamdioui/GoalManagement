@@ -20,9 +20,9 @@
             <button type="button" class="btn ml-1" [ngClass]="sheetToValidate.goalsStatus === 'En Revue' ? 'btn-success' : 'btn-secondary'"
               (click)="showGoals()">
               <span *ngIf="sheetToValidate.goalsStatus === 'En Revue'">
-                <fa-icon [icon]="faCheckSquare"></fa-icon>Valider Objectives</span>
+                <fa-icon [icon]="faCheckSquare"></fa-icon>Valider Objectifs</span>
               <span *ngIf="sheetToValidate.goalsStatus !== 'En Revue'">
-                <fa-icon [icon]="faEye"></fa-icon>Voir Objectives</span>
+                <fa-icon [icon]="faEye"></fa-icon>Voir Objectifs</span>
             </button>
 
             <button type="button" class="btn btn-success ml-1" *ngIf="sheetToValidate.goalsStatus === 'Publiée'" (click)="showSheetDetail()">
