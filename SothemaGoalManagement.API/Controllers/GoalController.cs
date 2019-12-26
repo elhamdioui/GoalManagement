@@ -155,6 +155,7 @@ namespace SothemaGoalManagement.API.Controllers
                             _repo.Goal.AddGoal(goal);
                         }
                     }
+
                     await _repo.Goal.SaveAllAsync();
 
                     // Log new goal has been assigned by the evaluator
