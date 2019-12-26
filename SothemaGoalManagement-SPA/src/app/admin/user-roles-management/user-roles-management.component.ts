@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 import { User } from '../../_models/user';
 import { RolesModalComponent } from '../roles-modal/roles-modal.component';
@@ -14,6 +15,7 @@ export class UserRolesManagementComponent implements OnInit {
   @Output() loadUsersWithRolesEvent = new EventEmitter<any>();
   @Output() editUserRoleEvent = new EventEmitter<any>();
   bsModalRef: BsModalRef;
+  faEdit = faEdit;
 
   constructor(private modalService: BsModalService) { }
 

@@ -27,7 +27,8 @@
           <td>{{ goal.description }}</td>
           <td>{{ goal.weight }}%</td>
           <td>
-            <button class="btn btn-danger ml-1" (click)="$event.stopPropagation()" (click)="deleteGoal(goal)" title="Supprimer Sous-Objectif">
+            <button class="btn btn-outline-danger rounded-circle ml-1" (click)="$event.stopPropagation()" (click)="deleteGoal(goal)"
+              title="Supprimer Sous-Objectif">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>
           </td>
@@ -86,10 +87,11 @@
               </td>
               <td align="center">
                 <span class="d-flex" *ngIf="sb.selected">
-                  <button class="btn btn-success mr-1" (click)="addSubGoal(idx, sb)" title="Ajouter plus de sous-objectif">
+                  <button class="btn btn-outline-success rounded-circle mr-1" (click)="addSubGoal(idx, sb)" title="Ajouter plus de sous-objectif">
                     <fa-icon [icon]="faPlus"></fa-icon>
                   </button>
-                  <button class="btn btn-danger" title="Supprimer sous-objectif" (click)="removeSubGoal(idx, sb.evaluateeId)" [disabled]="disableRemoveSubGoal(sb.evaluateeId)">
+                  <button class="btn btn-outline-danger rounded-circle" title="Supprimer sous-objectif" (click)="removeSubGoal(idx, sb.evaluateeId)"
+                    [disabled]="disableRemoveSubGoal(sb.evaluateeId)">
                     <fa-icon [icon]="faMinus"></fa-icon>
                   </button>
                 </span>
