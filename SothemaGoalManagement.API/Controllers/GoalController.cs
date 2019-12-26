@@ -381,12 +381,25 @@ namespace SothemaGoalManagement.API.Controllers
                 var goalFromRepo = await _repo.Goal.GetGoal(id);
                 if (goalFromRepo == null) return NotFound();
 
-                //Prevent evaluator from update in case the sheet's status is in draft
-                if (goalOwner.Id != userId && goalFromRepo.Status == Constants.DRAFT) return BadRequest("La fiche d'évaluation est encore en rédaction.");
-
+                // Prevent deleting the goal if it has children
                 var children = await _repo.Goal.GetGoalChildren(goalFromRepo.Id);
                 if (children != null && children.Count() > 0) return BadRequest("Cet objectif a des sous-objectifs.");
 
+                //Prevent evaluator from deleting the goal in case the sheet's status is in draft except if he cascaded it
+                if (goalOwner.Id != userId)
+                {
+                    if (goalFromRepo.ParentGoalId > 0)
+                    {
+                        var parentGoalOwner = await _repo.Goal.GetGoalOwner(goalFromRepo.ParentGoalId);
+                        if (userId != parentGoalOwner.Id && goalFromRepo.Status == Constants.DRAFT) return BadRequest("La fiche d'évaluation est encore en rédaction.");
+                    }
+                    else
+                    {
+                        if (goalFromRepo.Status == Constants.DRAFT) return BadRequest("La fiche d'évaluation est encore en rédaction.");
+                    }
+                }
+
+                // Proceed with delete
                 _repo.Goal.DeleteGoal(goalFromRepo);
                 await _repo.Goal.SaveAllAsync();
 
