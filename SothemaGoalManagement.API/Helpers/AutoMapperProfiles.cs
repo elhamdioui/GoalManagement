@@ -116,6 +116,7 @@ namespace SothemaGoalManagement.API.Helpers
             });
 
             CreateMap<GoalType, GoalTypeToReturnDto>();
+            CreateMap<Project, ProjectToReturnDto>();
 
             CreateMap<GoalForCreationDto, Goal>();
 

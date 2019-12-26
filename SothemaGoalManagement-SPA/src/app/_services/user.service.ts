@@ -180,6 +180,10 @@ export class UserService {
     return this.http.get(`${this.baseUrl}users/${userId}/goal/goalTypes`);
   }
 
+  getProjects(userId) {
+    return this.http.get(`${this.baseUrl}users/${userId}/goal/projects`);
+  }
+
   updateAxisInstance(userId: number, axisInstanceId: number, userWeight: number) {
     return this.http.put(`${this.baseUrl}users/${userId}/sheet/${axisInstanceId}/${userWeight}`, {})
   }

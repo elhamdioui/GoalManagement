@@ -83,11 +83,27 @@ namespace SothemaGoalManagement.API.Controllers
         {
             try
             {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
                 var goalTypeList = await _repo.GoalType.GetGoalType();
                 var goalTypeToReturn = _mapper.Map<IEnumerable<GoalTypeToReturnDto>>(goalTypeList);
 
                 return Ok(goalTypeToReturn);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetGoalType endpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("projects")]
+        public async Task<IActionResult> GetProjects(int userId)
+        {
+            try
+            {
+                var projectsFromRepo = await _repo.GoalType.GetProjects();
+                var projectToReturn = _mapper.Map<IEnumerable<ProjectToReturnDto>>(projectsFromRepo);
+
+                return Ok(projectToReturn);
             }
             catch (Exception ex)
             {

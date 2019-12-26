@@ -5,6 +5,7 @@ import { AxisInstance } from '../../_models/axisInstance';
 import { GoalByAxisInstance } from './../../_models/goalsByAxisInstance';
 import { Goal } from '../../_models/goal';
 import { GoalType } from '../../_models/goalType';
+import { Project } from '../../_models/project';
 
 @Component({
   selector: 'app-goals',
@@ -18,6 +19,7 @@ export class GoalsComponent implements OnInit {
   @Input() areGoalsCompleted: boolean;
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Input() goalTypeList: GoalType[];
+  @Input() projectList: Project[];
   @Output() createGoalEvent = new EventEmitter<any>();
   @Output() editGoalEvent = new EventEmitter<Goal>();
   @Output() deleteGoalEvent = new EventEmitter<Goal>();
@@ -26,9 +28,9 @@ export class GoalsComponent implements OnInit {
   isCollapsed = false;
   faPlus = faPlus;
   faCaretUp = faCaretUp;
-  faList =faListUl;
-  faCheck=faClipboardCheck;
-  
+  faList = faListUl;
+  faCheck = faClipboardCheck;
+
   constructor() { }
 
   ngOnInit() {

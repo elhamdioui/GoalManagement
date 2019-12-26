@@ -12,7 +12,7 @@
 
     <div class="col-md-4 form-group required">
       <label class='control-label'>Type d'objectif:</label>
-      <select class="form-control mb-1" id="objectifTypeId" name="goalTypeId" [(ngModel)]="newGoal.goalTypeId">
+      <select class="form-control mb-1" id="objectifTypeId" name="goalTypeId" [(ngModel)]="newGoal.goalTypeId" (change)="onChangeGoalType()">
         <option *ngFor="let goalType of goalTypeList" [ngValue]="goalType.id">
           {{ goalType.name }}
         </option>
@@ -26,11 +26,14 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="newGoal.goalTypeId === 3">
+  <div class="row" *ngIf="filteredProjects.length > 0">
     <div class="col form-group">
       <label class='control-label'>Nom de projet:</label>
-      <input [(ngModel)]="newGoal.projectName" name="projectName" type="text" class="form-control input-sm" placeholder="Nom de projet"
-      />
+      <select class="form-control mb-1" id="projectName" name="projectName" [(ngModel)]="newGoal.projectName">
+        <option *ngFor="let project of filteredProjects" [ngValue]="project.name">
+          {{ project.name }}
+        </option>
+      </select>
     </div>
   </div>
 

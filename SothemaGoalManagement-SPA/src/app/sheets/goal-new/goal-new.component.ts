@@ -1,9 +1,11 @@
+import { FileUploader } from 'ng2-file-upload';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { AxisInstance } from '../../_models/axisInstance';
 import { Goal } from '../../_models/goal';
 import { GoalType } from '../../_models/goalType';
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
+import { Project } from '../../_models/project';
 
 @Component({
   selector: 'app-goal-new',
@@ -13,19 +15,24 @@ import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 export class GoalNewComponent implements OnInit {
   @Input() axisInstances: AxisInstance[];
   @Input() goalTypeList: GoalType[];
+  @Input() projectList: Project[];
   @Input() goalsByAxisInstanceList: GoalByAxisInstance[];
   @Output() createGoalEvent = new EventEmitter<any>();
+  @Output() loadProjectsEvent = new EventEmitter<number>();
   newGoal: any = {};
   showError: boolean = false;
+  filteredProjects: Project[] = [];
 
   constructor() { }
 
   ngOnInit() {
+    this.newGoal.goalTypeId = this.goalTypeList[0].id;
+    this.newGoal.axisInstanceId = this.axisInstances[0].id;
   }
 
   createGoal() {
     if (this.isTotalWeightValid()) {
-      if (this.newGoal.goalTypeId != 3) {
+      if (this.newGoal.goalTypeId < 3) {
         this.newGoal.projectName = '';
       }
 
@@ -51,5 +58,10 @@ export class GoalNewComponent implements OnInit {
 
   onChange($event) {
     this.showError = false;
+  }
+
+  onChangeGoalType() {
+    this.filteredProjects = this.projectList.filter(p => p.goalTypeId === this.newGoal.goalTypeId);
+    this.filteredProjects.length > 0 ? this.newGoal.projectName = this.filteredProjects[0].name : '';
   }
 }
