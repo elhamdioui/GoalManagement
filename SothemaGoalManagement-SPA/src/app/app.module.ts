@@ -105,11 +105,11 @@ import { PromptModalComponent } from './prompt-modal/prompt-modal.component';
 import { AutoEvaluationComponent } from './sheets/auto-evaluation/auto-evaluation.component';
 import { GoalEvaluationModalComponent } from './sheets/goal-evaluation-modal/goal-evaluation-modal.component';
 import { CascadeMyGoalsModalComponent } from './sheets/cascade-my-goals-modal/cascade-my-goals-modal.component';
-import { AutoEvaluationGoalsComponent } from './sheets/auto-evaluation-goals/auto-evaluation-goals.component';
 import { AutoEvaluationAxisComponent } from './sheets/auto-evaluation-axis/auto-evaluation-axis.component';
 import { BehavioralSkillListEvaluationComponent } from './sheets/behavioral-skill-list-evaluation/behavioral-skill-list-evaluation.component';
 import { EvaluationHrParametersComponent } from './hr/evaluations/evaluation-hr-parameters/evaluation-hr-parameters.component';
 import { SheetMetaDataComponent } from './sheets/sheet-meta-data/sheet-meta-data.component';
+import { HistoricalEvaluationModalComponent } from './sheets/historical-evaluation-modal/historical-evaluation-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -184,10 +184,10 @@ export function tokenGetter() {
     PromptModalComponent,
     AutoEvaluationComponent,
     AutoEvaluationAxisComponent,
-    AutoEvaluationGoalsComponent,
     GoalEvaluationModalComponent,
     CascadeMyGoalsModalComponent,
-    BehavioralSkillListEvaluationComponent
+    BehavioralSkillListEvaluationComponent,
+    HistoricalEvaluationModalComponent
   ],
   imports: [
     BrowserModule,
@@ -249,7 +249,8 @@ export function tokenGetter() {
     GoalEditModalComponent,
     PromptModalComponent,
     GoalEvaluationModalComponent,
-    CascadeMyGoalsModalComponent
+    CascadeMyGoalsModalComponent,
+    HistoricalEvaluationModalComponent
   ],
   bootstrap: [AppComponent]
 })

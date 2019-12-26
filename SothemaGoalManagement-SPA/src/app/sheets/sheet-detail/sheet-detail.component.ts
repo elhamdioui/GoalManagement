@@ -36,7 +36,6 @@ export class SheetDetailComponent implements OnInit {
   areGoalsEvaluable: boolean;
   areBehavioralSkillsEvaluable: boolean;
   totalGrade: string;
-  goalIdToExpand: number;
   behavioralSkillEvaluationUpdated: boolean;
   showDetail: boolean;
   faArrowLeft = faArrowLeft;
@@ -220,13 +219,13 @@ export class SheetDetailComponent implements OnInit {
   handleAddGoalEvaluation(newEval: any) {
     this.loading = true;
     let goalEval = { ...newEval, evaluatorId: this.authService.decodedToken.nameid };
-    this.goalIdToExpand = newEval.goalId;
     this.userService
       .addGoalEvaluations(this.sheetDetail.ownerId, goalEval)
       .subscribe(
         () => {
           this.loading = false;
           this.getGoalsForAxis();
+          this.alertify.success('L\'évaluation a été ajoutée avec succès.');
         },
         error => {
           this.loading = false;

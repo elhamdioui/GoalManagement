@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { AutoEvaluationGoalsComponent } from './auto-evaluation-goals.component';
+import { HistoricalEvaluationModalComponent } from './historical-evaluation-modal.component';
 
-describe('AutoEvaluationGoalsComponent', () => {
-  let component: AutoEvaluationGoalsComponent;
-  let fixture: ComponentFixture<AutoEvaluationGoalsComponent>;
+describe('HistoricalEvaluationModalComponent', () => {
+  let component: HistoricalEvaluationModalComponent;
+  let fixture: ComponentFixture<HistoricalEvaluationModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AutoEvaluationGoalsComponent ]
+      declarations: [ HistoricalEvaluationModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AutoEvaluationGoalsComponent);
+    fixture = TestBed.createComponent(HistoricalEvaluationModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
