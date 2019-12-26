@@ -21,7 +21,7 @@ export class StrategiesResolver implements Resolve<Strategy[]> {
       .getPublishedStrategies()
       .pipe(
         catchError(error => {
-          this.alertify.error('Problem retrieving Strategies');
+          this.alertify.error(`Problem retrieving Strategies: ${error}`);
           this.router.navigate(['/home']);
           return of(null);
         })

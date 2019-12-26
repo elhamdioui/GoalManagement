@@ -15,13 +15,14 @@ export class AutoEvaluationAxisComponent implements OnInit {
   @Input() goalIdToExpand: number;
   @Input() sheetOwnerId: number;
   @Output() addGoalEvaluationEvent = new EventEmitter<any>();
-  isCollapsed = true;
+  isCollapsed: boolean;
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
 
   constructor() { }
 
   ngOnInit() {
+    this.isCollapsed = false;
     if (this.goalIdToExpand && this.goalsByAxisInstance.goals.filter(g => g.id == this.goalIdToExpand).length > 0) {
       this.isCollapsed = false;
     }

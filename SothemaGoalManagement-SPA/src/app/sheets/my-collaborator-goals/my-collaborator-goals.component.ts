@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 import { EvaluationFileInstance } from '../../_models/evaluationFileInstance';
@@ -19,6 +20,8 @@ export class MyCollaboratorGoalsComponent implements OnInit {
   areGoalsReadOnly = true;
   canGoalsBeValidated = false;
   bsModalRef: BsModalRef;
+  faArrowLeft = faArrowLeft;
+  showDetail: boolean;
 
   constructor(private modalService: BsModalService) { }
 

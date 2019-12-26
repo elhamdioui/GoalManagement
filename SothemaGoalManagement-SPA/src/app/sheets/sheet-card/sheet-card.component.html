@@ -10,24 +10,26 @@
         </div>
         <div class="col-md-6">
           <div class="float-right">
-            <button type="button" class="btn btn-primary" (click)="toggleAxis()">
+            <!-- <button type="button" class="btn btn-primary" (click)="toggleAxis()">
               <span *ngIf="!isCollapsed">
                 <fa-icon [icon]="faCaretDown"></fa-icon>Voir Axes</span>
               <span *ngIf="isCollapsed">
                 <fa-icon [icon]="faCaretUp"></fa-icon>Réduire Axes</span>
-            </button>
+            </button> -->
 
-            <button type="button" class="btn ml-1" [ngClass]="sheetToValidate.goalsStatus === 'En Revue' ? 'btn-success' : 'btn-secondary'"
-              (click)="showGoals()">
-              <span *ngIf="sheetToValidate.goalsStatus === 'En Revue'">
-                <fa-icon [icon]="faCheckSquare"></fa-icon>Valider Objectives</span>
-              <span *ngIf="sheetToValidate.goalsStatus !== 'En Revue'">
-                <fa-icon [icon]="faEye"></fa-icon>Voir Objectives</span>
+            <button type="button" class="btn ml-1" class="btn btn-primary" *ngIf="sheetToValidate.goalsStatus === 'En Revue'" (click)="showGoals()">
+              <span>
+                <fa-icon [icon]="faCheckSquare"></fa-icon>Valider</span>
             </button>
 
             <button type="button" class="btn btn-success ml-1" *ngIf="sheetToValidate.goalsStatus === 'Publiée'" (click)="showSheetDetail()">
               <span>
                 <fa-icon [icon]="faList"></fa-icon>Evaluer</span>
+            </button>
+
+            <button type="button" class="btn btn-secondary ml-1" *ngIf="sheetToValidate.goalsStatus !== 'En Revue'" (click)="showGoals()">
+              <span>
+                <fa-icon [icon]="faEye"></fa-icon>Afficher</span>
             </button>
           </div>
         </div>

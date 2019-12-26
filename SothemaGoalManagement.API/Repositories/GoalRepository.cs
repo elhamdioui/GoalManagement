@@ -15,7 +15,9 @@ namespace SothemaGoalManagement.API.Repositories
         public async Task<Goal> GetGoal(int id)
         {
             return await FindByCondition(p => p.Id == id).Include(t => t.GoalType)
-                                            .Include(a => a.AxisInstance).SingleOrDefaultAsync();
+                                            .Include(a => a.AxisInstance)
+                                            .ThenInclude(ai => ai.EvaluationFileInstance)
+                                            .SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Goal>> GetGoalChildren(int id)

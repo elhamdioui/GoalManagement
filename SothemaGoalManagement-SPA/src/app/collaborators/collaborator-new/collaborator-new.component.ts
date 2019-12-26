@@ -29,7 +29,6 @@ export class CollaboratorNewComponent implements OnInit {
   bsConfig: Partial<BsDatepickerConfig>;
   notifyUser: boolean = false;
   public loading = false;
-  locale = 'eb';
 
   constructor(private fb: FormBuilder, private adminService: AdminService, private alertify: AlertifyService) { }
 

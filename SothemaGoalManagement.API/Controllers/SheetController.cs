@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SothemaGoalManagement.API.Dtos;
 using SothemaGoalManagement.API.Helpers;
@@ -21,11 +22,14 @@ namespace SothemaGoalManagement.API.Controllers
         private ILoggerManager _logger;
         private IRepositoryWrapper _repo;
         private readonly IMapper _mapper;
-        public SheetController(ILoggerManager logger, IRepositoryWrapper repo, IMapper mapper)
+        private readonly UserManager<User> _userManager;
+
+        public SheetController(ILoggerManager logger, IRepositoryWrapper repo, IMapper mapper, UserManager<User> userManager)
         {
             _logger = logger;
             _mapper = mapper;
             _repo = repo;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -54,8 +58,10 @@ namespace SothemaGoalManagement.API.Controllers
         {
             try
             {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
                 var evaluationFileInstanceFromRepo = await _repo.EvaluationFileInstance.GetEvaluationFileInstance(id);
+                if (evaluationFileInstanceFromRepo == null) return NotFound();
+                if (!await IsItAllowed(evaluationFileInstanceFromRepo.OwnerId)) return Unauthorized();
+
                 var evaluationFileInstanceToReturn = _mapper.Map<EvaluationFileInstanceToReturnDto>(evaluationFileInstanceFromRepo);
 
                 return Ok(evaluationFileInstanceToReturn);
@@ -164,6 +170,36 @@ namespace SothemaGoalManagement.API.Controllers
             }
 
             return sheets;
+        }
+
+        private async Task<bool> IsItAllowed(int ownerId, string action = "read")
+        {
+            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            if (ownerId != currentUserId)
+            {
+                var evaluators = await _repo.User.LoadEvaluators(ownerId);
+                var evaluator = evaluators.FirstOrDefault(e => e.Id == currentUserId);
+                if (evaluator == null)
+                {
+                    if (action == "read")
+                    {
+                        // Check if current user has allowed roles:
+                        var currentUser = await _userManager.FindByIdAsync(currentUserId.ToString());
+                        var roles = await _userManager.GetRolesAsync(currentUser);
+                        foreach (var role in roles)
+                        {
+                            if (role == Constants.HR || role == Constants.HRD) return true;
+
+                        }
+                        return false;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

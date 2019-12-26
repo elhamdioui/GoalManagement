@@ -207,17 +207,19 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside CreateEvaluationFile endpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside CreateGoal endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
 
         [HttpPut("editGoal/{id}")]
-        public async Task<IActionResult> UpdateEvaluationFile(int userId, int id, GoalForUpdateDto goalForUpdateDto)
+        public async Task<IActionResult> UpdateGoal(int userId, int id, GoalForUpdateDto goalForUpdateDto)
         {
             try
             {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var goalOwner = await _repo.Goal.GetGoalOwner(id);
+                if (goalOwner == null) return NotFound();
+                if (!await IsItAllowed(goalOwner.Id)) return Unauthorized();
                 // Validate the total weights of the objectives within an axis instance
                 var axisInstanceIds = new List<int> { goalForUpdateDto.AxisInstanceId };
                 var goalsGroupedByAxisInstanceList = await GetAxisInstancesWithGoals(axisInstanceIds);
@@ -228,6 +230,9 @@ namespace SothemaGoalManagement.API.Controllers
 
                 var goalFromRepo = await _repo.Goal.GetGoal(id);
                 if (goalFromRepo == null) return BadRequest("La fiche d'évaluation n'existe pas!");
+
+                //Prevent evaluator from update in case the sheet's status is in draft
+                if (goalOwner.Id != userId && goalFromRepo.Status == Constants.DRAFT) return BadRequest("La fiche d'évaluation est encore en rédaction.");
 
                 _mapper.Map(goalForUpdateDto, goalFromRepo);
                 _repo.Goal.UpdateGoal(goalFromRepo);
@@ -247,7 +252,7 @@ namespace SothemaGoalManagement.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside UpdateEvaluationFile endpoint: {ex.Message}");
+                _logger.LogError($"Something went wrong inside UpdateGoal endpoint: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -353,10 +358,16 @@ namespace SothemaGoalManagement.API.Controllers
         {
             try
             {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+                var goalOwner = await _repo.Goal.GetGoalOwner(id);
+                if (goalOwner == null) return NotFound();
+                if (!await IsItAllowed(goalOwner.Id)) return Unauthorized();
 
                 var goalFromRepo = await _repo.Goal.GetGoal(id);
                 if (goalFromRepo == null) return NotFound();
+
+                //Prevent evaluator from update in case the sheet's status is in draft
+                if (goalOwner.Id != userId && goalFromRepo.Status == Constants.DRAFT) return BadRequest("La fiche d'évaluation est encore en rédaction.");
+
                 var children = await _repo.Goal.GetGoalChildren(goalFromRepo.Id);
                 if (children != null && children.Count() > 0) return BadRequest("Cet objectif a des sous-objectifs.");
 
@@ -554,12 +565,12 @@ namespace SothemaGoalManagement.API.Controllers
             return true;
         }
 
-        private async Task<bool> IsItAllowed(int userId, string action = "read")
+        private async Task<bool> IsItAllowed(int goalOwnerId, string action = "read")
         {
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            if (userId != currentUserId)
+            if (goalOwnerId != currentUserId)
             {
-                var evaluators = await _repo.User.LoadEvaluators(userId);
+                var evaluators = await _repo.User.LoadEvaluators(goalOwnerId);
                 var evaluator = evaluators.FirstOrDefault(e => e.Id == currentUserId);
                 if (evaluator == null)
                 {

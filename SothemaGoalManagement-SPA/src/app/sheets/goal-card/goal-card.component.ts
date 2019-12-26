@@ -25,7 +25,7 @@ export class GoalCardComponent implements OnInit {
   @Output() cascadeMyGoalEvent = new EventEmitter<any>();
   @Output() deleteGoalEvent = new EventEmitter<Goal>();
   bsModalRef: BsModalRef;
-  isCollapsed = false;
+  isCollapsed: boolean;
   faEdit = faEdit;
   faTrash = faTrash;
   faCaretDown = faCaretDown;
@@ -35,6 +35,7 @@ export class GoalCardComponent implements OnInit {
   constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
+    this.isCollapsed = true;
   }
 
   editGoalModal(goal: Goal) {

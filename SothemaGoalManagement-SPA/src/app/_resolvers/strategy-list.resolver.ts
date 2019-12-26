@@ -23,7 +23,7 @@ export class StrategyListResolver implements Resolve<Strategy[]> {
   resolve(route: ActivatedRouteSnapshot): Observable<Strategy[]> {
     return this.hrService.getStrategies(this.authService.decodedToken.nameid, this.pageNumber, this.pageSize)
       .pipe(catchError(error => {
-        this.alertify.error('Problème lors de la récupération des données des strategies');
+        this.alertify.error(`Problème lors de la récupération des données des strategies: ${error}`);
         this.router.navigate(['/home']);
         return of(null);
       }))
