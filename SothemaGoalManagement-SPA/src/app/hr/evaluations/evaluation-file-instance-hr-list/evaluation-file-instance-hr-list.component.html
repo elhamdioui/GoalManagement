@@ -16,7 +16,7 @@
         <td>{{ evaluationFileInsatnce.ownerName }}</td>
         <td>{{ evaluationFileInsatnce.axisInstances[0].poleName }}</td>
         <td>
-          <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="delete(evaluationFileInsatnce)">
+          <button class="btn btn-outline-danger rounded-circle" (click)="$event.stopPropagation()" (click)="delete(evaluationFileInsatnce)">
             <fa-icon [icon]="faTrash"></fa-icon>
           </button>
         </td>

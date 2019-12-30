@@ -14,7 +14,9 @@
           <td>{{user.email}}</td>
           <td>{{user.roles}}</td>
           <td>
-            <button class="btn btn-info" (click)="$event.stopPropagation()" (click)="editRolesModal(user)">Edit Roles</button>
+            <button class="btn btn-outline-info rounded-circle" (click)="$event.stopPropagation()" (click)="editRolesModal(user)">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
           </td>
         </tr>
       </table>

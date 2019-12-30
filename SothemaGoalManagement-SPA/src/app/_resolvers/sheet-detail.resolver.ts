@@ -40,9 +40,9 @@ export class SheetDetailResolver implements Resolve<any> {
     return forkJoin(
       [
         this.userService.getGoalTypes(userId),
+        this.userService.getProjects(userId),
         this.userService.getMySheet(route.params['id'], userId)
           .pipe(catchError(error => {
-            console.log(error);
             this.alertify.error(`Problème lors de la récupération des données de votre fiche d\'evaluation: ${error}`);
             this.router.navigate(['/sheets']);
             return of(null);
@@ -51,7 +51,8 @@ export class SheetDetailResolver implements Resolve<any> {
         localStorage.setItem('goalTypeList', JSON.stringify(result[0]));
         return {
           goalTypeList: result[0],
-          sheetDetail: result[1]
+          projectList: result[1],
+          sheetDetail: result[2]
         };
       }));
   }

@@ -17,5 +17,10 @@ namespace SothemaGoalManagement.API.Repositories
         {
             return await FindAll().ToListAsync();
         }
+
+        public async Task<IEnumerable<Project>> GetProjects()
+        {
+            return await RepositoryContext.Projects.ToListAsync();
+        }
     }
 }

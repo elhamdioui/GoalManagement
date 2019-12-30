@@ -22,15 +22,15 @@
         <tab heading="Définition des objectifs">
           <div *ngIf="goalsByAxisInstanceList">
             <app-goals [sheetId]="sheetDetail.id" [areGoalsCompleted]="areGoalsCompleted" [areGoalsReadOnly]="areGoalsReadOnly" [goalsByAxisInstanceList]="goalsByAxisInstanceList"
-              [axisInstances]="sheetDetail.axisInstances" [goalTypeList]="goalTypeList" (createGoalEvent)="handleCreateGoal($event)"
+              [axisInstances]="sheetDetail.axisInstances" [goalTypeList]="goalTypeList" [projectList]="projectList" (createGoalEvent)="handleCreateGoal($event)"
               (editGoalEvent)="handleEditGoal($event)" (deleteGoalEvent)="handleDeleteGoal($event)" (validateGoalsEvent)="handleValidateGoals($event)"
               (cascadeMyGoalEvent)="handleCascadeMyGoal($event)"></app-goals>
           </div>
         </tab>
         <tab heading="Évaluation des Objectifs">
           <div *ngIf="goalsByAxisInstanceList">
-            <app-auto-evaluation [sheetOwnerId]="sheetDetail.ownerId" [goalIdToExpand]="goalIdToExpand" [goalsByAxisInstanceList]="goalsByAxisInstanceList"
-              [areGoalsEvaluable]="areGoalsEvaluable" (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation>
+            <app-auto-evaluation [sheetOwnerId]="sheetDetail.ownerId" [goalsByAxisInstanceList]="goalsByAxisInstanceList" [areGoalsEvaluable]="areGoalsEvaluable"
+              (addGoalEvaluationEvent)="handleAddGoalEvaluation($event)"></app-auto-evaluation>
           </div>
         </tab>
         <tab heading="Évaluation des Compétence Comportementale">

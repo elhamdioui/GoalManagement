@@ -172,7 +172,7 @@ namespace SothemaGoalManagement.API.Controllers
                 {
                     var evaluationFileInstance = new EvaluationFileInstance()
                     {
-                        Title = evaluationFileFromRepo.Year + "-" + evaluationFileFromRepo.Title,
+                        Title = evaluationFileFromRepo.Year + " - " + user.FirstName + " " + user.LastName,
                         Year = evaluationFileFromRepo.Year,
                         Status = Constants.DRAFT,
                         Created = DateTime.Now,

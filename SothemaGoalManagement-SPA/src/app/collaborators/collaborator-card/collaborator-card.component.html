@@ -3,19 +3,19 @@
     <img class="card-img-top" src="{{ user.photoUrl || '../../../assets/user.png' }}" alt="{{ user.lastName }}" />
     <ul class="list-inline member-icons animate text-center">
       <li class="list-inline-item">
-        <button class="btn btn-primary" [routerLink]="['/admin/collaborators/', user.id]">
+        <button class="btn btn-primary rounded-circle" [routerLink]="['/admin/collaborators/', user.id]">
           <fa-icon [icon]="faUser"></fa-icon>
         </button>
       </li>
 
       <li class="list-inline-item">
-        <button class="btn btn-primary" [routerLink]="['/admin/collaborators/edit/', user.id]">
+        <button class="btn btn-primary rounded-circle" [routerLink]="['/admin/collaborators/edit/', user.id]">
           <fa-icon [icon]="faEdit"></fa-icon>
         </button>
       </li>
 
       <li class="list-inline-item">
-        <button class="btn btn-primary" [routerLink]="['/admin/collaborators/', user.id]" [queryParams]="{ tab: 3 }">
+        <button class="btn btn-primary rounded-circle" [routerLink]="['/admin/collaborators/', user.id]" [queryParams]="{ tab: 3 }">
           <fa-icon [icon]="faEnvelope"></fa-icon>
         </button>
       </li>

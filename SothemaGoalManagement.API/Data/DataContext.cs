@@ -47,6 +47,7 @@ namespace SothemaGoalManagement.API.Data
         public DbSet<EvaluationFileInstanceBehavioralSkillInstance> EvaluationFileInstanceBehavioralSkillInstances { get; set; }
 
         public DbSet<GoalType> GoalTypes { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         public DbSet<Goal> Goals { get; set; }
 

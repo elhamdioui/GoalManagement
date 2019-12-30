@@ -12,6 +12,7 @@ import { AlertifyService } from '../../_services/alertify.service';
 import { GoalByAxisInstance } from '../../_models/goalsByAxisInstance';
 import { GoalEvaluation } from '../../_models/goalEvaluation';
 import { BehavioralSkillInstance } from '../../_models/behavioralSkillInstance';
+import { Project } from '../../_models/project';
 
 @Component({
   selector: 'app-sheet-detail',
@@ -28,16 +29,16 @@ export class SheetDetailComponent implements OnInit {
   goalsByAxisInstanceList: GoalByAxisInstance[];
   behavioralSkillInstanceList: BehavioralSkillInstance[];
   goalTypeList: GoalType[];
+  projectList: Project[];
   public loading = false;
   areGoalsCompleted: boolean;
   areGoalsReadOnly: boolean;
   areGoalsEvaluable: boolean;
   areBehavioralSkillsEvaluable: boolean;
   totalGrade: string;
-  goalIdToExpand: number;
   behavioralSkillEvaluationUpdated: boolean;
   showDetail: boolean;
-  faArrowLeft=faArrowLeft;
+  faArrowLeft = faArrowLeft;
 
   constructor(private route: ActivatedRoute, private router: Router, private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
@@ -52,6 +53,7 @@ export class SheetDetailComponent implements OnInit {
         const resolvedData = data['resolvedData'];
         this.sheetDetail = resolvedData['sheetDetail'];
         this.goalTypeList = resolvedData['goalTypeList']
+        this.projectList = resolvedData['projectList']
         this.getGoalsForAxis();
         this.getBehavioralSkillEvaluations();
       });
@@ -217,13 +219,13 @@ export class SheetDetailComponent implements OnInit {
   handleAddGoalEvaluation(newEval: any) {
     this.loading = true;
     let goalEval = { ...newEval, evaluatorId: this.authService.decodedToken.nameid };
-    this.goalIdToExpand = newEval.goalId;
     this.userService
       .addGoalEvaluations(this.sheetDetail.ownerId, goalEval)
       .subscribe(
         () => {
           this.loading = false;
           this.getGoalsForAxis();
+          this.alertify.success('L\'évaluation a été ajoutée avec succès.');
         },
         error => {
           this.loading = false;

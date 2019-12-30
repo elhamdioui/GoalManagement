@@ -83,11 +83,27 @@ namespace SothemaGoalManagement.API.Controllers
         {
             try
             {
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
                 var goalTypeList = await _repo.GoalType.GetGoalType();
                 var goalTypeToReturn = _mapper.Map<IEnumerable<GoalTypeToReturnDto>>(goalTypeList);
 
                 return Ok(goalTypeToReturn);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetGoalType endpoint: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("projects")]
+        public async Task<IActionResult> GetProjects(int userId)
+        {
+            try
+            {
+                var projectsFromRepo = await _repo.GoalType.GetProjects();
+                var projectToReturn = _mapper.Map<IEnumerable<ProjectToReturnDto>>(projectsFromRepo);
+
+                return Ok(projectToReturn);
             }
             catch (Exception ex)
             {
@@ -139,6 +155,7 @@ namespace SothemaGoalManagement.API.Controllers
                             _repo.Goal.AddGoal(goal);
                         }
                     }
+
                     await _repo.Goal.SaveAllAsync();
 
                     // Log new goal has been assigned by the evaluator
@@ -365,12 +382,25 @@ namespace SothemaGoalManagement.API.Controllers
                 var goalFromRepo = await _repo.Goal.GetGoal(id);
                 if (goalFromRepo == null) return NotFound();
 
-                //Prevent evaluator from update in case the sheet's status is in draft
-                if (goalOwner.Id != userId && goalFromRepo.Status == Constants.DRAFT) return BadRequest("La fiche d'évaluation est encore en rédaction.");
-
+                // Prevent deleting the goal if it has children
                 var children = await _repo.Goal.GetGoalChildren(goalFromRepo.Id);
                 if (children != null && children.Count() > 0) return BadRequest("Cet objectif a des sous-objectifs.");
 
+                //Prevent evaluator from deleting the goal in case the sheet's status is in draft except if he cascaded it
+                if (goalOwner.Id != userId)
+                {
+                    if (goalFromRepo.ParentGoalId > 0)
+                    {
+                        var parentGoalOwner = await _repo.Goal.GetGoalOwner(goalFromRepo.ParentGoalId);
+                        if (userId != parentGoalOwner.Id && goalFromRepo.Status == Constants.DRAFT) return BadRequest("La fiche d'évaluation est encore en rédaction.");
+                    }
+                    else
+                    {
+                        if (goalFromRepo.Status == Constants.DRAFT) return BadRequest("La fiche d'évaluation est encore en rédaction.");
+                    }
+                }
+
+                // Proceed with delete
                 _repo.Goal.DeleteGoal(goalFromRepo);
                 await _repo.Goal.SaveAllAsync();
 

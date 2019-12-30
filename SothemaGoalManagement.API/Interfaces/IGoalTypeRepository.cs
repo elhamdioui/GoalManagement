@@ -7,5 +7,6 @@ namespace SothemaGoalManagement.API.Interfaces
     public interface IGoalTypeRepository
     {
         Task<IEnumerable<GoalType>> GetGoalType();
+        Task<IEnumerable<Project>> GetProjects();
     }
 }

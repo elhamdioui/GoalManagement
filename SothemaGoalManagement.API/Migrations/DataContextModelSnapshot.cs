@@ -553,6 +553,22 @@ namespace SothemaGoalManagement.API.Migrations
                     b.ToTable("Poles");
                 });
 
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.Project", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("GoalTypeId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoalTypeId");
+
+                    b.ToTable("Projects");
+                });
+
             modelBuilder.Entity("SothemaGoalManagement.API.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -903,6 +919,14 @@ namespace SothemaGoalManagement.API.Migrations
                     b.HasOne("SothemaGoalManagement.API.Models.User", "User")
                         .WithMany("Photos")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SothemaGoalManagement.API.Models.Project", b =>
+                {
+                    b.HasOne("SothemaGoalManagement.API.Models.GoalType")
+                        .WithMany("Projects")
+                        .HasForeignKey("GoalTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
